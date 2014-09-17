@@ -1,19 +1,36 @@
-package mansionBandit.gameWorld.rooms;
+package mansionBandit.gameWorld.areas;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import mansionBandit.gameWorld.items.Item;
 
 /**
- * This class is a hallway in the mansion and has links to other hallways
- * and or rooms
+ * This is a room object that has links to other areas
+ * and shows what objects are held in the room
  * @author Liam De Grey
  *
  */
-public class Hallway implements MansionArea{
+public class Room implements MansionArea{
 	private MansionArea north, east, south, west;
+	private List<Item> items = new ArrayList<Item>();
+	
+	public Room(){
+	}
 	
 	public void setLinks(MansionArea north, MansionArea east, MansionArea south, MansionArea west){
 		this.north = north;
 		this.east = east;
 		this.south = south;
 		this.west = west;
+	}
+	
+	public void addItem(Item itm){
+		items.add(itm);
+	}
+	
+	public List<Item> getItems(){
+		return items;
 	}
 	
 	public MansionArea getNorth(){

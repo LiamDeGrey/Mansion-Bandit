@@ -1,6 +1,6 @@
 package mansionBandit.gameWorld.main;
 
-import mansionBandit.gameWorld.rooms.RoomsLayout;
+import mansionBandit.gameWorld.areas.RoomsLayout;
 
 /**
  * This class starts off the game

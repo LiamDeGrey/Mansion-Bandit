@@ -1,4 +1,4 @@
-package mansionBandit.gameWorld.rooms;
+package mansionBandit.gameWorld.areas;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,21 +64,19 @@ public class RoomsLayout {
 		int roomNum = 0;
 		for(int i=0; i<grid.length; i++){
 			for(int j=0; j<grid[0].length; j++){
-
-				if(extraSpace>0){
-					rand = (int)(Math.random()*2)+1;
-					if(rand==2){
-						grid[i][j]= new Hallway();//Make grid space a hallway
+				
+				if(extraSpace>0) {
+					rand = (int)(Math.random() * 2 + 1);//either 1 or 2
+					if(rand==1&&roomNum<rooms.size()) {
+						grid[i][j] = rooms.get(roomNum);//put room in grid
+						roomNum++;
+					}else {
+						grid[i][j] = new Hallway();
 						extraSpace--;
-					}else{
-						if(roomNum<rooms.size()){
-							grid[i][j]= rooms.get(roomNum);//put each room in the grid
-							roomNum++;
-						}else{
-							grid[i][j]= new Hallway();
-							extraSpace--;
-						}
 					}
+				}else {
+					grid[i][j] = rooms.get(roomNum);
+					roomNum++;
 				}
 			}
 		}

@@ -1,4 +1,4 @@
-package mansionBandit.gameWorld.rooms;
+package mansionBandit.gameWorld.areas;
 
 /**
  * MansionArea is simply a space within the mansion, either a room or hallway
