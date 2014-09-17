@@ -18,12 +18,12 @@ public class RoomsLayout {
 	private MansionArea[][] grid;
 
 	public RoomsLayout(int numRooms){
-		int rand = (int) (Math.random()*10)+1;
+		int rand = (int) (Math.random()*20)+1;
 		CreateItems gameItems = new CreateItems(rand);
 		allItems = gameItems.getItems();
 		makeRooms(numRooms);
-		giveItems();
 		setLinks();
+		giveItems();
 		drawMap();
 	}
 
@@ -34,16 +34,27 @@ public class RoomsLayout {
 	}
 
 	/*
-	 * this method cycles through all the rooms and puts one item in each room
-	 * one at a time until all items have been distributed
+	 * this method puts items in the rooms randomly, some rooms wont have items
+	 * and some rooms will have multiple items
 	 */
 	public void giveItems(){
-		int roomNum = 0;
-		for(int i=0; i<allItems.size(); i++){
-			if(roomNum==rooms.size())
-				roomNum=0;
-			rooms.get(roomNum).addItem(allItems.get(i));
-			roomNum++;
+		int itemNum = 0;
+		int rand;
+		while(itemNum<allItems.size()) {
+			for(int i=0; i<grid.length; i++) {
+				for(int j=0; j<grid[0].length; j++) {
+					
+					if(grid[i][j] instanceof Room) {
+						rand = (int)(Math.random() * 2 + 1);//either 1 or 2
+						if(rand==1&&itemNum<allItems.size()) {
+							((Room)grid[i][j]).addItem(allItems.get(itemNum));//Add item to room
+							itemNum++;
+						}
+					}
+					if(itemNum==allItems.size())
+						return;
+				}
+			}
 		}
 	}
 
@@ -84,19 +95,17 @@ public class RoomsLayout {
 		for(int i=0; i<grid.length; i++){
 			for(int j=0; j<grid[0].length; j++){
 				MansionArea current = grid[i][j];
-				if(current!=null){
-					MansionArea n = null, e = null, s = null, w = null;
+				MansionArea n = null, e = null, s = null, w = null;
 
-					if(i!=0)
-						n = grid[i-1][j];
-					if(i!=grid.length-1)
-						s = grid[i+1][j];
-					if(j!=0)
-						w = grid[i][j-1];
-					if(j!=grid[0].length-1)
-						e = grid[i][j+1];
-					current.setLinks(n, e, s, w);
-				}
+				if(i!=0)
+					n = grid[i-1][j];
+				if(i!=grid.length-1)
+					s = grid[i+1][j];
+				if(j!=0)
+					w = grid[i][j-1];
+				if(j!=grid[0].length-1)
+					e = grid[i][j+1];
+				current.setLinks(n, e, s, w);
 			}
 		}
 		setHallways(rows, cols);
