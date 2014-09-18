@@ -1,17 +1,17 @@
-package mansionBandit.gameWorld.items;
+package mansionBandit.gameWorld.matter;
 
 
 /**
- * A key that can be put in inventory, needs to be in
- * inventory in order to unlock certain doors
+ * A chest with treasure in it that will benefit the 
+ * character
  * @author Liam De Grey
  *
  */
-public class Key extends Grabable{
+public class Chest extends Openable {
 	private Position position;
 	private Face face;
 	
-	public Key(Face face, Position position){
+	public Chest(Face face, Position position){
 		this.position = position;
 		this.face = face;
 	}
@@ -25,5 +25,5 @@ public class Key extends Grabable{
 	public Position getPosition() {
 		return position;
 	}
-
+	
 }

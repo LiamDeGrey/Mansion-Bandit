@@ -1,4 +1,4 @@
-package mansionBandit.gameWorld.items;
+package mansionBandit.gameWorld.matter;
 
 /**
  * All items that can be picked up and put in
@@ -6,6 +6,6 @@ package mansionBandit.gameWorld.items;
  * @author Liam De Grey
  *
  */
-public abstract class Grabable implements Item {
+public abstract class Grabable implements GameMatter {
 
 }

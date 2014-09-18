@@ -1,4 +1,4 @@
-package mansionBandit.gameWorld.items;
+package mansionBandit.gameWorld.matter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
  *
  */
 public class CreateItems {
-	private List<Item> items = new ArrayList<Item>();
+	private List<GameMatter> items = new ArrayList<GameMatter>();
 	
 	public CreateItems(int numItems){
 		populateList(numItems);
@@ -26,7 +26,7 @@ public class CreateItems {
 		}
 	}
 	
-	public List<Item> getItems(){
+	public List<GameMatter> getItems(){
 		return items;
 	}
 
