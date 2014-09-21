@@ -180,7 +180,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	private void enterMainMenu(){
 		
 		//adds the main menu
-		this.add(mainMenu, BorderLayout.SOUTH);
+		this.add(mainMenu, BorderLayout.NORTH);
 		
 		mainMenu.setVisible(true);
 		//this.pack();
