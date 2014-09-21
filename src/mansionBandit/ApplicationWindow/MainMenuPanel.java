@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -18,8 +19,12 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 	JPanel hostGamePanel = new JPanel();
 	JPanel connectToGamePanel = new JPanel();
 	
-	public MainMenuPanel(GameFrame gameFrame){
-		 //creates the buttons for the panel
+	//The frame that this menu is added to
+	JFrame frame;
+	
+	public MainMenuPanel(JFrame j){
+		frame = j;
+		//creates the buttons for the panel
 		
 		//Sets up all of buttons in the seperate JPanels/Sub menus
 		//this just creates them so they
@@ -57,7 +62,7 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		// creates the multiplayer button
 		JButton multiplayerButton = new JButton("Multiplayer");
 		multiplayerButton.addActionListener(this);
-		multiplayerButton.setActionCommand("enterMultiplayerMenu");
+		multiplayerButton.setActionCommand("setMenuMultiplayer");
 		startMenuPanel.add(multiplayerButton);
 				
 		
@@ -85,23 +90,23 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		// creates the back button which will take the player back to the start of the main menu
 		JButton connectButton = new JButton("Connect to game");
 		connectButton.addActionListener(this);
-		connectButton.setActionCommand("connectToGameButton");
+		connectButton.setActionCommand("setMenuConnectToGame");
 		
-		startMenuPanel.add(connectButton);
+		multiplayerMenuPanel.add(connectButton);
 		
 		// creates the back button which will take the player back to the start of the main menu
 		JButton hostGameButton = new JButton("Host Game");
 		hostGameButton.addActionListener(this);
-		hostGameButton.setActionCommand("hostGameButton");
+		hostGameButton.setActionCommand("setMenuHostGame");
 		
-		startMenuPanel.add(hostGameButton);
+		multiplayerMenuPanel.add(hostGameButton);
 		
 		// creates the disconnect button which will take the player back to the start of the main menu
 		JButton backButton = new JButton("Back");
 		backButton.addActionListener(this);
 		backButton.setActionCommand("backButton");
 		
-		startMenuPanel.add(backButton);
+		multiplayerMenuPanel.add(backButton);
 		
 	}
 	
@@ -116,19 +121,25 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		backButton.addActionListener(this);
 		backButton.setActionCommand("backButton");
 		
-		startMenuPanel.add(backButton);
+		connectToGamePanel.add(backButton);
 		
 		
 		// creates the back button which will take the player back to the start of the main menu
 		JButton connectButton = new JButton("Connect");
-		backButton.addActionListener(this);
-		backButton.setActionCommand("connectButton");
+		connectButton.addActionListener(this);
+		connectButton.setActionCommand("setMenuSlaveLobby");
 		
-		//sets up text box for names of connected players
+		connectToGamePanel.add(connectButton);
+		
+		//sets up text box for user to input host address
 		JTextField addressTextBox = new JTextField();
+		//add the name textbox to the panel
+		connectToGamePanel.add(addressTextBox);
 		
 		//sets up a textbox for the player to input their name
 		JTextField nameTextBox = new JTextField();
+		//add the name textbox to the panel
+		connectToGamePanel.add(nameTextBox);
 	}
 	
 	/**
@@ -142,23 +153,20 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		backButton.addActionListener(this);
 		backButton.setActionCommand("backButton");
 		
-		startMenuPanel.add(backButton);
+		hostGamePanel.add(backButton);
 		
 		
 		// creates the back button which will take the player back to the start of the main menu
-		JButton startButton = new JButton("Start");
-		startButton.addActionListener(this);
-		startButton.setActionCommand("setMenuHostLobby");
+		JButton startHostingButton = new JButton("Start hosting");
+		startHostingButton.addActionListener(this);
+		startHostingButton.setActionCommand("setMenuHostLobby");
 				
-		startMenuPanel.add(startButton);
-		
-		
-		//sets up text box for names of connected players
-		JTextField addressTextBox = new JTextField();
-		
+		hostGamePanel.add(startHostingButton);
 		
 		//sets up a textbox for the player to input their name
 		JTextField nameTextBox = new JTextField();
+		//add the textbox
+		hostGamePanel.add(nameTextBox);
 	}
 	
 	/**
@@ -167,25 +175,29 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 	 */
 	private void setupSlaveLobbyMenu(){
 		
-		
+		slaveLobbyMenuPanel.removeAll();
 		// creates the back button which will take the player back to the start of the main menu
 		JButton disconnectButton = new JButton("Disconnect");
 		disconnectButton.addActionListener(this);
 		disconnectButton.setActionCommand("disconnectButton");
 		
-		startMenuPanel.add(disconnectButton);
+		slaveLobbyMenuPanel.add(disconnectButton);
 		
 				
 		//Sets up the labels that will display the names of the players
 		JLabel player1NameLabel = new JLabel();
-		startMenuPanel.add(player1NameLabel);
+		slaveLobbyMenuPanel.add(player1NameLabel);
 		JLabel player2NameLabel = new JLabel();
-		startMenuPanel.add(player2NameLabel);
+		slaveLobbyMenuPanel.add(player2NameLabel);
 		JLabel player3NameLabel = new JLabel();
-		startMenuPanel.add(player3NameLabel);
+		slaveLobbyMenuPanel.add(player3NameLabel);
 		JLabel player4NameLabel = new JLabel();
-		startMenuPanel.add(player4NameLabel);
+		slaveLobbyMenuPanel.add(player4NameLabel);
 		
+		player1NameLabel.setText("Empty slot 1");
+		player2NameLabel.setText("Empty slot 2");
+		player3NameLabel.setText("Empty slot 3");
+		player4NameLabel.setText("Empty slot 4");
 		
 	}
 	
@@ -196,26 +208,37 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 	private void setupHostLobbyMenu(){
 		
 		
-		// creates the back button which will take the player back to the start of the main menu
+		// creates the disconnect button which will exit from the session and bring them back to the start menu
 		JButton disconnectButton = new JButton("Disconnect");
 		disconnectButton.addActionListener(this);
 		disconnectButton.setActionCommand("disconnectButton");
 		
-		startMenuPanel.add(disconnectButton);
+		hostLobbyMenuPanel.add(disconnectButton);
 		
+		
+		//Starts the multiplayer game
+		JButton startGameButton = new JButton("Start game");
+		startGameButton.addActionListener(this);
+		startGameButton.setActionCommand("startMultiplayerGame");
 				
+		hostLobbyMenuPanel.add(startGameButton);
+				
+		
 				
 		//Sets up the labels that will display the names of the players
 		JLabel player1NameLabel = new JLabel();
-		startMenuPanel.add(player1NameLabel);
+		hostLobbyMenuPanel.add(player1NameLabel);
 		JLabel player2NameLabel = new JLabel();
-		startMenuPanel.add(player2NameLabel);
+		hostLobbyMenuPanel.add(player2NameLabel);
 		JLabel player3NameLabel = new JLabel();
-		startMenuPanel.add(player3NameLabel);
+		hostLobbyMenuPanel.add(player3NameLabel);
 		JLabel player4NameLabel = new JLabel();
-		startMenuPanel.add(player4NameLabel);
+		hostLobbyMenuPanel.add(player4NameLabel);
 		
-		
+		player1NameLabel.setText("Empty slot 1");
+		player2NameLabel.setText("Empty slot 2");
+		player3NameLabel.setText("Empty slot 3");
+		player4NameLabel.setText("Empty slot 4");
 	}
 	
 	
@@ -233,8 +256,11 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		
 		//sets the current menu to submenu
 		this.add(submenu);
-		
+		submenu.validate();
 		submenu.setVisible(true);
+		//frame.validate();
+		frame.revalidate();
+		
 	}
 	
 	
@@ -275,9 +301,17 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 			//exit the game, uses the frame exit game method
 			
 		}
+		else if(e.getActionCommand().equals("startMultiplayerGame")){
+			//starts the multiplayer game
+			
+		}
 		else if(e.getActionCommand().equals("backButton")){
 			//go back to the main menu
 			setMenu(startMenuPanel);
+		}
+		else if(e.getActionCommand().equals("disconnectButton")){
+			//go back to the main menu
+			setMenu(multiplayerMenuPanel);
 		}
 		
 		
