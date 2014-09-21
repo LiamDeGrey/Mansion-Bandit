@@ -1,5 +1,6 @@
 package mansionBandit.ApplicationWindow;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -21,6 +22,9 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 	
 	//The frame that this menu is added to
 	JFrame frame;
+	
+	//the dimension/width and height of the textboxes in the menu
+	private final Dimension textBoxDimension = new Dimension(150,25);
 	
 	public MainMenuPanel(JFrame j){
 		frame = j;
@@ -136,8 +140,15 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		//add the name textbox to the panel
 		connectToGamePanel.add(addressTextBox);
 		
+		//set the size of the textbox
+		addressTextBox.setPreferredSize(textBoxDimension);
+		
 		//sets up a textbox for the player to input their name
 		JTextField nameTextBox = new JTextField();
+		
+		//set the size of the textbox
+		nameTextBox.setPreferredSize(textBoxDimension);
+		
 		//add the name textbox to the panel
 		connectToGamePanel.add(nameTextBox);
 	}
@@ -165,6 +176,10 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		
 		//sets up a textbox for the player to input their name
 		JTextField nameTextBox = new JTextField();
+		
+		//set the size of the textbox
+		nameTextBox.setPreferredSize(textBoxDimension);
+		
 		//add the textbox
 		hostGamePanel.add(nameTextBox);
 	}
@@ -246,7 +261,7 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 
 	
 	/**
-	 * Changes/sets the menu to the one specified. Only one sub-menu will be displayed at a time.
+	 * Changes/sets the menu. Only one sub-menu will be displayed at a time.
 	 * @param the menu that is to be displayed to the user
 	 */
 	private void setMenu(JPanel submenu){
@@ -256,11 +271,12 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		
 		//sets the current menu to submenu
 		this.add(submenu);
+		
+		//ensures the newly added menu is presented to the user	
 		submenu.validate();
 		submenu.setVisible(true);
-		//frame.validate();
 		frame.revalidate();
-		
+		frame.repaint();
 	}
 	
 	
