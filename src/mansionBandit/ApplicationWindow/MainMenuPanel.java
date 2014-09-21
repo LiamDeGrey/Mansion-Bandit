@@ -21,16 +21,17 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 	JPanel connectToGamePanel = new JPanel();
 	
 	//The frame that this menu is added to
-	JFrame frame;
+	GameFrame gameFrame;
 	
 	//the dimension/width and height of the textboxes in the menu
 	private final Dimension textBoxDimension = new Dimension(150,25);
 	
-	public MainMenuPanel(JFrame j){
-		frame = j;
-		//creates the buttons for the panel
+	public MainMenuPanel(GameFrame frame){
 		
-		//Sets up all of buttons in the seperate JPanels/Sub menus
+		//sets the frame that this menu will be placed in
+		gameFrame = frame;
+		
+		//Sets up all of buttons in the separate JPanels/Sub menus
 		//this just creates them so they
 		setupStartMenu();
 		setupSlaveLobbyMenu();
@@ -41,7 +42,7 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		
 		
 		
-		//Sets the menu to the main menu initally
+		//Sets the menu to the main menu initially
 		setMenu(startMenuPanel);
 		
 		
@@ -60,6 +61,9 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		JButton playButton = new JButton("Play");
 		playButton.addActionListener(this);
 		playButton.setActionCommand("startGame");
+		//makes sure that focus is kept on the main window
+		playButton.setFocusable(false);
+		//adds the button to the menu
 		startMenuPanel.add(playButton);
 		
 		
@@ -67,6 +71,8 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		JButton multiplayerButton = new JButton("Multiplayer");
 		multiplayerButton.addActionListener(this);
 		multiplayerButton.setActionCommand("setMenuMultiplayer");
+		//makes sure that focus is kept on the main window
+		multiplayerButton.setFocusable(false);
 		startMenuPanel.add(multiplayerButton);
 				
 		
@@ -74,12 +80,16 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		JButton helpButton = new JButton("Tutorial");
 		helpButton.addActionListener(this);
 		helpButton.setActionCommand("startTutorial");
+		//makes sure that focus is kept on the main window
+		helpButton.setFocusable(false);
 		startMenuPanel.add(helpButton);
 		
 		// creates the exit button
 		JButton exitButton = new JButton("Exit");
 		exitButton.addActionListener(this);
 		exitButton.setActionCommand("exitButton");
+		//makes sure that focus is kept on the main window
+		exitButton.setFocusable(false);
 		//adds the button to the menu panel
 		startMenuPanel.add(exitButton);
 		
@@ -96,6 +106,9 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		connectButton.addActionListener(this);
 		connectButton.setActionCommand("setMenuConnectToGame");
 		
+		//makes sure that focus is kept on the main window
+		connectButton.setFocusable(false);
+		
 		multiplayerMenuPanel.add(connectButton);
 		
 		// creates the back button which will take the player back to the start of the main menu
@@ -103,12 +116,18 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		hostGameButton.addActionListener(this);
 		hostGameButton.setActionCommand("setMenuHostGame");
 		
+		//makes sure that focus is kept on the main window
+		hostGameButton.setFocusable(false);
+		
 		multiplayerMenuPanel.add(hostGameButton);
 		
 		// creates the disconnect button which will take the player back to the start of the main menu
 		JButton backButton = new JButton("Back");
 		backButton.addActionListener(this);
 		backButton.setActionCommand("backButton");
+		
+		//makes sure that focus is kept on the main window
+		backButton.setFocusable(false);
 		
 		multiplayerMenuPanel.add(backButton);
 		
@@ -125,6 +144,9 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		backButton.addActionListener(this);
 		backButton.setActionCommand("backButton");
 		
+		//makes sure that focus is kept on the main window
+		backButton.setFocusable(false);
+		
 		connectToGamePanel.add(backButton);
 		
 		
@@ -132,6 +154,9 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		JButton connectButton = new JButton("Connect");
 		connectButton.addActionListener(this);
 		connectButton.setActionCommand("setMenuSlaveLobby");
+		
+		//makes sure that focus is kept on the main window
+		connectButton.setFocusable(false);
 		
 		connectToGamePanel.add(connectButton);
 		
@@ -164,6 +189,9 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		backButton.addActionListener(this);
 		backButton.setActionCommand("backButton");
 		
+		//makes sure that focus is kept on the main window
+		backButton.setFocusable(false);
+		
 		hostGamePanel.add(backButton);
 		
 		
@@ -171,7 +199,10 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		JButton startHostingButton = new JButton("Start hosting");
 		startHostingButton.addActionListener(this);
 		startHostingButton.setActionCommand("setMenuHostLobby");
-				
+		
+		//makes sure that focus is kept on the main window
+		startHostingButton.setFocusable(false);
+		
 		hostGamePanel.add(startHostingButton);
 		
 		//sets up a textbox for the player to input their name
@@ -195,6 +226,9 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		JButton disconnectButton = new JButton("Disconnect");
 		disconnectButton.addActionListener(this);
 		disconnectButton.setActionCommand("disconnectButton");
+		
+		//makes sure that focus is kept on the main window
+		disconnectButton.setFocusable(false);
 		
 		slaveLobbyMenuPanel.add(disconnectButton);
 		
@@ -228,6 +262,9 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		disconnectButton.addActionListener(this);
 		disconnectButton.setActionCommand("disconnectButton");
 		
+		//makes sure that focus is kept on the main window
+		disconnectButton.setFocusable(false);
+		
 		hostLobbyMenuPanel.add(disconnectButton);
 		
 		
@@ -236,6 +273,9 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		startGameButton.addActionListener(this);
 		startGameButton.setActionCommand("startMultiplayerGame");
 				
+		//makes sure that focus is kept on the main window
+		startGameButton.setFocusable(false);
+		
 		hostLobbyMenuPanel.add(startGameButton);
 				
 		
@@ -275,8 +315,8 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		//ensures the newly added menu is presented to the user	
 		submenu.validate();
 		submenu.setVisible(true);
-		frame.revalidate();
-		frame.repaint();
+		gameFrame.revalidate();
+		gameFrame.repaint();
 	}
 	
 	
@@ -285,6 +325,9 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 	 */
 	private void startGame(){ 
 		this.setVisible(false);
+		
+		//gameFrame.remove(this);
+		gameFrame.startGame();
 	}
 
 	@Override
@@ -314,8 +357,8 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 			setMenu(connectToGamePanel);
 		}
 		else if(e.getActionCommand().equals("exitButton")){
-			//exit the game, uses the frame exit game method
-			
+			//exit the game and asks for confirmation, uses the frames exit game method
+			gameFrame.exitGame();
 		}
 		else if(e.getActionCommand().equals("startMultiplayerGame")){
 			//starts the multiplayer game

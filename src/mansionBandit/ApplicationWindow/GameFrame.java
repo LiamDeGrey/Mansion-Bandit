@@ -27,7 +27,10 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 	// The main class of the game
 	Main game;
-
+	
+	//The main drawing class
+	GameCanvas canvas = new GameCanvas();
+	
 	// window dimensions
 	private int windowDimensionX = 1024;
 	private int windowDimensionY = 768;
@@ -40,17 +43,27 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 	// whether or not the ingame menu is up
 	private boolean ingameMenuActive = false;
-	// the ingame menu panel
+	
+	// the panel used for displaying the in game menu
 	private JPanel ingameMenuPanel;
 
 	// the cursor image used for when the player drags items
 	Cursor itemImageCursor;
-
+	
+	//The main menu panel that is used as the main menu and contains the buttons and navigation
+	private MainMenuPanel mainMenu;
+	
+	//if gameplay has started. The game only checks for mouse and keyboard user input if the game has started
+	private boolean gameStarted = false;
+	
 	public GameFrame(Main main) {
 		super();
 
 		game = main;
-
+		
+		//creates the main menu
+		mainMenu = new MainMenuPanel(this);
+		
 		// canvas = new GameCanvas(this); // create canvas
 		setLayout(new BorderLayout()); // use border layour
 		// add(canvas, BorderLayout.CENTER); // add canvas
@@ -58,9 +71,6 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 														// when "x" button
 														// clicked.
 		addWindowListener(this);
-		
-		//he main drawing class
-		Canvas draw = new Canvas();
 
 		// create a canvas/draw object here and add it
 
@@ -73,8 +83,13 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 		// listens for keyboard input
 		addKeyListener(this);
-
-		// sets up user interface elements
+		
+		
+		//sets up main menu interface 
+		enterMainMenu();
+		
+		
+		//sets up user interface elements
 		setupInterface();
 
 	}
@@ -105,6 +120,16 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 		// makes sure focus is kept on the main window
 		menuExitButton.setFocusable(false);
 
+		
+		// creates the exit button
+		JButton menuExitToMenuButton = new JButton("Main Menu");
+		menuExitToMenuButton.addActionListener(this);
+		menuExitToMenuButton.setActionCommand("menuExitToMenuBtn");
+		ingameMenuPanel.add(menuExitToMenuButton);
+
+		// makes sure focus is kept on the main window
+		menuExitToMenuButton.setFocusable(false);
+		
 		// creates the help button
 		JButton menuHelpButton = new JButton("How to play");
 		menuHelpButton.addActionListener(this);
@@ -132,14 +157,47 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	}
 
 	// MENUS AND FRAME INTERACTION//
-
+	
+	
+	/**
+	 * ends the current game by resetting values, disconnecting and removing GUI components
+	 */
+	private void endGame(){
+		//this.removeAll();
+		
+		//resets all game values and discards the game object
+		
+		//also hides canvas, GUI components 
+		
+		closeIngameMenu();
+		
+		gameStarted = false;
+	}
+	
+	/**
+	 * Goes to the main menu by adding it to this frame
+	 */
+	private void enterMainMenu(){
+		
+		//adds the main menu
+		this.add(mainMenu, BorderLayout.SOUTH);
+		
+		mainMenu.setVisible(true);
+		//this.pack();
+		mainMenu.revalidate();
+		mainMenu.repaint();
+		this.revalidate();
+		this.repaint();
+	}
+	
+	
 	/**
 	 * brings up the in game menu if it is not already active, creating a small
 	 * window which allows the user to select the help, settings and exit
 	 * options
 	 */
 	private void showIngameMenu() {
-
+		
 		ingameMenuPanel.setVisible(true);
 		ingameMenuActive = true;
 
@@ -161,11 +219,27 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 		}
 	}
+	
+	
+	/**
+	 * Exits the main menu and begins gameplay
+	 */
+	public void startGame(){
+	//remove the main menu and redisplay the screen
+	this.remove(mainMenu);
+	this.revalidate();
+	this.repaint();
+	this.pack();
+	
+	//indicate that gameplay has started
+	gameStarted = true;
+	}
+	
 
 	/**
 	 * Exits the game completely. Asks user for confirmation before exiting.
 	 */
-	private void exitGame() {
+	public void exitGame() {
 
 		// Ask the user to confirm they wanted to do this
 		int r = JOptionPane.showConfirmDialog(this, new JLabel(
@@ -194,13 +268,24 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 		if (act.getActionCommand().equals("menuResumeBtn")) {
 			closeIngameMenu();
 		}
+		
+		// if the user presses exit to menu it ends the current game and returns to the main menu
+		if (act.getActionCommand().equals("menuExitToMenuBtn")) {
+			
+			endGame();
+			enterMainMenu();
+		}
 	}
 
 	// MOUSE INTERACTION//
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-
+		
+		//only checks for user input if gameplay has started
+		
+		if(gameStarted){
+		
 		// left button released
 		if (e.getButton() == MouseEvent.BUTTON1) {
 
@@ -210,7 +295,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 				// see if there is an object or enemy at this position and
 				// whether it can be used on it
-				if (draw.getItemAt(e.getPoint()) != null) {
+				if (canvas.getItemAt(e.getPoint()) != null) {
 
 					// check if the item being dragged can be used on the
 					// targeted item
@@ -250,8 +335,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 					draggingItem = null;
 
 					// set the cursor back to default
-					e.getComponent().setCursor(
-							Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+					e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 				} else {
 
 					// otherwise just drop the object at this position
@@ -259,8 +343,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 					draggingItem = null;
 
 					// set the cursor back to default
-					e.getComponent().setCursor(
-							Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+					e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 				}
 
 			}
@@ -269,7 +352,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 				// check if there is an object/creature/item at mouse position
 
-				if (draw.getItemAt(e.getPoint()) != null) {
+				if (canvas.getItemAt(e.getPoint()) != null) {
 
 					// change the description text to the items description
 					descriptionText = game.getDescription(game.getInstanceAt(e
@@ -282,21 +365,24 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 		if (e.getButton() == MouseEvent.BUTTON3) {
 
 		}
-
+		}
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// This is to allow the player to drag items around the room
-
+		
+		//only checks for user input if the game has started
+		
+		if(gameStarted){
+		
 		// firstly check that the player isn't already holding something
 		if (draggingItem != null) {
 			// check if there is an item that can be dragged at the current
 			// mouse position
-			if (draw.getItemAt(e.getPoint()) instanceof Draggable) {
+			if (canvas.getItemAt(e.getPoint()) instanceof DraggablePlaceHolder) {
 
 				// begin dragging the item at mouse position
-				draggingItem = draw.getItemAt(e.getPoint());
+				draggingItem = canvas.getItemAt(e.getPoint());
 
 				// SET CURSOR TO ITEM HERE //
 				//create a cursor with item as image
@@ -314,7 +400,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 				// remove the item at the selected position from the players
 				// inventory
-				game.removeInventoryItem(e.getPoint);
+				game.removeInventoryItem(e.getPoint());
 
 				// set the removed item as the dragged item
 				draggingItem = inventoryItem;
@@ -328,6 +414,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 				//set the cursor to be this custom cursor
 				e.getComponent().setCursor(itemImageCursor);
 			}
+		}
 		}
 	}
 
@@ -362,7 +449,10 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-
+		//only checks for user input if the game has started
+		
+		if(gameStarted){
+		
 		System.out.println("key released: "
 				+ KeyEvent.getKeyText(e.getKeyCode()));
 
@@ -393,6 +483,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 				// otherwise bring up the ingame menu
 				showIngameMenu();
 			}
+		}
 		}
 
 	}

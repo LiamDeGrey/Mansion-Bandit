@@ -1,12 +1,15 @@
 package mansionBandit.ApplicationWindow;
 import java.awt.Point;
 
+import javax.swing.JFrame;
+
 
 public class Main {
 
 	private GameFrame gameFrame;
 	public Main(){
 		gameFrame = new GameFrame(this);
+		
 	}
 	
 public static void main(String args[]) {
@@ -74,6 +77,31 @@ public void turnRight() {
 }
 
 public void turnLeft() {
+	// TODO Auto-generated method stub
+	
+}
+
+public boolean useItemOnItem(Object objectAt) {
+	// TODO Auto-generated method stub
+	return false;
+}
+
+public void addItemToInventory(Item draggingItem) {
+	// TODO Auto-generated method stub
+	
+}
+
+public void dropItem(Point point) {
+	// TODO Auto-generated method stub
+	
+}
+
+public Item getInventoryItem(Point point) {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+public void removeInventoryItem(Point point) {
 	// TODO Auto-generated method stub
 	
 }
