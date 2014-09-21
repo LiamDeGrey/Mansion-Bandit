@@ -1,4 +1,4 @@
-package mansionBandit.gameWorld.items;
+package mansionBandit.gameWorld.matter;
 
 
 /**

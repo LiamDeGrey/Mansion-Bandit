@@ -3,7 +3,7 @@ package mansionBandit.gameWorld.areas;
 import java.util.ArrayList;
 import java.util.List;
 
-import mansionBandit.gameWorld.items.Item;
+import mansionBandit.gameWorld.matter.GameMatter;
 
 /**
  * This is a room object that has links to other areas
@@ -13,7 +13,7 @@ import mansionBandit.gameWorld.items.Item;
  */
 public class Room implements MansionArea{
 	private MansionArea north, east, south, west;
-	private List<Item> items = new ArrayList<Item>();
+	private List<GameMatter> items = new ArrayList<GameMatter>();
 	
 	public Room(){
 	}
@@ -25,11 +25,11 @@ public class Room implements MansionArea{
 		this.west = west;
 	}
 	
-	public void addItem(Item itm){
+	public void addItem(GameMatter itm){
 		items.add(itm);
 	}
 	
-	public List<Item> getItems(){
+	public List<GameMatter> getItems(){
 		return items;
 	}
 	

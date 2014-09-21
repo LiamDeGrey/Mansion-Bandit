@@ -1,4 +1,4 @@
-package mansionBandit.gameWorld.items;
+package mansionBandit.gameWorld.matter;
 
 
 /**
@@ -6,7 +6,7 @@ package mansionBandit.gameWorld.items;
  * @author Liam De Grey
  *
  */
-public interface Item {
+public interface GameMatter {
 	
 	/*
 	 * returns the face that an item is on

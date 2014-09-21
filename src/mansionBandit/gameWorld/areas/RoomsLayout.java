@@ -3,8 +3,8 @@ package mansionBandit.gameWorld.areas;
 import java.util.ArrayList;
 import java.util.List;
 
-import mansionBandit.gameWorld.items.CreateItems;
-import mansionBandit.gameWorld.items.Item;
+import mansionBandit.gameWorld.matter.CreateItems;
+import mansionBandit.gameWorld.matter.GameMatter;
 
 /**
  * This class makes the rooms and fits them together depending on the amount of rooms wanted
@@ -14,11 +14,11 @@ import mansionBandit.gameWorld.items.Item;
  */
 public class RoomsLayout {
 	private List<Room> rooms = new ArrayList<Room>();
-	private List<Item> allItems = new ArrayList<Item>();
+	private List<GameMatter> allItems = new ArrayList<GameMatter>();
 	private MansionArea[][] grid;
 
 	public RoomsLayout(int numRooms){
-		int rand = (int) (Math.random()*20)+1;
+		int rand = (int) (Math.random()*numRooms+numRooms);
 		CreateItems gameItems = new CreateItems(rand);
 		allItems = gameItems.getItems();
 		makeRooms(numRooms);
@@ -60,7 +60,8 @@ public class RoomsLayout {
 
 
 	/*
-	 * Sets the layout of the rooms
+	 * Sets the layout of the rooms and adds links to the hallways and
+	 * the rooms
 	 */
 	public void setLinks(){
 		int rows = (int)Math.sqrt(rooms.size())+4;
@@ -106,20 +107,6 @@ public class RoomsLayout {
 				if(j!=grid[0].length-1)
 					e = grid[i][j+1];
 				current.setLinks(n, e, s, w);
-			}
-		}
-		setHallways(rows, cols);
-	}
-	
-	/*
-	 * This method takes all the null spaces and puts in a hallway
-	 * where there should be one
-	 * TODO make this recursive
-	 */
-	public void setHallways(int rows, int cols) {
-		for(int i=0; i<rows; i++) {
-			for(int j=0; j<cols; j++) {
-				
 			}
 		}
 	}

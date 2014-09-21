@@ -1,4 +1,4 @@
-package mansionBandit.gameWorld.items;
+package mansionBandit.gameWorld.matter;
 
 /**
  * A couch that can be moved when in certain places
