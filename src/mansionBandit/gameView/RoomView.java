@@ -30,6 +30,9 @@ public class RoomView {
 		//TODO create surfaces
 		ceiling = new Surface(this, new TopBottomStrategy(true));
 		floor = new Surface(this, new TopBottomStrategy(false));
+		back = new Surface(this, new BackWallStrategy());
+		left = new Surface(this, new SideWallStrategy(true));
+		right = new Surface(this, new SideWallStrategy(false));
 	}
 	
 	//TODO draw several rooms into the distance
@@ -40,10 +43,10 @@ public class RoomView {
 	 */
 	public void paintRoom(Graphics g){
 		//draw sides first
-		//left.paint(g);
-		//right.paint(g);
+		left.paint(g);
+		right.paint(g);
 		//draw back wall
-		//back.paint(g);
+		back.paint(g);
 		//draw ceiling
 		ceiling.paint(g);
 		//finally draw the floor
