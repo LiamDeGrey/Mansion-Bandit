@@ -22,6 +22,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import mansionBandit.gameView.GamePanel;
+
 public class GameFrame extends JFrame implements ActionListener, MouseListener,
 		WindowListener, KeyListener {
 
@@ -46,6 +48,9 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	
 	// the panel used for displaying the in game menu
 	private JPanel ingameMenuPanel;
+	
+	//the panel used for displaying game graphics
+	private GamePanel gamePanel;
 
 	// the cursor image used for when the player drags items
 	Cursor itemImageCursor;
@@ -228,8 +233,15 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	 * Exits the main menu and begins gameplay
 	 */
 	public void startGame(){
-	//remove the main menu and redisplay the screen
+	
+	//remove the main menu 
 	this.remove(mainMenu);
+	
+	//add the rendering panel
+	gamePanel = new GamePanel();
+	this.add(gamePanel);
+	
+	//redisplay the screen
 	this.revalidate();
 	this.repaint();
 	this.pack();
