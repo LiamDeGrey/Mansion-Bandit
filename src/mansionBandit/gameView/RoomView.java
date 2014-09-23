@@ -22,6 +22,7 @@ public class RoomView {
 		this.width = width;
 		this.height = height;
 		//TODO use Liams room object
+		//TODO create surfaces
 	}
 	
 	//TODO draw several rooms into the distance
