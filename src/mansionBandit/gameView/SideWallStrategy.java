@@ -16,4 +16,10 @@ public class SideWallStrategy implements SurfaceStrategy {
 		return null;
 	}
 
+	@Override
+	public void setParentSurface(Surface surface) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -11,6 +11,7 @@ public class GamePanel extends JPanel{
 	BufferedImage floor, wallL, wall, wallR, ceiling;
 	int height = 600;
 	int width = 800;
+	RoomView demo;
 	
 	public GamePanel(){
 		try {
@@ -23,12 +24,13 @@ public class GamePanel extends JPanel{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		demo = new RoomView(new DEMOROOM(), 0, 0, width, height);
 	}
 	
 	@Override 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		//draw back wall
+		/*draw back wall
 		g.drawImage(wall, width/4, height/4, width/2, height/2, null);
 		//draw ceiling
 		g.drawImage(ceiling, 0, 0, width, height/4, null);
@@ -38,5 +40,7 @@ public class GamePanel extends JPanel{
 		g.drawImage(wallR, 3*(width/4), 0, width/4, height, null);
 		//draw floor
 		g.drawImage(floor, 0, 3*(height/4), width, height/4, null);
+		*/
+		demo.paintRoom(g);
 	}
 }

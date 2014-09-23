@@ -9,20 +9,27 @@ import java.awt.Graphics;
  *
  */
 public class RoomView {
+	protected DEMOROOM room;
 	private Surface ceiling, floor, left, right, back;
-	private int boundX, boundY, width, height;
+	protected int boundX, boundY, width, height;
 	
 	/**
 	 * constructor constructs the Surfaces from the given room, and
 	 * stores the rooms bounds
 	 */
-	public RoomView(int boundX, int boundY, int width, int height){
+	public RoomView(DEMOROOM room, int boundX, int boundY, int width, int height){
+		
 		this.boundX = boundX;
 		this.boundY = boundY;
 		this.width = width;
 		this.height = height;
+		
 		//TODO use Liams room object
+		this.room = room;
+		
 		//TODO create surfaces
+		ceiling = new Surface(this, new TopBottomStrategy(true));
+		floor = new Surface(this, new TopBottomStrategy(false));
 	}
 	
 	//TODO draw several rooms into the distance
@@ -33,10 +40,10 @@ public class RoomView {
 	 */
 	public void paintRoom(Graphics g){
 		//draw sides first
-		left.paint(g);
-		right.paint(g);
+		//left.paint(g);
+		//right.paint(g);
 		//draw back wall
-		back.paint(g);
+		//back.paint(g);
 		//draw ceiling
 		ceiling.paint(g);
 		//finally draw the floor

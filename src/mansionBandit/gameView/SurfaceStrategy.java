@@ -11,4 +11,5 @@ import java.awt.Graphics;
 public interface SurfaceStrategy {
 	public void paintSurface(Graphics g);
 	public Object click(int x, int y);
+	public void setParentSurface(Surface surface);
 }
