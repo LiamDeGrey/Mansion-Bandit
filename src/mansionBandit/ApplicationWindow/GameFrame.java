@@ -19,6 +19,7 @@ import java.awt.event.WindowListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -68,6 +69,17 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	
 	//the main class of the game
 	private Main gameWorld;
+	
+	
+	//GUI FIELDS//
+	//the GUI drawing canvas
+	private GUICanvas guiCanvas;
+	
+	//the position of the inventory bar
+	private final Point inventoryBarPos = new Point(50,250);
+	
+	//the pane that all components are added to so that they can stack properly
+	private JLayeredPane layeredPane;
 	
 	public GameFrame(ApplicationMain main) {
 		super();
@@ -164,8 +176,10 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 		ingameMenuPanel.setVisible(false);
 		setLayout(new BorderLayout());
 
-		// adds the panel to the center of the screen
-		this.add(ingameMenuPanel, BorderLayout.NORTH);
+		ingameMenuPanel.setOpaque(true);
+		
+		
+		
 		pack();
 	}
 
@@ -182,8 +196,9 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 		
 		//also hides canvas, GUI components 
 		
+		this.remove(layeredPane);
 		closeIngameMenu();
-		gamePanel.setVisible(false);
+		//gamePanel.setVisible(false);
 		gameStarted = false;
 	}
 	
@@ -191,6 +206,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	 * Goes to the main menu by adding it to this frame
 	 */
 	private void enterMainMenu(){
+		
 		
 		//adds the main menu
 		this.add(mainMenu, BorderLayout.NORTH);
@@ -211,6 +227,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	 */
 	private void showIngameMenu() {
 		
+		//layeredPane.add
 		ingameMenuPanel.setVisible(true);
 		ingameMenuActive = true;
 
@@ -235,7 +252,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	
 	
 	/**
-	 * Exits the main menu and begins gameplay
+	 * Exits the main menu and begins gameplay. Adds all panels that are relevant to gameplay to the frame.
 	 */
 	public void startGame(){
 	
@@ -249,9 +266,39 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	//TODO make create player
 	//player = gameWorld.createPlayer(this);
 	
+	
+	
+	layeredPane = new JLayeredPane();
+	
+	this.setLayout(new BorderLayout());
+	
+	this.add(layeredPane, BorderLayout.CENTER);
+	
+	layeredPane.setBounds(0,0,windowDimensionX,windowDimensionY);
+	
+	//add in game menu 
+	ingameMenuPanel.setBounds(0,0,windowDimensionX,windowDimensionY);
+	ingameMenuPanel.setOpaque(false);
+	//adds it at 3rd layer of the pane
+	layeredPane.add(ingameMenuPanel,new Integer(2),0);
+	
+	
 	//add the rendering panel
 	gamePanel = new GamePanel();
-	this.add(gamePanel);
+	gamePanel.setBounds(0,0,windowDimensionX,windowDimensionY);
+	gamePanel.setOpaque(false);
+	//adds it at bottom layer of the pane
+	layeredPane.add(gamePanel,new Integer(0),0);
+	
+	
+	//add the GUI rendering panel
+	guiCanvas = new GUICanvas(this);
+	guiCanvas.setBounds(inventoryBarPos.x,inventoryBarPos.y,windowDimensionX,windowDimensionY);
+	guiCanvas.setOpaque(false);
+	//adds it at 2nd layer of the pane
+	layeredPane.add(guiCanvas,new Integer(1),0);
+	
+	
 	
 	//redisplay the screen
 	this.revalidate();
@@ -531,4 +578,8 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 		return draggingItem;
 	}
 
+	public Point getInventoryBarPos(){
+		return inventoryBarPos;
+	}
+	
 }
