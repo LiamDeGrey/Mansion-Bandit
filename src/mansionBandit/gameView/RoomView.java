@@ -14,6 +14,8 @@ public class RoomView {
 	protected int boundX, boundY, width, height, depth;
 	public static int viewDepth = 2;
 	
+	static int direction = DEMOROOM.N;
+	
 	/**
 	 * constructor constructs the Surfaces from the given room, and
 	 * stores the rooms bounds
@@ -30,14 +32,13 @@ public class RoomView {
 		this.room = room;
 		
 		//TODO create surfaces
-		ceiling = new Surface(this, new TopBottomStrategy(true));
-		floor = new Surface(this, new TopBottomStrategy(false));
-		back = new Surface(this, new BackWallStrategy());
-		left = new Surface(this, new SideWallStrategy(true));
-		right = new Surface(this, new SideWallStrategy(false));
+		ceiling = new Surface(this, room.getTop(), new TopBottomStrategy(true));
+		floor = new Surface(this, room.getBottom(), new TopBottomStrategy(false));
+		back = new Surface(this, room.getN(), new BackWallStrategy());
+		left = new Surface(this, room.getW(), new SideWallStrategy(true));
+		right = new Surface(this, room.getE(), new SideWallStrategy(false));
 	}
 	
-	//TODO draw several rooms into the distance
 	/**
 	 * paint the room to the screen by painting each surface individually
 	 * according to a 'simple painters algorithm'

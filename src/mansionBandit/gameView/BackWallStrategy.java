@@ -3,9 +3,16 @@ package mansionBandit.gameView;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
+/**
+ * strategy for drawing items on back wall
+ * @author Andy
+ *
+ */
 public class BackWallStrategy implements SurfaceStrategy {
 	private Surface surface;
 	private BufferedImage surfaceTexture;
@@ -16,7 +23,7 @@ public class BackWallStrategy implements SurfaceStrategy {
 	public void paintSurface(Graphics g) {
 		//draw back rooms first
 		if (nextRoom != null){
-			nextRoom.paintRoom(g);
+			//nextRoom.paintRoom(g);
 		} else {
 			//no room to draw so draw fog
 			try {
@@ -29,9 +36,19 @@ public class BackWallStrategy implements SurfaceStrategy {
 		}
 		//draw this rooms back wall
 		
-		//g.drawImage(surfaceTexture, boundX, boundY, width, height, null);
+		g.drawImage(surfaceTexture, boundX, boundY, width, height, null);
 
-		//TODO draw objects on the wall
+		//draw objects on the wall
+		for (DrawnObject ob : surface.objects){
+			BufferedImage obImage = null;
+			try {
+				obImage = ImageIO.read(this.getClass().getResource("/object/" + ob.getGameObject().getFace() + ".png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//g.drawImage(obImage, ob.getBoundX(), ob.getBoundY(), ob.getWidth(), ob.getHeight(), null);
+		}
 	}
 
 	@Override
@@ -41,7 +58,7 @@ public class BackWallStrategy implements SurfaceStrategy {
 	}
 
 	@Override
-	public void setParentSurface(Surface surface) {
+	public void setupSurface(Surface surface, DEMOWALL wall) {
 		this.surface = surface;
 		try {
 			//set image for the view
@@ -61,7 +78,40 @@ public class BackWallStrategy implements SurfaceStrategy {
 			//TODO get next rooms from actual room
 			nextRoom = new RoomView(new DEMOROOM(), boundX, boundY, width, height, depth + 1);
 		}
+		
+		//create object list for surface
+		createGameObjects(wall);
 			
+	}
+	
+	/**
+	 * wraps objects to be drawn into DrawnObjects
+	 * with appropriate size distortion
+	 * 
+	 * @param wall
+	 */
+	private void createGameObjects(DEMOWALL wall){
+		//TODO remove hardcoding
+		List<DrawnObject> obs = new ArrayList<DrawnObject>();
+		//loop through objects on wall, and resize them
+		for (DEMOOBJECT ob : wall.getObjects()){
+			int w = 100;
+			int h = w;
+			int left = boundX + (ob.getX() * (width / 100)) - (w / 2);
+			int top = boundY + (ob.getY() * (height / 100)) - h;
+			DrawnObject dob = new DrawnObject(ob, left, top, w, h);
+			obs.add(dob);
+		}
+		surface.objects = obs;
+	}
+	
+	/**
+	 * orders objects according to those that should be drawn first
+	 * 
+	 * @param wall
+	 */
+	private void arrangeObjects(DEMOWALL wall){
+		
 	}
 
 }

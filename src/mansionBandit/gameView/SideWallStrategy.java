@@ -28,7 +28,7 @@ public class SideWallStrategy implements SurfaceStrategy {
 	}
 
 	@Override
-	public void setParentSurface(Surface surface) {
+	public void setupSurface(Surface surface, DEMOWALL wall) {
 		this.surface = surface;
 		try {
 			//set image for the view
