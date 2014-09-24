@@ -11,18 +11,20 @@ import java.awt.Graphics;
 public class RoomView {
 	protected DEMOROOM room;
 	private Surface ceiling, floor, left, right, back;
-	protected int boundX, boundY, width, height;
+	protected int boundX, boundY, width, height, depth;
+	public static int viewDepth = 2;
 	
 	/**
 	 * constructor constructs the Surfaces from the given room, and
 	 * stores the rooms bounds
 	 */
-	public RoomView(DEMOROOM room, int boundX, int boundY, int width, int height){
+	public RoomView(DEMOROOM room, int boundX, int boundY, int width, int height, int depth){
 		
 		this.boundX = boundX;
 		this.boundY = boundY;
 		this.width = width;
 		this.height = height;
+		this.depth = depth;
 		
 		//TODO use Liams room object
 		this.room = room;

@@ -24,7 +24,7 @@ public class GamePanel extends JPanel{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		demo = new RoomView(new DEMOROOM(), 0, 0, width, height);
+		demo = new RoomView(new DEMOROOM(), 0, 0, width, height, 0);
 	}
 	
 	@Override 
