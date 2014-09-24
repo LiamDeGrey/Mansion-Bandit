@@ -4,16 +4,16 @@ import java.awt.Point;
 import javax.swing.JFrame;
 
 
-public class Main {
+public class ApplicationMain {
 
 	private GameFrame gameFrame;
-	public Main(){
+	public ApplicationMain(){
 		gameFrame = new GameFrame(this);
 		
 	}
 	
 public static void main(String args[]) {
-		 Main game = new Main();
+		 ApplicationMain game = new ApplicationMain();
 }
 
 public Object getObjectAt(Point point) {

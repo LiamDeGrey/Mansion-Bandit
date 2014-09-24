@@ -23,12 +23,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import mansionBandit.gameView.GamePanel;
+import mansionBandit.gameWorld.main.Main;
+import mansionBandit.gameWorld.main.Player;
 
 public class GameFrame extends JFrame implements ActionListener, MouseListener,
 		WindowListener, KeyListener {
 
-	// The main class of the game
-	Main game;
+	//PLACEHOLDER represents main logic class
+	private ApplicationMain game;
 	
 	//The main drawing class
 	GameCanvas canvas = new GameCanvas();
@@ -61,7 +63,13 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	//if gameplay has started. The game only checks for mouse and keyboard user input if the game has started
 	private boolean gameStarted = false;
 	
-	public GameFrame(Main main) {
+	//the player this window is used by/applies to
+	private Player player;
+	
+	//the main class of the game
+	private Main gameWorld;
+	
+	public GameFrame(ApplicationMain main) {
 		super();
 
 		game = main;
@@ -95,9 +103,6 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 		
 		
 		//sets up user interface elements
-		//
-		//
-		//
 		setupInterface();
 
 	}
@@ -236,6 +241,13 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	
 	//remove the main menu 
 	this.remove(mainMenu);
+	
+	//create the game that the ApplicationWindow will interact with
+	gameWorld = new Main();
+	
+	//creates player that this applicationWindow applies to
+	//TODO make create player
+	//player = gameWorld.createPlayer(this);
 	
 	//add the rendering panel
 	gamePanel = new GamePanel();
