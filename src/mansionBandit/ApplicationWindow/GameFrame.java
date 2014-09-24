@@ -183,7 +183,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 		//also hides canvas, GUI components 
 		
 		closeIngameMenu();
-		
+		gamePanel.setVisible(false);
 		gameStarted = false;
 	}
 	
