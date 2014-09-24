@@ -11,11 +11,21 @@ public class BackWallStrategy implements SurfaceStrategy {
 	private BufferedImage surfaceTexture;
 	private int boundX, boundY, width, height;
 	private RoomView nextRoom = null;
+	private static String fog = "/walls/fog.png";
 	@Override
 	public void paintSurface(Graphics g) {
 		//draw back rooms first
 		if (nextRoom != null){
 			nextRoom.paintRoom(g);
+		} else {
+			//no room to draw so draw fog
+			try {
+				g.drawImage(ImageIO.read(this.getClass().getResource(fog)), boundX, boundY, width, height, null);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return;
 		}
 		//draw this rooms back wall
 		
