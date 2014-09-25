@@ -9,18 +9,18 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 public class TopBottomStrategy implements SurfaceStrategy {
-	private boolean top;
+	private boolean ceiling;
 	private Surface surface;
 	private BufferedImage surfaceTexture;
-	private int boundX, boundY, width, height;
+	private int surfaceX, surfaceY, surfaceWidth, surfaceHeight;
 	
 	public TopBottomStrategy(boolean top) {
-		this.top = top;
+		this.ceiling = top;
 	}
 
 	@Override
 	public void paintSurface(Graphics g) {
-		g.drawImage(surfaceTexture, boundX, boundY, width, height, null);
+		//g.drawImage(surfaceTexture, surfaceX, surfaceY, surfaceWidth, surfaceHeight, null);
 
 		//draw objects on the wall
 		for (DrawnObject ob : surface.objects){
@@ -37,7 +37,7 @@ public class TopBottomStrategy implements SurfaceStrategy {
 
 	@Override
 	public Object click(int x, int y) {
-		if (top){
+		if (ceiling){
 			return null;
 		}
 		//TODO search floor for items
@@ -49,7 +49,7 @@ public class TopBottomStrategy implements SurfaceStrategy {
 		this.surface = surface;
 		try {
 			//set image for the view
-			if (top){
+			if (ceiling){
 				surfaceTexture = ImageIO.read(this.getClass().getResource("/ceilings/" + surface.roomView.room.getCeiling() + ".png"));
 			} else {
 				surfaceTexture = ImageIO.read(this.getClass().getResource("/floors/" + surface.roomView.room.getFloor() + ".png"));
@@ -59,13 +59,13 @@ public class TopBottomStrategy implements SurfaceStrategy {
 			e.printStackTrace();
 		}
 		//set bounds for the surface
-		boundX = surface.roomView.boundX;
-		width = surface.roomView.width;
-		height = surface.roomView.height/4;
-		if (top){
-			boundY = surface.roomView.boundY;
+		surfaceX = surface.roomView.boundX;
+		surfaceWidth = surface.roomView.width;
+		surfaceHeight = surface.roomView.height/4;
+		if (ceiling){
+			surfaceY = surface.roomView.boundY;
 		} else {
-			boundY = surface.roomView.boundY + ((surface.roomView.height * 3) / 4);
+			surfaceY = surface.roomView.boundY + ((surface.roomView.height * 3) / 4);
 		}
 
 		//create object list for surface
@@ -74,53 +74,61 @@ public class TopBottomStrategy implements SurfaceStrategy {
 	
 	/**
 	 * wraps objects to be drawn into DrawnObjects
-	 * with appropriate size distortion
+	 * with appropriate size and position distortion
 	 * 
 	 * @param wall
 	 */
 	private void createGameObjects(DEMOWALL wall){
-		//TODO remove hardcoding
 		List<DrawnObject> obs = new ArrayList<DrawnObject>();
+		
 		//loop through objects on floor, and resize them
 		for (DEMOOBJECT ob : wall.getObjects()){
-			//determine x and y based on direction in room
+			
+			//determine x and y based on direction facing in room
 			int x = getX(ob);
 			int y = getY(ob);
 			
-			//===determine width and height based on distance from back wall===
+			//get base height of object
+			int size = (int) ((((double) ob.getSize()) / 100) * (surfaceHeight * 4));
 			
-			//this is the level of scaling to apply 
-			double scale = ((double) y) / 100;
-			if (this.top){
-				scale = 1 - scale;
+			/* determine width and height based on distance away from viewer perspective
+			 * this causes items that are further away to appear smaller
+			 * (double scale is the level of scaling to apply as a double between 0.5 and 1) */
+			double scale = 0.5 + (0.5 * (((double) y) / 100));
+			if (this.ceiling){
+				//invert scale if this object is on the ceiling
+				scale = 0.5 + (1 - scale);
 			}
-			
-			int h = (int) (100 * (scale)) + 100;
-			int w = h;
-			
-			//determine center x
-			int left = boundX + (x * (width / 100));
-			//have to alter x position to be closer to center when further back
-			int center = boundX + (width / 2);
+			//apply scale
+			size = (int) (size * scale);
+						
+			//determine where the horizontal center of the image should be
+			int left = (int) (surfaceX + (x * ((double) surfaceWidth / 100)));
+			//have to alter horizontal position to be closer to the center when further back
+			int center = surfaceX + (surfaceWidth / 2);
 			int diff = Math.abs(center - left);
-			//apply scaling
-			diff = (diff / 2);
-			diff = (int) (diff + (diff * scale));
+			//apply scaling to the diff
+			diff = (int) (diff * scale);
+			//apply the new x position, and account for having to draw from top left corner
 			if (left < center){
-				left = center - diff - (w / 2);
+				left = center - diff - (size / 2);
 			} else if (center < left){
-				left = center + diff - (w / 2);
+				left = center + diff - (size / 2);
 			}
 			
 			//TODO change variable names so that we're not relying on scope?
-			int top = boundY + (y * (height / 100));
-			if (!this.top){
-				top -= h;
+			int top = (int) (surfaceY + (y * ((double) surfaceHeight / 100)));
+			if (!this.ceiling){
+				//objects y positions are anchored at the top of the object if being drawn on the ceiling, so no need to apply here
+				top -= size;
 			}
-			System.out.print("top = " + this.top + ", origX= " + ob.getX() + ", newX = " + getX(ob) + ", left = " + left +
+			//TODO remove debug
+			System.out.print("top = " + this.ceiling + ", origX= " + ob.getX() + ", newX = " + getX(ob) + ", left = " + left +
 					", origY= " + ob.getY() + ", newY = " + getY(ob) + ", top = " + top +
-					", width = " + w + ", height = " + h + "\n");
-			DrawnObject dob = new DrawnObject(ob, left, top, w, h);
+					", width = " + size + ", height = " + size + "\n");
+			
+			//create the wrapped object and add to list
+			DrawnObject dob = new DrawnObject(ob, left, top, size, size);
 			obs.add(dob);
 		}
 		surface.objects = obs;

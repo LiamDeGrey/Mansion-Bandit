@@ -33,6 +33,10 @@ public class DrawnObject {
 	public int getHeight() {
 		return height;
 	}
+	
+	public int getSize(){
+		return gameObject.getSize();
+	}
 
 	/**
 	 * returns the object if the bounding box lies behind the points given
