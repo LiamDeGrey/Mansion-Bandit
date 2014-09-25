@@ -27,6 +27,10 @@ import mansionBandit.gameView.GamePanel;
 import mansionBandit.gameWorld.main.Main;
 import mansionBandit.gameWorld.main.Player;
 
+/**
+ * @author Theo
+ *TODO Change all placeholder classes to actual classes. Change all PlayerPlayerHolders to players, change canvas to GamPanel, change item to gamematter item, etc
+ */
 public class GameFrame extends JFrame implements ActionListener, MouseListener,
 		WindowListener, KeyListener {
 
@@ -65,7 +69,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	private boolean gameStarted = false;
 	
 	//the player this window is used by/applies to
-	private Player player;
+	private PlayerPlaceHolder player;
 	
 	//the main class of the game
 	private Main gameWorld;
@@ -77,6 +81,8 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	
 	//the position of the inventory bar
 	private final Point inventoryBarPos = new Point(50,250);
+	
+	private final int inventorySlotSize = 100;
 	
 	//the pane that all components are added to so that they can stack properly
 	private JLayeredPane layeredPane;
@@ -266,6 +272,8 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	//TODO make create player
 	//player = gameWorld.createPlayer(this);
 	
+	player = new PlayerPlaceHolder();
+	
 	
 	
 	layeredPane = new JLayeredPane();
@@ -358,8 +366,13 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 		
 		//only checks for user input if gameplay has started
 		
+		//TODO make all of these method calls apply to actual classes
+		
 		if(gameStarted){
 		
+			//debug statement
+			System.out.println("Mouse release at " + e.getPoint().toString());
+			
 		// left button released
 		if (e.getButton() == MouseEvent.BUTTON1) {
 
@@ -373,7 +386,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 					// check if the item being dragged can be used on the
 					// targeted item
-					if (game.useItemOnItem(game.getObjectAt(e.getPoint()))) {
+					if (draggingItem.useOnItem(game.getObjectAt(e.getPoint()))) {
 
 						// if it was used successfully, the item will have been
 						// used and is deleted and the item is removed from
@@ -388,8 +401,9 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 						// if the interaction was invalid the item is returned
 						// to the players inventory
-						game.addItemToInventory(draggingItem);
-
+						
+						draggingItem.addToInventory(player);
+						
 						// remove the dragging item
 						draggingItem = null;
 
@@ -400,19 +414,20 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 					}
 				}
 
-				// check if mouse is at an empty slot in inventory
-				else if (game.atEmptyInventorySlot(e.getPoint())) {
+				// check if mouse is at an inventory slot and that slot is empty
+				else if(getInventorySlot(e.getPoint())>=0 && player.getInventoryItem(getInventorySlot(e.getPoint())) == null){
 
-					// if its at this spot then stop dragging and add it to the
-					// inventory
-					game.addToInventory(draggingItem);
+					// if its at this spot then stop dragging and add it to the players inventory at specified position
+						
+					player.addToInventory(draggingItem);
 					draggingItem = null;
 
 					// set the cursor back to default
 					e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-				} else {
-
-					// otherwise just drop the object at this position
+				}
+				 else {
+					// otherwise just drop the object at this position in the room
+					
 					game.dropItem(e.getPoint());
 					draggingItem = null;
 
@@ -421,6 +436,8 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 				}
 
 			}
+			
+			
 			// if the player isn't dragging an item
 			else {
 
@@ -433,22 +450,32 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 							.getPoint()));
 				}
 			}
-		}
-
+		
+		
 		// right button released
+		}
 		if (e.getButton() == MouseEvent.BUTTON3) {
 
 		}
-		}
+		
+		
+		//repaint the canvas so that changes show up
+		guiCanvas.repaint();
+		
+	}
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		//TODO make all of these method calls apply to actual classes
 		
 		//only checks for user input if the game has started
 		
 		if(gameStarted){
 		
+			//debug code
+			System.out.println("Mouse clicked at " + e.getPoint().toString());
+			
 		// firstly check that the player isn't already holding something
 		if (draggingItem != null) {
 			// check if there is an item that can be dragged at the current
@@ -457,7 +484,10 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 				// begin dragging the item at mouse position
 				draggingItem = canvas.getItemAt(e.getPoint());
-
+				
+				//hide the item from the room so that it no longer appears on the screen and CANT BE INTERRACTED WITH
+				draggingItem.hide();
+				
 				// SET CURSOR TO ITEM HERE //
 				//create a cursor with item as image
 				itemImageCursor = Toolkit.getDefaultToolkit()
@@ -467,14 +497,15 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 				//set the cursor to be this custom cursor
 				e.getComponent().setCursor(itemImageCursor);
 			}
-			// check if they selected an item in an inventory slot instead
-			else if (game.getInventoryItem(e.getPoint()) != null) {
+		}
+			//else check if they selected an item in an inventory slot and that slot has an item in it
+			else if (player.getInventoryItem(getInventorySlot(e.getPoint())) != null) {
 
-				Item inventoryItem = game.getInventoryItem(e.getPoint());
+				Item inventoryItem = player.getInventoryItem(getInventorySlot(e.getPoint()));
 
 				// remove the item at the selected position from the players
 				// inventory
-				game.removeInventoryItem(e.getPoint());
+				player.removeFromInventory(inventoryItem);
 
 				// set the removed item as the dragged item
 				draggingItem = inventoryItem;
@@ -488,7 +519,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 				//set the cursor to be this custom cursor
 				e.getComponent().setCursor(itemImageCursor);
 			}
-		}
+		
 		}
 	}
 
@@ -534,19 +565,19 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 		if (KeyEvent.getKeyText(e.getKeyCode()).equals("W")) {
 
 			// attempt to move the player forwards
-			game.moveForward();
+			player.moveForward();
 		}
 
 		else if (KeyEvent.getKeyText(e.getKeyCode()).equals("D")) {
 
 			// turn the player right
-			game.turnRight();
+			player.turnRight();
 		}
 
 		else if (KeyEvent.getKeyText(e.getKeyCode()).equals("A")) {
 
 			// turn the player left
-			game.turnLeft();
+			player.turnLeft();
 		}
 
 		else if (KeyEvent.getKeyText(e.getKeyCode()).equals("Escape")) {
@@ -562,6 +593,40 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 	}
 
+	
+	/**
+	 * gives the inventory slot at the given position. Checks if the  
+	 * @param the mouse position
+	 * @return the number of the inventory slot found at the mouse position. -1 if no slot found.
+	 */
+	private int getInventorySlot(Point p){
+		int totalSlots =  player.getInventorySize();
+		
+		  //needed so that it draws in the right position. Placeholder.
+		int inventoryBarYOffset = 250;
+		
+		for(int i = 0; i<totalSlots;i++){
+			
+			//if the mouse is in the x bounds of one of the inventory slots
+			if(p.x > inventoryBarPos.x + (i*inventorySlotSize) && p.x< inventoryBarPos.x + ((i+1)*inventorySlotSize)){
+				
+				System.out.println("inventory slot found X " + i);
+				
+				//if the mouse is in the y bounds of the inventory slots
+				if(p.y> inventoryBarPos.y + inventoryBarYOffset && p.y<inventoryBarPos.y +inventorySlotSize + inventoryBarYOffset){
+				
+				System.out.println("inventory slot found Y " + i);	
+				
+				//return this inventory slot
+				return i;
+				}
+			}
+		}
+		
+		//if nothing is found return -1 indicating no slot here
+		return -1;
+	}
+	
 	// These methods are unused but required for the KeyListener interface
 	@Override
 	public void keyPressed(KeyEvent arg0) {
@@ -577,9 +642,23 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	public Item getDraggingItem() {
 		return draggingItem;
 	}
+	
+	public PlayerPlaceHolder getPlayer(){
+		return player;
+	}
 
+	/**
+	 * @return the position of the inventory bar
+	 */
 	public Point getInventoryBarPos(){
 		return inventoryBarPos;
+	}
+	
+	/**
+	 * @return the size of slots in the inventory
+	 */
+	public int getInventorySlotSize(){
+		return inventorySlotSize;
 	}
 	
 }
