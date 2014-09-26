@@ -31,7 +31,7 @@ public class TopBottomStrategy implements SurfaceStrategy {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			g.drawImage(obImage, ob.getBoundX(), ob.getBoundY(), ob.getWidth(), ob.getHeight(), null);
+			//g.drawImage(obImage, ob.getBoundX(), ob.getBoundY(), ob.getWidth(), ob.getHeight(), null);
 		}
 	}
 
@@ -93,7 +93,7 @@ public class TopBottomStrategy implements SurfaceStrategy {
 			
 			/* determine width and height based on distance away from viewer perspective
 			 * this causes items that are further away to appear smaller
-			 * (double scale is the level of scaling to apply as a double between 0.5 and 1) */
+			 * (variable scale is the level of scaling to apply as a double between 0.5 and 1) */
 			double scale = 0.5 + (0.5 * (((double) y) / 100));
 			if (this.ceiling){
 				//invert scale if this object is on the ceiling
@@ -103,17 +103,17 @@ public class TopBottomStrategy implements SurfaceStrategy {
 			size = (int) (size * scale);
 						
 			//determine where the horizontal center of the image should be
-			int left = (int) (surfaceX + (x * ((double) surfaceWidth / 100)));
+			int objectCenterX = (int) (surfaceX + (x * ((double) surfaceWidth / 100)));
 			//have to alter horizontal position to be closer to the center when further back
-			int center = surfaceX + (surfaceWidth / 2);
-			int diff = Math.abs(center - left);
+			int surfaceCenterX = surfaceX + (surfaceWidth / 2);
+			int diff = Math.abs(surfaceCenterX - objectCenterX);
 			//apply scaling to the diff
 			diff = (int) (diff * scale);
 			//apply the new x position, and account for having to draw from top left corner
-			if (left < center){
-				left = center - diff - (size / 2);
-			} else if (center < left){
-				left = center + diff - (size / 2);
+			if (objectCenterX < surfaceCenterX){
+				objectCenterX = surfaceCenterX - diff - (size / 2);
+			} else if (surfaceCenterX < objectCenterX){
+				objectCenterX = surfaceCenterX + diff - (size / 2);
 			}
 			
 			//TODO change variable names so that we're not relying on scope?
@@ -123,12 +123,12 @@ public class TopBottomStrategy implements SurfaceStrategy {
 				top -= size;
 			}
 			//TODO remove debug
-			System.out.print("top = " + this.ceiling + ", origX= " + ob.getX() + ", newX = " + getX(ob) + ", left = " + left +
+			System.out.print("top = " + this.ceiling + ", origX= " + ob.getX() + ", newX = " + getX(ob) + ", left = " + objectCenterX +
 					", origY= " + ob.getY() + ", newY = " + getY(ob) + ", top = " + top +
 					", width = " + size + ", height = " + size + "\n");
 			
 			//create the wrapped object and add to list
-			DrawnObject dob = new DrawnObject(ob, left, top, size, size);
+			DrawnObject dob = new DrawnObject(ob, objectCenterX, top, size, size);
 			obs.add(dob);
 		}
 		surface.objects = obs;
