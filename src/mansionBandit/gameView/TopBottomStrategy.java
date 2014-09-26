@@ -20,18 +20,26 @@ public class TopBottomStrategy implements SurfaceStrategy {
 
 	@Override
 	public void paintSurface(Graphics g) {
-		//g.drawImage(surfaceTexture, surfaceX, surfaceY, surfaceWidth, surfaceHeight, null);
+		g.drawImage(surfaceTexture, surfaceX, surfaceY, surfaceWidth, surfaceHeight, null);
 
 		//draw objects on the wall
 		for (DrawnObject ob : surface.objects){
 			BufferedImage obImage = null;
+			BufferedImage shadow = null;
 			try {
 				obImage = ImageIO.read(this.getClass().getResource("/object/" + ob.getGameObject().getFace() + ".png"));
+				shadow = ImageIO.read(this.getClass().getResource("/object/shadow.png"));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			//g.drawImage(obImage, ob.getBoundX(), ob.getBoundY(), ob.getWidth(), ob.getHeight(), null);
+			//TODO move into its own loop to prevent shadows overlapping other objects
+			if (!ceiling){
+				//draw shadow if object on floor
+				g.drawImage(shadow, ob.getBoundX() -10, ob.getBoundY() + ob.getHeight() - 10, ob.getWidth() + 20, 20, null);
+			}
+			//draw object
+			g.drawImage(obImage, ob.getBoundX(), ob.getBoundY(), ob.getWidth(), ob.getHeight(), null);
 		}
 	}
 
@@ -109,6 +117,7 @@ public class TopBottomStrategy implements SurfaceStrategy {
 			int diff = Math.abs(surfaceCenterX - objectCenterX);
 			//apply scaling to the diff
 			diff = (int) (diff * scale);
+			
 			//apply the new x position, and account for having to draw from top left corner
 			if (objectCenterX < surfaceCenterX){
 				objectCenterX = surfaceCenterX - diff - (size / 2);
@@ -122,10 +131,6 @@ public class TopBottomStrategy implements SurfaceStrategy {
 				//objects y positions are anchored at the top of the object if being drawn on the ceiling, so no need to apply here
 				top -= size;
 			}
-			//TODO remove debug
-			System.out.print("top = " + this.ceiling + ", origX= " + ob.getX() + ", newX = " + getX(ob) + ", left = " + objectCenterX +
-					", origY= " + ob.getY() + ", newY = " + getY(ob) + ", top = " + top +
-					", width = " + size + ", height = " + size + "\n");
 			
 			//create the wrapped object and add to list
 			DrawnObject dob = new DrawnObject(ob, objectCenterX, top, size, size);

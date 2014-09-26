@@ -34,7 +34,7 @@ public class BackWallStrategy implements SurfaceStrategy {
 			}
 		}
 		//draw this rooms back wall
-		//g.drawImage(surfaceTexture, surfaceX, surfaceY, surfaceWidth, surfaceHeight, null);
+		g.drawImage(surfaceTexture, surfaceX, surfaceY, surfaceWidth, surfaceHeight, null);
 		
 		//draw objects on the wall
 		for (DrawnObject ob : surface.objects){
@@ -45,7 +45,7 @@ public class BackWallStrategy implements SurfaceStrategy {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			//g.drawImage(obImage, ob.getBoundX(), ob.getBoundY(), ob.getWidth(), ob.getHeight(), null);
+			g.drawImage(obImage, ob.getBoundX(), ob.getBoundY(), ob.getWidth(), ob.getHeight(), null);
 		}
 	}
 

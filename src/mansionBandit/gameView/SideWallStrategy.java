@@ -89,11 +89,6 @@ public class SideWallStrategy implements SurfaceStrategy {
 			int x = ob.getX();
 			int y = ob.getY();
 			
-			//invert coordinated if object is on right wall
-			if (!left){
-				x = 100 - x;
-			}
-			
 			//get base height of object
 			int size = (int) ((((double) ob.getSize()) / 100) * surfaceHeight);
 			
@@ -115,6 +110,7 @@ public class SideWallStrategy implements SurfaceStrategy {
 			int diff = Math.abs(surfaceCenterY - objectCenterY);
 			//apply scaling to the diff
 			diff = (int) (diff * scale);
+			
 			//apply the new y position, and account for having to draw from top left corner
 			if (objectCenterY < surfaceCenterY){
 				objectCenterY = surfaceCenterY - diff - size;
@@ -123,7 +119,7 @@ public class SideWallStrategy implements SurfaceStrategy {
 			}
 			
 			//TODO change variable names so that we're not relying on scope?
-			int left = (int) (surfaceX + (x * ((double) surfaceWidth / 100)));
+			int left = (int) (surfaceX + (x * ((double) surfaceWidth / 100))) - (size / 4);
 			
 			//create the wrapped object and add to list
 			DrawnObject dob = new DrawnObject(ob, left, objectCenterY, size / 2, size);

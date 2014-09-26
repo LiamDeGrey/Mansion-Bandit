@@ -11,11 +11,11 @@ public class DEMOOBJECT {
 	 * 
 	 */
 	public DEMOOBJECT(){
-		x = (int) (100 * Math.random());
-		y = (int) (100 * Math.random());
-		x = 50;
-		y = 50;
 		size = 20;
+		x = (int) ((100 - size) * Math.random()) + (size / 2);
+		y = (int) ((100 - size) * Math.random()) + size;
+		//x = 30;
+		//y = 30;
 	}
 	
 	public int getSize(){
