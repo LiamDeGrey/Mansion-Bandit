@@ -72,7 +72,7 @@ public class BackWallStrategy implements SurfaceStrategy {
 		surfaceY = surface.roomView.boundY + (surfaceHeight /2);
 		
 		int depth = surface.roomView.depth;
-		if (depth < surface.roomView.viewDepth){
+		if (depth < surface.roomView.viewDepthMAX){
 			//TODO get next rooms from actual room
 			nextRoom = new RoomView(new DEMOROOM(), surfaceX, surfaceY, surfaceWidth, surfaceHeight, depth + 1);
 		}

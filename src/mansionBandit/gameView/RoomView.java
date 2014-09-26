@@ -10,11 +10,11 @@ import java.awt.Graphics;
  */
 public class RoomView {
 	protected DEMOROOM room;
-	private Surface ceiling, floor, left, right, back;
+	private Surface ceiling, floor, left, right, back, behind;
 	protected int boundX, boundY, width, height, depth;
-	public static int viewDepth = 2;
+	public static int viewDepthMAX = 2;
 	
-	static int direction = DEMOROOM.N;
+	protected int direction;
 	
 	/**
 	 * constructor constructs the Surfaces from the given room, and
@@ -27,16 +27,58 @@ public class RoomView {
 		this.width = width;
 		this.height = height;
 		this.depth = depth;
+		direction = room.getDirection();
 		
 		//TODO use Liams room object
 		this.room = room;
 		
 		//TODO create surfaces
-		ceiling = new Surface(this, room.getTop(), new TopBottomStrategy(true));
-		floor = new Surface(this, room.getBottom(), new TopBottomStrategy(false));
-		back = new Surface(this, room.getN(), new BackWallStrategy());
-		left = new Surface(this, room.getW(), new SideWallStrategy(true));
-		right = new Surface(this, room.getE(), new SideWallStrategy(false));
+		ceiling = new Surface(this, room.getWall(room.C), new TopBottomStrategy(true));
+		floor = new Surface(this, room.getWall(room.F), new TopBottomStrategy(false));
+		back = new Surface(this, room.getWall(room.N), new BackWallStrategy());
+		left = new Surface(this, room.getWall(room.W), new SideWallStrategy(true));
+		right = new Surface(this, room.getWall(room.E), new SideWallStrategy(false));
+		//behind is never drawn
+		behind = new Surface(this, room.getWall(room.S), new BackWallStrategy());
+	}
+	
+	public void update(){
+		//TODO make much much MUCH nicer
+		//TODO account for moving into a new room
+		if (room.getDirection() == direction){
+			return;
+		}
+		//update walls and direction
+		
+		if (room.getLeft(direction) == room.getDirection()){
+			//we have turned left
+			Surface temp = back;
+			back = left;
+			left = behind;
+			behind = right;
+			right = temp;
+		} else if (room.getLeft(room.getLeft(direction)) == room.getDirection()){
+			//we have turned around 180 degrees
+			Surface temp = back;
+			back = behind;
+			behind = temp;
+			temp = left;
+			left = right;
+			right = temp;
+		} else{
+			//we must have turned right
+			Surface temp = back;
+			back = right;
+			right = behind;
+			behind = left;
+			left = temp;
+		} 
+		
+		direction = room.getDirection();
+		
+		back.setStrategy(new BackWallStrategy());
+		left.setStrategy(new SideWallStrategy(true));
+		right.setStrategy(new SideWallStrategy(false));
 	}
 	
 	/**

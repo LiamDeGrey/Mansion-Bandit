@@ -15,7 +15,7 @@ public class DEMOOBJECT {
 		x = (int) ((100 - size) * Math.random()) + (size / 2);
 		y = (int) ((100 - size) * Math.random()) + size;
 		//x = 30;
-		//y = 30;
+		//y = 100;
 	}
 	
 	public int getSize(){
