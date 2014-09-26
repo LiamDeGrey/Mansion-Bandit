@@ -29,6 +29,10 @@ public class DEMOROOM {
 		return direction;
 	}
 	
+	public void setDirection(int s){
+		direction = s;
+	}
+	
 	public DEMOROOM(){
 		direction = N;
 		wall = "wall1";

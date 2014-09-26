@@ -8,12 +8,11 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class GamePanel extends JPanel{
-	BufferedImage floor, wallL, wall, wallR, ceiling;
 	int height = 600;
 	int width = 800;
 	
 	//TODO get rid of demo
-	RoomView demo;
+	public RoomView demo;
 	
 	public GamePanel(){
 		demo = new RoomView(new DEMOROOM(), 0, 0, width, height, 0);

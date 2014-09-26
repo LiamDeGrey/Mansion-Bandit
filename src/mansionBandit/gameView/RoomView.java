@@ -79,6 +79,8 @@ public class RoomView {
 		back.setStrategy(new BackWallStrategy());
 		left.setStrategy(new SideWallStrategy(true));
 		right.setStrategy(new SideWallStrategy(false));
+		ceiling.update();
+		floor.update();
 	}
 	
 	/**

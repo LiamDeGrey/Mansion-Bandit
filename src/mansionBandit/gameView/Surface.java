@@ -41,6 +41,11 @@ public class Surface {
 		strategy = newStrat;
 	}
 	
+	public void update(){
+		//TODO is a full version of setup necessary?
+		strategy.setupSurface(this, wall);
+	}
+	
 	public void paint(Graphics g){
 		strategy.paintSurface(g);
 	}

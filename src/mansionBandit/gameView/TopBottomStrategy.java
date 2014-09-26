@@ -140,13 +140,19 @@ public class TopBottomStrategy implements SurfaceStrategy {
 	}
 	
 	private int getX(DEMOOBJECT ob){
-		if (surface.roomView.direction == DEMOROOM.E){
+		if (surface.roomView.room.getDirection() == DEMOROOM.E){
+			if (ceiling){
+				return 100 - ob.getY();
+			}
 			return ob.getY();
 		}
-		if (surface.roomView.direction == DEMOROOM.S){
+		if (surface.roomView.room.getDirection() == DEMOROOM.S){
 			return 100 - ob.getX();
 		}
-		if (surface.roomView.direction == DEMOROOM.W){
+		if (surface.roomView.room.getDirection() == DEMOROOM.W){
+			if (ceiling){
+				return ob.getY();
+			}
 			return 100 - ob.getY();
 		}
 		//must be facing north
@@ -154,13 +160,19 @@ public class TopBottomStrategy implements SurfaceStrategy {
 	}
 	
 	private int getY(DEMOOBJECT ob){
-		if (surface.roomView.direction == DEMOROOM.E){
+		if (surface.roomView.room.getDirection() == DEMOROOM.E){
+			if (ceiling){
+				return ob.getX();
+			}
 			return 100 - ob.getX();
 		}
-		if (surface.roomView.direction == DEMOROOM.S){
+		if (surface.roomView.room.getDirection() == DEMOROOM.S){
 			return 100 - ob.getY();
 		}
-		if (surface.roomView.direction == DEMOROOM.W){
+		if (surface.roomView.room.getDirection() == DEMOROOM.W){
+			if (ceiling){
+				return 100 - ob.getX();
+			}
 			return ob.getX();
 		}
 		//must be facing north
