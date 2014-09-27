@@ -21,6 +21,7 @@ public class Main {
 	public Main(){
 		//System.out.println("Make the JFrame");
 		new RoomsLayout(20);
+		
 	}
 	
 	
