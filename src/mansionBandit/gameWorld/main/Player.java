@@ -1,5 +1,7 @@
 package mansionBandit.gameWorld.main;
 
+import java.awt.Point;
+
 import mansionBandit.gameWorld.areas.MansionArea;
 import mansionBandit.gameWorld.matter.Bandit;
 
@@ -22,5 +24,5 @@ public class Player {
 	public Bandit getPlayer(){
 		return player;
 	}
-
+	
 }
