@@ -15,6 +15,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.IOException;
+import java.net.Socket;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -26,6 +28,8 @@ import javax.swing.JPanel;
 import mansionBandit.gameView.GamePanel;
 import mansionBandit.gameWorld.main.Main;
 import mansionBandit.gameWorld.main.Player;
+import mansionBandit.network.Client;
+import mansionBandit.network.Server;
 
 /**
  * @author Theo
@@ -595,7 +599,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 	
 	/**
-	 * gives the inventory slot at the given position. Checks if the  
+	 * gives the inventory slot at the given position. 
 	 * @param the mouse position
 	 * @return the number of the inventory slot found at the mouse position. -1 if no slot found.
 	 */
@@ -636,6 +640,52 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	public void keyTyped(KeyEvent arg0) {
 	}
 
+	
+	
+	/**
+	 * This method allows a client to connect to a specified server using the address
+	 * and port number.
+	 * @param address Address of the server.
+	 * @param port Port specified by server for communication.
+	 * @param username Identifier for the client attempting to connect
+	 * @throws IOException
+	 */
+	public void runClient(String address, int port, String username) throws IOException {
+		Socket s = new Socket(address, port);
+		System.out.println("Client connecting to: " + address + " on port: " + port);
+		
+		gameWorld = new Main();
+		//TODO get player
+		//player = gameWorld.makeNewPlayer()
+		
+		
+		Client client = new Client(s, username);
+		
+		client.start();
+		
+		//gets the gameWorld from the client because the gameworld is specific to the host 
+		gameWorld = client.getGameWorld();
+		
+		//TODO get player
+		//player = gameWorld.makeNewPlayer();
+	}
+	
+	//TODO: this method requires a game world parameter
+	public void runServer(int port, int nclients, String userName) {
+		System.out.println("Creating server on port " + port + " with " + nclients + " limit");
+		
+		//creates a game object that the server hosts
+		gameWorld = new Main();
+		//TODO get player
+		//player = gameWorld.makeNewPlayer()
+		
+		
+		new Server(port, nclients, userName,gameWorld).start();
+	}
+	
+	
+	
+	
 	/**
 	 * @return the item being dragged by the player
 	 */

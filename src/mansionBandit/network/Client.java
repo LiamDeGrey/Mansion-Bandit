@@ -4,6 +4,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import mansionBandit.gameWorld.main.Main;
+
 /**
  * A client receives information about the current game world and uses it
  * to update its local copy. The client notifies the Server about any changes it
@@ -18,6 +20,9 @@ public final class Client {
 	private ObjectInputStream input;
 	private int uid; //unique id
 	private String username;
+	
+	//Gets gameWorld from the server it connects to
+	private Main gameWorld;
 	
 	public Client (Socket socket, String username) {
 		this.socket = socket;
@@ -70,5 +75,12 @@ public final class Client {
 			}
 		}
 		
+	}
+	
+	/**
+	 * @return the gameWorld this client is using 
+	 */
+	public Main getGameWorld(){
+		return gameWorld;
 	}
 }

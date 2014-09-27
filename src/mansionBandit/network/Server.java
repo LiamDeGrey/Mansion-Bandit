@@ -6,6 +6,8 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import mansionBandit.gameWorld.main.Main;
+
 /**
  * The Server receives updates from clients via a socket. This updates the Server's version
  * of the game, and these updates are sent to all clients.
@@ -19,9 +21,12 @@ public final class Server {
 	private int port, playerLimit;
 	private boolean end;
 	
-	public Server(int port, int playerLimit) {
+	private Main gameWorld;
+	
+	public Server(int port, int playerLimit, String userName, Main gameWorld) {
 		this.port = port;
 		this.playerLimit = playerLimit;
+		this.gameWorld = gameWorld;
 	}
 	
 	public void start() {
