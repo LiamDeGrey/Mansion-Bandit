@@ -40,6 +40,8 @@ public final class Server {
 				System.out.println("Waiting for players to join...");
 				
 				Socket s = ss.accept();
+				ClientThread ct = new ClientThread(s);
+				ct.start();
 				//TODO: create a list of connections here potentially
 			}
 			
@@ -58,18 +60,20 @@ public final class Server {
 		ObjectInputStream input;
 		ObjectOutputStream output;
 		int uid;
+		int testid;
 		String username;
 		//types of messages
 
 		ClientThread(Socket socket) {
 			uid = ++uniqueID;
 			this.socket = socket;
+			System.out.println("New client thread created");
 			
 			try {
 				output = new ObjectOutputStream(socket.getOutputStream());
 				input  = new ObjectInputStream(socket.getInputStream());
-				username = (String) input.readObject();
-				System.out.println(username + " has connected.");
+				testid = (int) input.readObject();
+				System.out.println(testid + " has connected.");
 			}
 			catch (IOException e) {
 				System.out.println(username + ": Exception creating IO Object Streams: " + e);

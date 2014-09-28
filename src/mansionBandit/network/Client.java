@@ -18,7 +18,7 @@ public final class Client {
 	//game field needed
 	private ObjectOutputStream output;
 	private ObjectInputStream input;
-	private int uid; //unique id
+	private int uid = 5555; //unique id
 	private String username;
 	
 	//Gets gameWorld from the server it connects to
@@ -26,10 +26,12 @@ public final class Client {
 	
 	public Client (Socket socket, String username) {
 		this.socket = socket;
+		this.username = username;
 	}
 	
 	public void start() {
 		try {
+			System.out.println("Client creating new streams");
 			output = new ObjectOutputStream(socket.getOutputStream());
 			input = new ObjectInputStream(socket.getInputStream());
 			
