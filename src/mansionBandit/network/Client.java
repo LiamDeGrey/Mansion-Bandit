@@ -40,7 +40,7 @@ public final class Client {
 			
 			//write our uid to server
 			try {
-				output.writeObject(uid); //Client writing test id here
+				output.writeObject(uid); //Client writing test id here 
 			}
 			catch (IOException e) {
 				System.out.println("Exception writing uid to server : " + e);
