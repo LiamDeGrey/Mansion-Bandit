@@ -72,7 +72,7 @@ public final class Server {
 			try {
 				output = new ObjectOutputStream(socket.getOutputStream());
 				input  = new ObjectInputStream(socket.getInputStream());
-				testid = (int) input.readObject();
+				testid = (int) input.readObject(); //Server listening for test id here
 				System.out.println(testid + " has connected.");
 			}
 			catch (IOException e) {
