@@ -60,7 +60,7 @@ public class BackWallStrategy implements SurfaceStrategy {
 		this.surface = surface;
 		try {
 			//set image for the view
-			surfaceTexture = ImageIO.read(this.getClass().getResource("/walls/" + surface.roomView.room.getWall() + ".png"));
+			surfaceTexture = ImageIO.read(this.getClass().getResource("/walls/" + surface.roomView.roomDEMO.getWall() + ".png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -26,7 +26,7 @@ public class TestScreen extends JFrame implements KeyListener{
 	@Override
 	public void keyPressed(KeyEvent arg0) {
 		// TODO Auto-generated method stub
-		gamePanel.demo.room.setDirection(gamePanel.demo.room.getLeft(gamePanel.demo.room.getDirection()));
+		gamePanel.demo.roomDEMO.setDirection(gamePanel.demo.roomDEMO.getLeft(gamePanel.demo.roomDEMO.getDirection()));
 		gamePanel.repaint();
 	}
 

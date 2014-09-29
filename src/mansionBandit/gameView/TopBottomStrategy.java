@@ -58,9 +58,9 @@ public class TopBottomStrategy implements SurfaceStrategy {
 		try {
 			//set image for the view
 			if (ceiling){
-				surfaceTexture = ImageIO.read(this.getClass().getResource("/ceilings/" + surface.roomView.room.getCeiling() + ".png"));
+				surfaceTexture = ImageIO.read(this.getClass().getResource("/ceilings/" + surface.roomView.roomDEMO.getCeiling() + ".png"));
 			} else {
-				surfaceTexture = ImageIO.read(this.getClass().getResource("/floors/" + surface.roomView.room.getFloor() + ".png"));
+				surfaceTexture = ImageIO.read(this.getClass().getResource("/floors/" + surface.roomView.roomDEMO.getFloor() + ".png"));
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -140,16 +140,16 @@ public class TopBottomStrategy implements SurfaceStrategy {
 	}
 	
 	private int getX(DEMOOBJECT ob){
-		if (surface.roomView.room.getDirection() == DEMOROOM.E){
+		if (surface.roomView.roomDEMO.getDirection() == DEMOROOM.E){
 			if (ceiling){
 				return 100 - ob.getY();
 			}
 			return ob.getY();
 		}
-		if (surface.roomView.room.getDirection() == DEMOROOM.S){
+		if (surface.roomView.roomDEMO.getDirection() == DEMOROOM.S){
 			return 100 - ob.getX();
 		}
-		if (surface.roomView.room.getDirection() == DEMOROOM.W){
+		if (surface.roomView.roomDEMO.getDirection() == DEMOROOM.W){
 			if (ceiling){
 				return ob.getY();
 			}
@@ -160,16 +160,16 @@ public class TopBottomStrategy implements SurfaceStrategy {
 	}
 	
 	private int getY(DEMOOBJECT ob){
-		if (surface.roomView.room.getDirection() == DEMOROOM.E){
+		if (surface.roomView.roomDEMO.getDirection() == DEMOROOM.E){
 			if (ceiling){
 				return ob.getX();
 			}
 			return 100 - ob.getX();
 		}
-		if (surface.roomView.room.getDirection() == DEMOROOM.S){
+		if (surface.roomView.roomDEMO.getDirection() == DEMOROOM.S){
 			return 100 - ob.getY();
 		}
-		if (surface.roomView.room.getDirection() == DEMOROOM.W){
+		if (surface.roomView.roomDEMO.getDirection() == DEMOROOM.W){
 			if (ceiling){
 				return 100 - ob.getX();
 			}

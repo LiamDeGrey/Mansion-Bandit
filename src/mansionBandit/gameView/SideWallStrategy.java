@@ -51,9 +51,9 @@ public class SideWallStrategy implements SurfaceStrategy {
 		try {
 			//set image for the view
 			if (left){
-				surfaceTexture = ImageIO.read(this.getClass().getResource("/walls/" + surface.roomView.room.getWall() + "L.png"));
+				surfaceTexture = ImageIO.read(this.getClass().getResource("/walls/" + surface.roomView.roomDEMO.getWall() + "L.png"));
 			} else {
-				surfaceTexture = ImageIO.read(this.getClass().getResource("/walls/" + surface.roomView.room.getWall() + "R.png"));
+				surfaceTexture = ImageIO.read(this.getClass().getResource("/walls/" + surface.roomView.roomDEMO.getWall() + "R.png"));
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
