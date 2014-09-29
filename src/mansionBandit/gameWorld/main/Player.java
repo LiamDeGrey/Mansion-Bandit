@@ -23,4 +23,8 @@ public class Player {
 		return player;
 	}
 
+	public MansionArea[][] getGrid(){
+		return grid;
+	}
+
 }
