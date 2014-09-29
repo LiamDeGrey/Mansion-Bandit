@@ -8,12 +8,14 @@ package mansionBandit.gameWorld.matter;
  *
  */
 public class Key extends Grabable{
-	private Position position;
+	private Dimensions position;
 	private Face face;
-	
-	public Key(Face face, Position position){
+	private String name;
+
+	public Key(String name, Face face, Dimensions position){
 		this.position = position;
 		this.face = face;
+		this.name = name;
 	}
 
 	@Override
@@ -22,8 +24,15 @@ public class Key extends Grabable{
 	}
 
 	@Override
-	public Position getPosition() {
+	public Dimensions getPosition() {
 		return position;
 	}
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+
 
 }
