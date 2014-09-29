@@ -1,5 +1,7 @@
 package mansionBandit.gameWorld.main;
 
+import java.awt.Point;
+
 import mansionBandit.gameWorld.areas.MansionArea;
 import mansionBandit.gameWorld.matter.Bandit;
 

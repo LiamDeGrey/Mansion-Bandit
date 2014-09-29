@@ -16,6 +16,7 @@ public class Surface {
 	private SurfaceStrategy strategy;
 	protected RoomView roomView;
 	protected List<DrawnObject> objects;
+	private DEMOWALL wall;
 	
 	/**
 	 * create surface object and configure strategy
@@ -25,8 +26,24 @@ public class Surface {
 	public Surface(RoomView room, DEMOWALL wall, SurfaceStrategy strategy){
 		this.strategy = strategy;
 		roomView = room;
+		this.wall = wall;
 		strategy.setupSurface(this, wall);
 		//TODO add objects to surface
+	}
+	
+	/**
+	 * sets a new strategy for this surface
+	 * 
+	 * @param newStrat the new surface
+	 */
+	public void setStrategy(SurfaceStrategy newStrat){
+		newStrat.setupSurface(this, wall);
+		strategy = newStrat;
+	}
+	
+	public void update(){
+		//TODO is a full version of setup necessary?
+		strategy.setupSurface(this, wall);
 	}
 	
 	public void paint(Graphics g){

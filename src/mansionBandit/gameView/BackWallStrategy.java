@@ -34,7 +34,7 @@ public class BackWallStrategy implements SurfaceStrategy {
 			}
 		}
 		//draw this rooms back wall
-		//g.drawImage(surfaceTexture, surfaceX, surfaceY, surfaceWidth, surfaceHeight, null);
+		g.drawImage(surfaceTexture, surfaceX, surfaceY, surfaceWidth, surfaceHeight, null);
 		
 		//draw objects on the wall
 		for (DrawnObject ob : surface.objects){
@@ -45,7 +45,7 @@ public class BackWallStrategy implements SurfaceStrategy {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			//g.drawImage(obImage, ob.getBoundX(), ob.getBoundY(), ob.getWidth(), ob.getHeight(), null);
+			g.drawImage(obImage, ob.getBoundX(), ob.getBoundY(), ob.getWidth(), ob.getHeight(), null);
 		}
 	}
 
@@ -60,7 +60,7 @@ public class BackWallStrategy implements SurfaceStrategy {
 		this.surface = surface;
 		try {
 			//set image for the view
-			surfaceTexture = ImageIO.read(this.getClass().getResource("/walls/" + surface.roomView.room.getWall() + ".png"));
+			surfaceTexture = ImageIO.read(this.getClass().getResource("/walls/" + surface.roomView.roomDEMO.getWall() + ".png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -72,7 +72,7 @@ public class BackWallStrategy implements SurfaceStrategy {
 		surfaceY = surface.roomView.boundY + (surfaceHeight /2);
 		
 		int depth = surface.roomView.depth;
-		if (depth < surface.roomView.viewDepth){
+		if (depth < surface.roomView.viewDepthMAX){
 			//TODO get next rooms from actual room
 			nextRoom = new RoomView(new DEMOROOM(), surfaceX, surfaceY, surfaceWidth, surfaceHeight, depth + 1);
 		}

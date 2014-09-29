@@ -20,17 +20,25 @@ public class TopBottomStrategy implements SurfaceStrategy {
 
 	@Override
 	public void paintSurface(Graphics g) {
-		//g.drawImage(surfaceTexture, surfaceX, surfaceY, surfaceWidth, surfaceHeight, null);
+		g.drawImage(surfaceTexture, surfaceX, surfaceY, surfaceWidth, surfaceHeight, null);
 
 		//draw objects on the wall
 		for (DrawnObject ob : surface.objects){
 			BufferedImage obImage = null;
+			BufferedImage shadow = null;
 			try {
 				obImage = ImageIO.read(this.getClass().getResource("/object/" + ob.getGameObject().getFace() + ".png"));
+				shadow = ImageIO.read(this.getClass().getResource("/object/shadow.png"));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			//TODO move into its own loop to prevent shadows overlapping other objects
+			if (!ceiling){
+				//draw shadow if object on floor
+				g.drawImage(shadow, ob.getBoundX() -10, ob.getBoundY() + ob.getHeight() - 10, ob.getWidth() + 20, 20, null);
+			}
+			//draw object
 			g.drawImage(obImage, ob.getBoundX(), ob.getBoundY(), ob.getWidth(), ob.getHeight(), null);
 		}
 	}
@@ -50,9 +58,9 @@ public class TopBottomStrategy implements SurfaceStrategy {
 		try {
 			//set image for the view
 			if (ceiling){
-				surfaceTexture = ImageIO.read(this.getClass().getResource("/ceilings/" + surface.roomView.room.getCeiling() + ".png"));
+				surfaceTexture = ImageIO.read(this.getClass().getResource("/ceilings/" + surface.roomView.roomDEMO.getCeiling() + ".png"));
 			} else {
-				surfaceTexture = ImageIO.read(this.getClass().getResource("/floors/" + surface.roomView.room.getFloor() + ".png"));
+				surfaceTexture = ImageIO.read(this.getClass().getResource("/floors/" + surface.roomView.roomDEMO.getFloor() + ".png"));
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -93,7 +101,7 @@ public class TopBottomStrategy implements SurfaceStrategy {
 			
 			/* determine width and height based on distance away from viewer perspective
 			 * this causes items that are further away to appear smaller
-			 * (double scale is the level of scaling to apply as a double between 0.5 and 1) */
+			 * (variable scale is the level of scaling to apply as a double between 0.5 and 1) */
 			double scale = 0.5 + (0.5 * (((double) y) / 100));
 			if (this.ceiling){
 				//invert scale if this object is on the ceiling
@@ -103,17 +111,18 @@ public class TopBottomStrategy implements SurfaceStrategy {
 			size = (int) (size * scale);
 						
 			//determine where the horizontal center of the image should be
-			int left = (int) (surfaceX + (x * ((double) surfaceWidth / 100)));
+			int objectCenterX = (int) (surfaceX + (x * ((double) surfaceWidth / 100)));
 			//have to alter horizontal position to be closer to the center when further back
-			int center = surfaceX + (surfaceWidth / 2);
-			int diff = Math.abs(center - left);
+			int surfaceCenterX = surfaceX + (surfaceWidth / 2);
+			int diff = Math.abs(surfaceCenterX - objectCenterX);
 			//apply scaling to the diff
 			diff = (int) (diff * scale);
+			
 			//apply the new x position, and account for having to draw from top left corner
-			if (left < center){
-				left = center - diff - (size / 2);
-			} else if (center < left){
-				left = center + diff - (size / 2);
+			if (objectCenterX < surfaceCenterX){
+				objectCenterX = surfaceCenterX - diff - (size / 2);
+			} else if (surfaceCenterX < objectCenterX){
+				objectCenterX = surfaceCenterX + diff - (size / 2);
 			}
 			
 			//TODO change variable names so that we're not relying on scope?
@@ -122,26 +131,28 @@ public class TopBottomStrategy implements SurfaceStrategy {
 				//objects y positions are anchored at the top of the object if being drawn on the ceiling, so no need to apply here
 				top -= size;
 			}
-			//TODO remove debug
-			System.out.print("top = " + this.ceiling + ", origX= " + ob.getX() + ", newX = " + getX(ob) + ", left = " + left +
-					", origY= " + ob.getY() + ", newY = " + getY(ob) + ", top = " + top +
-					", width = " + size + ", height = " + size + "\n");
 			
 			//create the wrapped object and add to list
-			DrawnObject dob = new DrawnObject(ob, left, top, size, size);
+			DrawnObject dob = new DrawnObject(ob, objectCenterX, top, size, size);
 			obs.add(dob);
 		}
 		surface.objects = obs;
 	}
 	
 	private int getX(DEMOOBJECT ob){
-		if (surface.roomView.direction == DEMOROOM.E){
+		if (surface.roomView.roomDEMO.getDirection() == DEMOROOM.E){
+			if (ceiling){
+				return 100 - ob.getY();
+			}
 			return ob.getY();
 		}
-		if (surface.roomView.direction == DEMOROOM.S){
+		if (surface.roomView.roomDEMO.getDirection() == DEMOROOM.S){
 			return 100 - ob.getX();
 		}
-		if (surface.roomView.direction == DEMOROOM.W){
+		if (surface.roomView.roomDEMO.getDirection() == DEMOROOM.W){
+			if (ceiling){
+				return ob.getY();
+			}
 			return 100 - ob.getY();
 		}
 		//must be facing north
@@ -149,13 +160,19 @@ public class TopBottomStrategy implements SurfaceStrategy {
 	}
 	
 	private int getY(DEMOOBJECT ob){
-		if (surface.roomView.direction == DEMOROOM.E){
+		if (surface.roomView.roomDEMO.getDirection() == DEMOROOM.E){
+			if (ceiling){
+				return ob.getX();
+			}
 			return 100 - ob.getX();
 		}
-		if (surface.roomView.direction == DEMOROOM.S){
+		if (surface.roomView.roomDEMO.getDirection() == DEMOROOM.S){
 			return 100 - ob.getY();
 		}
-		if (surface.roomView.direction == DEMOROOM.W){
+		if (surface.roomView.roomDEMO.getDirection() == DEMOROOM.W){
+			if (ceiling){
+				return 100 - ob.getX();
+			}
 			return ob.getX();
 		}
 		//must be facing north

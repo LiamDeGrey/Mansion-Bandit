@@ -7,40 +7,46 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import mansionBandit.gameWorld.areas.Room;
+import mansionBandit.gameWorld.matter.Couch;
+import mansionBandit.gameWorld.matter.Decoration;
+import mansionBandit.gameWorld.matter.Face;
+import mansionBandit.gameWorld.matter.Position;
+
 public class GamePanel extends JPanel{
-	BufferedImage floor, wallL, wall, wallR, ceiling;
 	int height = 600;
 	int width = 800;
-	RoomView demo;
+	
+	//TODO get rid of demo
+	public RoomView demo;
 	
 	public GamePanel(){
-		try {
-			floor = ImageIO.read(this.getClass().getResource("/floors/carpet1.png"));
-			wallL = ImageIO.read(this.getClass().getResource("/walls/wall1L.png"));
-			wall = ImageIO.read(this.getClass().getResource("/walls/wall1.png"));
-			wallR = ImageIO.read(this.getClass().getResource("/walls/wall1R.png"));
-			ceiling = ImageIO.read(this.getClass().getResource("/ceilings/ceiling1.png"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//TODO fully integrate
+		//currently this is a test integration of objects
+		Room demoRoom = new Room();
+		//demo object to be placed on all sides
+		demoRoom.addItem(makeDeco(Face.BOTTOM));
+		demoRoom.addItem(makeDeco(Face.EASTERN));
+		demoRoom.addItem(makeDeco(Face.NORTHERN));
+		demoRoom.addItem(makeDeco(Face.SOUTHERN));
+		demoRoom.addItem(makeDeco(Face.TOP));
+		demoRoom.addItem(makeDeco(Face.WESTERN));
 		demo = new RoomView(new DEMOROOM(), 0, 0, width, height, 0);
+		//demo = new RoomView(demoRoom, 0, 0, width, height, 0);
+	}
+	
+	//TODO remove
+	private Decoration makeDeco(Face face){
+		int size = 20;
+		int x = (int) ((100 - size) * Math.random()) + (size / 2);
+		int y = (int) ((100 - size) * Math.random()) + size;
+		return new Decoration(face, new Position(x, y));
 	}
 	
 	@Override 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		/*draw back wall
-		g.drawImage(wall, width/4, height/4, width/2, height/2, null);
-		//draw ceiling
-		g.drawImage(ceiling, 0, 0, width, height/4, null);
-		//draw left wall
-		g.drawImage(wallL, 0, 0, width/4, height, null);
-		//draw right wall
-		g.drawImage(wallR, 3*(width/4), 0, width/4, height, null);
-		//draw floor
-		g.drawImage(floor, 0, 3*(height/4), width, height/4, null);
-		*/
+		demo.update();
 		demo.paintRoom(g);
 	}
 }

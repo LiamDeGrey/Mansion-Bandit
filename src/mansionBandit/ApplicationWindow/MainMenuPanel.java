@@ -3,6 +3,7 @@ package mansionBandit.ApplicationWindow;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -22,6 +23,14 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 	
 	//The frame that this menu is added to
 	GameFrame gameFrame;
+	
+	
+	//the textbox that multiplayer users into their name into
+	private JTextField usernameTextField;// = new JTextField();
+	
+	//the textfield clients enter the address of a host into
+	private JTextField addressTextField;// = new JTextField();
+	
 	
 	//the dimension/width and height of the textboxes in the menu
 	private final Dimension textBoxDimension = new Dimension(150,25);
@@ -160,22 +169,30 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		
 		connectToGamePanel.add(connectButton);
 		
+		JLabel addressLabel = new JLabel("Address");
+		
+		connectToGamePanel.add(addressLabel);
+		
 		//sets up text box for user to input host address
-		JTextField addressTextBox = new JTextField();
+		addressTextField = new JTextField();
 		//add the name textbox to the panel
-		connectToGamePanel.add(addressTextBox);
+		connectToGamePanel.add(addressTextField);
 		
 		//set the size of the textbox
-		addressTextBox.setPreferredSize(textBoxDimension);
+		addressTextField.setPreferredSize(textBoxDimension);
+		
+		JLabel userNameLabel = new JLabel("Name");
+		
+		connectToGamePanel.add(userNameLabel);
 		
 		//sets up a textbox for the player to input their name
-		JTextField nameTextBox = new JTextField();
+		usernameTextField = new JTextField();
 		
 		//set the size of the textbox
-		nameTextBox.setPreferredSize(textBoxDimension);
+		usernameTextField.setPreferredSize(textBoxDimension);
 		
 		//add the name textbox to the panel
-		connectToGamePanel.add(nameTextBox);
+		connectToGamePanel.add(usernameTextField);
 	}
 	
 	/**
@@ -206,13 +223,13 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		hostGamePanel.add(startHostingButton);
 		
 		//sets up a textbox for the player to input their name
-		JTextField nameTextBox = new JTextField();
+		usernameTextField = new JTextField();
 		
 		//set the size of the textbox
-		nameTextBox.setPreferredSize(textBoxDimension);
+		usernameTextField.setPreferredSize(textBoxDimension);
 		
 		//add the textbox
-		hostGamePanel.add(nameTextBox);
+		hostGamePanel.add(usernameTextField);
 	}
 	
 	/**
@@ -341,10 +358,14 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 			setMenu(multiplayerMenuPanel);
 		}
 		else if(e.getActionCommand().equals("setMenuHostLobby")){
+			//begin hosting the game
+			beginHostingGame();
 			//set the menu to the multiplayer lobby menu as the host
 			setMenu(hostLobbyMenuPanel);
 		}
 		else if(e.getActionCommand().equals("setMenuSlaveLobby")){
+			//begin connecting to the game
+			connectToGame();
 			//set the menu to the multiplayer lobby menu as a slave
 			setMenu(slaveLobbyMenuPanel);
 		}
@@ -361,7 +382,7 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 			gameFrame.exitGame();
 		}
 		else if(e.getActionCommand().equals("startMultiplayerGame")){
-			//starts the multiplayer game
+			//starts the multiplayer game. Used only be host. 
 			
 		}
 		else if(e.getActionCommand().equals("backButton")){
@@ -377,5 +398,30 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 			
 	}
 	
+	/**
+	 * starts process to begin hosting a game. Uses textfields for any required information.
+	 */
+	private void beginHostingGame(){
+		//calls to methods that create the host object, give it a game object and a player as well as give the gameFrame a game object and player
+		String userName = usernameTextField.getText();
+		gameFrame.runServer(32768,4,userName);
+	}
+	
+	/**
+	 * starts process to connect to a game. Uses textfields for required information such as the address of the host.
+	 */
+	private void connectToGame(){
+		String userName = usernameTextField.getText();
+		String address = addressTextField.getText();
+		
+		System.out.println("user " + userName +  " attempting to connect to game "+ address);
+		
+		try {
+			gameFrame.runClient(address,32768, userName);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 }

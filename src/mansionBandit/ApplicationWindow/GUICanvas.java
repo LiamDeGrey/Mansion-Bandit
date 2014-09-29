@@ -9,6 +9,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import mansionBandit.gameWorld.main.Player;
+
 
 /**
  * The JPanel responsible for drawing GUI elements such as the inventory
@@ -21,7 +23,8 @@ import javax.swing.JPanel;
 public class GUICanvas extends JPanel{
 	private GameFrame frame;
 	
-	//private Player player;
+	//TODO change to player
+	private PlayerPlaceHolder player;
 	
 	//the image of the inventory bar
 	BufferedImage inventoryBarImage;
@@ -29,7 +32,8 @@ public class GUICanvas extends JPanel{
 	
 	public GUICanvas(GameFrame gFrame){
 	frame = gFrame;
-		
+	player = gFrame.getPlayer();
+	
 	try {
 		inventoryBarImage = ImageIO.read(this.getClass().getResource("/GUIgraphics/inventorybar.png"));
 	} catch (IOException e) {
@@ -50,6 +54,20 @@ public class GUICanvas extends JPanel{
 	        
 	        //for each item in player inventory
 	        //draw image in players inventory [i] at (increment *i)
+	        
+	        for(int i =0;i<player.getInventorySize();i++){
+	        	
+	        	//if player has an item in this slot
+	        	if(player.getInventoryItem(i)!=null){
+	        		
+	        		//set the x and y position of the image
+	        		int itemImageX = frame.getInventoryBarPos().x + (i*frame.getInventorySlotSize());
+	        		int itemImageY = frame.getInventoryBarPos().y;
+	        		
+	        		//draw the item at slot i in player inventory
+	        		g.drawImage(player.getInventoryItem(i).getImage(), itemImageX, itemImageY,null);
+	        	}
+	        }
 	        
 	        //draw map
 	        
