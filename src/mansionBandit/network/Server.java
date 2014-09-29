@@ -20,36 +20,36 @@ public final class Server {
 	private static int uniqueID;
 	private int port, playerLimit;
 	private boolean end;
-	
+
 	private Main gameWorld;
-	
+
 	public Server(int port, int playerLimit, String userName, Main gameWorld) {
 		this.port = port;
 		this.playerLimit = playerLimit;
 		this.gameWorld = gameWorld;
 	}
-	
+
 	public void start() {
 		end = false;
-		
+
 		try {
 			ServerSocket ss = new ServerSocket(port);
-			
+
 			while (!end) {
 				System.out.println("Mansion Bandit Server listening on port: " + port);
 				System.out.println("Waiting for players to join...");
-				
+
 				Socket s = ss.accept();
 				ClientThread ct = new ClientThread(s);
 				ct.start();
 				//TODO: create a list of connections here potentially
 			}
-			
+
 		} catch (IOException e) {
 			System.out.println("Exception with socket: " + e);
 		}
 	}
-	
+
 	/**
 	 * This class represents a Thread that will run for each of the clients connected to the server.
 	 * @author Shreyas
@@ -68,12 +68,13 @@ public final class Server {
 			uid = ++uniqueID;
 			this.socket = socket;
 			System.out.println("New client thread created");
-			
+
 			try {
 				output = new ObjectOutputStream(socket.getOutputStream());
 				input  = new ObjectInputStream(socket.getInputStream());
-				testid = (int) input.readObject(); //Server listening for test id here 
-				System.out.println(testid + " has connected.");
+				//testid = (int) input.readObject(); //Server listening for test id here
+				username = (String) input.readObject();
+				System.out.println(username + " has connected.");
 			}
 			catch (IOException e) {
 				System.out.println(username + ": Exception creating IO Object Streams: " + e);
@@ -99,7 +100,7 @@ public final class Server {
 		}
 
 		//TODO: STOP METHOD (OPTION FOR SERVER HOST)
-		
+
 		private void close() {
 			try {
 				if(output != null) output.close();
