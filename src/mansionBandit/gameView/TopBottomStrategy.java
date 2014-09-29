@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -136,6 +137,11 @@ public class TopBottomStrategy implements SurfaceStrategy {
 			DrawnObject dob = new DrawnObject(ob, objectCenterX, top, size, size);
 			obs.add(dob);
 		}
+		Collections.sort(obs);
+		if (ceiling){
+			//TODO wont work on ceiling objects! need custom comparator!
+			Collections.reverse(obs);
+		}
 		surface.objects = obs;
 	}
 	
@@ -184,7 +190,7 @@ public class TopBottomStrategy implements SurfaceStrategy {
 	 * 
 	 * @param wall
 	 */
-	private void arrangeObjects(DEMOWALL wall){
+	private void arrangeObjects(){
 		
 	}
 

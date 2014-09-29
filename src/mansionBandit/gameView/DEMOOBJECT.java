@@ -18,6 +18,12 @@ public class DEMOOBJECT {
 		//y = 20;
 	}
 	
+	public DEMOOBJECT(int xx, int yy){
+		size = 25;
+		x = xx;
+		y = yy;
+	}
+	
 	public int getSize(){
 		return size;
 	}

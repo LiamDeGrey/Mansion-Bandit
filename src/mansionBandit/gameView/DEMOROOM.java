@@ -43,7 +43,7 @@ public class DEMOROOM {
 		e = new DEMOWALL();
 		w = new DEMOWALL();
 		top = new DEMOWALL();
-		bottom = new DEMOWALL();
+		bottom = new DEMOWALL(true);
 	}
 	
 	public String getWall(){

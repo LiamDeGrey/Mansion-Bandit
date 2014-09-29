@@ -4,15 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DEMOWALL {
-	private DEMOOBJECT ob;
+	private List<DEMOOBJECT> list = new ArrayList<DEMOOBJECT>();
+	boolean debug = false;
 	
 	public DEMOWALL(){
-		ob = new DEMOOBJECT();
+		DEMOOBJECT ob = new DEMOOBJECT();
+		list.add(ob);
+	}
+	
+	public DEMOWALL(boolean debug){
+		DEMOOBJECT ob = new DEMOOBJECT(20, 20);
+		list.add(ob);
+		ob = new DEMOOBJECT(30, 30);
+		list.add(ob);
 	}
 	
 	public List<DEMOOBJECT> getObjects(){
-		List<DEMOOBJECT> list = new ArrayList<DEMOOBJECT>();
-		list.add(ob);
 		return list;
 	}
 }

@@ -8,7 +8,7 @@ package mansionBandit.gameView;
  * @author Andy
  *
  */
-public class DrawnObject {
+public class DrawnObject implements Comparable<DrawnObject>{
 	//game object object referred to
 	private DEMOOBJECT gameObject;
 	//size data
@@ -59,6 +59,11 @@ public class DrawnObject {
 		width = w;
 		height = h;
 		gameObject = ob;
+	}
+
+	@Override
+	public int compareTo(DrawnObject o) {
+		return (boundY + height) - (o.boundY + o.height);
 	}
 
 }
