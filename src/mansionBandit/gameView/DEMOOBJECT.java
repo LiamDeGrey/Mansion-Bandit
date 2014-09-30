@@ -23,19 +23,18 @@ public class DEMOOBJECT {
 		y = (int) ((100 - size) * Math.random()) + size;
 		//x = 20;
 		//y = 20;
-		object = new Decoration("testFace", Face.NORTHERN, new Dimensions(x, y, size, size));
+		object = new Decoration("testFace", Face.NORTHERN, new Dimensions(x, y, size));
 	}
 	
 	public DEMOOBJECT(int xx, int yy){
 		size = 25;
 		x = xx;
 		y = yy;
-		object = new Decoration("testFace", Face.NORTHERN, new Dimensions(x, y, size, size));
+		object = new Decoration("testFace", Face.NORTHERN, new Dimensions(x, y, size));
 	}
 	
 	public int getSize(){
-		//return object.getPosition().getSize();
-		return 20;
+		return object.getPosition().getScale();
 	}
 	
 	public int getX(){
