@@ -10,9 +10,10 @@ package mansionBandit.gameWorld.matter;
 public class Bandit extends Character{
 	private Face face;
 	private Position pos;
+	private String name;
 	
-	public Bandit() {
-		
+	public Bandit(String name) {
+		this.name = name;
 	}
 	
 	public void setFace(Face f) {

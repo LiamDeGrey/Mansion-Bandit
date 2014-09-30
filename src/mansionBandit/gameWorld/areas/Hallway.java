@@ -3,6 +3,10 @@ package mansionBandit.gameWorld.areas;
 /**
  * This class is a hallway in the mansion and has links to other hallways
  * and or rooms
+ * 
+ * A hallway connects to any surrounding area unless it is a wall. For example
+ * a hallway next to another hallway will always be connected. Hallways that aren't
+ * next to walls will have four entries/exits.
  * @author Liam De Grey
  *
  */

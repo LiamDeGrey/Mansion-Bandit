@@ -64,7 +64,7 @@ public class RoomsLayout {
 	 * the rooms
 	 */
 	public void setLinks(){
-		int rows = (int)Math.sqrt(rooms.size())+4;
+		int rows = (int)Math.sqrt(rooms.size())+2;
 		int cols = rows;
 
 		grid = new MansionArea[rows][cols];//A grid showing [rows][columns] of all the rooms
@@ -72,6 +72,14 @@ public class RoomsLayout {
 		int extraSpace = (rows * cols) - rooms.size();//find out how many free spaces there are in the grid
 
 		int rand;
+		
+		
+		/*for(int i=0; i<grid.length; i++) {
+			for(int j=0; j<grid[0].length; j++) {
+				Hallway h = new Hallway();
+				
+			}
+		}*/
 
 		int roomNum = 0;
 		for(int i=0; i<grid.length; i++){
