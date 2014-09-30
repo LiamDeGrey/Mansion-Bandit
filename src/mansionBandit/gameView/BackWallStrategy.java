@@ -40,7 +40,7 @@ public class BackWallStrategy implements SurfaceStrategy {
 		for (DrawnObject ob : surface.objects){
 			BufferedImage obImage = null;
 			try {
-				obImage = ImageIO.read(this.getClass().getResource("/object/" + ob.getGameObject().getFace() + ".png"));
+				obImage = ImageIO.read(this.getClass().getResource("/object/" + ob.getGameObject().getImage() + ".png"));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

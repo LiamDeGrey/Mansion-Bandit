@@ -28,7 +28,7 @@ public class TopBottomStrategy implements SurfaceStrategy {
 			BufferedImage obImage = null;
 			BufferedImage shadow = null;
 			try {
-				obImage = ImageIO.read(this.getClass().getResource("/object/" + ob.getGameObject().getFace() + ".png"));
+				obImage = ImageIO.read(this.getClass().getResource("/object/" + ob.getGameObject().getImage() + ".png"));
 				shadow = ImageIO.read(this.getClass().getResource("/object/shadow.png"));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -129,7 +129,7 @@ public class TopBottomStrategy implements SurfaceStrategy {
 			//TODO change variable names so that we're not relying on scope?
 			int top = (int) (surfaceY + (y * ((double) surfaceHeight / 100)));
 			if (!this.ceiling){
-				//objects y positions are anchored at the top of the object if being drawn on the ceiling, so no need to apply here
+				//objects y positions are anchored at the top of the object if being drawn on the ceiling, so no need to modify y here
 				top -= size;
 			}
 			

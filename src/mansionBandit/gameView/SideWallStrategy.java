@@ -27,9 +27,9 @@ public class SideWallStrategy implements SurfaceStrategy {
 			BufferedImage obImage = null;
 			try {
 				if (left){
-					obImage = ImageIO.read(this.getClass().getResource("/object/" + ob.getGameObject().getFace() + "L.png"));
+					obImage = ImageIO.read(this.getClass().getResource("/object/" + ob.getGameObject().getImage() + "L.png"));
 				}else {
-					obImage = ImageIO.read(this.getClass().getResource("/object/" + ob.getGameObject().getFace() + "R.png"));
+					obImage = ImageIO.read(this.getClass().getResource("/object/" + ob.getGameObject().getImage() + "R.png"));
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
