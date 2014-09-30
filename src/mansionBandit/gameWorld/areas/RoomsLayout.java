@@ -73,13 +73,6 @@ public class RoomsLayout {
 
 		int rand;
 		
-		
-		/*for(int i=0; i<grid.length; i++) {
-			for(int j=0; j<grid[0].length; j++) {
-				Hallway h = new Hallway();
-				
-			}
-		}*/
 
 		int roomNum = 0;
 		for(int i=0; i<grid.length; i++){
@@ -101,15 +94,21 @@ public class RoomsLayout {
 			}
 		}
 
-		for(int i=0; i<grid.length; i++){
-			for(int j=0; j<grid[0].length; j++){
-				MansionArea current = grid[i][j];
+		for(int i=0; i<grid.length; i++){//These loops go through each grid space and set links,
+			for(int j=0; j<grid[0].length; j++){ //Hallways go horizontal across the mansion
+				MansionArea current = grid[i][j]; //Rooms have 4 doors if not next to a wall
 				MansionArea n = null, e = null, s = null, w = null;
-
-				if(i!=0)
-					n = grid[i-1][j];
-				if(i!=grid.length-1)
-					s = grid[i+1][j];
+				if(current instanceof Room) {
+					if(i!=0)
+						n = grid[i-1][j];
+					if(i!=grid.length-1)
+						s = grid[i+1][j];
+				}else {
+					if((j==0&&i>0)||(i!=0&&grid[i-1][j] instanceof Room)) 
+						n = grid[i-1][j];
+					if((j==grid.length-1&&i<grid.length-1)||(i!=grid.length-1&&grid[i+1][j] instanceof Room))
+						s = grid[i+1][j];
+				}
 				if(j!=0)
 					w = grid[i][j-1];
 				if(j!=grid[0].length-1)
