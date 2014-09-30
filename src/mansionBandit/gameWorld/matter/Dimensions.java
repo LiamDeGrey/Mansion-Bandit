@@ -9,24 +9,26 @@ package mansionBandit.gameWorld.matter;
 public class Dimensions {
 	private int x;
 	private int y;
-	private int w;
-	private int h;
+	private int scale;
 
 	public Dimensions(int x, int y){
 		this.x = x;
 		this.y = y;
 	}
 
-	public Dimensions(int x, int y, int w, int h){
+	public Dimensions(int x, int y, int scale){
 		this.x = x;
 		this.y = y;
-		this.w = w;
-		this.h = h;
+		this.scale = scale;
 	}
 
 	public void setPosition(int x, int y){
 		this.x = x;
 		this.y = y;
+	}
+
+	public void setScale(int scale){
+		this.scale = scale;
 	}
 
 	public int getX(){
@@ -37,11 +39,7 @@ public class Dimensions {
 		return y;
 	}
 
-	public int getWidth(){
-		return w;
-	}
-
-	public int getHeight(){
-		return h;
+	public int getScale(){
+		return scale;
 	}
 }
