@@ -6,10 +6,11 @@ package mansionBandit.gameWorld.matter;
  *
  */
 public class Couch extends Movable {
-	private Position position;
+	private Dimensions position;
 	private Face face;
-	
-	public Couch(Face face, Position position){
+	private String name;
+
+	public Couch(String name, Face face, Dimensions position){
 		this.position = position;
 		this.face = face;
 	}
@@ -20,8 +21,13 @@ public class Couch extends Movable {
 	}
 
 	@Override
-	public Position getPosition() {
+	public Dimensions getPosition() {
 		return position;
+	}
+
+	@Override
+	public String getName() {
+		return name;
 	}
 
 }

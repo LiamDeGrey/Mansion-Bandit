@@ -2,18 +2,20 @@ package mansionBandit.gameWorld.matter;
 
 
 /**
- * A chest with treasure in it that will benefit the 
+ * A chest with treasure in it that will benefit the
  * character
  * @author Liam De Grey
  *
  */
 public class Chest extends Openable {
-	private Position position;
+	private Dimensions position;
 	private Face face;
-	
-	public Chest(Face face, Position position){
+	private String name;
+
+	public Chest(String name, Face face, Dimensions position){
 		this.position = position;
 		this.face = face;
+		this.name = name;
 	}
 
 	@Override
@@ -22,8 +24,13 @@ public class Chest extends Openable {
 	}
 
 	@Override
-	public Position getPosition() {
+	public Dimensions getPosition() {
 		return position;
 	}
-	
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
 }

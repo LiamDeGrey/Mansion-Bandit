@@ -1,8 +1,15 @@
 package mansionBandit.gameWorld.matter;
 
+/**
+ * Guard is an enemy of the bandit and can decrease the
+ * bandits health bar
+ * @author Liam De Grey
+ *
+ */
 public class Guard extends Character {
 	private Face face;
-	private Position pos;
+	private Dimensions pos;
+	private String name;
 
 	@Override
 	public Face getFace() {
@@ -10,8 +17,13 @@ public class Guard extends Character {
 	}
 
 	@Override
-	public Position getPosition() {
+	public Dimensions getPosition() {
 		return pos;
+	}
+
+	@Override
+	public String getName() {
+		return name;
 	}
 
 }

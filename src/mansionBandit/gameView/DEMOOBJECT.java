@@ -1,9 +1,16 @@
 package mansionBandit.gameView;
 
+import mansionBandit.gameWorld.matter.Decoration;
+import mansionBandit.gameWorld.matter.Dimensions;
+import mansionBandit.gameWorld.matter.Face;
+import mansionBandit.gameWorld.matter.GameMatter;
+
 public class DEMOOBJECT {
+	//wrap demo object around liams object
 	static String face = "testFace";
 	private int x, y;
 	private int size;
+	private GameMatter object;
 	
 	/* assuming that each wall is a 100x100 grid, and that each object will be a
 	 * size based on that grid. the value 20 means that the object will be 20x20
@@ -16,21 +23,30 @@ public class DEMOOBJECT {
 		y = (int) ((100 - size) * Math.random()) + size;
 		//x = 20;
 		//y = 20;
+		object = new Decoration("testFace", Face.NORTHERN, new Dimensions(x, y, size, size));
+	}
+	
+	public DEMOOBJECT(int xx, int yy){
+		size = 25;
+		x = xx;
+		y = yy;
+		object = new Decoration("testFace", Face.NORTHERN, new Dimensions(x, y, size, size));
 	}
 	
 	public int getSize(){
-		return size;
+		//return object.getPosition().getSize();
+		return 20;
 	}
 	
 	public int getX(){
-		return x;
+		return object.getPosition().getX();
 	}
 	
 	public int getY(){
-		return y;
+		return object.getPosition().getY();
 	}
 	
-	public String getFace(){
-		return face;
+	public String getImage(){
+		return object.getName();
 	}
 }

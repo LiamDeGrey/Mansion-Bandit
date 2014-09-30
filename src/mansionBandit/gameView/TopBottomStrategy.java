@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -27,7 +28,7 @@ public class TopBottomStrategy implements SurfaceStrategy {
 			BufferedImage obImage = null;
 			BufferedImage shadow = null;
 			try {
-				obImage = ImageIO.read(this.getClass().getResource("/object/" + ob.getGameObject().getFace() + ".png"));
+				obImage = ImageIO.read(this.getClass().getResource("/object/" + ob.getGameObject().getImage() + ".png"));
 				shadow = ImageIO.read(this.getClass().getResource("/object/shadow.png"));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -58,9 +59,9 @@ public class TopBottomStrategy implements SurfaceStrategy {
 		try {
 			//set image for the view
 			if (ceiling){
-				surfaceTexture = ImageIO.read(this.getClass().getResource("/ceilings/" + surface.roomView.room.getCeiling() + ".png"));
+				surfaceTexture = ImageIO.read(this.getClass().getResource("/ceilings/" + surface.roomView.roomDEMO.getCeiling() + ".png"));
 			} else {
-				surfaceTexture = ImageIO.read(this.getClass().getResource("/floors/" + surface.roomView.room.getFloor() + ".png"));
+				surfaceTexture = ImageIO.read(this.getClass().getResource("/floors/" + surface.roomView.roomDEMO.getFloor() + ".png"));
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -128,7 +129,7 @@ public class TopBottomStrategy implements SurfaceStrategy {
 			//TODO change variable names so that we're not relying on scope?
 			int top = (int) (surfaceY + (y * ((double) surfaceHeight / 100)));
 			if (!this.ceiling){
-				//objects y positions are anchored at the top of the object if being drawn on the ceiling, so no need to apply here
+				//objects y positions are anchored at the top of the object if being drawn on the ceiling, so no need to modify y here
 				top -= size;
 			}
 			
@@ -136,20 +137,25 @@ public class TopBottomStrategy implements SurfaceStrategy {
 			DrawnObject dob = new DrawnObject(ob, objectCenterX, top, size, size);
 			obs.add(dob);
 		}
+		Collections.sort(obs);
+		if (ceiling){
+			//TODO wont work on ceiling objects! need custom comparator!
+			Collections.reverse(obs);
+		}
 		surface.objects = obs;
 	}
 	
 	private int getX(DEMOOBJECT ob){
-		if (surface.roomView.room.getDirection() == DEMOROOM.E){
+		if (surface.roomView.roomDEMO.getDirection() == DEMOROOM.E){
 			if (ceiling){
 				return 100 - ob.getY();
 			}
 			return ob.getY();
 		}
-		if (surface.roomView.room.getDirection() == DEMOROOM.S){
+		if (surface.roomView.roomDEMO.getDirection() == DEMOROOM.S){
 			return 100 - ob.getX();
 		}
-		if (surface.roomView.room.getDirection() == DEMOROOM.W){
+		if (surface.roomView.roomDEMO.getDirection() == DEMOROOM.W){
 			if (ceiling){
 				return ob.getY();
 			}
@@ -160,16 +166,16 @@ public class TopBottomStrategy implements SurfaceStrategy {
 	}
 	
 	private int getY(DEMOOBJECT ob){
-		if (surface.roomView.room.getDirection() == DEMOROOM.E){
+		if (surface.roomView.roomDEMO.getDirection() == DEMOROOM.E){
 			if (ceiling){
 				return ob.getX();
 			}
 			return 100 - ob.getX();
 		}
-		if (surface.roomView.room.getDirection() == DEMOROOM.S){
+		if (surface.roomView.roomDEMO.getDirection() == DEMOROOM.S){
 			return 100 - ob.getY();
 		}
-		if (surface.roomView.room.getDirection() == DEMOROOM.W){
+		if (surface.roomView.roomDEMO.getDirection() == DEMOROOM.W){
 			if (ceiling){
 				return 100 - ob.getX();
 			}
@@ -184,7 +190,7 @@ public class TopBottomStrategy implements SurfaceStrategy {
 	 * 
 	 * @param wall
 	 */
-	private void arrangeObjects(DEMOWALL wall){
+	private void arrangeObjects(){
 		
 	}
 

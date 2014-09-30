@@ -7,11 +7,13 @@ package mansionBandit.gameWorld.matter;
  */
 public class Decoration implements GameMatter{
 	private Face face;
-	private Position pos;
+	private Dimensions pos;
+	private String name;
 
-	public Decoration(Face face, Position pos){
+	public Decoration(String name, Face face, Dimensions pos){
 		this.face = face;
 		this.pos = pos;
+		this.name = name;
 	}
 
 	@Override
@@ -20,8 +22,13 @@ public class Decoration implements GameMatter{
 	}
 
 	@Override
-	public Position getPosition() {
+	public Dimensions getPosition() {
 		return pos;
+	}
+
+	@Override
+	public String getName() {
+		return name;
 	}
 
 }

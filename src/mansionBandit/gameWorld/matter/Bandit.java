@@ -9,13 +9,13 @@ package mansionBandit.gameWorld.matter;
  */
 public class Bandit extends Character{
 	private Face face;
-	private Position pos;
+	private Dimensions pos;
 	private String name;
-	
-	public Bandit(String name) {
-		this.name = name;
+
+	public Bandit() {
+
 	}
-	
+
 	public void setFace(Face f) {
 		face = f;
 	}
@@ -24,14 +24,19 @@ public class Bandit extends Character{
 	public Face getFace() {
 		return face;
 	}
-	
-	public void setPos(Position p) {
+
+	public void setPos(Dimensions p) {
 		pos = p;
 	}
 
 	@Override
-	public Position getPosition() {
+	public Dimensions getPosition() {
 		return pos;
+	}
+
+	@Override
+	public String getName() {
+		return name;
 	}
 
 }

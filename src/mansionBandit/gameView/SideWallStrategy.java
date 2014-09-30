@@ -27,9 +27,9 @@ public class SideWallStrategy implements SurfaceStrategy {
 			BufferedImage obImage = null;
 			try {
 				if (left){
-					obImage = ImageIO.read(this.getClass().getResource("/object/" + ob.getGameObject().getFace() + "L.png"));
+					obImage = ImageIO.read(this.getClass().getResource("/object/" + ob.getGameObject().getImage() + "L.png"));
 				}else {
-					obImage = ImageIO.read(this.getClass().getResource("/object/" + ob.getGameObject().getFace() + "R.png"));
+					obImage = ImageIO.read(this.getClass().getResource("/object/" + ob.getGameObject().getImage() + "R.png"));
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -51,9 +51,9 @@ public class SideWallStrategy implements SurfaceStrategy {
 		try {
 			//set image for the view
 			if (left){
-				surfaceTexture = ImageIO.read(this.getClass().getResource("/walls/" + surface.roomView.room.getWall() + "L.png"));
+				surfaceTexture = ImageIO.read(this.getClass().getResource("/walls/" + surface.roomView.roomDEMO.getWall() + "L.png"));
 			} else {
-				surfaceTexture = ImageIO.read(this.getClass().getResource("/walls/" + surface.roomView.room.getWall() + "R.png"));
+				surfaceTexture = ImageIO.read(this.getClass().getResource("/walls/" + surface.roomView.roomDEMO.getWall() + "R.png"));
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

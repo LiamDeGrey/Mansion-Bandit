@@ -24,5 +24,9 @@ public class Player {
 	public Bandit getPlayer(){
 		return player;
 	}
-	
+
+	public MansionArea[][] getGrid(){
+		return grid;
+	}
+
 }
