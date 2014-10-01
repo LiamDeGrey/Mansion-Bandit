@@ -1,5 +1,7 @@
 package mansionBandit.gameWorld.matter;
 
+import java.awt.image.BufferedImage;
+
 
 /**
  * A Bandit is any person that has entered the game to play
@@ -37,6 +39,11 @@ public class Bandit extends Character{
 	@Override
 	public String getName() {
 		return name;
+	}
+
+	@Override
+	public BufferedImage getImage() {
+		return null;
 	}
 
 }

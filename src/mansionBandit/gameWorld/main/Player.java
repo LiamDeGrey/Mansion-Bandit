@@ -1,9 +1,11 @@
 package mansionBandit.gameWorld.main;
 
-import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
 
 import mansionBandit.gameWorld.areas.MansionArea;
 import mansionBandit.gameWorld.matter.Bandit;
+import mansionBandit.gameWorld.matter.Grabable;
 
 /**
  * Player object is different for each client in the game
@@ -15,6 +17,7 @@ import mansionBandit.gameWorld.matter.Bandit;
 public class Player {
 	private MansionArea[][] grid;
 	private Bandit player;
+	private List<Grabable> inventory = new ArrayList<Grabable>();
 
 	public Player(Bandit player, MansionArea[][] grid){
 		this.player = player;
@@ -29,4 +32,20 @@ public class Player {
 		return grid;
 	}
 
+	/*
+	 * Adds item to inventory , checks if valid
+	 */
+	public boolean addItem(Grabable itm, int slot){
+		if(slot>=0&&slot<=6){
+			if(inventory.get(slot)!=null){
+				inventory.add(itm);
+				return true;
+			}
+		}
+		return false;
+	}
+
+
+
 }
+

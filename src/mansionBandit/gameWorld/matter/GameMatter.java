@@ -1,5 +1,7 @@
 package mansionBandit.gameWorld.matter;
 
+import java.awt.image.BufferedImage;
+
 
 /**
  * All Items come under this title
@@ -23,4 +25,8 @@ public interface GameMatter {
 	 */
 	public String getName();
 
+	/*
+	 * returns the Image of the matter
+	 */
+	public BufferedImage getImage();
 }
