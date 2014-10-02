@@ -1,13 +1,6 @@
 package mansionBandit.gameWorld.main;
 
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.Date;
-
 import mansionBandit.gameWorld.areas.RoomsLayout;
-import mansionBandit.network.Client;
-import mansionBandit.network.Server;
 
 /**
  * This class starts off the game
@@ -19,7 +12,6 @@ import mansionBandit.network.Server;
 public class Main {
 	
 	public Main(){
-		//System.out.println("Make the JFrame");
 		new RoomsLayout(20);
 		
 	}

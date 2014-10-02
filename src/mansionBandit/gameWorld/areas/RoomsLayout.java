@@ -132,14 +132,14 @@ public class RoomsLayout {
 					else
 						System.out.print("  R  ");
 				}else{
-					System.out.print("     ");
+					System.out.print("  =  ");
 				}
 			}
 			System.out.println();
 		}
 
 		System.out.println("rows = "+grid.length+" cols = "+grid[0].length);
-		System.out.println("I = Room has Item, R = Room has no Item, ' ' = Is a Hallway");
+		System.out.println("I = Room has Item, R = Room has no Item, '=' = Is a Hallway");
 
 
 		/*if(room.getNorth()!=null&&!drawn.contains(room.getNorth())){

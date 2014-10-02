@@ -1,7 +1,5 @@
 package mansionBandit.gameWorld.main;
 
-import java.awt.Point;
-
 import mansionBandit.gameWorld.areas.MansionArea;
 import mansionBandit.gameWorld.matter.Bandit;
 
@@ -14,15 +12,15 @@ import mansionBandit.gameWorld.matter.Bandit;
  */
 public class Player {
 	private MansionArea[][] grid;
-	private Bandit player;
+	private Bandit bandit;
 
-	public Player(Bandit player, MansionArea[][] grid){
-		this.player = player;
+	public Player(Bandit bandit, MansionArea[][] grid){
+		this.bandit = bandit;
 		this.grid = grid;
 	}
 
-	public Bandit getPlayer(){
-		return player;
+	public Bandit getBandit(){
+		return bandit;
 	}
 
 	public MansionArea[][] getGrid(){
