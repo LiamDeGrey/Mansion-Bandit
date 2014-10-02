@@ -479,67 +479,70 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		//TODO make all of these method calls apply to actual classes
 
-		//only checks for user input if the game has started
-
-		if(gameStarted){
-
-			//debug code
-			System.out.println("Mouse clicked at " + e.getPoint().toString());
-
-		// firstly check that the player isn't already holding something
-		if (draggingItem != null) {
-			// check if there is an item that can be dragged at the current
-			// mouse position
-			if (canvas.getItemAt(e.getPoint()) instanceof DraggablePlaceHolder) {
-
-				// begin dragging the item at mouse position
-				draggingItem = canvas.getItemAt(e.getPoint());
-
-				//hide the item from the room so that it no longer appears on the screen and CANT BE INTERRACTED WITH
-				//TODO: remove item from room
-				//draggingItem.remove();
-
-				// SET CURSOR TO ITEM HERE //
-				//create a cursor with item as image
-				itemImageCursor = Toolkit.getDefaultToolkit()
-						.createCustomCursor(draggingItem.getImage(),
-								e.getPoint(), "itemCursor");
-
-				//set the cursor to be this custom cursor
-				e.getComponent().setCursor(itemImageCursor);
-			}
-		}
-			//else check if they selected an item in an inventory slot and that slot has an item in it
-			else if (player.getItem(getInventorySlot(e.getPoint())) != null) {
-
-				Grabable inventoryItem = player.getItem(getInventorySlot(e.getPoint()));
-
-				// remove the item at the selected position from the players
-				// inventory
-				player.removeItem(inventoryItem);
-
-				// set the removed item as the dragged item
-				draggingItem = inventoryItem;
-
-				// SET CURSOR TO ITEM HERE //
-				//create a cursor with item as image
-				itemImageCursor = Toolkit.getDefaultToolkit()
-						.createCustomCursor(draggingItem.getImage(),
-								e.getPoint(), "itemCursor");
-
-				//set the cursor to be this custom cursor
-				e.getComponent().setCursor(itemImageCursor);
-			}
-
-		}
 	}
 
 	// These mouse events are required for the MouseListener interface but are not used
 	public void mouseEntered(MouseEvent arg0) {}
 	public void mouseExited(MouseEvent arg0) {}
-	public void mousePressed(MouseEvent arg0) {}
+
+	public void mousePressed(MouseEvent e) {
+		//TODO make all of these method calls apply to actual classes
+
+				//only checks for user input if the game has started
+
+				if(gameStarted){
+
+					//debug code
+					System.out.println("Mouse clicked at " + e.getPoint().toString());
+
+				// firstly check that the player isn't already holding something
+				if (draggingItem == null) {
+					// check if there is an item that can be dragged at the current
+					// mouse position
+					if (canvas.getItemAt(e.getPoint()) instanceof Grabable) {
+
+						// begin dragging the item at mouse position
+						draggingItem = canvas.getItemAt(e.getPoint());
+
+						//hide the item from the room so that it no longer appears on the screen and CANT BE INTERRACTED WITH
+						//TODO: remove item from room
+						//draggingItem.remove();
+
+						// SET CURSOR TO ITEM HERE //
+						//create a cursor with item as image
+						itemImageCursor = Toolkit.getDefaultToolkit().createCustomCursor(draggingItem.getImage(),new Point(1,1), "itemCursor");
+
+						//set the cursor to be this custom cursor
+						e.getComponent().setCursor(itemImageCursor);
+					}
+				}
+					//else check if they selected an item in an inventory slot and that slot has an item in it
+					else if (player.getItem(getInventorySlot(e.getPoint())) != null) {
+
+						Grabable inventoryItem = player.getItem(getInventorySlot(e.getPoint()));
+
+						// remove the item at the selected position from the players
+						// inventory
+						player.removeItem(inventoryItem);
+
+						// set the removed item as the dragged item
+						draggingItem = inventoryItem;
+
+						// SET CURSOR TO ITEM HERE //
+						//create a cursor with item as image
+						itemImageCursor = Toolkit.getDefaultToolkit()
+								.createCustomCursor(draggingItem.getImage(),
+										e.getPoint(), "itemCursor");
+
+						//set the cursor to be this custom cursor
+						e.getComponent().setCursor(itemImageCursor);
+					}
+
+				}
+				guiCanvas.repaint();
+
+	}
 
 	// WINDOW INTERACTION//
 

@@ -16,6 +16,7 @@ public class Bandit extends Character{
 	private Dimensions pos;
 	private String name;
 	private List<Grabable> inventory = new ArrayList<Grabable>();
+	private int numInventoryItems =0;
 
 	public Bandit(String name) {
 
@@ -72,8 +73,10 @@ public class Bandit extends Character{
 	 * @return
 	 */
 	public Grabable getItem(int slot){
+		if(inventory.size() >slot){
 		if(slot>=0&&slot<=5){
 			return inventory.get(slot);
+		}
 		}
 		return null;
 	}

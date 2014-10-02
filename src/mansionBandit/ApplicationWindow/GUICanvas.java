@@ -2,6 +2,7 @@ package mansionBandit.ApplicationWindow;
 
 import java.awt.Canvas;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -65,7 +66,9 @@ public class GUICanvas extends JPanel{
 	        		int itemImageY = frame.getInventoryBarPos().y;
 
 	        		//draw the item at slot i in player inventory
-	        		g.drawImage(player.getItem(i).getImage(), itemImageX, itemImageY,null);
+	        		Image img = player.getItem(i).getImage();
+
+	        		g.drawImage(img, itemImageX, itemImageY, 50, 50, null);
 	        	}
 	        }
 
