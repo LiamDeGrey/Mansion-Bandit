@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import mansionBandit.gameWorld.main.Main;
 
@@ -19,6 +20,7 @@ public final class Server {
 	//game
 	private static int uniqueID;
 	private int port, playerLimit;
+	private ArrayList<ClientThread> clientList;
 	private boolean end;
 
 	private Main gameWorld;
@@ -27,6 +29,7 @@ public final class Server {
 		this.port = port;
 		this.playerLimit = playerLimit;
 		this.gameWorld = gameWorld;
+		clientList = new ArrayList<ClientThread>();
 	}
 
 	public void start() {
@@ -41,8 +44,23 @@ public final class Server {
 
 				Socket s = ss.accept();
 				ClientThread ct = new ClientThread(s);
+				clientList.add(ct);
 				ct.start();
-				//TODO: create a list of connections here potentially
+			}
+
+			try { //attempt to close sockets/clients
+				ss.close();
+				for (ClientThread c : clientList) {
+					try {
+						c.input.close();
+						c.output.close();
+						c.socket.close();
+					} catch (IOException e) {
+						System.out.println("Exception closing clients: " + e);
+					}
+				}
+			} catch (Exception e) {
+				System.out.println("Exception closing socket: " + e);
 			}
 
 		} catch (IOException e) {
