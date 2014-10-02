@@ -8,4 +8,9 @@ package mansionBandit.gameWorld.matter;
  */
 public abstract class Grabable implements GameMatter {
 
+	public boolean useOnItem(Object objectAt) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

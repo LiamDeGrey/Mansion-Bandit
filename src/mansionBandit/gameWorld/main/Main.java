@@ -17,17 +17,19 @@ import mansionBandit.network.Server;
  *
  */
 public class Main {
-	
+
 	public Main(){
 		//System.out.println("Make the JFrame");
 		new RoomsLayout(20);
-		
+
 	}
-	
-	
-	
+
+
+
 	public static void main(String[] args){
 		new Main();
-		
+
 	}
+
+
 }

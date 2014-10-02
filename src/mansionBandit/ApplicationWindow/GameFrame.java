@@ -26,8 +26,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import mansionBandit.gameView.GamePanel;
+import mansionBandit.gameWorld.areas.MansionArea;
+import mansionBandit.gameWorld.areas.RoomsLayout;
 import mansionBandit.gameWorld.main.Main;
 import mansionBandit.gameWorld.main.Player;
+import mansionBandit.gameWorld.matter.Bandit;
+import mansionBandit.gameWorld.matter.Grabable;
 import mansionBandit.network.Client;
 import mansionBandit.network.Server;
 
@@ -49,7 +53,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	private int windowDimensionY = 768;
 
 	// whether the player is currently dragging an item with the mouse
-	private Item draggingItem;
+	private Grabable draggingItem;
 
 	// description text of the thing that the player is examining
 	private String descriptionText;
@@ -73,7 +77,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	private boolean gameStarted = false;
 
 	//the player this window is used by/applies to
-	private PlayerPlaceHolder player;
+	private Player player;
 
 	//the main class of the game
 	private Main gameWorld;
@@ -276,8 +280,10 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	//TODO make create player
 	//player = gameWorld.createPlayer(this);
 
-	player = new PlayerPlaceHolder();
+	//TODO Make proper create player method
 
+	RoomsLayout r = new RoomsLayout(1);
+	player = new Player(new Bandit(), r.getGrid());
 
 
 	layeredPane = new JLayeredPane();
@@ -406,8 +412,9 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 						// if the interaction was invalid the item is returned
 						// to the players inventory
 
-						draggingItem.addToInventory(player);
+						//draggingItem.addToInventory(player);
 
+						player.addItem(draggingItem);
 						// remove the dragging item
 						draggingItem = null;
 
@@ -419,11 +426,11 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 				}
 
 				// check if mouse is at an inventory slot and that slot is empty
-				else if(getInventorySlot(e.getPoint())>=0 && player.getInventoryItem(getInventorySlot(e.getPoint())) == null){
+				else if(getInventorySlot(e.getPoint())>=0 && player.getItem(getInventorySlot(e.getPoint())) == null){
 
 					// if its at this spot then stop dragging and add it to the players inventory at specified position
 
-					player.addToInventory(draggingItem);
+					player.addItem(draggingItem, getInventorySlot(e.getPoint()));
 					draggingItem = null;
 
 					// set the cursor back to default
@@ -490,7 +497,8 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 				draggingItem = canvas.getItemAt(e.getPoint());
 
 				//hide the item from the room so that it no longer appears on the screen and CANT BE INTERRACTED WITH
-				draggingItem.hide();
+				//TODO: remove item from room
+				//draggingItem.remove();
 
 				// SET CURSOR TO ITEM HERE //
 				//create a cursor with item as image
@@ -503,13 +511,13 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 			}
 		}
 			//else check if they selected an item in an inventory slot and that slot has an item in it
-			else if (player.getInventoryItem(getInventorySlot(e.getPoint())) != null) {
+			else if (player.getItem(getInventorySlot(e.getPoint())) != null) {
 
-				Item inventoryItem = player.getInventoryItem(getInventorySlot(e.getPoint()));
+				Grabable inventoryItem = player.getItem(getInventorySlot(e.getPoint()));
 
 				// remove the item at the selected position from the players
 				// inventory
-				player.removeFromInventory(inventoryItem);
+				player.removeItem(inventoryItem);
 
 				// set the removed item as the dragged item
 				draggingItem = inventoryItem;
@@ -690,11 +698,11 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	/**
 	 * @return the item being dragged by the player
 	 */
-	public Item getDraggingItem() {
+	public Grabable getDraggingItem() {
 		return draggingItem;
 	}
 
-	public PlayerPlaceHolder getPlayer(){
+	public Player getPlayer(){
 		return player;
 	}
 

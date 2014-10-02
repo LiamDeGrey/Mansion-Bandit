@@ -1,5 +1,7 @@
 package mansionBandit.ApplicationWindow;
 
+import mansionBandit.gameWorld.matter.Grabable;
+
 public class PlayerPlaceHolder {
 
 	public int getInventorySize() {
@@ -7,14 +9,14 @@ public class PlayerPlaceHolder {
 		return 7;
 	}
 
-	public Item getInventoryItem(int i) {
+	public Grabable getInventoryItem(int i) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public void addToInventory(Item draggingItem) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public Item itemAtInventorySlot(int inventorySlot) {
@@ -22,24 +24,24 @@ public class PlayerPlaceHolder {
 		return null;
 	}
 
-	public void removeFromInventory(Item inventoryItem) {
+	public void removeFromInventory(Grabable inventoryItem) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void moveForward() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void turnRight() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void turnLeft() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

@@ -46,6 +46,53 @@ public class Player {
 	}
 
 
+	/**
+	 * returns item at specified slot in players inventory
+	 * @param slot
+	 * @return
+	 */
+	public Grabable getItem(int slot){
+		return inventory.get(slot);
+	}
+
+	/**
+	 * Adds an item to players inventory
+	 * @param the item to add
+	 * @return whether the item was added succesfully
+	 */
+	public boolean addItem(Grabable item){
+		if(inventory.size()<6){
+			return inventory.add(item);
+		}
+		return false;
+	}
+
+	/**
+	 * Adds an item to players inventory
+	 * @param the item to add
+	 * @return whether the item was added succesfully
+	 */
+	public boolean removeItem(Grabable item){
+		 return inventory.remove(item);
+
+	}
+
+	public void turnLeft(){
+
+	}
+
+	public void turnRight(){
+
+	}
+
+	public void moveForward(){
+
+}
+
+	public int getInventorySize(){
+		return 7;
+	}
+
 
 }
 
