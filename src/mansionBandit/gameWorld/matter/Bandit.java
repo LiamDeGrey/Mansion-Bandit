@@ -72,7 +72,10 @@ public class Bandit extends Character{
 	 * @return
 	 */
 	public Grabable getItem(int slot){
-		return inventory.get(slot);
+		if(slot>=0&&slot<=5){
+			return inventory.get(slot);
+		}
+		return null;
 	}
 
 	/**
@@ -93,8 +96,10 @@ public class Bandit extends Character{
 	 * @return whether the item was removed succesfully
 	 */
 	public boolean removeItem(Grabable item){
-		 return inventory.remove(item);
-
+		if(inventory.contains(item)){
+			return inventory.remove(item);
+		}
+		return false;
 	}
 
 }

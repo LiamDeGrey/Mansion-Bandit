@@ -1,8 +1,6 @@
 package mansionBandit.gameWorld.main;
 
 import mansionBandit.gameWorld.areas.MansionArea;
-import mansionBandit.gameWorld.matter.Bandit;
-import mansionBandit.gameWorld.matter.Grabable;
 
 
 /**
@@ -12,12 +10,9 @@ import mansionBandit.gameWorld.matter.Grabable;
  *
  */
 public class Slave extends Player{
-	private MansionArea[][] grid;
-	private Bandit bandit;
 
 
 	public Slave(String name, MansionArea[][] grid){
-		this.bandit = new Bandit(name);
-		this.grid = grid;
+		super(name, grid);
 	}
 }
