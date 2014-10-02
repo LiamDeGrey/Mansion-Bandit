@@ -16,7 +16,6 @@ public class Bandit extends Character{
 	private Dimensions pos;
 	private String name;
 	private List<Grabable> inventory = new ArrayList<Grabable>();
-	private int numInventoryItems =0;
 
 	public Bandit(String name) {
 

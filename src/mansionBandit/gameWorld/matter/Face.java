@@ -11,8 +11,8 @@ public enum Face {
 	EASTERN,
 	SOUTHERN,
 	WESTERN,
-	BOTTOM,
-	TOP;
+	FLOOR,
+	CEILING;
 	
 	/*
 	 * Gets the face when given a number between 0 and 5 inclusive
@@ -22,9 +22,22 @@ public enum Face {
 		else if(place==1) return EASTERN;
 		else if(place==2) return SOUTHERN;
 		else if(place==3) return WESTERN;
-		else if(place==4) return BOTTOM;
-		else if(place==5) return TOP;
+		else if(place==4) return FLOOR;
+		else if(place==5) return CEILING;
 		return null;
+	}
+	
+	/*
+	 * Gets the placing of a face when given a face
+	 */
+	public static int getFaceNum(Face face){
+		if(face==NORTHERN) return 0;
+		else if(face==EASTERN) return 1;
+		else if(face==SOUTHERN) return 2;
+		else if(face==WESTERN) return 3;
+		else if(face==FLOOR) return 4;
+		else if(face==CEILING) return 5;
+		return -1;
 	}
 	
 	

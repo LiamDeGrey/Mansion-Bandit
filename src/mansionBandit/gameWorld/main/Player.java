@@ -3,6 +3,7 @@ package mansionBandit.gameWorld.main;
 import mansionBandit.gameWorld.areas.MansionArea;
 import mansionBandit.gameWorld.areas.RoomsLayout;
 import mansionBandit.gameWorld.matter.Bandit;
+import mansionBandit.gameWorld.matter.Face;
 import mansionBandit.gameWorld.matter.Grabable;
 
 /**
@@ -35,11 +36,17 @@ public abstract class Player {
 	}
 
 	public void turnLeft(){
-
+		int current = Face.getFaceNum(bandit.getFace());
+		if(current==0) current = 3;
+		else current--;
+		bandit.setFace(Face.getFace(current));
 	}
 
 	public void turnRight(){
-
+		int current = Face.getFaceNum(bandit.getFace());
+		if(current==3) current = 0;
+		else current++;
+		bandit.setFace(Face.getFace(current));
 	}
 
 	public void moveForward(){

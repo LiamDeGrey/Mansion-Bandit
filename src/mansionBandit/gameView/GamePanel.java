@@ -25,7 +25,7 @@ public class GamePanel extends JPanel{
 		//currently this is a test integration of objects
 		Room demoRoom = new Room();
 		//demo object to be placed on all sides
-		demoRoom.addItem(makeDeco(Face.BOTTOM));
+		demoRoom.addItem(makeDeco(Face.FLOOR));
 		demoRoom.addItem(makeDeco(Face.EASTERN));
 		demoRoom.addItem(makeDeco(Face.NORTHERN));
 		demoRoom.addItem(makeDeco(Face.SOUTHERN));
