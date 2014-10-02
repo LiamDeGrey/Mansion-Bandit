@@ -28,6 +28,7 @@ import javax.swing.JPanel;
 import mansionBandit.gameView.GamePanel;
 import mansionBandit.gameWorld.areas.MansionArea;
 import mansionBandit.gameWorld.areas.RoomsLayout;
+import mansionBandit.gameWorld.main.Host;
 import mansionBandit.gameWorld.main.Main;
 import mansionBandit.gameWorld.main.Player;
 import mansionBandit.gameWorld.matter.Bandit;
@@ -283,7 +284,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	//TODO Make proper create player method
 
 	RoomsLayout r = new RoomsLayout(1);
-	player = new Player(new Bandit(), r.getGrid());
+	player = new Host("", 20);
 
 
 	layeredPane = new JLayeredPane();
