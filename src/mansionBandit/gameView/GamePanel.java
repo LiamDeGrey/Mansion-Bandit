@@ -12,6 +12,7 @@ import mansionBandit.gameWorld.matter.Couch;
 import mansionBandit.gameWorld.matter.Decoration;
 import mansionBandit.gameWorld.matter.Face;
 import mansionBandit.gameWorld.matter.Dimensions;
+import mansionBandit.gameWorld.matter.GameMatter;
 
 public class GamePanel extends JPanel{
 	int height = 600;
@@ -19,6 +20,18 @@ public class GamePanel extends JPanel{
 
 	//TODO get rid of demo
 	public RoomView demo;
+	
+	/**
+	 * returns the object the user clicked on
+	 * x and y should be given as relative to this panel, not the frame it is contained in
+	 * 
+	 * @param x position to check
+	 * @param y position to check
+	 * @return the GameMatter object, whatever that may be, or null if non found
+	 */
+	public GameMatter getObject(int x, int y){
+		return null;
+	}
 
 	public GamePanel(){
 		//TODO fully integrate
