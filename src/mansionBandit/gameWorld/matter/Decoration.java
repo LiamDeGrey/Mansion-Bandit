@@ -1,5 +1,7 @@
 package mansionBandit.gameWorld.matter;
 
+import java.awt.image.BufferedImage;
+
 /**
  * A type of game matter that can not be interacted with
  * @author Liam De Grey
@@ -29,6 +31,11 @@ public class Decoration implements GameMatter{
 	@Override
 	public String getName() {
 		return name;
+	}
+
+	@Override
+	public BufferedImage getImage() {
+		return null;
 	}
 
 }

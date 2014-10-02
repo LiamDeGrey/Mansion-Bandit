@@ -43,7 +43,7 @@ public class RoomsLayout {
 		while(itemNum<allItems.size()) {
 			for(int i=0; i<grid.length; i++) {
 				for(int j=0; j<grid[0].length; j++) {
-					
+
 					if(grid[i][j] instanceof Room) {
 						rand = (int)(Math.random() * 2 + 1);//either 1 or 2
 						if(rand==1&&itemNum<allItems.size()) {
@@ -72,12 +72,12 @@ public class RoomsLayout {
 		int extraSpace = (rows * cols) - rooms.size();//find out how many free spaces there are in the grid
 
 		int rand;
-		
+
 
 		int roomNum = 0;
 		for(int i=0; i<grid.length; i++){
 			for(int j=0; j<grid[0].length; j++){
-				
+
 				if(extraSpace>0) {
 					rand = (int)(Math.random() * 3 + 1);//either 1 , 2 or 3
 					if(rand==1&&roomNum<rooms.size()) {
@@ -104,7 +104,7 @@ public class RoomsLayout {
 					if(i!=grid.length-1)
 						s = grid[i+1][j];
 				}else {
-					if((j==0&&i>0)||(i!=0&&grid[i-1][j] instanceof Room)) 
+					if((j==0&&i>0)||(i!=0&&grid[i-1][j] instanceof Room))
 						n = grid[i-1][j];
 					if((j==grid.length-1&&i<grid.length-1)||(i!=grid.length-1&&grid[i+1][j] instanceof Room))
 						s = grid[i+1][j];
@@ -116,6 +116,10 @@ public class RoomsLayout {
 				current.setLinks(n, e, s, w);
 			}
 		}
+	}
+
+	public MansionArea[][] getGrid(){
+		return grid;
 	}
 
 

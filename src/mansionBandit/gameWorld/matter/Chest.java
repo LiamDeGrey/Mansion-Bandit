@@ -1,5 +1,7 @@
 package mansionBandit.gameWorld.matter;
 
+import java.awt.image.BufferedImage;
+
 
 /**
  * A chest with treasure in it that will benefit the
@@ -31,6 +33,11 @@ public class Chest extends Openable {
 	@Override
 	public String getName() {
 		return name;
+	}
+
+	@Override
+	public BufferedImage getImage() {
+		return null;
 	}
 
 }

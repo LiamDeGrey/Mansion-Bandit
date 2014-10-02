@@ -10,16 +10,18 @@ import mansionBandit.gameWorld.areas.RoomsLayout;
  *
  */
 public class Main {
-	
+
 	public Main(){
 		new RoomsLayout(20);
-		
+
 	}
-	
-	
-	
+
+
+
 	public static void main(String[] args){
 		new Main();
-		
+
 	}
+
+
 }
