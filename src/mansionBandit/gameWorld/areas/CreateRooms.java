@@ -12,12 +12,12 @@ import mansionBandit.gameWorld.matter.GameMatter;
  * @author Liam De Grey
  *
  */
-public class RoomsLayout {
+public class CreateRooms {
 	private List<Room> rooms = new ArrayList<Room>();
 	private List<GameMatter> allItems = new ArrayList<GameMatter>();
 	private MansionArea[][] grid;
 
-	public RoomsLayout(int numRooms){
+	public CreateRooms(int numRooms){
 		int rand = (int) (Math.random()*numRooms+numRooms);
 		CreateItems gameItems = new CreateItems(rand);
 		allItems = gameItems.getItems();
@@ -48,6 +48,7 @@ public class RoomsLayout {
 						rand = (int)(Math.random() * 2 + 1);//either 1 or 2
 						if(rand==1&&itemNum<allItems.size()) {
 							((Room)grid[i][j]).addItem(allItems.get(itemNum));//Add item to room
+							allItems.get(itemNum).setArea(grid[i][j]);
 							itemNum++;
 						}
 					}

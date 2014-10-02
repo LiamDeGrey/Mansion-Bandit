@@ -34,15 +34,15 @@ public class DEMOOBJECT {
 	}
 	
 	public int getSize(){
-		return object.getPosition().getScale();
+		return object.getDimensions().getScale();
 	}
 	
 	public int getX(){
-		return object.getPosition().getX();
+		return object.getDimensions().getX();
 	}
 	
 	public int getY(){
-		return object.getPosition().getY();
+		return object.getDimensions().getY();
 	}
 	
 	public String getImage(){

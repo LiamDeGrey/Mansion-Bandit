@@ -5,6 +5,9 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import mansionBandit.gameWorld.areas.MansionArea;
+import mansionBandit.gameWorld.areas.Room;
+
 
 /**
  * A key that can be put in inventory, needs to be in
@@ -39,7 +42,7 @@ public class Key extends Grabable{
 	}
 
 	@Override
-	public Dimensions getPosition() {
+	public Dimensions getDimensions() {
 		return position;
 	}
 
@@ -51,6 +54,29 @@ public class Key extends Grabable{
 	@Override
 	public BufferedImage getImage(){
 		return img;
+	}
+
+	@Override
+	public MansionArea getArea() {
+		return null;
+	}
+
+	@Override
+	public void setFace(Face f) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setDimensions(Dimensions d) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setArea(MansionArea r) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

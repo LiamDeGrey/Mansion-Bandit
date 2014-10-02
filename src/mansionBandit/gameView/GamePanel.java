@@ -29,7 +29,7 @@ public class GamePanel extends JPanel{
 		demoRoom.addItem(makeDeco(Face.EASTERN));
 		demoRoom.addItem(makeDeco(Face.NORTHERN));
 		demoRoom.addItem(makeDeco(Face.SOUTHERN));
-		demoRoom.addItem(makeDeco(Face.TOP));
+		demoRoom.addItem(makeDeco(Face.CEILING));
 		demoRoom.addItem(makeDeco(Face.WESTERN));
 		demo = new RoomView(new DEMOROOM(), 0, 0, width, height, 0);
 		//demo = new RoomView(demoRoom, 0, 0, width, height, 0);

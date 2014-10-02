@@ -2,6 +2,9 @@ package mansionBandit.gameWorld.matter;
 
 import java.awt.image.BufferedImage;
 
+import mansionBandit.gameWorld.areas.MansionArea;
+import mansionBandit.gameWorld.areas.Room;
+
 /**
  * A type of game matter that can not be interacted with
  * @author Liam De Grey
@@ -24,7 +27,7 @@ public class Decoration implements GameMatter{
 	}
 
 	@Override
-	public Dimensions getPosition() {
+	public Dimensions getDimensions() {
 		return pos;
 	}
 
@@ -36,6 +39,29 @@ public class Decoration implements GameMatter{
 	@Override
 	public BufferedImage getImage() {
 		return null;
+	}
+
+	@Override
+	public MansionArea getArea() {
+		return null;
+	}
+
+	@Override
+	public void setFace(Face f) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setDimensions(Dimensions d) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setArea(MansionArea r) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

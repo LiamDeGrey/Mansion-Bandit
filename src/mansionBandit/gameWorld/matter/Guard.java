@@ -2,6 +2,9 @@ package mansionBandit.gameWorld.matter;
 
 import java.awt.image.BufferedImage;
 
+import mansionBandit.gameWorld.areas.MansionArea;
+import mansionBandit.gameWorld.areas.Room;
+
 /**
  * Guard is an enemy of the bandit and can decrease the
  * bandits health bar
@@ -19,7 +22,7 @@ public class Guard extends Character {
 	}
 
 	@Override
-	public Dimensions getPosition() {
+	public Dimensions getDimensions() {
 		return pos;
 	}
 
@@ -31,6 +34,29 @@ public class Guard extends Character {
 	@Override
 	public BufferedImage getImage() {
 		return null;
+	}
+
+	@Override
+	public MansionArea getArea() {
+		return null;
+	}
+
+	@Override
+	public void setFace(Face f) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setDimensions(Dimensions d) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setArea(MansionArea r) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
