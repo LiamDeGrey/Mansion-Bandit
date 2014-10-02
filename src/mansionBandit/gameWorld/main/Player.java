@@ -1,8 +1,5 @@
 package mansionBandit.gameWorld.main;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import mansionBandit.gameWorld.areas.MansionArea;
 import mansionBandit.gameWorld.matter.Bandit;
 import mansionBandit.gameWorld.matter.Grabable;
@@ -14,67 +11,17 @@ import mansionBandit.gameWorld.matter.Grabable;
  * @author Liam De Grey
  *
  */
-public class Player {
+public abstract class Player {
 	private MansionArea[][] grid;
-	private Bandit player;
-	private List<Grabable> inventory = new ArrayList<Grabable>();
+	private Bandit bandit;
 
-	public Player(Bandit player, MansionArea[][] grid){
-		this.player = player;
-		this.grid = grid;
-	}
 
 	public Bandit getPlayer(){
-		return player;
+		return bandit;
 	}
 
 	public MansionArea[][] getGrid(){
 		return grid;
-	}
-
-	/*
-	 * Adds item to inventory , checks if valid
-	 */
-	public boolean addItem(Grabable itm, int slot){
-		if(slot>=0&&slot<=6){
-			if(inventory.get(slot)!=null){
-				inventory.add(itm);
-				return true;
-			}
-		}
-		return false;
-	}
-
-
-	/**
-	 * returns item at specified slot in players inventory
-	 * @param slot
-	 * @return
-	 */
-	public Grabable getItem(int slot){
-		return inventory.get(slot);
-	}
-
-	/**
-	 * Adds an item to players inventory
-	 * @param the item to add
-	 * @return whether the item was added succesfully
-	 */
-	public boolean addItem(Grabable item){
-		if(inventory.size()<6){
-			return inventory.add(item);
-		}
-		return false;
-	}
-
-	/**
-	 * Adds an item to players inventory
-	 * @param the item to add
-	 * @return whether the item was added succesfully
-	 */
-	public boolean removeItem(Grabable item){
-		 return inventory.remove(item);
-
 	}
 
 	public void turnLeft(){
@@ -87,7 +34,23 @@ public class Player {
 
 	public void moveForward(){
 
-}
+	}
+
+	public boolean addItem(Grabable itm, int slot){
+		return bandit.addItem(itm, slot);
+	}
+
+	public boolean addItem(Grabable itm){
+		return bandit.addItem(itm);
+	}
+
+	public boolean removeItem(Grabable itm){
+		return bandit.removeItem(itm);
+	}
+
+	public Grabable getItem(int slot){
+		return bandit.getItem(slot);
+	}
 
 	public int getInventorySize(){
 		return 7;
