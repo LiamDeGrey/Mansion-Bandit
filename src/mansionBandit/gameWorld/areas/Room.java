@@ -17,6 +17,28 @@ public class Room implements MansionArea{
 	
 	public Room(){
 	}
+
+	//TODO this is all new untill the next todo <<<<<<<<<<<<<<<<<<<<<
+	private String wallTexture, ceilingTexture, floorTexture = null;
+	
+	public Room(String wall, String ceiling, String floor){
+		this.wallTexture = wall;
+		this.ceilingTexture = ceiling;
+		this.floorTexture = floor;
+	}
+	
+	public String getWallTexture(){
+		return wallTexture;
+	}
+	
+	public String getCeilingTexture(){
+		return ceilingTexture;
+	}
+	
+	public String getFloorTexture(){
+		return floorTexture;
+	}
+	//TODO end of new stuff>>>>>>>>>>>>>>>>>>>>>>>>>>
 	
 	public void setLinks(MansionArea north, MansionArea east, MansionArea south, MansionArea west){
 		this.north = north;

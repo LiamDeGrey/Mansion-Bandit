@@ -8,6 +8,10 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import mansionBandit.gameWorld.areas.Room;
+import mansionBandit.gameWorld.matter.Face;
+import mansionBandit.gameWorld.matter.GameMatter;
+
 /**
  * strategy for drawing items on back wall
  * @author Andy
@@ -19,6 +23,7 @@ public class BackWallStrategy implements SurfaceStrategy {
 	private int surfaceX, surfaceY, surfaceWidth, surfaceHeight;
 	private RoomView nextRoom = null;
 	private static String fog = "/walls/fog.png";
+	
 	@Override
 	public void paintSurface(Graphics g) {
 		//draw back rooms first
@@ -40,7 +45,7 @@ public class BackWallStrategy implements SurfaceStrategy {
 		for (DrawnObject ob : surface.objects){
 			BufferedImage obImage = null;
 			try {
-				obImage = ImageIO.read(this.getClass().getResource("/object/" + ob.getGameObject().getImage() + ".png"));
+				obImage = ImageIO.read(this.getClass().getResource("/object/" + ob.getImage() + ".png"));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -50,17 +55,12 @@ public class BackWallStrategy implements SurfaceStrategy {
 	}
 
 	@Override
-	public Object click(int x, int y) {
-		//TODO search floor for items
-		return null;
-	}
-
-	@Override
-	public void setupSurface(Surface surface, DEMOWALL wall) {
+	public void setupSurface(Surface surface, Face face) {
 		this.surface = surface;
 		try {
 			//set image for the view
-			surfaceTexture = ImageIO.read(this.getClass().getResource("/walls/" + surface.roomView.roomDEMO.getWall() + ".png"));
+			//surfaceTexture = ImageIO.read(this.getClass().getResource("/walls/" + surface.roomView.roomDEMO.getWall() + ".png"));
+			surfaceTexture = ImageIO.read(this.getClass().getResource("/walls/" + surface.roomView.room.getWallTexture() + ".png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -74,11 +74,11 @@ public class BackWallStrategy implements SurfaceStrategy {
 		int depth = surface.roomView.depth;
 		if (depth < surface.roomView.viewDepthMAX){
 			//TODO get next rooms from actual room
-			nextRoom = new RoomView(new DEMOROOM(), surfaceX, surfaceY, surfaceWidth, surfaceHeight, depth + 1);
+			//nextRoom = new RoomView(new DEMOROOM(), surfaceX, surfaceY, surfaceWidth, surfaceHeight, depth + 1);
 		}
 		
 		//create object list for surface
-		createGameObjects(wall);
+		createGameObjects(surface.roomView.room, face);
 	}
 	
 	/**
@@ -87,30 +87,31 @@ public class BackWallStrategy implements SurfaceStrategy {
 	 * 
 	 * @param wall
 	 */
-	private void createGameObjects(DEMOWALL wall){
+	private void createGameObjects(Room room, Face face){
 		List<DrawnObject> obs = new ArrayList<DrawnObject>();
 		//loop through objects on wall, and resize them
-		for (DEMOOBJECT ob : wall.getObjects()){
-			int size = (int) ((((double) ob.getSize()) / 100) * surfaceHeight);
-			int left = (int) (surfaceX + (ob.getX() * ((double) surfaceWidth / 100)) - (size / 2));
-			int top = (int) (surfaceY + (ob.getY() * ((double) surfaceHeight / 100)) - size);
-			System.out.print("origX= " + ob.getX() + ", left = " + left +
-					", origY= " + ob.getY() + ", top = " + top +
-					", width = " + size + ", height = " + size + 
-					", SurfaceTop= " + surfaceY + ", surfheight= " + surfaceHeight + "\n");
-			DrawnObject dob = new DrawnObject(ob, left, top, size, size);
+		for (GameMatter item : room.getItems()){
+			if (item.getFace() != face){
+				continue;
+			}
+			int scale = (int) ((((double) item.getDimensions().getScale()) / 100) * surfaceHeight);
+			int left = (int) (surfaceX + (item.getDimensions().getX() * ((double) surfaceWidth / 100)) - (scale / 2));
+			int top = (int) (surfaceY + (item.getDimensions().getY() * ((double) surfaceHeight / 100)) - scale);
+			//TODO remove debug print
+//			System.out.print("origX= " + item.getDimensions().getX() + ", left = " + left +
+//					", origY= " + item.getDimensions().getY() + ", top = " + top +
+//					", width = " + scale + ", height = " + scale + 
+//					", SurfaceTop= " + surfaceY + ", surfheight= " + surfaceHeight + "\n");
+			DrawnObject dob = new DrawnObject(item, left, top, scale, scale);
 			obs.add(dob);
 		}
 		surface.objects = obs;
 	}
-	
-	/**
-	 * orders objects according to those that should be drawn first
-	 * 
-	 * @param wall
-	 */
-	private void arrangeObjects(DEMOWALL wall){
-		
+
+	@Override
+	public GameMatter click(int x, int y) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

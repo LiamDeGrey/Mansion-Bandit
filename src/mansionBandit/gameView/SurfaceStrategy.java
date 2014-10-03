@@ -2,6 +2,9 @@ package mansionBandit.gameView;
 
 import java.awt.Graphics;
 
+import mansionBandit.gameWorld.matter.Face;
+import mansionBandit.gameWorld.matter.GameMatter;
+
 /**
  * SurfaceStrategy handles drawing each 'surface' in the game
  * 
@@ -10,6 +13,6 @@ import java.awt.Graphics;
  */
 public interface SurfaceStrategy {
 	public void paintSurface(Graphics g);
-	public Object click(int x, int y);
-	public void setupSurface(Surface surface, DEMOWALL wall);
+	public GameMatter click(int x, int y);
+	public void setupSurface(Surface surface, Face face);
 }

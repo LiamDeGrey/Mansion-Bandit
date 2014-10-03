@@ -19,7 +19,7 @@ public class GamePanel extends JPanel{
 	int width = 800;
 
 	//TODO get rid of demo
-	public RoomView demo;
+	public RoomView room;
 	
 	/**
 	 * returns the object the user clicked on
@@ -30,13 +30,13 @@ public class GamePanel extends JPanel{
 	 * @return the GameMatter object, whatever that may be, or null if non found
 	 */
 	public GameMatter getObject(int x, int y){
-		return null;
+		return room.findObjectByMouse(x, y);
 	}
 
 	public GamePanel(){
 		//TODO fully integrate
 		//currently this is a test integration of objects
-		Room demoRoom = new Room();
+		Room demoRoom = new Room("wall1", "ceiling1", "carpet1");
 		//demo object to be placed on all sides
 		demoRoom.addItem(makeDeco(Face.FLOOR));
 		demoRoom.addItem(makeDeco(Face.EASTERN));
@@ -44,8 +44,8 @@ public class GamePanel extends JPanel{
 		demoRoom.addItem(makeDeco(Face.SOUTHERN));
 		demoRoom.addItem(makeDeco(Face.CEILING));
 		demoRoom.addItem(makeDeco(Face.WESTERN));
-		demo = new RoomView(new DEMOROOM(), 0, 0, width, height, 0);
-		//demo = new RoomView(demoRoom, 0, 0, width, height, 0);
+		//room = new RoomView(new DEMOROOM(), 0, 0, width, height, 0);
+		room = new RoomView(demoRoom, 0, 0, width, height, 0);
 	}
 
 	//TODO remove
@@ -53,13 +53,13 @@ public class GamePanel extends JPanel{
 		int size = 20;
 		int x = (int) ((100 - size) * Math.random()) + (size / 2);
 		int y = (int) ((100 - size) * Math.random()) + size;
-		return new Decoration("decor", face, new Dimensions(x, y));
+		return new Decoration("testFace", face, new Dimensions(x, y, size));
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		demo.update();
-		demo.paintRoom(g);
+		room.update();
+		room.paintRoom(g);
 	}
 }

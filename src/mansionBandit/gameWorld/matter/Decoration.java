@@ -14,7 +14,7 @@ public class Decoration implements GameMatter{
 	private Face face;
 	private Dimensions pos;
 	private String name;
-
+	
 	public Decoration(String name, Face face, Dimensions pos){
 		this.face = face;
 		this.pos = pos;

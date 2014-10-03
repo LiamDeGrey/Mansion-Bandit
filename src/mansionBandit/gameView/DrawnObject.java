@@ -1,5 +1,7 @@
 package mansionBandit.gameView;
 
+import mansionBandit.gameWorld.matter.GameMatter;
+
 /**
  * wrapper class to hold a game object to be drawn
  * the wrapper holds the distorted size information, allowing
@@ -10,12 +12,16 @@ package mansionBandit.gameView;
  */
 public class DrawnObject implements Comparable<DrawnObject>{
 	//game object object referred to
-	private DEMOOBJECT gameObject;
+	private GameMatter gameObject;
 	//size data
 	private int boundX, boundY, width, height;
 	
-	public DEMOOBJECT getGameObject() {
+	public GameMatter getGameObject() {
 		return gameObject;
+	}
+	
+	public String getImage(){
+		return gameObject.getName();
 	}
 
 	public int getBoundX() {
@@ -34,8 +40,8 @@ public class DrawnObject implements Comparable<DrawnObject>{
 		return height;
 	}
 	
-	public int getSize(){
-		return gameObject.getSize();
+	public int getScale(){
+		return gameObject.getDimensions().getScale();
 	}
 
 	/**
@@ -45,7 +51,7 @@ public class DrawnObject implements Comparable<DrawnObject>{
 	 * @param y the y coordinate to check
 	 * @return the object if found, or null if point is not on object
 	 */
-	public DEMOOBJECT click(int x, int y){
+	public GameMatter click(int x, int y){
 		//TODO make better?
 		if (x < boundX || x > boundX + width || y < boundY || y > boundY + height){
 			return null;
@@ -53,7 +59,7 @@ public class DrawnObject implements Comparable<DrawnObject>{
 		return gameObject;
 	}
 
-	public DrawnObject(DEMOOBJECT ob, int x, int y, int w, int h){
+	public DrawnObject(GameMatter ob, int x, int y, int w, int h){
 		boundX = x;
 		boundY = y;
 		width = w;

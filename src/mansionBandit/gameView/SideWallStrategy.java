@@ -8,6 +8,10 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import mansionBandit.gameWorld.areas.Room;
+import mansionBandit.gameWorld.matter.Face;
+import mansionBandit.gameWorld.matter.GameMatter;
+
 public class SideWallStrategy implements SurfaceStrategy {
 	private boolean left;
 	private Surface surface;
@@ -27,9 +31,9 @@ public class SideWallStrategy implements SurfaceStrategy {
 			BufferedImage obImage = null;
 			try {
 				if (left){
-					obImage = ImageIO.read(this.getClass().getResource("/object/" + ob.getGameObject().getImage() + "L.png"));
+					obImage = ImageIO.read(this.getClass().getResource("/object/" + ob.getImage() + "L.png"));
 				}else {
-					obImage = ImageIO.read(this.getClass().getResource("/object/" + ob.getGameObject().getImage() + "R.png"));
+					obImage = ImageIO.read(this.getClass().getResource("/object/" + ob.getImage() + "R.png"));
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -40,20 +44,20 @@ public class SideWallStrategy implements SurfaceStrategy {
 	}
 
 	@Override
-	public Object click(int x, int y) {
+	public GameMatter click(int x, int y) {
 		//TODO implement clicking on side walls??
 		return null;
 	}
 
 	@Override
-	public void setupSurface(Surface surface, DEMOWALL wall) {
+	public void setupSurface(Surface surface, Face face) {
 		this.surface = surface;
 		try {
 			//set image for the view
 			if (left){
-				surfaceTexture = ImageIO.read(this.getClass().getResource("/walls/" + surface.roomView.roomDEMO.getWall() + "L.png"));
+				surfaceTexture = ImageIO.read(this.getClass().getResource("/walls/" + surface.roomView.room.getWallTexture() + "L.png"));
 			} else {
-				surfaceTexture = ImageIO.read(this.getClass().getResource("/walls/" + surface.roomView.roomDEMO.getWall() + "R.png"));
+				surfaceTexture = ImageIO.read(this.getClass().getResource("/walls/" + surface.roomView.room.getWallTexture() + "R.png"));
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -70,7 +74,7 @@ public class SideWallStrategy implements SurfaceStrategy {
 		}
 		
 		//create object list for surface
-		createGameObjects(wall);
+		createGameObjects(surface.roomView.room, face);
 	}
 	
 	/**
@@ -79,18 +83,20 @@ public class SideWallStrategy implements SurfaceStrategy {
 	 * 
 	 * @param wall
 	 */
-	private void createGameObjects(DEMOWALL wall){
+	private void createGameObjects(Room room, Face face){
 		List<DrawnObject> obs = new ArrayList<DrawnObject>();
 		
 		//loop through objects on floor, and resize them
-		for (DEMOOBJECT ob : wall.getObjects()){
-			
+		for (GameMatter item : room.getItems()){
+			if (item.getFace() != face){
+				continue;
+			}
 			//determine x and y based on direction facing in room
-			int x = ob.getX();
-			int y = ob.getY();
+			int x = item.getDimensions().getX();
+			int y = item.getDimensions().getY();
 			
 			//get base height of object
-			int size = (int) ((((double) ob.getSize()) / 100) * surfaceHeight);
+			int size = (int) ((((double) item.getDimensions().getScale()) / 100) * surfaceHeight);
 			
 			/* determine width and height based on distance away from viewer perspective
 			 * this causes items that are further away to appear smaller
@@ -122,7 +128,7 @@ public class SideWallStrategy implements SurfaceStrategy {
 			int left = (int) (surfaceX + (x * ((double) surfaceWidth / 100))) - (size / 4);
 			
 			//create the wrapped object and add to list
-			DrawnObject dob = new DrawnObject(ob, left, objectCenterY, size / 2, size);
+			DrawnObject dob = new DrawnObject(item, left, objectCenterY, size / 2, size);
 			obs.add(dob);
 		}
 		surface.objects = obs;

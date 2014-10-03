@@ -3,6 +3,9 @@ package mansionBandit.gameView;
 import java.awt.Graphics;
 import java.util.List;
 
+import mansionBandit.gameWorld.matter.Face;
+import mansionBandit.gameWorld.matter.GameMatter;
+
 /**
  * a wall (or surface in a room)
  * can represent either a ceiling, floor, or wall
@@ -14,20 +17,34 @@ import java.util.List;
  */
 public class Surface {
 	private SurfaceStrategy strategy;
+	private Face face;
 	protected RoomView roomView;
 	protected List<DrawnObject> objects;
-	private DEMOWALL wall;
+//	private DEMOWALL wall;
+	
+//	/**
+//	 * create surface object and configure strategy
+//	 * @param room
+//	 * @param strategy
+//	 */
+//	public Surface(RoomView room, DEMOWALL wall, SurfaceStrategy strategy){
+//		this.strategy = strategy;
+//		roomView = room;
+//		this.wall = wall;
+//		strategy.setupSurface(this, wall);
+//		//TODO add objects to surface
+//	}
 	
 	/**
 	 * create surface object and configure strategy
 	 * @param room
 	 * @param strategy
 	 */
-	public Surface(RoomView room, DEMOWALL wall, SurfaceStrategy strategy){
+	public Surface(RoomView room, Face face, SurfaceStrategy strategy){
 		this.strategy = strategy;
 		roomView = room;
-		this.wall = wall;
-		strategy.setupSurface(this, wall);
+		this.face = face;
+		strategy.setupSurface(this, face);
 		//TODO add objects to surface
 	}
 	
@@ -37,20 +54,20 @@ public class Surface {
 	 * @param newStrat the new surface
 	 */
 	public void setStrategy(SurfaceStrategy newStrat){
-		newStrat.setupSurface(this, wall);
+		newStrat.setupSurface(this, face);
 		strategy = newStrat;
 	}
 	
 	public void update(){
 		//TODO is a full version of setup necessary?
-		strategy.setupSurface(this, wall);
+		strategy.setupSurface(this, face);
 	}
 	
 	public void paint(Graphics g){
 		strategy.paintSurface(g);
 	}
 	
-	public Object findObject(int x, int y){
+	public GameMatter findObject(int x, int y){
 		//TODO look through objects on surface to find object on top, under coords
 		return strategy.click(x, y);
 	}

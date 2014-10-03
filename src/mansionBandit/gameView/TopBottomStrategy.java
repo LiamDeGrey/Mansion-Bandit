@@ -9,6 +9,13 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import com.sun.xml.internal.ws.dump.LoggingDumpTube.Position;
+
+import mansionBandit.gameWorld.areas.Room;
+import mansionBandit.gameWorld.matter.Dimensions;
+import mansionBandit.gameWorld.matter.Face;
+import mansionBandit.gameWorld.matter.GameMatter;
+
 public class TopBottomStrategy implements SurfaceStrategy {
 	private boolean ceiling;
 	private Surface surface;
@@ -28,7 +35,7 @@ public class TopBottomStrategy implements SurfaceStrategy {
 			BufferedImage obImage = null;
 			BufferedImage shadow = null;
 			try {
-				obImage = ImageIO.read(this.getClass().getResource("/object/" + ob.getGameObject().getImage() + ".png"));
+				obImage = ImageIO.read(this.getClass().getResource("/object/" + ob.getImage() + ".png"));
 				shadow = ImageIO.read(this.getClass().getResource("/object/shadow.png"));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -45,7 +52,7 @@ public class TopBottomStrategy implements SurfaceStrategy {
 	}
 
 	@Override
-	public Object click(int x, int y) {
+	public GameMatter click(int x, int y) {
 		if (ceiling){
 			return null;
 		}
@@ -54,14 +61,14 @@ public class TopBottomStrategy implements SurfaceStrategy {
 	}
 
 	@Override
-	public void setupSurface(Surface surface, DEMOWALL wall) {
+	public void setupSurface(Surface surface, Face face) {
 		this.surface = surface;
 		try {
 			//set image for the view
 			if (ceiling){
-				surfaceTexture = ImageIO.read(this.getClass().getResource("/ceilings/" + surface.roomView.roomDEMO.getCeiling() + ".png"));
+				surfaceTexture = ImageIO.read(this.getClass().getResource("/ceilings/" + surface.roomView.room.getCeilingTexture() + ".png"));
 			} else {
-				surfaceTexture = ImageIO.read(this.getClass().getResource("/floors/" + surface.roomView.roomDEMO.getFloor() + ".png"));
+				surfaceTexture = ImageIO.read(this.getClass().getResource("/floors/" + surface.roomView.room.getFloorTexture() + ".png"));
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -78,7 +85,7 @@ public class TopBottomStrategy implements SurfaceStrategy {
 		}
 
 		//create object list for surface
-		createGameObjects(wall);
+		createGameObjects(surface.roomView.room, face);
 	}
 	
 	/**
@@ -87,18 +94,20 @@ public class TopBottomStrategy implements SurfaceStrategy {
 	 * 
 	 * @param wall
 	 */
-	private void createGameObjects(DEMOWALL wall){
+	private void createGameObjects(Room room, Face face){
 		List<DrawnObject> obs = new ArrayList<DrawnObject>();
 		
 		//loop through objects on floor, and resize them
-		for (DEMOOBJECT ob : wall.getObjects()){
-			
+		for (GameMatter item : room.getItems()){
+			if (item.getFace() != face){
+				continue;
+			}
 			//determine x and y based on direction facing in room
-			int x = getX(ob);
-			int y = getY(ob);
+			int x = getX(item.getDimensions());
+			int y = getY(item.getDimensions());
 			
 			//get base height of object
-			int size = (int) ((((double) ob.getSize()) / 100) * (surfaceHeight * 4));
+			int size = (int) ((((double) item.getDimensions().getScale()) / 100) * (surfaceHeight * 4));
 			
 			/* determine width and height based on distance away from viewer perspective
 			 * this causes items that are further away to appear smaller
@@ -134,7 +143,7 @@ public class TopBottomStrategy implements SurfaceStrategy {
 			}
 			
 			//create the wrapped object and add to list
-			DrawnObject dob = new DrawnObject(ob, objectCenterX, top, size, size);
+			DrawnObject dob = new DrawnObject(item, objectCenterX, top, size, size);
 			obs.add(dob);
 		}
 		Collections.sort(obs);
@@ -145,53 +154,45 @@ public class TopBottomStrategy implements SurfaceStrategy {
 		surface.objects = obs;
 	}
 	
-	private int getX(DEMOOBJECT ob){
-		if (surface.roomView.roomDEMO.getDirection() == DEMOROOM.E){
+	private int getX(Dimensions dim){
+		Face face = surface.roomView.face;
+		if (face == Face.EASTERN){
 			if (ceiling){
-				return 100 - ob.getY();
+				return 100 - dim.getY();
 			}
-			return ob.getY();
+			return dim.getY();
 		}
-		if (surface.roomView.roomDEMO.getDirection() == DEMOROOM.S){
-			return 100 - ob.getX();
+		if (face == Face.SOUTHERN){
+			return 100 - dim.getX();
 		}
-		if (surface.roomView.roomDEMO.getDirection() == DEMOROOM.W){
+		if (face == Face.WESTERN){
 			if (ceiling){
-				return ob.getY();
+				return dim.getY();
 			}
-			return 100 - ob.getY();
+			return 100 - dim.getY();
 		}
 		//must be facing north
-		return ob.getX();
+		return dim.getX();
 	}
 	
-	private int getY(DEMOOBJECT ob){
-		if (surface.roomView.roomDEMO.getDirection() == DEMOROOM.E){
+	private int getY(Dimensions dim){
+		Face face = surface.roomView.face;
+		if (face == Face.EASTERN){
 			if (ceiling){
-				return ob.getX();
+				return dim.getX();
 			}
-			return 100 - ob.getX();
+			return 100 - dim.getX();
 		}
-		if (surface.roomView.roomDEMO.getDirection() == DEMOROOM.S){
-			return 100 - ob.getY();
+		if (face == Face.SOUTHERN){
+			return 100 - dim.getY();
 		}
-		if (surface.roomView.roomDEMO.getDirection() == DEMOROOM.W){
+		if (face == Face.WESTERN){
 			if (ceiling){
-				return 100 - ob.getX();
+				return 100 - dim.getX();
 			}
-			return ob.getX();
+			return dim.getX();
 		}
 		//must be facing north
-		return ob.getY();
+		return dim.getY();
 	}
-	
-	/**
-	 * orders objects according to those that should be drawn first
-	 * 
-	 * @param wall
-	 */
-	private void arrangeObjects(){
-		
-	}
-
 }

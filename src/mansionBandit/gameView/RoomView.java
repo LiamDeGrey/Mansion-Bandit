@@ -4,6 +4,7 @@ import java.awt.Graphics;
 
 import mansionBandit.gameWorld.areas.Room;
 import mansionBandit.gameWorld.matter.Face;
+import mansionBandit.gameWorld.matter.GameMatter;
 
 /**
  * RoomView contains all objects and information required to draw a view of a single room on the screen
@@ -12,7 +13,7 @@ import mansionBandit.gameWorld.matter.Face;
  *
  */
 public class RoomView {
-	public DEMOROOM roomDEMO;
+	//public DEMOROOM roomDEMO;
 	protected Room room;
 	private Surface ceiling, floor, left, right, back, behind;
 	protected int boundX, boundY, width, height, depth;
@@ -21,32 +22,32 @@ public class RoomView {
 	protected int directionDEMO;
 	protected Face face;
 
-	/**
-	 * constructor constructs the Surfaces from the given room, and
-	 * stores the rooms bounds
-	 */
-	//TODO remove
-	public RoomView(DEMOROOM room, int boundX, int boundY, int width, int height, int depth){
-
-		this.boundX = boundX;
-		this.boundY = boundY;
-		this.width = width;
-		this.height = height;
-		this.depth = depth;
-		directionDEMO = room.getDirection();
-
-		//TODO use Liams room object
-		this.roomDEMO = room;
-
-		//TODO create surfaces
-		ceiling = new Surface(this, room.getWall(room.C), new TopBottomStrategy(true));
-		floor = new Surface(this, room.getWall(room.F), new TopBottomStrategy(false));
-		back = new Surface(this, room.getWall(room.N), new BackWallStrategy());
-		left = new Surface(this, room.getWall(room.W), new SideWallStrategy(true));
-		right = new Surface(this, room.getWall(room.E), new SideWallStrategy(false));
-		//behind is never drawn
-		behind = new Surface(this, room.getWall(room.S), new BackWallStrategy());
-	}
+//	/**
+//	 * constructor constructs the Surfaces from the given room, and
+//	 * stores the rooms bounds
+//	 */
+//	//TODO remove
+//	public RoomView(DEMOROOM room, int boundX, int boundY, int width, int height, int depth){
+//
+//		this.boundX = boundX;
+//		this.boundY = boundY;
+//		this.width = width;
+//		this.height = height;
+//		this.depth = depth;
+//		directionDEMO = room.getDirection();
+//
+//		//TODO use Liams room object
+//		this.roomDEMO = room;
+//
+//		//TODO create surfaces
+//		ceiling = new Surface(this, room.getWall(room.C), new TopBottomStrategy(true));
+//		floor = new Surface(this, room.getWall(room.F), new TopBottomStrategy(false));
+//		back = new Surface(this, room.getWall(room.N), new BackWallStrategy());
+//		left = new Surface(this, room.getWall(room.W), new SideWallStrategy(true));
+//		right = new Surface(this, room.getWall(room.E), new SideWallStrategy(false));
+//		//behind is never drawn
+//		behind = new Surface(this, room.getWall(room.S), new BackWallStrategy());
+//	}
 
 	/**
 	 * constructor constructs the Surfaces from the given room, and
@@ -59,59 +60,70 @@ public class RoomView {
 		this.width = width;
 		this.height = height;
 		this.depth = depth;
+
+		//TODO get direction from player
 		face = Face.NORTHERN;
 
 		this.room = room;
+		
+		//TODO update to work in any direction
+		ceiling = new Surface(this, Face.CEILING, new TopBottomStrategy(true));
+		floor = new Surface(this, Face.FLOOR, new TopBottomStrategy(false));
+		back = new Surface(this, face.NORTHERN, new BackWallStrategy());
+		left = new Surface(this, face.WESTERN, new SideWallStrategy(true));
+		right = new Surface(this, face.EASTERN, new SideWallStrategy(false));
+		//behind is never drawn
+		behind = new Surface(this, face.SOUTHERN, new BackWallStrategy());
 
-		//TODO fix!
+//		//TODO fix!
 //		ceiling = new Surface(this, room.getWall(), new TopBottomStrategy(true));
 //		floor = new Surface(this, room.getWall(room.F), new TopBottomStrategy(false));
 //		back = new Surface(this, room.getWall(room.N), new BackWallStrategy());
 //		left = new Surface(this, room.getWall(room.W), new SideWallStrategy(true));
 //		right = new Surface(this, room.getWall(room.E), new SideWallStrategy(false));
-		//behind is never drawn
+//		//behind is never drawn
 //		behind = new Surface(this, room.getWall(room.S), new BackWallStrategy());
 	}
 
 	public void update(){
-		//TODO make much much MUCH nicer
-		//TODO account for moving into a new room
-		if (roomDEMO.getDirection() == directionDEMO){
-			return;
-		}
-		//update walls and direction
-
-		if (roomDEMO.getLeft(directionDEMO) == roomDEMO.getDirection()){
-			//we have turned left
-			Surface temp = back;
-			back = left;
-			left = behind;
-			behind = right;
-			right = temp;
-		} else if (roomDEMO.getLeft(roomDEMO.getLeft(directionDEMO)) == roomDEMO.getDirection()){
-			//we have turned around 180 degrees
-			Surface temp = back;
-			back = behind;
-			behind = temp;
-			temp = left;
-			left = right;
-			right = temp;
-		} else{
-			//we must have turned right
-			Surface temp = back;
-			back = right;
-			right = behind;
-			behind = left;
-			left = temp;
-		}
-
-		directionDEMO = roomDEMO.getDirection();
-
-		back.setStrategy(new BackWallStrategy());
-		left.setStrategy(new SideWallStrategy(true));
-		right.setStrategy(new SideWallStrategy(false));
-		ceiling.update();
-		floor.update();
+//		//TODO make much much MUCH nicer
+//		//TODO account for moving into a new room
+//		if (roomDEMO.getDirection() == directionDEMO){
+//			return;
+//		}
+//		//update walls and direction
+//
+//		if (roomDEMO.getLeft(directionDEMO) == roomDEMO.getDirection()){
+//			//we have turned left
+//			Surface temp = back;
+//			back = left;
+//			left = behind;
+//			behind = right;
+//			right = temp;
+//		} else if (roomDEMO.getLeft(roomDEMO.getLeft(directionDEMO)) == roomDEMO.getDirection()){
+//			//we have turned around 180 degrees
+//			Surface temp = back;
+//			back = behind;
+//			behind = temp;
+//			temp = left;
+//			left = right;
+//			right = temp;
+//		} else{
+//			//we must have turned right
+//			Surface temp = back;
+//			back = right;
+//			right = behind;
+//			behind = left;
+//			left = temp;
+//		}
+//
+//		directionDEMO = roomDEMO.getDirection();
+//
+//		back.setStrategy(new BackWallStrategy());
+//		left.setStrategy(new SideWallStrategy(true));
+//		right.setStrategy(new SideWallStrategy(false));
+//		ceiling.update();
+//		floor.update();
 	}
 
 	/**
@@ -139,12 +151,12 @@ public class RoomView {
 	 * @param y the y location of the mouse click
 	 * @return the object that was clicked (or null if not object found)
 	 */
-	public Object findObjectByMouse(int x, int y){
+	public GameMatter findObjectByMouse(int x, int y){
 
 		//TODO make work on side walls??? (or Ceiling (eg chandalier?))
 
 		//search floor Surface for object
-		Object found = floor.findObject(x,y);
+		GameMatter found = floor.findObject(x,y);
 		if (found != null){
 			//if no object found we will try the back wall
 			found = back.findObject(x,y);
