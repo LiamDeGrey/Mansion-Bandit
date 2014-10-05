@@ -22,33 +22,6 @@ public class RoomView {
 	protected int directionDEMO;
 	protected Face face;
 
-//	/**
-//	 * constructor constructs the Surfaces from the given room, and
-//	 * stores the rooms bounds
-//	 */
-//	//TODO remove
-//	public RoomView(DEMOROOM room, int boundX, int boundY, int width, int height, int depth){
-//
-//		this.boundX = boundX;
-//		this.boundY = boundY;
-//		this.width = width;
-//		this.height = height;
-//		this.depth = depth;
-//		directionDEMO = room.getDirection();
-//
-//		//TODO use Liams room object
-//		this.roomDEMO = room;
-//
-//		//TODO create surfaces
-//		ceiling = new Surface(this, room.getWall(room.C), new TopBottomStrategy(true));
-//		floor = new Surface(this, room.getWall(room.F), new TopBottomStrategy(false));
-//		back = new Surface(this, room.getWall(room.N), new BackWallStrategy());
-//		left = new Surface(this, room.getWall(room.W), new SideWallStrategy(true));
-//		right = new Surface(this, room.getWall(room.E), new SideWallStrategy(false));
-//		//behind is never drawn
-//		behind = new Surface(this, room.getWall(room.S), new BackWallStrategy());
-//	}
-
 	/**
 	 * constructor constructs the Surfaces from the given room, and
 	 * stores the rooms bounds
@@ -74,15 +47,6 @@ public class RoomView {
 		right = new Surface(this, face.EASTERN, new SideWallStrategy(false));
 		//behind is never drawn
 		behind = new Surface(this, face.SOUTHERN, new BackWallStrategy());
-
-//		//TODO fix!
-//		ceiling = new Surface(this, room.getWall(), new TopBottomStrategy(true));
-//		floor = new Surface(this, room.getWall(room.F), new TopBottomStrategy(false));
-//		back = new Surface(this, room.getWall(room.N), new BackWallStrategy());
-//		left = new Surface(this, room.getWall(room.W), new SideWallStrategy(true));
-//		right = new Surface(this, room.getWall(room.E), new SideWallStrategy(false));
-//		//behind is never drawn
-//		behind = new Surface(this, room.getWall(room.S), new BackWallStrategy());
 	}
 
 	public void update(){
@@ -157,7 +121,7 @@ public class RoomView {
 
 		//search floor Surface for object
 		GameMatter found = floor.findObject(x,y);
-		if (found != null){
+		if (found == null){
 			//if no object found we will try the back wall
 			found = back.findObject(x,y);
 		}
