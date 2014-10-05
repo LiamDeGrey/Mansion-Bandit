@@ -20,14 +20,13 @@ public class RoomView {
 	protected int boundX, boundY, width, height, depth;
 	public static int viewDepthMAX = 2;
 
-	protected int directionDEMO;
-	protected Face face;
+	protected Face playerDirection;
 
 	/**
 	 * constructor constructs the Surfaces from the given room, and
 	 * stores the rooms bounds
 	 */
-	public RoomView(MansionArea room, int boundX, int boundY, int width, int height, int depth){
+	public RoomView(MansionArea room, Face face, int boundX, int boundY, int width, int height, int depth){
 
 		this.boundX = boundX;
 		this.boundY = boundY;
@@ -36,18 +35,49 @@ public class RoomView {
 		this.depth = depth;
 
 		//TODO get direction from player
-		face = Face.NORTHERN;
+		this.playerDirection = face;
 
 		this.room = room;
 		
 		//TODO update to work in any direction
 		ceiling = new Surface(this, Face.CEILING, new TopBottomStrategy(true));
 		floor = new Surface(this, Face.FLOOR, new TopBottomStrategy(false));
-		back = new Surface(this, face.NORTHERN, new BackWallStrategy());
-		left = new Surface(this, face.WESTERN, new SideWallStrategy(true));
-		right = new Surface(this, face.EASTERN, new SideWallStrategy(false));
+		back = new Surface(this, getTurn(Face.NORTHERN), new BackWallStrategy());
+		left = new Surface(this, getTurn(face.WESTERN), new SideWallStrategy(true));
+		right = new Surface(this, getTurn(face.EASTERN), new SideWallStrategy(false));
 		//behind is never drawn
-		behind = new Surface(this, face.SOUTHERN, new BackWallStrategy());
+		//behind = new Surface(this, face.SOUTHERN, new BackWallStrategy());
+	}
+	
+	/**
+	 * helper method to transform directions based on which way the player is facing
+	 * @param face
+	 * @return
+	 */
+	private Face getTurn(Face face){
+		int leftAmount = 0;
+		switch (playerDirection){
+		case NORTHERN:
+			return face;
+		case WESTERN:
+			leftAmount = 1;
+			break;
+		case SOUTHERN:
+			leftAmount = 2;
+			break;
+		case EASTERN:
+			leftAmount = 3;
+		}
+		
+		switch (leftAmount){
+		case 1:
+			return Face.getLeft(face);
+		case 2:
+			return Face.getLeft(Face.getLeft(face));
+		case 3:
+			return Face.getLeft(Face.getLeft(Face.getLeft(face)));
+		}
+		return face;
 	}
 
 	public void update(){

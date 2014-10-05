@@ -16,6 +16,7 @@ import mansionBandit.gameWorld.matter.Face;
 
 public class TestScreen extends JFrame implements KeyListener{
 	GamePanel gamePanel;
+	Player p;
 	
 	public static void main(String[] args){
 		new TestScreen();
@@ -27,7 +28,7 @@ public class TestScreen extends JFrame implements KeyListener{
         setSize(800, 600);
 
         //create mock player objects
-        Player p = new Host("test player", 1);
+        p = new Host("test player", 1);
 
         //currently this is a test integration of objects
         Room demoRoom = new Room("wall1", "ceiling1", "carpet1");
@@ -61,8 +62,8 @@ public class TestScreen extends JFrame implements KeyListener{
 	@Override
 	public void keyPressed(KeyEvent arg0) {
 		// TODO Auto-generated method stub
-		//gamePanel.room.roomDEMO.setDirection(gamePanel.room.roomDEMO.getLeft(gamePanel.room.roomDEMO.getDirection()));
-		//gamePanel.repaint();
+		p.turnLeft();
+		gamePanel.update();
 	}
 
 	@Override

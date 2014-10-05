@@ -156,7 +156,7 @@ public class TopBottomStrategy implements SurfaceStrategy {
 	}
 	
 	private int getX(Dimensions dim){
-		Face face = surface.roomView.face;
+		Face face = surface.roomView.playerDirection;
 		if (face == Face.EASTERN){
 			if (ceiling){
 				return 100 - dim.getY();
@@ -177,7 +177,7 @@ public class TopBottomStrategy implements SurfaceStrategy {
 	}
 	
 	private int getY(Dimensions dim){
-		Face face = surface.roomView.face;
+		Face face = surface.roomView.playerDirection;
 		if (face == Face.EASTERN){
 			if (ceiling){
 				return dim.getX();

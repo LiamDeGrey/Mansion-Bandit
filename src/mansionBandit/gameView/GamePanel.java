@@ -37,24 +37,26 @@ public class GamePanel extends JPanel{
 	}
 
 	public GamePanel(){
-		//TODO fully integrate
-		//currently this is a test integration of objects
+		//TODO remove
 		Room demoRoom = new Room("wall1", "ceiling1", "carpet1");
-		//demo object to be placed on all sides
-//		demoRoom.addItem(makeDeco(Face.FLOOR));
-//		demoRoom.addItem(makeDeco(Face.EASTERN));
-//		demoRoom.addItem(makeDeco(Face.NORTHERN));
-//		demoRoom.addItem(makeDeco(Face.SOUTHERN));
-//		demoRoom.addItem(makeDeco(Face.CEILING));
-//		demoRoom.addItem(makeDeco(Face.WESTERN));
-		room = new RoomView(demoRoom, 0, 0, width, height, 0);
+		room = new RoomView(demoRoom, Face.NORTHERN, 0, 0, width, height, 0);
 	}
 
+	/**
+	 * creates a gamePanel using a Player object to determine the direction faced, and location
+	 * @param p
+	 */
 	public GamePanel(Player p){
 		player = p;
 		direction = player.getBandit().getFace();
 		
-		room = new RoomView(player.getBandit().getArea(), 0, 0, width, height, 0);
+		room = new RoomView(player.getBandit().getArea(), direction, 0, 0, width, height, 0);
+	}
+	
+	public void update(){
+		direction = player.getBandit().getFace();
+		room = new RoomView(player.getBandit().getArea(), direction, 0, 0, width, height, 0);
+		this.repaint();
 	}
 
 	@Override

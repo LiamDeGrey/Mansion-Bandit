@@ -40,5 +40,23 @@ public enum Face {
 		return -1;
 	}
 	
+	//TODO new stuff here<<<<<<<<<<<<<<<<<<<<<<<<
+	public static Face getLeft(Face face){
+		switch (face){
+		case NORTHERN:
+			return WESTERN;
+		case WESTERN:
+			return SOUTHERN;
+		case SOUTHERN:
+			return EASTERN;
+		case EASTERN:
+			return NORTHERN;
+		}
+		return null;
+	}
+	
+	
+	//TODO new stuff end>>>>>>>>>>>>>>>>>>>>>>>>>>
+	
 	
 }
