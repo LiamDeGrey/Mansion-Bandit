@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import mansionBandit.gameWorld.areas.MansionArea;
 import mansionBandit.gameWorld.areas.Room;
 import mansionBandit.gameWorld.matter.Face;
 import mansionBandit.gameWorld.matter.GameMatter;
@@ -83,7 +84,7 @@ public class SideWallStrategy implements SurfaceStrategy {
 	 * 
 	 * @param wall
 	 */
-	private void createGameObjects(Room room, Face face){
+	private void createGameObjects(MansionArea room, Face face){
 		List<DrawnObject> obs = new ArrayList<DrawnObject>();
 		
 		//loop through objects on floor, and resize them

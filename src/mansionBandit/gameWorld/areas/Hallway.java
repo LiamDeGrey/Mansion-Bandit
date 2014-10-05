@@ -1,5 +1,10 @@
 package mansionBandit.gameWorld.areas;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import mansionBandit.gameWorld.matter.GameMatter;
+
 /**
  * This class is a hallway in the mansion and has links to other hallways
  * and or rooms
@@ -12,6 +17,37 @@ package mansionBandit.gameWorld.areas;
  */
 public class Hallway implements MansionArea{
 	private MansionArea north, east, south, west;
+	
+	//TODO this is all new untill the next todo comment <<<<<<<<<<<<<<<<<<<<<
+	private List<GameMatter> items = new ArrayList<GameMatter>(); //need for chandaliers and stuff like that?
+	private String wallTexture, ceilingTexture, floorTexture = null;
+	
+	public Hallway(){
+		this.wallTexture = "hallwayWall";
+		this.ceilingTexture = "hallwayCeiling";
+		this.floorTexture = "hallwayFloor";
+	}
+	
+	public String getWallTexture(){
+		return wallTexture;
+	}
+	
+	public String getCeilingTexture(){
+		return ceilingTexture;
+	}
+	
+	public String getFloorTexture(){
+		return floorTexture;
+	}
+	
+	public void addItem(GameMatter itm){
+		items.add(itm);
+	}
+	
+	public List<GameMatter> getItems(){
+		return items;
+	}
+	//TODO end of new stuff>>>>>>>>>>>>>>>>>>>>>>>>>>
 	
 	public void setLinks(MansionArea north, MansionArea east, MansionArea south, MansionArea west){
 		this.north = north;

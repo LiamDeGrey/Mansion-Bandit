@@ -2,6 +2,7 @@ package mansionBandit.gameView;
 
 import java.awt.Graphics;
 
+import mansionBandit.gameWorld.areas.MansionArea;
 import mansionBandit.gameWorld.areas.Room;
 import mansionBandit.gameWorld.matter.Face;
 import mansionBandit.gameWorld.matter.GameMatter;
@@ -14,7 +15,7 @@ import mansionBandit.gameWorld.matter.GameMatter;
  */
 public class RoomView {
 	//public DEMOROOM roomDEMO;
-	protected Room room;
+	protected MansionArea room;
 	private Surface ceiling, floor, left, right, back, behind;
 	protected int boundX, boundY, width, height, depth;
 	public static int viewDepthMAX = 2;
@@ -26,7 +27,7 @@ public class RoomView {
 	 * constructor constructs the Surfaces from the given room, and
 	 * stores the rooms bounds
 	 */
-	public RoomView(Room room, int boundX, int boundY, int width, int height, int depth){
+	public RoomView(MansionArea room, int boundX, int boundY, int width, int height, int depth){
 
 		this.boundX = boundX;
 		this.boundY = boundY;

@@ -7,7 +7,9 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import sun.net.www.content.text.plain;
 import mansionBandit.gameWorld.areas.Room;
+import mansionBandit.gameWorld.main.Player;
 import mansionBandit.gameWorld.matter.Couch;
 import mansionBandit.gameWorld.matter.Decoration;
 import mansionBandit.gameWorld.matter.Face;
@@ -15,12 +17,13 @@ import mansionBandit.gameWorld.matter.Dimensions;
 import mansionBandit.gameWorld.matter.GameMatter;
 
 public class GamePanel extends JPanel{
-	int height = 600;
-	int width = 800;
+	private int height = 600;
+	private int width = 800;
+	private Player player;
+	private Face direction;
 
-	//TODO get rid of demo
 	public RoomView room;
-	
+
 	/**
 	 * returns the object the user clicked on
 	 * x and y should be given as relative to this panel, not the frame it is contained in
@@ -38,22 +41,20 @@ public class GamePanel extends JPanel{
 		//currently this is a test integration of objects
 		Room demoRoom = new Room("wall1", "ceiling1", "carpet1");
 		//demo object to be placed on all sides
-		demoRoom.addItem(makeDeco(Face.FLOOR));
-		demoRoom.addItem(makeDeco(Face.EASTERN));
-		demoRoom.addItem(makeDeco(Face.NORTHERN));
-		demoRoom.addItem(makeDeco(Face.SOUTHERN));
-		demoRoom.addItem(makeDeco(Face.CEILING));
-		demoRoom.addItem(makeDeco(Face.WESTERN));
-		//room = new RoomView(new DEMOROOM(), 0, 0, width, height, 0);
+//		demoRoom.addItem(makeDeco(Face.FLOOR));
+//		demoRoom.addItem(makeDeco(Face.EASTERN));
+//		demoRoom.addItem(makeDeco(Face.NORTHERN));
+//		demoRoom.addItem(makeDeco(Face.SOUTHERN));
+//		demoRoom.addItem(makeDeco(Face.CEILING));
+//		demoRoom.addItem(makeDeco(Face.WESTERN));
 		room = new RoomView(demoRoom, 0, 0, width, height, 0);
 	}
 
-	//TODO remove
-	private Decoration makeDeco(Face face){
-		int size = 20;
-		int x = (int) ((100 - size) * Math.random()) + (size / 2);
-		int y = (int) ((100 - size) * Math.random()) + size;
-		return new Decoration("testFace", face, new Dimensions(x, y, size));
+	public GamePanel(Player p){
+		player = p;
+		direction = player.getBandit().getFace();
+		
+		room = new RoomView(player.getBandit().getArea(), 0, 0, width, height, 0);
 	}
 
 	@Override
