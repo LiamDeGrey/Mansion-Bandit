@@ -3,8 +3,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-
-import mansionBandit.gameWorld.main.Main;
+import mansionBandit.gameWorld.main.Slave;
 
 /**
  * A client receives information about the current game world and uses it
@@ -18,15 +17,16 @@ public final class Client {
 	//game field needed
 	private ObjectOutputStream output;
 	private ObjectInputStream input;
-	private int uid = 5555; //unique id
+	private int uid; //unique id
 	private String username;
 
 	//Gets gameWorld from the server it connects to
-	private Main gameWorld;
+	private Slave player;
 
-	public Client (Socket socket, String username) {
+	public Client (Socket socket, String username, Slave player) {
 		this.socket = socket;
 		this.username = username;
+		this.player = player;
 	}
 
 	public void start() {
@@ -82,7 +82,7 @@ public final class Client {
 	/**
 	 * @return the gameWorld this client is using
 	 */
-	public Main getGameWorld(){
-		return gameWorld;
+	public Slave getPlayer(){
+		return player;
 	}
 }
