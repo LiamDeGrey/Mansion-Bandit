@@ -98,11 +98,6 @@ public class BackWallStrategy implements SurfaceStrategy {
 			int scale = (int) ((((double) item.getDimensions().getScale()) / 100) * surfaceHeight);
 			int left = (int) (surfaceX + (item.getDimensions().getX() * ((double) surfaceWidth / 100)) - (scale / 2));
 			int top = (int) (surfaceY + (item.getDimensions().getY() * ((double) surfaceHeight / 100)) - scale);
-			//TODO remove debug print
-//			System.out.print("origX= " + item.getDimensions().getX() + ", left = " + left +
-//					", origY= " + item.getDimensions().getY() + ", top = " + top +
-//					", width = " + scale + ", height = " + scale + 
-//					", SurfaceTop= " + surfaceY + ", surfheight= " + surfaceHeight + "\n");
 			DrawnObject dob = new DrawnObject(item, left, top, scale, scale);
 			obs.add(dob);
 		}
@@ -111,7 +106,12 @@ public class BackWallStrategy implements SurfaceStrategy {
 
 	@Override
 	public GameMatter click(int x, int y) {
-		// TODO Auto-generated method stub
+		for (DrawnObject ob : surface.objects){
+			GameMatter foundObject = ob.click(x, y);
+			if (foundObject != null){
+				return foundObject;
+			}
+		}
 		return null;
 	}
 
