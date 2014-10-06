@@ -12,7 +12,7 @@ import mansionBandit.gameWorld.areas.MansionArea;
 public class Slave extends Player{
 
 
-	public Slave(String name, MansionArea[][] grid){
-		super(name, grid);
+	public Slave(String name){
+		super(name);
 	}
 }

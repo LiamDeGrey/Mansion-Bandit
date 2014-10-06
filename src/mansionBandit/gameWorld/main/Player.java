@@ -21,9 +21,8 @@ public abstract class Player {
 		this.grid = new CreateRooms(rooms).getGrid();
 	}
 
-	public Player(String name, MansionArea[][] grid){
+	public Player(String name){
 		this.bandit = new Bandit(name);
-		this.grid = grid;
 	}
 
 	public Bandit getBandit(){
@@ -32,6 +31,10 @@ public abstract class Player {
 
 	public MansionArea[][] getGrid(){
 		return grid;
+	}
+
+	public void setGrid(MansionArea[][] grid){
+		this.grid = grid;
 	}
 
 	public void turnLeft(){
