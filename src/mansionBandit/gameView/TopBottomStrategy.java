@@ -9,8 +9,6 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
-import com.sun.xml.internal.ws.dump.LoggingDumpTube.Position;
-
 import mansionBandit.gameWorld.areas.MansionArea;
 import mansionBandit.gameWorld.areas.Room;
 import mansionBandit.gameWorld.matter.Dimensions;
@@ -22,7 +20,7 @@ public class TopBottomStrategy implements SurfaceStrategy {
 	private Surface surface;
 	private BufferedImage surfaceTexture;
 	private int surfaceX, surfaceY, surfaceWidth, surfaceHeight;
-	
+
 	public TopBottomStrategy(boolean top) {
 		this.ceiling = top;
 	}
@@ -88,16 +86,16 @@ public class TopBottomStrategy implements SurfaceStrategy {
 		//create object list for surface
 		createGameObjects(surface.roomView.room, face);
 	}
-	
+
 	/**
 	 * wraps objects to be drawn into DrawnObjects
 	 * with appropriate size and position distortion
-	 * 
+	 *
 	 * @param wall
 	 */
 	private void createGameObjects(MansionArea room, Face face){
 			List<DrawnObject> obs = new ArrayList<DrawnObject>();
-		
+
 		//loop through objects on floor, and resize them
 		for (GameMatter item : room.getItems()){
 			if (item.getFace() != face){
@@ -106,10 +104,10 @@ public class TopBottomStrategy implements SurfaceStrategy {
 			//determine x and y based on direction facing in room
 			int x = getX(item.getDimensions());
 			int y = getY(item.getDimensions());
-			
+
 			//get base height of object
 			int size = (int) ((((double) item.getDimensions().getScale()) / 100) * (surfaceHeight * 4));
-			
+
 			/* determine width and height based on distance away from viewer perspective
 			 * this causes items that are further away to appear smaller
 			 * (variable scale is the level of scaling to apply as a double between 0.5 and 1) */
@@ -120,7 +118,7 @@ public class TopBottomStrategy implements SurfaceStrategy {
 			}
 			//apply scale
 			size = (int) (size * scale);
-						
+
 			//determine where the horizontal center of the image should be
 			int objectCenterX = (int) (surfaceX + (x * ((double) surfaceWidth / 100)));
 			//have to alter horizontal position to be closer to the center when further back
@@ -128,21 +126,21 @@ public class TopBottomStrategy implements SurfaceStrategy {
 			int diff = Math.abs(surfaceCenterX - objectCenterX);
 			//apply scaling to the diff
 			diff = (int) (diff * scale);
-			
+
 			//apply the new x position, and account for having to draw from top left corner
 			if (objectCenterX < surfaceCenterX){
 				objectCenterX = surfaceCenterX - diff - (size / 2);
 			} else if (surfaceCenterX < objectCenterX){
 				objectCenterX = surfaceCenterX + diff - (size / 2);
 			}
-			
+
 			//TODO change variable names so that we're not relying on scope?
 			int top = (int) (surfaceY + (y * ((double) surfaceHeight / 100)));
 			if (!this.ceiling){
 				//objects y positions are anchored at the top of the object if being drawn on the ceiling, so no need to modify y here
 				top -= size;
 			}
-			
+
 			//create the wrapped object and add to list
 			DrawnObject dob = new DrawnObject(item, objectCenterX, top, size, size);
 			obs.add(dob);
@@ -154,7 +152,7 @@ public class TopBottomStrategy implements SurfaceStrategy {
 		}
 		surface.objects = obs;
 	}
-	
+
 	private int getX(Dimensions dim){
 		Face face = surface.roomView.playerDirection;
 		if (face == Face.EASTERN){
@@ -175,7 +173,7 @@ public class TopBottomStrategy implements SurfaceStrategy {
 		//must be facing north
 		return dim.getX();
 	}
-	
+
 	private int getY(Dimensions dim){
 		Face face = surface.roomView.playerDirection;
 		if (face == Face.EASTERN){
