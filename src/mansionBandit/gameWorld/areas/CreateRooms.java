@@ -33,7 +33,7 @@ public class CreateRooms {
 		}
 	}
 
-	/*
+	/**
 	 * this method puts items in the rooms randomly, some rooms wont have items
 	 * and some rooms will have multiple items
 	 */
@@ -60,7 +60,7 @@ public class CreateRooms {
 	}
 
 
-	/*
+	/**
 	 * Sets the layout of the rooms and adds links to the hallways and
 	 * the rooms
 	 */
@@ -124,7 +124,7 @@ public class CreateRooms {
 	}
 
 
-	/*
+	/**
 	 * Draws a textual map in the console to show
 	 * the layout of the rooms
 	 */

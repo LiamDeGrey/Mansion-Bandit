@@ -13,8 +13,8 @@ public enum Face {
 	WESTERN,
 	FLOOR,
 	CEILING;
-	
-	/*
+
+	/**
 	 * Gets the face when given a number between 0 and 5 inclusive
 	 */
 	public static Face getFace(int place){
@@ -26,8 +26,8 @@ public enum Face {
 		else if(place==5) return CEILING;
 		return null;
 	}
-	
-	/*
+
+	/**
 	 * Gets the placing of a face when given a face
 	 */
 	public static int getFaceNum(Face face){
@@ -39,8 +39,7 @@ public enum Face {
 		else if(face==CEILING) return 5;
 		return -1;
 	}
-	
-	//TODO new stuff here<<<<<<<<<<<<<<<<<<<<<<<<
+
 	public static Face getLeft(Face face){
 		switch (face){
 		case NORTHERN:
@@ -54,9 +53,5 @@ public enum Face {
 		}
 		return null;
 	}
-	
-	
-	//TODO new stuff end>>>>>>>>>>>>>>>>>>>>>>>>>>
-	
-	
+
 }

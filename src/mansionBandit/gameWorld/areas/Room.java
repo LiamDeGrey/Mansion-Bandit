@@ -14,63 +14,64 @@ import mansionBandit.gameWorld.matter.GameMatter;
 public class Room implements MansionArea{
 	private MansionArea north, east, south, west;
 	private List<GameMatter> items = new ArrayList<GameMatter>();
-	
-	public Room(){
-	}
-
-	//TODO this is all new untill the next todo <<<<<<<<<<<<<<<<<<<<<
 	private String wallTexture, ceilingTexture, floorTexture = null;
-	
+
 	public Room(String wall, String ceiling, String floor){
 		this.wallTexture = wall;
 		this.ceilingTexture = ceiling;
 		this.floorTexture = floor;
 	}
-	
+
+	/*
+	 * For testing purposes primarily
+	 */
+	public Room(){
+
+	}
+
 	public String getWallTexture(){
 		return wallTexture;
 	}
-	
+
 	public String getCeilingTexture(){
 		return ceilingTexture;
 	}
-	
+
 	public String getFloorTexture(){
 		return floorTexture;
 	}
-	//TODO end of new stuff>>>>>>>>>>>>>>>>>>>>>>>>>>
-	
+
 	public void setLinks(MansionArea north, MansionArea east, MansionArea south, MansionArea west){
 		this.north = north;
 		this.east = east;
 		this.south = south;
 		this.west = west;
 	}
-	
+
 	public void addItem(GameMatter itm){
 		items.add(itm);
 	}
-	
+
 	public List<GameMatter> getItems(){
 		return items;
 	}
-	
+
 	public MansionArea getNorth(){
 		return north;
 	}
-	
+
 	public MansionArea getEast(){
 		return east;
 	}
-	
+
 	public MansionArea getSouth(){
 		return south;
 	}
-	
+
 	public MansionArea getWest(){
 		return west;
 	}
-	
+
 	@Override
 	public boolean equals(Object o){
 		MansionArea compared = (MansionArea)o;

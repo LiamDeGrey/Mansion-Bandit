@@ -23,7 +23,7 @@ public class Bandit extends Character{
 	public Bandit(String name) {
 
 	}
-	
+
 	@Override
 	public MansionArea getArea() {
 		return area;
@@ -42,7 +42,7 @@ public class Bandit extends Character{
 	public Dimensions getDimensions() {
 		return dimensions;
 	}
-	
+
 	@Override
 	public void setDimensions(Dimensions d) {
 		dimensions = d;
@@ -62,8 +62,8 @@ public class Bandit extends Character{
 	public BufferedImage getImage() {
 		return null;
 	}
-	
-	/*
+
+	/**
 	 * bandit moves forward
 	 */
 	public boolean moveForward() {
@@ -73,15 +73,15 @@ public class Bandit extends Character{
 		else if(face==Face.EASTERN) area =getArea().getEast();
 		else if(face==Face.SOUTHERN) area =getArea().getSouth();
 		else if(face==Face.WESTERN) area =getArea().getWest();
-		
+
 		if(area!=null) {
 			setArea(area);
 			return true;
 		}
 		return false;
 	}
-	
-	/*
+
+	/**
 	 * makes the bandit look to the left
 	 */
 	public void turnLeft(){
@@ -90,8 +90,8 @@ public class Bandit extends Character{
 		else current--;
 		setFace(Face.getFace(current));
 	}
-	
-	/*
+
+	/**
 	 * makes the bandit look right
 	 */
 	public void turnRight(){
