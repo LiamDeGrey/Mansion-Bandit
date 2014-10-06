@@ -7,7 +7,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import mansionBandit.gameWorld.main.Main;
+import mansionBandit.gameWorld.main.Host;
+
 
 /**
  * The Server receives updates from clients via a socket. This updates the Server's version
@@ -22,14 +23,13 @@ public final class Server {
 	private int port, playerLimit;
 	private ArrayList<ClientThread> clientList;
 	private boolean end;
+	protected Host player;
 
-	private Main gameWorld;
-
-	public Server(int port, int playerLimit, String userName, Main gameWorld) {
+	public Server(int port, int playerLimit, String userName, Host player) {
 		this.port = port;
 		this.playerLimit = playerLimit;
-		this.gameWorld = gameWorld;
 		clientList = new ArrayList<ClientThread>();
+		this.player = player;
 	}
 
 	public void start() {

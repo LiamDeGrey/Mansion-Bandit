@@ -29,8 +29,8 @@ import mansionBandit.gameView.GamePanel;
 import mansionBandit.gameWorld.areas.MansionArea;
 import mansionBandit.gameWorld.areas.CreateRooms;
 import mansionBandit.gameWorld.main.Host;
-import mansionBandit.gameWorld.main.Main;
 import mansionBandit.gameWorld.main.Player;
+import mansionBandit.gameWorld.main.Slave;
 import mansionBandit.gameWorld.matter.Bandit;
 import mansionBandit.gameWorld.matter.Grabable;
 import mansionBandit.network.Client;
@@ -80,8 +80,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	//the player this window is used by/applies to
 	private Player player;
 
-	//the main class of the game
-	private Main gameWorld;
+
 
 
 	//GUI FIELDS//
@@ -95,6 +94,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 	//the pane that all components are added to so that they can stack properly
 	private JLayeredPane layeredPane;
+
 
 	public GameFrame(ApplicationMain main) {
 		super();
@@ -274,8 +274,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	//remove the main menu
 	this.remove(mainMenu);
 
-	//create the game that the ApplicationWindow will interact with
-	gameWorld = new Main();
+
 
 	//creates player that this applicationWindow applies to
 	//TODO make create player
@@ -303,7 +302,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 
 	//add the rendering panel
-	gamePanel = new GamePanel();
+	gamePanel = new GamePanel(player);
 	gamePanel.setBounds(0,0,windowDimensionX,windowDimensionY);
 	gamePanel.setOpaque(false);
 	//adds it at bottom layer of the pane
@@ -591,8 +590,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 		}
 
 		else if (KeyEvent.getKeyText(e.getKeyCode()).equals("A")) {
-			gamePanel.demo.roomDEMO.setDirection(gamePanel.demo.roomDEMO.getLeft(gamePanel.demo.roomDEMO.getDirection()));
-			gamePanel.repaint();
+
 			// turn the player left
 			player.turnLeft();
 		}
@@ -667,20 +665,14 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 		Socket s = new Socket(address, port);
 		System.out.println("Client connecting to: " + address + " on port: " + port);
 
-		gameWorld = new Main();
-		//TODO get player
-		//player = gameWorld.makeNewPlayer()
+		player = new Slave(username);
 
-
-		Client client = new Client(s, username);
+		Client client = new Client(s, username,(Slave)player);
 
 		client.start();
 
-		//gets the gameWorld from the client because the gameworld is specific to the host
-		gameWorld = client.getGameWorld();
 
-		//TODO get player
-		//player = gameWorld.makeNewPlayer();
+
 	}
 
 	//TODO: this method requires a game world parameter
@@ -688,12 +680,12 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 		System.out.println("Creating server on port " + port + " with " + nclients + " limit");
 
 		//creates a game object that the server hosts
-		gameWorld = new Main();
-		//TODO get player
-		//player = gameWorld.makeNewPlayer()
+		player = new Host(userName, 25);
 
+		//grid = player.getGrid();
 
-		new Server(port, nclients, userName,gameWorld).start();
+		//creates a new server
+		new Server(port, nclients, userName,(Host)player).start();
 	}
 
 
