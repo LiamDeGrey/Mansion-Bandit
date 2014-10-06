@@ -31,14 +31,7 @@ public class TestScreen extends JFrame implements KeyListener{
         p = new Host("test player", 1);
 
         //currently this is a test integration of objects
-        Room demoRoom = new Room("wall1", "ceiling1", "carpet1");
-        //demo object to be placed on all sides
-        demoRoom.addItem(makeDeco(Face.FLOOR));
-        demoRoom.addItem(makeDeco(Face.EASTERN));
-        demoRoom.addItem(makeDeco(Face.NORTHERN));
-        demoRoom.addItem(makeDeco(Face.SOUTHERN));
-        demoRoom.addItem(makeDeco(Face.CEILING));
-        demoRoom.addItem(makeDeco(Face.WESTERN));
+        Room demoRoom = makeRoom();
 
         p.getBandit().setArea(demoRoom);
         
@@ -49,6 +42,20 @@ public class TestScreen extends JFrame implements KeyListener{
         add(gamePanel, BorderLayout.CENTER);
         addKeyListener(this);
         setVisible(true);
+	}
+	
+	public Room makeRoom(){
+		//currently this is a test integration of objects
+        Room demoRoom = new Room("wall1", "ceiling1", "carpet1");
+        //demo object to be placed on all sides
+        demoRoom.addItem(makeDeco(Face.FLOOR));
+        demoRoom.addItem(makeDeco(Face.EASTERN));
+        demoRoom.addItem(makeDeco(Face.NORTHERN));
+        demoRoom.addItem(makeDeco(Face.SOUTHERN));
+        demoRoom.addItem(makeDeco(Face.CEILING));
+        demoRoom.addItem(makeDeco(Face.WESTERN));
+        
+        return demoRoom;
 	}
 
 	//TODO remove
