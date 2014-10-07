@@ -15,9 +15,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.Socket;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -38,6 +40,7 @@ import mansionBandit.gameWorld.matter.Decoration;
 import mansionBandit.gameWorld.matter.Dimensions;
 import mansionBandit.gameWorld.matter.Face;
 import mansionBandit.gameWorld.matter.Grabable;
+import mansionBandit.gameWorld.matter.Key;
 import mansionBandit.network.Client;
 import mansionBandit.network.Server;
 
@@ -52,7 +55,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	private ApplicationMain game;
 
 	//The main drawing class
-	GameCanvas canvas = new GameCanvas();
+	//GameCanvas canvas = new GameCanvas();
 
 	// window dimensions
 	private int windowDimensionX = 1024;
@@ -401,7 +404,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 				// see if there is an object or enemy at this position and
 				// whether it can be used on it
-				if (canvas.getItemAt(e.getPoint()) != null) {
+				if (gamePanel.getObject(e.getPoint().x,e.getPoint().y) != null) {
 
 					// check if the item being dragged can be used on the
 					// targeted item
@@ -463,7 +466,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 				// check if there is an object/creature/item at mouse position
 
-				if (canvas.getItemAt(e.getPoint()) != null) {
+				if (gamePanel.getObject(e.getPoint().x,e.getPoint().y) != null) {
 
 					// change the description text to the items description
 					descriptionText = game.getDescription(game.getInstanceAt(e
@@ -508,21 +511,17 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 				if (draggingItem == null) {
 					// check if there is an item that can be dragged at the current
 					// mouse position
-					if (canvas.getItemAt(e.getPoint()) instanceof Grabable) {
+					if (gamePanel.getObject(e.getPoint().x,e.getPoint().y) instanceof Grabable) {
 
 						// begin dragging the item at mouse position
-						draggingItem = canvas.getItemAt(e.getPoint());
+						draggingItem = (Grabable) gamePanel.getObject(e.getPoint().x,e.getPoint().y);
 
 						//hide the item from the room so that it no longer appears on the screen and CANT BE INTERRACTED WITH
 						//TODO: remove item from room
 						//draggingItem.remove();
 
 						// SET CURSOR TO ITEM HERE //
-						//create a cursor with item as image
-						itemImageCursor = Toolkit.getDefaultToolkit().createCustomCursor(draggingItem.getImage(),new Point(1,1), "itemCursor");
-
-						//set the cursor to be this custom cursor
-						e.getComponent().setCursor(itemImageCursor);
+						setCursorImage(e, draggingItem.getName() +".png");
 					}
 				}
 					//else check if they selected an item in an inventory slot and that slot has an item in it
@@ -538,13 +537,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 						draggingItem = inventoryItem;
 
 						// SET CURSOR TO ITEM HERE //
-						//create a cursor with item as image
-						itemImageCursor = Toolkit.getDefaultToolkit()
-								.createCustomCursor(draggingItem.getImage(),
-										e.getPoint(), "itemCursor");
-
-						//set the cursor to be this custom cursor
-						e.getComponent().setCursor(itemImageCursor);
+						setCursorImage(e, draggingItem.getImage());
 					}
 
 				guiCanvas.repaint();
@@ -700,6 +693,41 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 
 	/**
+	 * sets the cursor to a custom image given by item name
+	 * @param e the mouse that will have its cursor set
+	 * @param itemName the string for the image
+	 */
+	private void setCursorImage(MouseEvent e, String itemName){
+
+		//set up the path to the image
+		String imgPath = "GameMatter/"+itemName;
+
+		//set up the image
+		BufferedImage img;
+		System.out.println(itemName);
+		try {
+
+			System.out.printf("/object/" + itemName);
+			img = ImageIO.read(this.getClass().getResource("/object/" + itemName));
+			//obImage = ImageIO.read(this.getClass().getResource("/object/" + ob.getImage() + ".png"));
+
+
+			//create a cursor with item as image
+			itemImageCursor = Toolkit.getDefaultToolkit().createCustomCursor(img,new Point(1,1), "itemCursor");
+
+			//set the cursor to be this custom cursor
+			e.getComponent().setCursor(itemImageCursor);
+
+		} catch (IOException a) {
+
+			a.printStackTrace();
+		}
+
+
+	}
+
+
+	/**
 	 * @return the item being dragged by the player
 	 */
 	public Grabable getDraggingItem() {
@@ -741,11 +769,12 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	}
 
 	//TODO remove
-	private Decoration makeDeco(Face face){
+	private Grabable makeDeco(Face face){
 		int size = 20;
 		int x = (int) ((100 - size) * Math.random()) + (size / 2);
 		int y = (int) ((100 - size) * Math.random()) + size;
-		return new Decoration("testFace", face, new Dimensions(x, y, size));
+		return new Key("testFace", face, new Dimensions(x, y, size));
+		//return new Grabable("testFace", face, new Dimensions(x, y, size));
 	}
 
 }
