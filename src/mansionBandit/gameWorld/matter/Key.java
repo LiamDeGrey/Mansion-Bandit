@@ -65,6 +65,16 @@ public class Key extends Grabable{
 		return "key.png";
 	}
 
+	@Override
+	public boolean useItemOn(Grabable playerItm, GameMatter itm){
+		if(itm instanceof Door){
+			if(((Door) itm).needsKey().equals(playerItm.getName())){
+				((Door) itm).setLocked(false);
+			}
+		}
+		return false;
+	}
+
 
 
 }

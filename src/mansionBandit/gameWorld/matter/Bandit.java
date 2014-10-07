@@ -100,7 +100,7 @@ public class Bandit extends Character{
 
 	@Override
 	public String getImage() {
-		return null;
+		return "bandit.png";
 	}
 
 	/**
