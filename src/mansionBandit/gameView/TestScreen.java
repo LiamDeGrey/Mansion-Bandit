@@ -33,34 +33,39 @@ public class TestScreen extends JFrame implements KeyListener{
         //currently this is a test integration of objects
         Room demoRoom = makeRoom();
         
-        // R R R
-        // H H H
-        // R R R
+        //           X
+        //    [0][1][2][3][4]
+        // [0] _  R  R  R  _
+        //Y[1] R  H  H  H  R
+        // [2] _  R  R  R  _
+        //		[y][x]
         
-        MansionArea[][] grid = new MansionArea[3][3];
+        MansionArea[][] grid = new MansionArea[3][5];
         //rooms
         Room room1 = new Room("flowers", "ceiling1", "carpet1");
         Room room2 = new Room("wall1", "ceiling1", "carpet1");
         
-        grid[0][0] = room1;
-        grid[0][1] = room2;
-        grid[0][2] = room1;
-        grid[2][0] = room1;
+        grid[1][0] = room2;
+        grid[0][1] = room1;
+        grid[0][2] = room2;
+        grid[0][3] = room1;
         grid[2][1] = room1;
-        grid[2][2] = room2;
+        grid[2][2] = room1;
+        grid[2][3] = room2;
+        grid[1][4] = room1;
         
         //halways
-        grid[1][0] = new Hallway();
         grid[1][1] = new Hallway();
         grid[1][2] = new Hallway();
+        grid[1][3] = new Hallway();
         
-        grid[1][0].setLinks(grid[0][0], grid[1][1], grid[2][0], null);
-        grid[1][1].setLinks(grid[0][1], grid[1][2], grid[2][1], grid[1][1]);
-        grid[1][2].setLinks(grid[0][2], null, grid[2][2], grid[1][1]);
-        p.getBandit().setArea(grid[1][0]);
+        grid[1][1].setLinks(grid[0][1], grid[1][2], grid[2][1], grid[1][0]); //[1][1]
+        grid[1][2].setLinks(grid[0][2], grid[1][3], grid[2][2], grid[1][1]); //[1][2]
+        grid[1][3].setLinks(grid[0][3], grid[1][4], grid[2][3], grid[1][2]); //[1][3]
+        p.getBandit().setArea(grid[1][1]);
 //        p.getBandit().setArea(demoRoom);
 
-        p.getBandit().setFace(Face.NORTHERN);
+        p.getBandit().setFace(Face.EASTERN);
 
         gamePanel = new GamePanel(p);
 
