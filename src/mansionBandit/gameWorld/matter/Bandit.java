@@ -1,10 +1,10 @@
 package mansionBandit.gameWorld.matter;
 
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
 import mansionBandit.gameWorld.areas.MansionArea;
+import mansionBandit.gameWorld.areas.StartSpace;
 
 
 /**
@@ -19,9 +19,49 @@ public class Bandit extends Character{
 	private String name;
 	private List<Grabable> inventory = new ArrayList<Grabable>();
 	private MansionArea area;
+	private StartSpace van;
+	private MansionArea[][] grid;
+
+	public Bandit(String name, MansionArea[][] grid) {
+		this.name = name;
+		this.grid = grid;
+		setStartSpace();
+	}
 
 	public Bandit(String name) {
+		this.name = name;
+	}
 
+	/**
+	 * Sets the spot this bandit will start at
+	 */
+	public void setStartSpace(){
+		van = new StartSpace();
+		MansionArea leftMid = grid[grid.length/2][0];
+		MansionArea topMid = grid[0][grid[0].length/2];
+		MansionArea rightMid = grid[grid.length/2][grid[0].length-1];
+		MansionArea botMid = grid[0][grid[0].length/2];
+
+
+		if(leftMid.getWest()==null){
+			van.setLinks(null, leftMid, null, null);
+			leftMid.setWest(van);
+		}else if(topMid.getNorth()==null){
+			van.setLinks(null, null, topMid, null);
+			topMid.setNorth(van);
+		}else if(rightMid.getEast()==null){
+			van.setLinks(null, null, null, rightMid);
+			rightMid.setEast(van);
+		}else if(botMid.getSouth()==null){
+			van.setLinks(botMid, null, null, null);
+			botMid.setSouth(van);
+		}else
+			System.out.println("Cannot add more than 4 players!!");
+	}
+
+	public void setGrid(MansionArea[][] grid){
+		this.grid = grid;
+		setStartSpace();
 	}
 
 	@Override
@@ -59,7 +99,7 @@ public class Bandit extends Character{
 	}
 
 	@Override
-	public BufferedImage getImage() {
+	public String getImage() {
 		return null;
 	}
 

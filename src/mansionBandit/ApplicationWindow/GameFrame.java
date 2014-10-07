@@ -27,7 +27,7 @@ import javax.swing.JPanel;
 
 import mansionBandit.gameView.GamePanel;
 import mansionBandit.gameWorld.areas.MansionArea;
-import mansionBandit.gameWorld.areas.CreateRooms;
+import mansionBandit.gameWorld.areas.Grid;
 import mansionBandit.gameWorld.main.Host;
 import mansionBandit.gameWorld.main.Main;
 import mansionBandit.gameWorld.main.Player;
@@ -283,7 +283,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 	//TODO Make proper create player method
 
-	CreateRooms r = new CreateRooms(1);
+	Grid r = new Grid(1);
 	player = new Host("", 20);
 
 

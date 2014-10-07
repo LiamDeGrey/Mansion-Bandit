@@ -46,6 +46,18 @@ public interface MansionArea {
 	public MansionArea getEast();
 
 
+	public void setNorth(MansionArea area);
+
+
+	public void setSouth(MansionArea area);
+
+
+	public void setWest(MansionArea area);
+
+
+	public void setEast(MansionArea area);
+
+
 	/**
 	 * adds an item to the area
 	 * @param itm the item to add to the room

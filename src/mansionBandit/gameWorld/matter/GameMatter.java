@@ -1,7 +1,5 @@
 package mansionBandit.gameWorld.matter;
 
-import java.awt.image.BufferedImage;
-
 import mansionBandit.gameWorld.areas.MansionArea;
 
 
@@ -43,13 +41,13 @@ public interface GameMatter {
 	public void setArea(MansionArea r);
 
 	/**
-	 * returns the name of object, to be used for png files
+	 * returns the name of object
 	 */
 	public String getName();
 
 	/**
 	 * returns the Image of the matter
 	 */
-	public BufferedImage getImage();
+	public String getImage();
 
 }

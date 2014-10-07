@@ -1,7 +1,7 @@
 package mansionBandit.gameWorld.main;
 
 import mansionBandit.gameWorld.areas.MansionArea;
-import mansionBandit.gameWorld.areas.CreateRooms;
+import mansionBandit.gameWorld.areas.Grid;
 import mansionBandit.gameWorld.matter.Bandit;
 import mansionBandit.gameWorld.matter.Grabable;
 
@@ -17,8 +17,8 @@ public abstract class Player {
 	private Bandit bandit;
 
 	public Player(String name, int rooms){
-		this.bandit = new Bandit(name);
-		this.grid = new CreateRooms(rooms).getGrid();
+		this.grid = new Grid(rooms).getGrid();
+		this.bandit = new Bandit(name, grid);
 	}
 
 	public Player(String name){
@@ -35,6 +35,7 @@ public abstract class Player {
 
 	public void setGrid(MansionArea[][] grid){
 		this.grid = grid;
+		bandit.setGrid(grid);
 	}
 
 	public void turnLeft(){

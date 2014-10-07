@@ -1,7 +1,5 @@
 package mansionBandit.gameWorld.matter;
 
-import java.awt.image.BufferedImage;
-
 import mansionBandit.gameWorld.areas.MansionArea;
 
 
@@ -38,7 +36,7 @@ public class Chest extends Openable {
 	}
 
 	@Override
-	public BufferedImage getImage() {
+	public String getImage() {
 		return null;
 	}
 
@@ -50,19 +48,19 @@ public class Chest extends Openable {
 	@Override
 	public void setFace(Face f) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setDimensions(Dimensions d) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setArea(MansionArea r) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

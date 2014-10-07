@@ -83,4 +83,24 @@ public class Room implements MansionArea{
 		return false;
 	}
 
+	@Override
+	public void setNorth(MansionArea area) {
+		this.north = area;
+	}
+
+	@Override
+	public void setSouth(MansionArea area) {
+		this.south = area;
+	}
+
+	@Override
+	public void setWest(MansionArea area) {
+		this.west = area;
+	}
+
+	@Override
+	public void setEast(MansionArea area) {
+		this.east = area;
+	}
+
 }

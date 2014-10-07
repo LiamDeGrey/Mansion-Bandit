@@ -12,19 +12,19 @@ import mansionBandit.gameWorld.matter.GameMatter;
  * @author Liam De Grey
  *
  */
-public class CreateRooms {
+public class Grid {
 	private List<Room> rooms = new ArrayList<Room>();
 	private List<GameMatter> allItems = new ArrayList<GameMatter>();
 	private MansionArea[][] grid;
 
-	public CreateRooms(int numRooms){
+	public Grid(int numRooms){
 		int rand = (int) (Math.random()*numRooms+numRooms);
 		CreateItems gameItems = new CreateItems(rand);
 		allItems = gameItems.getItems();
 		makeRooms(numRooms);
 		setLinks();
 		giveItems();
-		drawMap();
+		//drawMap();
 	}
 
 	public void makeRooms(int numRooms){
