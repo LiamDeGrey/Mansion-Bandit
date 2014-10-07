@@ -26,12 +26,17 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import mansionBandit.gameView.GamePanel;
+import mansionBandit.gameView.TestScreen;
 import mansionBandit.gameWorld.areas.MansionArea;
 import mansionBandit.gameWorld.areas.CreateRooms;
+import mansionBandit.gameWorld.areas.Room;
 import mansionBandit.gameWorld.main.Host;
 import mansionBandit.gameWorld.main.Player;
 import mansionBandit.gameWorld.main.Slave;
 import mansionBandit.gameWorld.matter.Bandit;
+import mansionBandit.gameWorld.matter.Decoration;
+import mansionBandit.gameWorld.matter.Dimensions;
+import mansionBandit.gameWorld.matter.Face;
 import mansionBandit.gameWorld.matter.Grabable;
 import mansionBandit.network.Client;
 import mansionBandit.network.Server;
@@ -286,6 +291,10 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	player = new Host("", 20);
 
 
+	//TODO PLACEHOLDER get rid of
+	player.getBandit().setArea(makeRoom());
+	player.getBandit().setFace(Face.NORTHERN);
+
 	layeredPane = new JLayeredPane();
 
 	this.setLayout(new BorderLayout());
@@ -538,8 +547,9 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 						e.getComponent().setCursor(itemImageCursor);
 					}
 
-				}
 				guiCanvas.repaint();
+				}
+
 
 	}
 
@@ -605,7 +615,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 			}
 		}
 		}
-
+		gamePanel.update();
 	}
 
 
@@ -671,8 +681,6 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 		client.start();
 
-
-
 	}
 
 	//TODO: this method requires a game world parameter
@@ -714,6 +722,30 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	 */
 	public int getInventorySlotSize(){
 		return inventorySlotSize;
+	}
+
+
+	//TODO get rid of later
+	public Room makeRoom(){
+		//currently this is a test integration of objects
+        Room demoRoom = new Room("wall1", "ceiling1", "carpet1");
+        //demo object to be placed on all sides
+        demoRoom.addItem(makeDeco(Face.FLOOR));
+        demoRoom.addItem(makeDeco(Face.EASTERN));
+        demoRoom.addItem(makeDeco(Face.NORTHERN));
+        demoRoom.addItem(makeDeco(Face.SOUTHERN));
+        demoRoom.addItem(makeDeco(Face.CEILING));
+        demoRoom.addItem(makeDeco(Face.WESTERN));
+
+        return demoRoom;
+	}
+
+	//TODO remove
+	private Decoration makeDeco(Face face){
+		int size = 20;
+		int x = (int) ((100 - size) * Math.random()) + (size / 2);
+		int y = (int) ((100 - size) * Math.random()) + size;
+		return new Decoration("testFace", face, new Dimensions(x, y, size));
 	}
 
 }

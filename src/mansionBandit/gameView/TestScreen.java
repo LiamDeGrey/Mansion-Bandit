@@ -17,11 +17,11 @@ import mansionBandit.gameWorld.matter.Face;
 public class TestScreen extends JFrame implements KeyListener{
 	GamePanel gamePanel;
 	Player p;
-	
+
 	public static void main(String[] args){
 		new TestScreen();
 	}
-	
+
 	public TestScreen(){
 		super();
         setLayout(new BorderLayout());
@@ -34,16 +34,16 @@ public class TestScreen extends JFrame implements KeyListener{
         Room demoRoom = makeRoom();
 
         p.getBandit().setArea(demoRoom);
-        
+
         p.getBandit().setFace(Face.NORTHERN);
 
         gamePanel = new GamePanel(p);
-        
+
         add(gamePanel, BorderLayout.CENTER);
         addKeyListener(this);
         setVisible(true);
 	}
-	
+
 	public Room makeRoom(){
 		//currently this is a test integration of objects
         Room demoRoom = new Room("wall1", "ceiling1", "carpet1");
@@ -54,7 +54,7 @@ public class TestScreen extends JFrame implements KeyListener{
         demoRoom.addItem(makeDeco(Face.SOUTHERN));
         demoRoom.addItem(makeDeco(Face.CEILING));
         demoRoom.addItem(makeDeco(Face.WESTERN));
-        
+
         return demoRoom;
 	}
 
@@ -75,12 +75,12 @@ public class TestScreen extends JFrame implements KeyListener{
 	@Override
 	public void keyReleased(KeyEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void keyTyped(KeyEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
