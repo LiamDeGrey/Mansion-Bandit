@@ -7,7 +7,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import mansionBandit.gameWorld.main.Main;
+import mansionBandit.gameWorld.areas.MansionArea;
+import mansionBandit.gameWorld.main.Host;
+
 
 /**
  * The Server receives updates from clients via a socket. This updates the Server's version
@@ -22,14 +24,13 @@ public final class Server {
 	private int port, playerLimit;
 	private ArrayList<ClientThread> clientList;
 	private boolean end;
+	protected Host player;
 
-	private Main gameWorld;
-
-	public Server(int port, int playerLimit, String userName, Main gameWorld) {
+	public Server(int port, int playerLimit, String userName, Host player) {
 		this.port = port;
 		this.playerLimit = playerLimit;
-		this.gameWorld = gameWorld;
 		clientList = new ArrayList<ClientThread>();
+		this.player = player;
 	}
 
 	public void start() {
@@ -93,6 +94,8 @@ public final class Server {
 				//testid = (int) input.readObject(); //Server listening for test id here
 				username = (String) input.readObject();
 				System.out.println(username + " has connected.");
+				MansionArea[][] grid = player.getGrid();
+				output.writeObject(grid);
 			}
 			catch (IOException e) {
 				System.out.println(username + ": Exception creating IO Object Streams: " + e);

@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import mansionBandit.gameWorld.areas.Hallway;
 import mansionBandit.gameWorld.areas.MansionArea;
 import mansionBandit.gameWorld.areas.Room;
 import mansionBandit.gameWorld.matter.Face;
@@ -24,6 +25,7 @@ public class BackWallStrategy implements SurfaceStrategy {
 	private int surfaceX, surfaceY, surfaceWidth, surfaceHeight;
 	private RoomView nextRoom = null;
 	private static String fog = "/walls/fog.png";
+	private String hallwayWall = null;
 	
 	@Override
 	public void paintSurface(Graphics g) {
@@ -60,7 +62,6 @@ public class BackWallStrategy implements SurfaceStrategy {
 		this.surface = surface;
 		try {
 			//set image for the view
-			//surfaceTexture = ImageIO.read(this.getClass().getResource("/walls/" + surface.roomView.roomDEMO.getWall() + ".png"));
 			surfaceTexture = ImageIO.read(this.getClass().getResource("/walls/" + surface.roomView.room.getWallTexture() + ".png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -71,13 +72,37 @@ public class BackWallStrategy implements SurfaceStrategy {
 		surfaceX = surface.roomView.boundX + (surfaceWidth / 2);
 		surfaceHeight = surface.roomView.height / 2;
 		surfaceY = surface.roomView.boundY + (surfaceHeight /2);
-		
+
 		int depth = surface.roomView.depth;
-		if (depth < surface.roomView.viewDepthMAX){
-			//TODO get next rooms from actual room
-			//nextRoom = new RoomView(new DEMOROOM(), surfaceX, surfaceY, surfaceWidth, surfaceHeight, depth + 1);
+
+		//here we check to see if we need to draw more rooms in the distance (eg are we in a hallway)
+		if (surface.roomView.room instanceof Hallway){
+
+			MansionArea next = null;
+			switch (face){
+			case NORTHERN:
+				next = surface.roomView.room.getNorth();
+				break;
+			case WESTERN:
+				next = surface.roomView.room.getWest();
+				break;
+			case SOUTHERN:
+				next = surface.roomView.room.getSouth();
+				break;
+			case EASTERN:
+				next = surface.roomView.room.getEast();
+			}
+			if (next != null && next instanceof Hallway){
+				nextRoom = new RoomView(next, face, surfaceX, surfaceY, surfaceWidth, surfaceHeight, depth + 1);
+			} else if (next != null && next instanceof Room){
+				hallwayWall = next.getWallTexture();
+			}
+
+			if (depth >= surface.roomView.viewDepthMAX){
+				nextRoom = null;
+			}
 		}
-		
+
 		//create object list for surface
 		createGameObjects(surface.roomView.room, face);
 	}

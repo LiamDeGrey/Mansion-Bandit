@@ -6,7 +6,7 @@ import java.awt.event.KeyListener;
 
 import javax.swing.JFrame;
 
-import mansionBandit.gameWorld.areas.Room;
+import mansionBandit.gameWorld.areas.*;
 import mansionBandit.gameWorld.main.Host;
 import mansionBandit.gameWorld.main.Player;
 import mansionBandit.gameWorld.matter.Bandit;
@@ -17,11 +17,11 @@ import mansionBandit.gameWorld.matter.Face;
 public class TestScreen extends JFrame implements KeyListener{
 	GamePanel gamePanel;
 	Player p;
-	
+
 	public static void main(String[] args){
 		new TestScreen();
 	}
-	
+
 	public TestScreen(){
 		super();
         setLayout(new BorderLayout());
@@ -31,6 +31,46 @@ public class TestScreen extends JFrame implements KeyListener{
         p = new Host("test player", 1);
 
         //currently this is a test integration of objects
+        Room demoRoom = makeRoom();
+        
+        // R R R
+        // H H H
+        // R R R
+        
+        MansionArea[][] grid = new MansionArea[3][3];
+        //rooms
+        Room room1 = new Room("flowers", "ceiling1", "carpet1");
+        Room room2 = new Room("wall1", "ceiling1", "carpet1");
+        
+        grid[0][0] = room1;
+        grid[0][1] = room2;
+        grid[0][2] = room1;
+        grid[2][0] = room1;
+        grid[2][1] = room1;
+        grid[2][2] = room2;
+        
+        //halways
+        grid[1][0] = new Hallway();
+        grid[1][1] = new Hallway();
+        grid[1][2] = new Hallway();
+        
+        grid[1][0].setLinks(grid[0][0], grid[1][1], grid[2][0], null);
+        grid[1][1].setLinks(grid[0][1], grid[1][2], grid[2][1], grid[1][1]);
+        grid[1][2].setLinks(grid[0][2], null, grid[2][2], grid[1][1]);
+        p.getBandit().setArea(grid[1][0]);
+//        p.getBandit().setArea(demoRoom);
+
+        p.getBandit().setFace(Face.NORTHERN);
+
+        gamePanel = new GamePanel(p);
+
+        add(gamePanel, BorderLayout.CENTER);
+        addKeyListener(this);
+        setVisible(true);
+	}
+
+	public Room makeRoom(){
+		//currently this is a test integration of objects
         Room demoRoom = new Room("wall1", "ceiling1", "carpet1");
         //demo object to be placed on all sides
         demoRoom.addItem(makeDeco(Face.FLOOR));
@@ -40,15 +80,7 @@ public class TestScreen extends JFrame implements KeyListener{
         demoRoom.addItem(makeDeco(Face.CEILING));
         demoRoom.addItem(makeDeco(Face.WESTERN));
 
-        p.getBandit().setArea(demoRoom);
-        
-        p.getBandit().setFace(Face.NORTHERN);
-
-        gamePanel = new GamePanel(p);
-        
-        add(gamePanel, BorderLayout.CENTER);
-        addKeyListener(this);
-        setVisible(true);
+        return demoRoom;
 	}
 
 	//TODO remove
@@ -68,12 +100,12 @@ public class TestScreen extends JFrame implements KeyListener{
 	@Override
 	public void keyReleased(KeyEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void keyTyped(KeyEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
