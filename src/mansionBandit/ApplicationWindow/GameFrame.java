@@ -52,7 +52,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 		WindowListener, KeyListener {
 
 	//PLACEHOLDER represents main logic class
-	private ApplicationMain game;
+	//private ApplicationMain game;
 
 	//The main drawing class
 	//GameCanvas canvas = new GameCanvas();
@@ -107,7 +107,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	public GameFrame(ApplicationMain main) {
 		super();
 
-		game = main;
+//		game = main;
 
 		//creates the main menu
 		mainMenu = new MainMenuPanel(this);
@@ -408,7 +408,8 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 					// check if the item being dragged can be used on the
 					// targeted item
-					if (draggingItem.useOnItem(game.getObjectAt(e.getPoint()))) {
+					//TODO ADD ab
+					if (draggingItem.useItemOn(draggingItem,gamePanel.getObject(e.getPoint().x,e.getPoint().y))) {
 
 						// if it was used successfully, the item will have been
 						// used and is deleted and the item is removed from
@@ -450,9 +451,11 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 				}
 				 else {
 					// otherwise just drop the object at this position in the room
-
-					game.dropItem(e.getPoint());
-					draggingItem = null;
+					 
+					 //TODO add drop item method
+					//player.dropItem(e.getPoint());
+					
+					 draggingItem = null;
 
 					// set the cursor back to default
 					e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
@@ -468,9 +471,9 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 				if (gamePanel.getObject(e.getPoint().x,e.getPoint().y) != null) {
 
+					//TODO ADD DESCRIPTION TEXT FOR ITEMS
 					// change the description text to the items description
-					descriptionText = game.getDescription(game.getInstanceAt(e
-							.getPoint()));
+					//descriptionText = gamePanel.getObject(e.getPoint().x, e.getPoint().y).getDescription();
 				}
 			}
 
