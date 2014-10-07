@@ -7,6 +7,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import mansionBandit.gameWorld.areas.MansionArea;
 import mansionBandit.gameWorld.main.Host;
 
 
@@ -93,6 +94,8 @@ public final class Server {
 				//testid = (int) input.readObject(); //Server listening for test id here
 				username = (String) input.readObject();
 				System.out.println(username + " has connected.");
+				MansionArea[][] grid = player.getGrid();
+				output.writeObject(grid);
 			}
 			catch (IOException e) {
 				System.out.println(username + ": Exception creating IO Object Streams: " + e);

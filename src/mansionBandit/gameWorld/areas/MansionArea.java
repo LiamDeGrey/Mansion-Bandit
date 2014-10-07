@@ -1,5 +1,6 @@
 package mansionBandit.gameWorld.areas;
 
+import java.io.Serializable;
 import java.util.List;
 
 import mansionBandit.gameWorld.matter.GameMatter;
@@ -9,7 +10,7 @@ import mansionBandit.gameWorld.matter.GameMatter;
  * @author Liam De Grey
  *
  */
-public interface MansionArea {
+public interface MansionArea extends Serializable {
 
 
 	/**

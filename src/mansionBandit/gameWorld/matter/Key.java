@@ -64,19 +64,19 @@ public class Key extends Grabable{
 	@Override
 	public void setFace(Face f) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setDimensions(Dimensions d) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setArea(MansionArea r) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 
