@@ -6,7 +6,7 @@ import java.awt.event.KeyListener;
 
 import javax.swing.JFrame;
 
-import mansionBandit.gameWorld.areas.Room;
+import mansionBandit.gameWorld.areas.*;
 import mansionBandit.gameWorld.main.Host;
 import mansionBandit.gameWorld.main.Player;
 import mansionBandit.gameWorld.matter.Bandit;
@@ -32,8 +32,17 @@ public class TestScreen extends JFrame implements KeyListener{
 
         //currently this is a test integration of objects
         Room demoRoom = makeRoom();
-
-        p.getBandit().setArea(demoRoom);
+        
+        MansionArea[][] grid = new MansionArea[1][3];
+        grid[0][0] = new Hallway();
+        grid[0][1] = new Hallway();
+        grid[0][2] = new Hallway();
+        
+        grid[0][0].setLinks(null, grid[0][1], null, null);
+        grid[0][1].setLinks(null, grid[0][2], null, grid[0][1]);
+        grid[0][2].setLinks(null, null, null, grid[0][1]);
+        p.getBandit().setArea(grid[0][0]);
+//        p.getBandit().setArea(demoRoom);
 
         p.getBandit().setFace(Face.NORTHERN);
 
