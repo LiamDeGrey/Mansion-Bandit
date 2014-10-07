@@ -1,6 +1,7 @@
 package mansionBandit.gameWorld.matter;
 
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
 import mansionBandit.gameWorld.areas.MansionArea;
 
@@ -10,7 +11,7 @@ import mansionBandit.gameWorld.areas.MansionArea;
  * @author Liam De Grey
  *
  */
-public interface GameMatter {
+public interface GameMatter extends Serializable {
 
 	/**
 	 * returns the face that an item is on

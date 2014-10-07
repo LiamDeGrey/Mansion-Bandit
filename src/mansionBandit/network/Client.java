@@ -3,6 +3,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+
+import mansionBandit.gameWorld.areas.MansionArea;
 import mansionBandit.gameWorld.main.Slave;
 
 /**
@@ -68,6 +70,9 @@ public final class Client {
 				try {
 					//read server updates here
 					Object o = input.readObject();
+					if (o instanceof MansionArea[][]) {
+						System.out.println("Received grid");
+					}
 				}
 				catch(IOException e) {
 					System.out.println("Connection has been ended by server: " + e);
