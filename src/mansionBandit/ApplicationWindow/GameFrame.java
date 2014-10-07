@@ -444,6 +444,9 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 					// if its at this spot then stop dragging and add it to the players inventory at specified position
 
 					player.addItem(draggingItem, getInventorySlot(e.getPoint()));
+					
+					System.out.println("added to inventory " + draggingItem.getImage());
+					
 					draggingItem = null;
 
 					// set the cursor back to default
@@ -540,12 +543,12 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 						draggingItem = inventoryItem;
 
 						// SET CURSOR TO ITEM HERE //
-						setCursorImage(e, draggingItem.getImage());
+						setCursorImage(e, draggingItem.getName() +".png");
 					}
 
-				guiCanvas.repaint();
+			
 				}
-
+				guiCanvas.repaint();
 
 	}
 
@@ -707,10 +710,10 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 		//set up the image
 		BufferedImage img;
-		System.out.println(itemName);
+		System.out.println("Set cursor to" +itemName);
 		try {
 
-			System.out.printf("/object/" + itemName);
+			
 			img = ImageIO.read(this.getClass().getResource("/object/" + itemName));
 			//obImage = ImageIO.read(this.getClass().getResource("/object/" + ob.getImage() + ".png"));
 

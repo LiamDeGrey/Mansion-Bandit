@@ -75,12 +75,15 @@ public class GUICanvas extends JPanel{
 	        		//set up the path to the image
 	        		String imgPath = "/object/"+player.getItem(i).getImage();
 
-	        		System.out.println(imgPath);
+	        	
 	        		//set up the image at slot i in player inventory
 	        		BufferedImage img;
 					try {
-						//img = ImageIO.read(this.getClass().getResource(imgPath));
-						img = ImageIO.read(this.getClass().getResource("/object/" + player.getItem(i).getImage()));
+						
+						System.out.printf("ITEM IMAGE " + i + " " +player.getItem(i).getImage() );
+						
+						img = ImageIO.read(this.getClass().getResource("/object/" + player.getItem(i).getName()+".png"));
+						//img = ImageIO.read(this.getClass().getResource("/object/" + player.getItem(i).getImage()));
 						//draw the item at slot i in player inventory
 		        		g.drawImage(img, itemImageX, itemImageY, 50, 50, null);
 

@@ -21,11 +21,18 @@ public class Bandit extends Character{
 	private MansionArea area;
 	private StartSpace van;
 	private MansionArea[][] grid;
+	
 
 	public Bandit(String name, MansionArea[][] grid) {
 		this.name = name;
 		this.grid = grid;
 		setStartSpace();
+		
+		//Makes inventory array usable right after being initialized
+		for(int i=0;i<7;i++){
+			inventory.add(null);
+		}
+		
 	}
 
 	public Bandit(String name) {
@@ -148,12 +155,14 @@ public class Bandit extends Character{
 	 * @return
 	 */
 	public boolean addItem(Grabable itm, int slot){
+	
 		if(slot>=0&&slot<=6){
-			if(inventory.get(slot)!=null){
-				inventory.add(itm);
+			if(inventory.get(slot)==null){
+				inventory.set(slot, itm);
 				return true;
 			}
 		}
+		
 		return false;
 	}
 
@@ -164,11 +173,13 @@ public class Bandit extends Character{
 	 * @return
 	 */
 	public Grabable getItem(int slot){
+	
 		if(inventory.size() >slot){
 		if(slot>=0&&slot<=5){
 			return inventory.get(slot);
 		}
 		}
+		
 		return null;
 	}
 
