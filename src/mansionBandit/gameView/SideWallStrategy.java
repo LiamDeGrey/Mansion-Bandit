@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import mansionBandit.gameWorld.areas.Hallway;
 import mansionBandit.gameWorld.areas.MansionArea;
 import mansionBandit.gameWorld.areas.Room;
 import mansionBandit.gameWorld.matter.Face;
@@ -73,13 +74,76 @@ public class SideWallStrategy implements SurfaceStrategy {
 		} else {
 			surfaceX = surface.roomView.boundX + ((surface.roomView.width * 3) / 4);
 		}
+
+		//here we check to see if we need to draw more rooms in the distance (eg are we in a hallway)
+		if (surface.roomView.room instanceof Hallway){
+
+			MansionArea next = null;
+			switch (face){
+			case NORTHERN:
+				next = surface.roomView.room.getNorth();
+				break;
+			case WESTERN:
+				next = surface.roomView.room.getWest();
+				break;
+			case SOUTHERN:
+				next = surface.roomView.room.getSouth();
+				break;
+			case EASTERN:
+				next = surface.roomView.room.getEast();
+			}
+//			if (left){
+//				switch (face){
+//				case NORTHERN:
+//					next = surface.roomView.room.getWest();
+//					break;
+//				case WESTERN:
+//					next = surface.roomView.room.getSouth();
+//					break;
+//				case SOUTHERN:
+//					next = surface.roomView.room.getEast();
+//					break;
+//				case EASTERN:
+//					next = surface.roomView.room.getNorth();
+//				}
+//			} else {
+//				switch (face){
+//				case NORTHERN:
+//					next = surface.roomView.room.getEast();
+//					break;
+//				case WESTERN:
+//					next = surface.roomView.room.getNorth();
+//					break;
+//				case SOUTHERN:
+//					next = surface.roomView.room.getWest();
+//					break;
+//				case EASTERN:
+//					next = surface.roomView.room.getSouth();
+//				}
+//			}
+
+			if (next != null && next instanceof Hallway){
+				//TODO draw sideways???
+			} else if (next != null && next instanceof Room){
+				try {
+					if (left){
+						surfaceTexture = ImageIO.read(this.getClass().getResource("/walls/" + next.getWallTexture() + "L.png"));
+					} else {
+						surfaceTexture = ImageIO.read(this.getClass().getResource("/walls/" + next.getWallTexture() + "R.png"));
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 		
 		//create object list for surface
 		createGameObjects(surface.roomView.room, face);
 	}
-	
-	/**
-	 * wraps objects to be drawn into DrawnObjects
+
+		/**
+		 * wraps objects to be drawn into DrawnObjects
 	 * with appropriate size and position distortion
 	 * 
 	 * @param wall

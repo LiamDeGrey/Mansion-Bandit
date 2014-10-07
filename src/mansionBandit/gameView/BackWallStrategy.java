@@ -25,7 +25,6 @@ public class BackWallStrategy implements SurfaceStrategy {
 	private int surfaceX, surfaceY, surfaceWidth, surfaceHeight;
 	private RoomView nextRoom = null;
 	private static String fog = "/walls/fog.png";
-	private String hallwayWall = null;
 	
 	@Override
 	public void paintSurface(Graphics g) {
@@ -41,7 +40,7 @@ public class BackWallStrategy implements SurfaceStrategy {
 				e.printStackTrace();
 			}
 		}
-		//draw this rooms back wall
+		
 		g.drawImage(surfaceTexture, surfaceX, surfaceY, surfaceWidth, surfaceHeight, null);
 		
 		//draw objects on the wall
@@ -92,17 +91,23 @@ public class BackWallStrategy implements SurfaceStrategy {
 			case EASTERN:
 				next = surface.roomView.room.getEast();
 			}
+			
 			if (next != null && next instanceof Hallway){
 				nextRoom = new RoomView(next, face, surfaceX, surfaceY, surfaceWidth, surfaceHeight, depth + 1);
 			} else if (next != null && next instanceof Room){
-				hallwayWall = next.getWallTexture();
+				try {
+					surfaceTexture = ImageIO.read(this.getClass().getResource("/walls/" + next.getWallTexture() + ".png"));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 
-			if (depth >= surface.roomView.viewDepthMAX){
+			if (depth > surface.roomView.viewDepthMAX){
 				nextRoom = null;
 			}
 		}
-
+		
 		//create object list for surface
 		createGameObjects(surface.roomView.room, face);
 	}
