@@ -17,6 +17,7 @@ import mansionBandit.gameWorld.matter.GameMatter;
 public class SideWallStrategy implements SurfaceStrategy {
 	private boolean left;
 	private Surface surface;
+	private RoomView sideRoom = null;
 	private BufferedImage surfaceTexture;
 	private int surfaceX, surfaceY, surfaceWidth, surfaceHeight;
 	
@@ -26,6 +27,11 @@ public class SideWallStrategy implements SurfaceStrategy {
 
 	@Override
 	public void paintSurface(Graphics g) {
+		
+		if (sideRoom != null){
+			sideRoom.paintRoom(g);
+		}
+
 		g.drawImage(surfaceTexture, surfaceX, surfaceY, surfaceWidth, surfaceHeight, null);
 
 		//draw objects on the wall
@@ -78,58 +84,31 @@ public class SideWallStrategy implements SurfaceStrategy {
 		//here we check to see if we need to draw more rooms in the distance (eg are we in a hallway)
 		if (surface.roomView.room instanceof Hallway){
 
-			MansionArea next = null;
+			MansionArea nextRoom = null;
 			switch (face){
 			case NORTHERN:
-				next = surface.roomView.room.getNorth();
+				nextRoom = surface.roomView.room.getNorth();
 				break;
 			case WESTERN:
-				next = surface.roomView.room.getWest();
+				nextRoom = surface.roomView.room.getWest();
 				break;
 			case SOUTHERN:
-				next = surface.roomView.room.getSouth();
+				nextRoom = surface.roomView.room.getSouth();
 				break;
 			case EASTERN:
-				next = surface.roomView.room.getEast();
+				nextRoom = surface.roomView.room.getEast();
 			}
-//			if (left){
-//				switch (face){
-//				case NORTHERN:
-//					next = surface.roomView.room.getWest();
-//					break;
-//				case WESTERN:
-//					next = surface.roomView.room.getSouth();
-//					break;
-//				case SOUTHERN:
-//					next = surface.roomView.room.getEast();
-//					break;
-//				case EASTERN:
-//					next = surface.roomView.room.getNorth();
-//				}
-//			} else {
-//				switch (face){
-//				case NORTHERN:
-//					next = surface.roomView.room.getEast();
-//					break;
-//				case WESTERN:
-//					next = surface.roomView.room.getNorth();
-//					break;
-//				case SOUTHERN:
-//					next = surface.roomView.room.getWest();
-//					break;
-//				case EASTERN:
-//					next = surface.roomView.room.getSouth();
-//				}
-//			}
 
-			if (next != null && next instanceof Hallway){
-				//TODO draw sideways???
-			} else if (next != null && next instanceof Room){
+			if (nextRoom != null && nextRoom instanceof Hallway){
+				
+				sideRoom = new RoomView(nextRoom, surface.roomView.playerDirection, surface.roomView.boundX, surface.roomView.boundY, surface.roomView.width, surface.roomView.height, left);
+
+			} else if (nextRoom != null && nextRoom instanceof Room){
 				try {
 					if (left){
-						surfaceTexture = ImageIO.read(this.getClass().getResource("/walls/" + next.getWallTexture() + "L.png"));
+						surfaceTexture = ImageIO.read(this.getClass().getResource("/walls/" + nextRoom.getWallTexture() + "L.png"));
 					} else {
-						surfaceTexture = ImageIO.read(this.getClass().getResource("/walls/" + next.getWallTexture() + "R.png"));
+						surfaceTexture = ImageIO.read(this.getClass().getResource("/walls/" + nextRoom.getWallTexture() + "R.png"));
 					}
 				} catch (IOException e) {
 					// TODO Auto-generated catch block

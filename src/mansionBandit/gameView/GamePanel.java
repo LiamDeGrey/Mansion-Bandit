@@ -61,8 +61,8 @@ public class GamePanel extends JPanel{
 
 	@Override
 	public void paintComponent(Graphics g) {
+		g.setClip(0, 0, width, height);
 		super.paintComponent(g);
-		room.update();
 		room.paintRoom(g);
 	}
 }

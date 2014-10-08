@@ -42,7 +42,7 @@ public class BackWallStrategy implements SurfaceStrategy {
 		}
 		
 		g.drawImage(surfaceTexture, surfaceX, surfaceY, surfaceWidth, surfaceHeight, null);
-		
+
 		//draw objects on the wall
 		for (DrawnObject ob : surface.objects){
 			BufferedImage obImage = null;
@@ -56,6 +56,30 @@ public class BackWallStrategy implements SurfaceStrategy {
 		}
 	}
 
+	/**
+	 * generates the bounds of the wall
+	 */
+	private void getBounds(){
+		//set bounds for the surface
+		surfaceWidth = surface.roomView.width / 2;
+
+		if (surface.roomView.sidePassage){
+
+			if (surface.roomView.sidePassageLeft){
+
+				surfaceX = surface.roomView.boundX + surfaceWidth + (surfaceWidth / 2);
+			} else {
+
+				surfaceX = surface.roomView.boundX - (surfaceWidth / 2);
+			}
+		} else {
+			surfaceX = surface.roomView.boundX + (surfaceWidth / 2);
+		}
+
+		surfaceHeight = surface.roomView.height / 2;
+		surfaceY = surface.roomView.boundY + (surfaceHeight /2);
+	}
+
 	@Override
 	public void setupSurface(Surface surface, Face face) {
 		this.surface = surface;
@@ -66,12 +90,9 @@ public class BackWallStrategy implements SurfaceStrategy {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//set bounds for the surface
-		surfaceWidth = surface.roomView.width / 2;
-		surfaceX = surface.roomView.boundX + (surfaceWidth / 2);
-		surfaceHeight = surface.roomView.height / 2;
-		surfaceY = surface.roomView.boundY + (surfaceHeight /2);
 
+		getBounds();
+		
 		int depth = surface.roomView.depth;
 
 		//here we check to see if we need to draw more rooms in the distance (eg are we in a hallway)
@@ -92,7 +113,7 @@ public class BackWallStrategy implements SurfaceStrategy {
 				next = surface.roomView.room.getEast();
 			}
 			
-			if (next != null && next instanceof Hallway){
+			if (next != null && next instanceof Hallway && depth <= surface.roomView.viewDepthMAX){
 				nextRoom = new RoomView(next, face, surfaceX, surfaceY, surfaceWidth, surfaceHeight, depth + 1);
 			} else if (next != null && next instanceof Room){
 				try {
@@ -101,10 +122,6 @@ public class BackWallStrategy implements SurfaceStrategy {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}
-
-			if (depth > surface.roomView.viewDepthMAX){
-				nextRoom = null;
 			}
 		}
 		

@@ -14,11 +14,11 @@ import mansionBandit.gameWorld.matter.GameMatter;
  *
  */
 public class RoomView {
-	//public DEMOROOM roomDEMO;
 	protected MansionArea room;
 	private Surface ceiling, floor, left, right, back, behind;
 	protected int boundX, boundY, width, height, depth;
-	public static int viewDepthMAX = 2;
+	public static int viewDepthMAX = 5;
+	protected boolean sidePassage, sidePassageLeft = false;
 
 	protected Face playerDirection;
 
@@ -34,19 +34,45 @@ public class RoomView {
 		this.height = height;
 		this.depth = depth;
 
-		//TODO get direction from player
 		this.playerDirection = face;
 
 		this.room = room;
 		
-		//TODO update to work in any direction
 		ceiling = new Surface(this, Face.CEILING, new TopBottomStrategy(true));
 		floor = new Surface(this, Face.FLOOR, new TopBottomStrategy(false));
 		back = new Surface(this, getTurn(Face.NORTHERN), new BackWallStrategy());
 		left = new Surface(this, getTurn(face.WESTERN), new SideWallStrategy(true));
 		right = new Surface(this, getTurn(face.EASTERN), new SideWallStrategy(false));
-		//behind is never drawn
-		//behind = new Surface(this, face.SOUTHERN, new BackWallStrategy());
+	}
+	
+	/**
+	 * special constructor is only used in situations where it is drawing a room imediately to the side of the one the player is in
+	 */
+	public RoomView(MansionArea room, Face face, int boundX, int boundY, int width, int height, boolean sidePassageLeft){
+		
+		sidePassage = true;
+		this.sidePassageLeft = sidePassageLeft;
+		
+		this.boundY = boundY;
+		this.width = width;
+		this.height = height;
+		
+		if (sidePassageLeft){
+			this.boundX = boundX - width;
+		} else {
+			this.boundX = boundX + width;
+		}
+		
+		this.depth = viewDepthMAX;
+
+		//TODO get direction from player
+		this.playerDirection = face;
+
+		this.room = room;
+		
+		ceiling = new Surface(this, Face.CEILING, new TopBottomStrategy(true));
+		floor = new Surface(this, Face.FLOOR, new TopBottomStrategy(false));
+		back = new Surface(this, getTurn(Face.NORTHERN), new BackWallStrategy());
 	}
 	
 	/**
@@ -80,56 +106,17 @@ public class RoomView {
 		return face;
 	}
 
-	public void update(){
-//		//TODO make much much MUCH nicer
-//		//TODO account for moving into a new room
-//		if (roomDEMO.getDirection() == directionDEMO){
-//			return;
-//		}
-//		//update walls and direction
-//
-//		if (roomDEMO.getLeft(directionDEMO) == roomDEMO.getDirection()){
-//			//we have turned left
-//			Surface temp = back;
-//			back = left;
-//			left = behind;
-//			behind = right;
-//			right = temp;
-//		} else if (roomDEMO.getLeft(roomDEMO.getLeft(directionDEMO)) == roomDEMO.getDirection()){
-//			//we have turned around 180 degrees
-//			Surface temp = back;
-//			back = behind;
-//			behind = temp;
-//			temp = left;
-//			left = right;
-//			right = temp;
-//		} else{
-//			//we must have turned right
-//			Surface temp = back;
-//			back = right;
-//			right = behind;
-//			behind = left;
-//			left = temp;
-//		}
-//
-//		directionDEMO = roomDEMO.getDirection();
-//
-//		back.setStrategy(new BackWallStrategy());
-//		left.setStrategy(new SideWallStrategy(true));
-//		right.setStrategy(new SideWallStrategy(false));
-//		ceiling.update();
-//		floor.update();
-	}
-
 	/**
 	 * paint the room to the screen by painting each surface individually
 	 * according to a 'simple painters algorithm'
 	 * @param g
 	 */
 	public void paintRoom(Graphics g){
-		//draw sides first
-		left.paint(g);
-		right.paint(g);
+		if (left != null && right != null){
+			//draw sides first
+			left.paint(g);
+			right.paint(g);
+		}
 		//draw back wall
 		back.paint(g);
 		//draw ceiling
