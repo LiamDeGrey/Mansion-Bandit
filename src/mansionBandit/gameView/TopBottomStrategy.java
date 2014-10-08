@@ -1,6 +1,7 @@
 package mansionBandit.gameView;
 
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,22 +32,21 @@ public class TopBottomStrategy implements SurfaceStrategy {
 
 		//draw objects on the wall
 		for (DrawnObject ob : surface.objects){
-			BufferedImage obImage = null;
-			BufferedImage shadow = null;
-			try {
-				obImage = ImageIO.read(this.getClass().getResource("/object/" + ob.getImage() + ".png"));
-				shadow = ImageIO.read(this.getClass().getResource("/object/shadow.png"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			
 			//TODO move into its own loop to prevent shadows overlapping other objects
 			if (!ceiling){
 				//draw shadow if object on floor
+				BufferedImage shadow = null;
+				try {
+					shadow = ImageIO.read(this.getClass().getResource("/object/shadow.png"));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				g.drawImage(shadow, ob.getBoundX() -10, ob.getBoundY() + ob.getHeight() - 10, ob.getWidth() + 20, 20, null);
 			}
 			//draw object
-			g.drawImage(obImage, ob.getBoundX(), ob.getBoundY(), ob.getWidth(), ob.getHeight(), null);
+			g.drawImage(ob.getImage(), ob.getBoundX(), ob.getBoundY(), ob.getWidth(), ob.getHeight(), null);
 		}
 	}
 
@@ -149,8 +149,15 @@ public class TopBottomStrategy implements SurfaceStrategy {
 				top -= size;
 			}
 
-			//create the wrapped object and add to list
-			DrawnObject dob = new DrawnObject(item, objectCenterX, top, size, size);
+			BufferedImage image = null;
+			try {
+				image = ImageIO.read(this.getClass().getResource("/object/" + item.getName() + ".png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			DrawnObject dob = new DrawnObject(item, image, objectCenterX, top, size, size);
 			obs.add(dob);
 		}
 		Collections.sort(obs);
@@ -201,5 +208,39 @@ public class TopBottomStrategy implements SurfaceStrategy {
 		}
 		//must be facing north
 		return dim.getY();
+	}
+	
+	/**
+	 * applies perspective transformations on passed images depending on whether this is a right
+	 * or left wall and returns the result
+	 * uses the javaxt library
+	 * Note: does not change height or width, thats currently done by the parameters passed to the DrawnObject 
+	 * 
+	 * @param imagePath string path to image
+	 * @return an transformed Image object
+	 */
+	private Image warpImage(String imagePath){
+		BufferedImage image = null;
+		try {
+			image = ImageIO.read(this.getClass().getResource(imagePath));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		javaxt.io.Image warped = new javaxt.io.Image(image);
+		int width = warped.getWidth();
+		int height = warped.getHeight();
+		if (ceiling){
+			warped.setCorners(0, 0, //UL
+					width, 0, //UR
+					width / 4, height, //LR
+					3 * (width / 4), height);//LL
+		} else {
+			warped.setCorners(width / 4, 0, //UL
+					3 * (width / 4), 0, //UR
+					0, height, //LR
+					width, height);//LL
+		}
+		return warped.getImage();
 	}
 }

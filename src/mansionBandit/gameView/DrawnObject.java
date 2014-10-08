@@ -1,5 +1,7 @@
 package mansionBandit.gameView;
 
+import java.awt.Image;
+
 import mansionBandit.gameWorld.matter.GameMatter;
 
 /**
@@ -13,6 +15,7 @@ import mansionBandit.gameWorld.matter.GameMatter;
 public class DrawnObject implements Comparable<DrawnObject>{
 	//game object object referred to
 	private GameMatter gameObject;
+	private Image image;
 	//size data
 	private int boundX, boundY, width, height;
 	
@@ -20,8 +23,8 @@ public class DrawnObject implements Comparable<DrawnObject>{
 		return gameObject;
 	}
 	
-	public String getImage(){
-		return gameObject.getName();
+	public Image getImage(){
+		return image;
 	}
 
 	public int getBoundX() {
@@ -59,7 +62,8 @@ public class DrawnObject implements Comparable<DrawnObject>{
 		return gameObject;
 	}
 
-	public DrawnObject(GameMatter ob, int x, int y, int w, int h){
+	public DrawnObject(GameMatter ob, Image image, int x, int y, int w, int h){
+		this.image = image;
 		boundX = x;
 		boundY = y;
 		width = w;

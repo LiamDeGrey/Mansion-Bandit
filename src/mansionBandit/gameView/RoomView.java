@@ -46,7 +46,7 @@ public class RoomView {
 	}
 	
 	/**
-	 * special constructor is only used in situations where it is drawing a room imediately to the side of the one the player is in
+	 * special constructor is only used in situations where it is drawing a room immediately to the side of the one the player is in
 	 */
 	public RoomView(MansionArea room, Face face, int boundX, int boundY, int width, int height, boolean sidePassageLeft){
 		

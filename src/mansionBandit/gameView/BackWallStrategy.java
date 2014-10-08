@@ -1,6 +1,7 @@
 package mansionBandit.gameView;
 
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ import mansionBandit.gameWorld.matter.GameMatter;
  */
 public class BackWallStrategy implements SurfaceStrategy {
 	private Surface surface;
-	private BufferedImage surfaceTexture;
+	private Image surfaceTexture;
 	private int surfaceX, surfaceY, surfaceWidth, surfaceHeight;
 	private RoomView nextRoom = null;
 	private static String fog = "/walls/fog.png";
@@ -45,14 +46,7 @@ public class BackWallStrategy implements SurfaceStrategy {
 
 		//draw objects on the wall
 		for (DrawnObject ob : surface.objects){
-			BufferedImage obImage = null;
-			try {
-				obImage = ImageIO.read(this.getClass().getResource("/object/" + ob.getImage() + ".png"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			g.drawImage(obImage, ob.getBoundX(), ob.getBoundY(), ob.getWidth(), ob.getHeight(), null);
+			g.drawImage(ob.getImage(), ob.getBoundX(), ob.getBoundY(), ob.getWidth(), ob.getHeight(), null);
 		}
 	}
 
@@ -145,7 +139,16 @@ public class BackWallStrategy implements SurfaceStrategy {
 			int scale = (int) ((((double) item.getDimensions().getScale()) / 100) * surfaceHeight);
 			int left = (int) (surfaceX + (item.getDimensions().getX() * ((double) surfaceWidth / 100)) - (scale / 2));
 			int top = (int) (surfaceY + (item.getDimensions().getY() * ((double) surfaceHeight / 100)) - scale);
-			DrawnObject dob = new DrawnObject(item, left, top, scale, scale);
+			
+			BufferedImage image = null;
+			try {
+				image = ImageIO.read(this.getClass().getResource("/object/" + item.getName() + ".png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			DrawnObject dob = new DrawnObject(item, image, left, top, scale, scale);
 			obs.add(dob);
 		}
 		surface.objects = obs;

@@ -1,6 +1,8 @@
 package mansionBandit.gameView;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,7 +20,7 @@ public class SideWallStrategy implements SurfaceStrategy {
 	private boolean left;
 	private Surface surface;
 	private RoomView sideRoom = null;
-	private BufferedImage surfaceTexture;
+	private Image surfaceTexture;
 	private int surfaceX, surfaceY, surfaceWidth, surfaceHeight;
 	
 	public SideWallStrategy(boolean left) {
@@ -36,19 +38,9 @@ public class SideWallStrategy implements SurfaceStrategy {
 
 		//draw objects on the wall
 		for (DrawnObject ob : surface.objects){
-			BufferedImage obImage = null;
-			try {
-				if (left){
-					obImage = ImageIO.read(this.getClass().getResource("/object/" + ob.getImage() + "L.png"));
-					javaxt.io.Image skewedImage = new javaxt.io.Image(obImage);
-				}else {
-					obImage = ImageIO.read(this.getClass().getResource("/object/" + ob.getImage() + "R.png"));
-				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			g.drawImage(obImage, ob.getBoundX(), ob.getBoundY(), ob.getWidth(), ob.getHeight(), null);
+			Image obImage = null;
+			obImage = ob.getImage();
+			g.drawImage(ob.getImage(), ob.getBoundX(), ob.getBoundY(), ob.getWidth(), ob.getHeight(), null);
 		}
 	}
 
@@ -61,17 +53,8 @@ public class SideWallStrategy implements SurfaceStrategy {
 	@Override
 	public void setupSurface(Surface surface, Face face) {
 		this.surface = surface;
-		try {
-			//set image for the view
-			if (left){
-				surfaceTexture = ImageIO.read(this.getClass().getResource("/walls/" + surface.roomView.room.getWallTexture() + "L.png"));
-			} else {
-				surfaceTexture = ImageIO.read(this.getClass().getResource("/walls/" + surface.roomView.room.getWallTexture() + "R.png"));
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		surfaceTexture = warpImage("/walls/" + surface.roomView.room.getWallTexture() + ".png");
+		
 		//set bounds for the surface
 		surfaceWidth = surface.roomView.width / 4;
 		surfaceHeight = surface.roomView.height;
@@ -105,16 +88,7 @@ public class SideWallStrategy implements SurfaceStrategy {
 				sideRoom = new RoomView(nextRoom, surface.roomView.playerDirection, surface.roomView.boundX, surface.roomView.boundY, surface.roomView.width, surface.roomView.height, left);
 
 			} else if (nextRoom != null && nextRoom instanceof Room){
-				try {
-					if (left){
-						surfaceTexture = ImageIO.read(this.getClass().getResource("/walls/" + nextRoom.getWallTexture() + "L.png"));
-					} else {
-						surfaceTexture = ImageIO.read(this.getClass().getResource("/walls/" + nextRoom.getWallTexture() + "R.png"));
-					}
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				surfaceTexture = warpImage("/walls/" + nextRoom.getWallTexture() + ".png");
 			}
 		}
 		
@@ -171,11 +145,46 @@ public class SideWallStrategy implements SurfaceStrategy {
 			
 			//TODO change variable names so that we're not relying on scope?
 			int left = (int) (surfaceX + (x * ((double) surfaceWidth / 100))) - (size / 4);
-			
+						
 			//create the wrapped object and add to list
-			DrawnObject dob = new DrawnObject(item, left, objectCenterY, size / 2, size);
+			DrawnObject dob = new DrawnObject(item, warpImage("/object/" + item.getName() + ".png"), left, objectCenterY, size / 2, size);
 			obs.add(dob);
 		}
 		surface.objects = obs;
+	}
+	
+	/**
+	 * applies perspective transformations on passed images depending on whether this is a right
+	 * or left wall and returns the result
+	 * uses the javaxt library
+	 * Note: does not change height or width, thats currently done by the parameters passed to the DrawnObject 
+	 * 
+	 * @param imagePath string path to image
+	 * @return an transformed Image object
+	 */
+	private Image warpImage(String imagePath){
+		BufferedImage image = null;
+		try {
+			image = ImageIO.read(this.getClass().getResource(imagePath));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		javaxt.io.Image warped = new javaxt.io.Image(image);
+		int width = warped.getWidth();
+		int height = warped.getHeight();
+		System.out.println(imagePath);
+		if (this.left){
+			warped.setCorners(0, 0, //UL
+					width, height / 4, //UR
+					width, 3 * (height / 4), //LR
+					0, height);//LL
+		} else {
+			warped.setCorners(0, height / 4, //UL
+					width, 0, //UR
+					width, height, //LR
+					0, 3 * (height / 4));//LL
+		}
+		return warped.getImage();
 	}
 }
