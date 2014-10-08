@@ -37,7 +37,7 @@ public class TestScreen extends JFrame implements KeyListener{
         //    [0][1][2][3][4]
         // [0] _  R  R  R  _
         //Y[1] R  H  H  H  R
-        // [2] _  R  R  R  _
+        // [2] _  R  R  H  _
         //		[y][x]
         
         MansionArea[][] grid = new MansionArea[3][5];
@@ -47,11 +47,11 @@ public class TestScreen extends JFrame implements KeyListener{
         
         grid[1][0] = room2;
         grid[0][1] = room1;
-        grid[0][2] = room2;
+        grid[0][2] = new Hallway();
         grid[0][3] = room1;
         grid[2][1] = room1;
-        grid[2][2] = room1;
-        grid[2][3] = room2;
+        grid[2][2] = room2;
+        grid[2][3] = new Hallway();
         grid[1][4] = room1;
         
         //halways

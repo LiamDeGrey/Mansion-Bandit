@@ -19,7 +19,7 @@ import mansionBandit.gameWorld.matter.GameMatter;
 public class TopBottomStrategy implements SurfaceStrategy {
 	private boolean ceiling;
 	private Surface surface;
-	private BufferedImage surfaceTexture;
+	private Image surfaceTexture;
 	private int surfaceX, surfaceY, surfaceWidth, surfaceHeight;
 
 	public TopBottomStrategy(boolean top) {
@@ -69,28 +69,33 @@ public class TopBottomStrategy implements SurfaceStrategy {
 
 	@Override
 	public void setupSurface(Surface surface, Face face) {
-		this.surface = surface;
-		try {
-			//set image for the view
-			if (ceiling){
-				surfaceTexture = ImageIO.read(this.getClass().getResource("/ceilings/" + surface.roomView.room.getCeilingTexture() + ".png"));
-			} else {
-				surfaceTexture = ImageIO.read(this.getClass().getResource("/floors/" + surface.roomView.room.getFloorTexture() + ".png"));
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 		//set bounds for the surface
 		surfaceX = surface.roomView.boundX;
 		surfaceWidth = surface.roomView.width;
+		
+		//override for sidepassage
+		if (surface.roomView.sidePassage){
+			surfaceWidth = (int) (surface.roomView.width * 1.25);
+			if (!surface.roomView.sidePassageLeft){
+				surfaceX = (int) (surface.roomView.boundX - (surface.roomView.width * 0.25));
+			}
+		}
+		
 		surfaceHeight = surface.roomView.height/4;
 		if (ceiling){
 			surfaceY = surface.roomView.boundY;
 		} else {
 			surfaceY = surface.roomView.boundY + ((surface.roomView.height * 3) / 4);
 		}
-
+		
+		this.surface = surface;
+		if (ceiling){
+			surfaceTexture = warpImage("/ceilings/" + surface.roomView.room.getCeilingTexture() + ".png");
+		} else {
+			surfaceTexture = warpImage("/floors/" + surface.roomView.room.getFloorTexture() + ".png");
+		}
+		
 		//create object list for surface
 		createGameObjects(surface.roomView.room, face);
 	}
@@ -230,16 +235,52 @@ public class TopBottomStrategy implements SurfaceStrategy {
 		javaxt.io.Image warped = new javaxt.io.Image(image);
 		int width = warped.getWidth();
 		int height = warped.getHeight();
-		if (ceiling){
-			warped.setCorners(0, 0, //UL
-					width, 0, //UR
-					width / 4, height, //LR
-					3 * (width / 4), height);//LL
+
+		//TODO make neater
+		//skew is used for sliding the far away edge towards the center (side passages only)
+		if (surface.roomView.sidePassage){
+			int closeWidth = (int) (width * 0.8);
+			int farWidth = (int) (width * 0.4);
+			if (surface.roomView.sidePassageLeft){
+				//left side
+				if (ceiling){
+					warped.setCorners(0, 0, //UL
+							closeWidth, 0, //UR
+							width, height, //LR
+							width - farWidth, height);//LL
+				} else {
+					warped.setCorners(width - farWidth, 0, //UL
+							width, 0, //UR
+							closeWidth, height, //LR
+							0, height);//LL
+				}
+			} else {
+				//right side
+				if (ceiling){
+					warped.setCorners(width - closeWidth, 0, //UL
+							closeWidth, 0, //UR
+							farWidth, height, //LR
+							0, height);//LL
+				} else {
+					warped.setCorners(0, 0, //UL
+							farWidth, 0, //UR
+							width, height, //LR
+							width - closeWidth, height);//LL
+				}
+			}
 		} else {
-			warped.setCorners(width / 4, 0, //UL
-					3 * (width / 4), 0, //UR
-					0, height, //LR
-					width, height);//LL
+
+			if (ceiling){
+				warped.setCorners(0, 0, //UL
+						width, 0, //UR
+						(3 * (width / 4)), height, //LR
+						(width / 4), height);//LL
+			} else {
+				warped.setCorners((3 * (width / 4)), 0, //UL
+						(width / 4), 0, //UR
+						0, height, //LR
+						width, height);//LL
+			}
 		}
 		return warped.getImage();
 	}

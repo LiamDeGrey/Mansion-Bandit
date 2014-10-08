@@ -173,7 +173,6 @@ public class SideWallStrategy implements SurfaceStrategy {
 		javaxt.io.Image warped = new javaxt.io.Image(image);
 		int width = warped.getWidth();
 		int height = warped.getHeight();
-		System.out.println(imagePath);
 		if (this.left){
 			warped.setCorners(0, 0, //UL
 					width, height / 4, //UR

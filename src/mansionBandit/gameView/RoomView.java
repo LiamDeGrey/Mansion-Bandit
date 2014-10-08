@@ -112,13 +112,16 @@ public class RoomView {
 	 * @param g
 	 */
 	public void paintRoom(Graphics g){
+		
+		//draw back wall
+		back.paint(g);
+		
 		if (left != null && right != null){
 			//draw sides first
 			left.paint(g);
 			right.paint(g);
 		}
-		//draw back wall
-		back.paint(g);
+		
 		//draw ceiling
 		ceiling.paint(g);
 		//finally draw the floor
