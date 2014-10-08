@@ -40,6 +40,7 @@ public class SideWallStrategy implements SurfaceStrategy {
 			try {
 				if (left){
 					obImage = ImageIO.read(this.getClass().getResource("/object/" + ob.getImage() + "L.png"));
+					javaxt.io.Image skewedImage = new javaxt.io.Image(obImage);
 				}else {
 					obImage = ImageIO.read(this.getClass().getResource("/object/" + ob.getImage() + "R.png"));
 				}
