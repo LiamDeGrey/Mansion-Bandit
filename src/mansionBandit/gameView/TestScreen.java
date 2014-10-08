@@ -35,9 +35,9 @@ public class TestScreen extends JFrame implements KeyListener{
         
         //           X
         //    [0][1][2][3][4]
-        // [0] _  R  R  R  _
+        // [0] _  R  H  R  _
         //Y[1] R  H  H  H  R
-        // [2] _  R  R  H  _
+        // [2] _  R  R  H  R
         //		[y][x]
         
         MansionArea[][] grid = new MansionArea[3][5];
@@ -48,11 +48,12 @@ public class TestScreen extends JFrame implements KeyListener{
         grid[1][0] = room2;
         grid[0][1] = room1;
         grid[0][2] = new Hallway();
-        grid[0][3] = room1;
+        grid[0][3] = room2;
         grid[2][1] = room1;
         grid[2][2] = room2;
         grid[2][3] = new Hallway();
         grid[1][4] = room1;
+        grid[2][4] = room2;
         
         //halways
         grid[1][1] = new Hallway();
@@ -62,6 +63,9 @@ public class TestScreen extends JFrame implements KeyListener{
         grid[1][1].setLinks(grid[0][1], grid[1][2], grid[2][1], grid[1][0]); //[1][1]
         grid[1][2].setLinks(grid[0][2], grid[1][3], grid[2][2], grid[1][1]); //[1][2]
         grid[1][3].setLinks(grid[0][3], grid[1][4], grid[2][3], grid[1][2]); //[1][3]
+
+        grid[0][2].setLinks(null, grid[0][3], grid[1][2], grid[0][1]); //[0][2]
+        grid[2][3].setLinks(grid[1][3], grid[2][4], null, grid[2][2]); //[2][3]
         p.getBandit().setArea(grid[1][1]);
 //        p.getBandit().setArea(demoRoom);
 

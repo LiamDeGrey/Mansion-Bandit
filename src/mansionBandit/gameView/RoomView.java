@@ -112,7 +112,6 @@ public class RoomView {
 	 * @param g
 	 */
 	public void paintRoom(Graphics g){
-		
 		//draw back wall
 		back.paint(g);
 		

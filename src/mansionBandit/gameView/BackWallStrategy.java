@@ -105,10 +105,13 @@ public class BackWallStrategy implements SurfaceStrategy {
 				break;
 			case EASTERN:
 				next = surface.roomView.room.getEast();
+				break;
 			}
 			
 			if (next != null && next instanceof Hallway && depth <= surface.roomView.viewDepthMAX){
 				nextRoom = new RoomView(next, face, surfaceX, surfaceY, surfaceWidth, surfaceHeight, depth + 1);
+				if (next != null && surface.roomView.sidePassage){
+				}
 			} else if (next != null && next instanceof Room){
 				try {
 					surfaceTexture = ImageIO.read(this.getClass().getResource("/walls/" + next.getWallTexture() + ".png"));
