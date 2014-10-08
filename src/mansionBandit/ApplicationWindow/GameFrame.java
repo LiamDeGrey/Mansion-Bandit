@@ -5,6 +5,7 @@ import java.awt.Canvas;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -151,13 +152,16 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	 */
 	private void setupInterface() {
 
+		//the layout of the menu
+		GridLayout gridLayout = new GridLayout(0,1,5,5);
+
 		// this panel is for the part of the UI that presents information about
 		// the player such as inventory
-		JPanel playerStatusPanel = new JPanel();
+		//JPanel playerStatusPanel = new JPanel(gridLayout);
 
 		// check that the window is not already active
 		// sets up a new frame
-		ingameMenuPanel = new JPanel();
+		ingameMenuPanel = new JPanel(gridLayout);
 
 		// creates the exit button
 		JButton menuExitButton = new JButton("Exit");
@@ -444,9 +448,9 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 					// if its at this spot then stop dragging and add it to the players inventory at specified position
 
 					player.addItem(draggingItem, getInventorySlot(e.getPoint()));
-					
+
 					System.out.println("added to inventory " + draggingItem.getImage());
-					
+
 					draggingItem = null;
 
 					// set the cursor back to default
@@ -454,10 +458,10 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 				}
 				 else {
 					// otherwise just drop the object at this position in the room
-					 
+
 					 //TODO add drop item method
 					//player.dropItem(e.getPoint());
-					
+
 					 draggingItem = null;
 
 					// set the cursor back to default
@@ -546,7 +550,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 						setCursorImage(e, draggingItem.getName() +".png");
 					}
 
-			
+
 				}
 				guiCanvas.repaint();
 
@@ -713,7 +717,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 		System.out.println("Set cursor to" +itemName);
 		try {
 
-			
+
 			img = ImageIO.read(this.getClass().getResource("/object/" + itemName));
 			//obImage = ImageIO.read(this.getClass().getResource("/object/" + ob.getImage() + ".png"));
 
