@@ -48,7 +48,6 @@ public class Grid {
 						rand = (int)(Math.random() * 2 + 1);//either 1 or 2
 						if(rand==1&&itemNum<allItems.size()) {
 							((Room)grid[i][j]).addItem(allItems.get(itemNum));//Add item to room
-							allItems.get(itemNum).setArea(grid[i][j]);
 							itemNum++;
 						}
 					}

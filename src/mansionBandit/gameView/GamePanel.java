@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 import sun.net.www.content.text.plain;
 import mansionBandit.gameWorld.areas.Room;
 import mansionBandit.gameWorld.main.Player;
-import mansionBandit.gameWorld.matter.Couch;
+import mansionBandit.gameWorld.matter.FurnitureStatic;
 import mansionBandit.gameWorld.matter.Decoration;
 import mansionBandit.gameWorld.matter.Face;
 import mansionBandit.gameWorld.matter.Dimensions;

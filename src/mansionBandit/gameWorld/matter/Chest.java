@@ -1,7 +1,5 @@
 package mansionBandit.gameWorld.matter;
 
-import mansionBandit.gameWorld.areas.MansionArea;
-
 
 /**
  * A chest with treasure in it that will benefit the
@@ -10,57 +8,19 @@ import mansionBandit.gameWorld.areas.MansionArea;
  *
  */
 public class Chest extends Openable {
-	private Dimensions position;
-	private Face face;
-	private String name;
 
 	public Chest(String name, Face face, Dimensions position){
-		this.position = position;
-		this.face = face;
-		this.name = name;
+		super(name, null, null, face, position);
 	}
 
 	@Override
-	public Face getFace() {
-		return face;
+	public String getImage(){
+		return "chest";
 	}
 
 	@Override
-	public Dimensions getDimensions() {
-		return position;
-	}
-
-	@Override
-	public String getName() {
-		return name;
-	}
-
-	@Override
-	public String getImage() {
-		return null;
-	}
-
-	@Override
-	public MansionArea getArea() {
-		return null;
-	}
-
-	@Override
-	public void setFace(Face f) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setDimensions(Dimensions d) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setArea(MansionArea r) {
-		// TODO Auto-generated method stub
-
+	public String getDescription(){
+		return "It's a chest!";
 	}
 
 }
