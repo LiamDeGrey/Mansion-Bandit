@@ -91,7 +91,8 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	private Player player;
 
 
-
+	//the offset of the mouse Y position, caused by the frame
+	private final int mouseOffSetY; 
 
 	//GUI FIELDS//
 	//the GUI drawing canvas
@@ -109,12 +110,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	public GameFrame(ApplicationMain main) {
 		super();
 
-
-
-//		game = main;
 		this.setLayout(null);
-
-
 
 
 		//creates the main menu
@@ -147,7 +143,9 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 		//sets up user interface elements
 		setupInterface();
 
-
+		System.out.println(" sfd" + this.getInsets());
+	
+		mouseOffSetY = getInsets().top;//-getInsets().bottom;
 	}
 
 	public Dimension getPreferredSize() {
@@ -402,14 +400,15 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	@Override
 	public void mouseReleased(MouseEvent e) {
 
+		int mouseX = e.getPoint().x;
+		int mouseY = e.getPoint().y - mouseOffSetY;
+		
 		//only checks for user input if gameplay has started
-
-		//TODO make all of these method calls apply to actual classes
-
+		
 		if(gameStarted){
 
 			//debug statement
-			System.out.println("Mouse release at " + e.getPoint().toString());
+			System.out.println("Mouse release at " + (mouseX) + " " + mouseY);
 
 		// left button released
 		if (e.getButton() == MouseEvent.BUTTON1) {
@@ -420,12 +419,12 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 				// see if there is an object or enemy at this position and
 				// whether it can be used on it
-				if (gamePanel.getObject(e.getPoint().x,e.getPoint().y) != null) {
+				if (gamePanel.getObject(mouseX,mouseY) != null) {
 
 					// check if the item being dragged can be used on the
 					// targeted item
-					//TODO ADD ab
-					if (draggingItem.useItemOn(draggingItem,gamePanel.getObject(e.getPoint().x,e.getPoint().y))) {
+					//TODO ADD ability to use items on other items
+					if (draggingItem.useItemOn(draggingItem,gamePanel.getObject(mouseX,mouseY))) {
 
 						// if it was used successfully, the item will have been
 						// used and is deleted and the item is removed from
@@ -455,11 +454,11 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 				}
 
 				// check if mouse is at an inventory slot and that slot is empty
-				else if(getInventorySlot(e.getPoint())>=0 && player.getItem(getInventorySlot(e.getPoint())) == null){
+				else if(getInventorySlot(mouseX,mouseY)>=0 && player.getItem(getInventorySlot(mouseX,mouseY)) == null){
 
 					// if its at this spot then stop dragging and add it to the players inventory at specified position
 
-					player.addItem(draggingItem, getInventorySlot(e.getPoint()));
+					player.addItem(draggingItem, getInventorySlot(mouseX,mouseY));
 
 					System.out.println("added to inventory " + draggingItem.getImage());
 
@@ -488,7 +487,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 				// check if there is an object/creature/item at mouse position
 
-				if (gamePanel.getObject(e.getPoint().x,e.getPoint().y) != null) {
+				if (gamePanel.getObject(mouseX,mouseY) != null) {
 
 					//TODO ADD DESCRIPTION TEXT FOR ITEMS
 					// change the description text to the items description
@@ -520,6 +519,10 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	public void mouseExited(MouseEvent arg0) {}
 
 	public void mousePressed(MouseEvent e) {
+		
+		int mouseX = e.getPoint().x;
+		int mouseY = e.getPoint().y - mouseOffSetY;
+		
 		//TODO make all of these method calls apply to actual classes
 
 				//only checks for user input if the game has started
@@ -533,10 +536,10 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 				if (draggingItem == null) {
 					// check if there is an item that can be dragged at the current
 					// mouse position
-					if (gamePanel.getObject(e.getPoint().x,e.getPoint().y) instanceof Grabable) {
+					if (gamePanel.getObject(mouseX,mouseY) instanceof Grabable) {
 
 						// begin dragging the item at mouse position
-						draggingItem = (Grabable) gamePanel.getObject(e.getPoint().x,e.getPoint().y);
+						draggingItem = (Grabable) gamePanel.getObject(mouseX,mouseY);
 
 						//hide the item from the room so that it no longer appears on the screen and CANT BE INTERRACTED WITH
 						//TODO: remove item from room
@@ -547,9 +550,9 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 					}
 				}
 					//else check if they selected an item in an inventory slot and that slot has an item in it
-					else if (player.getItem(getInventorySlot(e.getPoint())) != null) {
+					else if (player.getItem(getInventorySlot(mouseX,mouseY)) != null) {
 
-						Grabable inventoryItem = player.getItem(getInventorySlot(e.getPoint()));
+						Grabable inventoryItem = player.getItem(getInventorySlot(mouseX,mouseY));
 
 						// remove the item at the selected position from the players
 						// inventory
@@ -639,7 +642,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	 * @param the mouse position
 	 * @return the number of the inventory slot found at the mouse position. -1 if no slot found.
 	 */
-	private int getInventorySlot(Point p){
+	private int getInventorySlot(int x,int y){
 		int totalSlots =  player.getInventorySize();
 
 		  //needed so that it draws in the right position. Placeholder.
@@ -648,13 +651,13 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 		for(int i = 0; i<totalSlots;i++){
 
 			//if the mouse is in the x bounds of one of the inventory slots
-			if(p.x > inventoryBarPos.x + (i*inventorySlotSize) && p.x< inventoryBarPos.x + ((i+1)*inventorySlotSize)){
+			if(x > inventoryBarPos.x + (i*inventorySlotSize) && x< inventoryBarPos.x + ((i+1)*inventorySlotSize)){
 
 				System.out.println("inventory slot found X " + i);
 
 				//if the mouse is in the y bounds of the inventory slots
-				if(p.y> inventoryBarPos.y + inventoryBarYOffset && p.y<inventoryBarPos.y +inventorySlotSize + inventoryBarYOffset){
-
+				if(y> inventoryBarPos.y + inventoryBarYOffset && y<inventoryBarPos.y +inventorySlotSize + inventoryBarYOffset){
+			
 				System.out.println("inventory slot found Y " + i);
 
 				//return this inventory slot
