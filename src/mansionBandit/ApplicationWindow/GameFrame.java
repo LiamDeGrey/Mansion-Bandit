@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.Toolkit;
@@ -22,6 +23,7 @@ import java.io.IOException;
 import java.net.Socket;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -119,7 +121,8 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 		this.setLayout(null);
 
-
+		getContentPane().setBackground(Color.BLACK);
+		
 		//creates the main menu
 		mainMenu = new MainMenuPanel(this);
 
@@ -149,10 +152,8 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 		//sets up user interface elements
 		setupInterface();
-
-		System.out.println(" sfd" + this.getInsets());
 	
-		mouseOffSetY = getInsets().top;//-getInsets().bottom;
+		mouseOffSetY = getInsets().top;
 	}
 
 	public Dimension getPreferredSize() {
@@ -246,9 +247,9 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	 * Goes to the main menu by adding it to this frame
 	 */
 	private void enterMainMenu(){
-
-		//sets the location and dimensions of the menu
-		mainMenu.setBounds(mainMenu.getMenuX(), mainMenu.getMenuY(), mainMenu.getMenuWidth(), mainMenu.getMenuHeight());
+		  
+		
+	
 		
 		//adds the main menu;
 		this.add(mainMenu);
