@@ -38,8 +38,6 @@ public class SideWallStrategy implements SurfaceStrategy {
 
 		//draw objects on the wall
 		for (DrawnObject ob : surface.objects){
-			Image obImage = null;
-			obImage = ob.getImage();
 			g.drawImage(ob.getImage(), ob.getBoundX(), ob.getBoundY(), ob.getWidth(), ob.getHeight(), null);
 		}
 	}
@@ -51,8 +49,9 @@ public class SideWallStrategy implements SurfaceStrategy {
 	}
 
 	@Override
-	public void setupSurface(Surface surface, Face face) {
+	public void setupSurface(Surface surface, Face direction) {
 		this.surface = surface;
+		//get the warped image
 		surfaceTexture = warpImage("/walls/" + surface.roomView.room.getWallTexture() + ".png");
 		
 		//set bounds for the surface
@@ -65,11 +64,11 @@ public class SideWallStrategy implements SurfaceStrategy {
 			surfaceX = surface.roomView.boundX + ((surface.roomView.width * 3) / 4);
 		}
 
-		//here we check to see if we need to draw more rooms in the distance (eg are we in a hallway)
 		if (surface.roomView.room instanceof Hallway){
-
+			//if we are in a hallway we should look to see
+			//what room is on the other side of this surface
 			MansionArea nextRoom = null;
-			switch (face){
+			switch (direction){
 			case NORTHERN:
 				nextRoom = surface.roomView.room.getNorth();
 				break;
@@ -84,49 +83,60 @@ public class SideWallStrategy implements SurfaceStrategy {
 			}
 
 			if (nextRoom != null && nextRoom instanceof Hallway){
-				
+				//next room is another hallway we should draw.
+				//as it is a very specific perspective we must use a special constructor in RoomView
 				sideRoom = new RoomView(nextRoom, surface.roomView.playerDirection, surface.roomView.boundX, surface.roomView.boundY, surface.roomView.width, surface.roomView.height, left);
 
 			} else if (nextRoom != null && nextRoom instanceof Room){
+				//its a room, so use its texture for this surface
 				surfaceTexture = warpImage("/walls/" + nextRoom.getWallTexture() + ".png");
 			}
 		}
 		
 		//create object list for surface
-		createGameObjects(surface.roomView.room, face);
+		createGameObjects(surface.roomView.room, direction);
 	}
-
-		/**
-		 * wraps objects to be drawn into DrawnObjects
-	 * with appropriate size and position distortion
+	
+	/**
+	 * gets the objects in the room, filters them for this wall
+	 * only, and wraps them into a drawn object, complete with
+	 * resized bounds
 	 * 
-	 * @param wall
+	 * @param room the room this surface belongs to
+	 * @param direction the direction this surface is on
 	 */
-	private void createGameObjects(MansionArea room, Face face){
+	private void createGameObjects(MansionArea room, Face direction){
 		List<DrawnObject> obs = new ArrayList<DrawnObject>();
 		
-		//loop through objects on floor, and resize them
 		for (GameMatter item : room.getItems()){
-			if (item.getFace() != face){
+			if (item.getFace() != direction){
+				//item does not belong to this surface
 				continue;
 			}
-			//determine x and y based on direction facing in room
+			
 			int x = item.getDimensions().getX();
 			int y = item.getDimensions().getY();
 			
-			//get base height of object
-			int size = (int) ((((double) item.getDimensions().getScale()) / 100) * surfaceHeight);
+			//determine scale
+			int scale = (int) ((((double) item.getDimensions().getScale()) / 100) * surfaceHeight);
 			
-			/* determine width and height based on distance away from viewer perspective
-			 * this causes items that are further away to appear smaller
-			 * (variable scale is the level of scaling to apply as a double between 0.5 and 1) */
-			double scale = 0.5 + (0.5 * (((double) x) / 100));
+			/* determine where the vertical center of the image should be
+			 * it will be closer to the center, the further away it is,
+			 * same as for TopBottomStrategy, although the problem is
+			 * flipped onto its side
+			 *    ______________________
+			 *    \  o      :<---->o   /
+			 *     \  o     :<--->o   /
+			 *      \  o    :<-->o   /
+			 *       \__o___:<->o___/
+			 */
+			double distanceScale = 0.5 + (0.5 * (((double) x) / 100));
 			if (this.left){
 				//invert scale if this object is on the left
-				scale = 0.5 + (1 - scale);
+				distanceScale = 0.5 + (1 - distanceScale);
 			}
 			//apply scale
-			size = (int) (size * scale);
+			scale = (int) (scale * distanceScale);
 						
 			//determine where the vertical center of the image should be
 			int objectCenterY = (int) (surfaceY + (y * ((double) surfaceHeight / 100)));
@@ -134,20 +144,19 @@ public class SideWallStrategy implements SurfaceStrategy {
 			int surfaceCenterY = surfaceY + (surfaceHeight / 2);
 			int diff = Math.abs(surfaceCenterY - objectCenterY);
 			//apply scaling to the diff
-			diff = (int) (diff * scale);
+			diff = (int) (diff * distanceScale);
 			
 			//apply the new y position, and account for having to draw from top left corner
 			if (objectCenterY < surfaceCenterY){
-				objectCenterY = surfaceCenterY - diff - size;
+				objectCenterY = surfaceCenterY - diff - scale;
 			} else if (surfaceCenterY < objectCenterY){
-				objectCenterY = surfaceCenterY + diff - size;
+				objectCenterY = surfaceCenterY + diff - scale;
 			}
+
+			int left = (int) (surfaceX + (x * ((double) surfaceWidth / 100))) - (scale / 4);
 			
-			//TODO change variable names so that we're not relying on scope?
-			int left = (int) (surfaceX + (x * ((double) surfaceWidth / 100))) - (size / 4);
-						
-			//create the wrapped object and add to list
-			DrawnObject dob = new DrawnObject(item, warpImage("/object/" + item.getName() + ".png"), left, objectCenterY, size / 2, size);
+			//create the wrapped object and add to list (with warped image)
+			DrawnObject dob = new DrawnObject(item, warpImage("/object/" + item.getName() + ".png"), left, objectCenterY, scale / 2, scale);
 			obs.add(dob);
 		}
 		surface.objects = obs;
@@ -163,6 +172,7 @@ public class SideWallStrategy implements SurfaceStrategy {
 	 * @return an transformed Image object
 	 */
 	private Image warpImage(String imagePath){
+		//load image
 		BufferedImage image = null;
 		try {
 			image = ImageIO.read(this.getClass().getResource(imagePath));
@@ -170,15 +180,20 @@ public class SideWallStrategy implements SurfaceStrategy {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		//wrap in transformer object
 		javaxt.io.Image warped = new javaxt.io.Image(image);
 		int width = warped.getWidth();
 		int height = warped.getHeight();
+		
+		//apply the transform
+		//TODO drag far side towards vertical center for better perspective
 		if (this.left){
 			warped.setCorners(0, 0, //UL
 					width, height / 4, //UR
 					width, 3 * (height / 4), //LR
 					0, height);//LL
 		} else {
+			//right wall
 			warped.setCorners(0, height / 4, //UL
 					width, 0, //UR
 					width, height, //LR

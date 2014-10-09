@@ -14,6 +14,12 @@ import mansionBandit.gameWorld.matter.Decoration;
 import mansionBandit.gameWorld.matter.Dimensions;
 import mansionBandit.gameWorld.matter.Face;
 
+/**
+ * my own frame class that I can use as a sandbox to work on new features
+ * 
+ * @author Andy
+ *
+ */
 public class TestScreen extends JFrame implements KeyListener{
 	GamePanel gamePanel;
 	Player p;
@@ -92,7 +98,6 @@ public class TestScreen extends JFrame implements KeyListener{
         return demoRoom;
 	}
 
-	//TODO remove
 	private Decoration makeDeco(Face face){
 		int size = 20;
 		int x = (int) ((100 - size) * Math.random()) + (size / 2);
