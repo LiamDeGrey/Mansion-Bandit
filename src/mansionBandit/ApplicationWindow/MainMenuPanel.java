@@ -1,6 +1,7 @@
 package mansionBandit.ApplicationWindow;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -59,6 +60,8 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		setMenu(startMenuPanel);
 
 
+
+		this.setSize(1024,768);
 
 	 }
 

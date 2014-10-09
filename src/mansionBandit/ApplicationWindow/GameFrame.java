@@ -2,6 +2,7 @@ package mansionBandit.ApplicationWindow;
 
 import java.awt.BorderLayout;
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Frame;
@@ -108,13 +109,18 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	public GameFrame(ApplicationMain main) {
 		super();
 
+
+
 //		game = main;
+		this.setLayout(null);
+
+
+
 
 		//creates the main menu
 		mainMenu = new MainMenuPanel(this);
 
-		// canvas = new GameCanvas(this); // create canvas
-		setLayout(new BorderLayout()); // use border layour
+
 		// add(canvas, BorderLayout.CENTER); // add canvas
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);// set frame not to close
 														// when "x" button
@@ -141,6 +147,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 		//sets up user interface elements
 		setupInterface();
 
+
 	}
 
 	public Dimension getPreferredSize() {
@@ -152,12 +159,10 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	 */
 	private void setupInterface() {
 
-		//the layout of the menu
-		GridLayout gridLayout = new GridLayout(0,1,5,5);
-
+		GridLayout gridLayout = new GridLayout(0,1,10,10);
 		// this panel is for the part of the UI that presents information about
 		// the player such as inventory
-		//JPanel playerStatusPanel = new JPanel(gridLayout);
+
 
 		// check that the window is not already active
 		// sets up a new frame
@@ -201,7 +206,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 		menuResumeButton.setFocusable(false);
 
 		ingameMenuPanel.setVisible(false);
-		setLayout(new BorderLayout());
+		//setLayout(new BorderLayout());
 
 		ingameMenuPanel.setOpaque(true);
 
@@ -234,9 +239,11 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	 */
 	private void enterMainMenu(){
 
-
+		mainMenu.setBounds(256, 200, 600, 600);
 		//adds the main menu
-		this.add(mainMenu, BorderLayout.NORTH);
+		//this.add(mainMenu, BorderLayout.NORTH);
+		this.add(mainMenu);
+
 
 		mainMenu.setVisible(true);
 		//this.pack();
@@ -304,14 +311,18 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 	layeredPane = new JLayeredPane();
 
-	this.setLayout(new BorderLayout());
+	//this.setLayout(new BorderLayout());
 
-	this.add(layeredPane, BorderLayout.CENTER);
 
+
+	this.add(layeredPane);
+
+
+	//set the size and location of the layeredPane
 	layeredPane.setBounds(0,0,windowDimensionX,windowDimensionY);
 
 	//add in game menu
-	ingameMenuPanel.setBounds(0,0,windowDimensionX,windowDimensionY);
+	ingameMenuPanel.setBounds(0,200,windowDimensionX,windowDimensionY);
 	ingameMenuPanel.setOpaque(false);
 	//adds it at 3rd layer of the pane
 	layeredPane.add(ingameMenuPanel,new Integer(2),0);
@@ -341,6 +352,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 	//indicate that gameplay has started
 	gameStarted = true;
+
 	}
 
 
