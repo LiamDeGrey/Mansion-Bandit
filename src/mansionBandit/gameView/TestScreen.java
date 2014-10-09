@@ -107,14 +107,40 @@ public class TestScreen extends JFrame implements KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent arg0) {
-		p.turnLeft();
-		gamePanel.update();
+		//p.turnLeft();
+		//gamePanel.update();
 	}
 
+//	@Override
+//	public void keyReleased(KeyEvent arg0) {
+//		// TODO Auto-generated method stub
+//
+//	}
+	
 	@Override
-	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
+	public void keyReleased(KeyEvent e) {
+		//only checks for user input if the game has started
 
+		// if the user presses W
+		if (KeyEvent.getKeyText(e.getKeyCode()).equals("W")) {
+
+			// attempt to move the player forwards
+			p.moveForward();
+		}
+
+		else if (KeyEvent.getKeyText(e.getKeyCode()).equals("D")) {
+
+			// turn the player right
+			p.turnRight();
+		}
+
+		else if (KeyEvent.getKeyText(e.getKeyCode()).equals("A")) {
+
+			// turn the player left
+			p.turnLeft();
+		}
+		
+		gamePanel.update();
 	}
 
 	@Override
