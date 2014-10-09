@@ -72,6 +72,7 @@ public final class Client {
 					Object o = input.readObject();
 					if (o instanceof MansionArea[][]) {
 						System.out.println("Received grid");
+						player.setGrid((MansionArea[][]) o);
 					}
 				}
 				catch(IOException e) {
