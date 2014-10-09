@@ -562,10 +562,10 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 						// SET CURSOR TO ITEM HERE //
 						setCursorImage(e, draggingItem.getName() +".png");
 					}
-				}
+				
 					//else check if they selected an item in an inventory slot and that slot has an item in it
 					else if (player.getItem(getInventorySlot(mouseX,mouseY)) != null) {
-
+						
 						Grabable inventoryItem = player.getItem(getInventorySlot(mouseX,mouseY));
 
 						// remove the item at the selected position from the players
@@ -578,7 +578,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 						// SET CURSOR TO ITEM HERE //
 						setCursorImage(e, draggingItem.getName() +".png");
 					}
-
+				}
 
 				}
 				guiCanvas.repaint();
