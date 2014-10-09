@@ -40,6 +40,12 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 	//the dimension/width and height of the textboxes in the menu
 	private final Dimension textBoxDimension = new Dimension(150,25);
 
+	//the set location and dimensions of the menu
+	private final int menuX = 400;
+	private final int menuY = 250;
+	private final int menuH = 200;
+	private final int menuW = 200;
+
 	public MainMenuPanel(GameFrame frame){
 
 		//sets the frame that this menu will be placed in
@@ -62,7 +68,6 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 
 
 		this.setSize(1024,768);
-
 	 }
 
 
@@ -110,8 +115,6 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		startMenuPanel.add(exitButton);
 
 		BorderLayout borderLayout = new BorderLayout();
-
-
 	}
 
 	/**
@@ -432,5 +435,18 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 			e.printStackTrace();
 		}
 	}
-
+	
+	public int getMenuWidth(){
+		return menuW;
+	}
+	public int getMenuHeight(){
+		return menuH;
+	}
+	public int getMenuX(){
+		return menuX;
+	}
+	public int getMenuY(){
+		return menuY;
+	}
+	
 }

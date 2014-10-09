@@ -60,8 +60,15 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	//GameCanvas canvas = new GameCanvas();
 
 	// window dimensions
-	private int windowDimensionX = 1024;
-	private int windowDimensionY = 768;
+	private final int windowDimensionX = 1024;
+	private final int windowDimensionY = 768;
+	
+	
+	
+	private final int ingameMenuX = 325;
+	private final int ingameMenuY = 200;
+	private final int ingameMenuW = 150;
+	private final int ingameMenuH = 150;
 
 	// whether the player is currently dragging an item with the mouse
 	private Grabable draggingItem;
@@ -166,6 +173,37 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 		// sets up a new frame
 		ingameMenuPanel = new JPanel(gridLayout);
 
+		
+		// creates the resume button
+		JButton menuResumeButton = new JButton("Resume");
+		menuResumeButton.addActionListener(this);
+		menuResumeButton.setActionCommand("menuResumeBtn");
+		ingameMenuPanel.add(menuResumeButton);
+
+		// makes sure focus is kept on the main window
+		menuResumeButton.setFocusable(false);
+		
+		
+		// creates the help button
+		JButton menuHelpButton = new JButton("How to play");
+		menuHelpButton.addActionListener(this);
+		menuHelpButton.setActionCommand("menuHelpBtn");
+		ingameMenuPanel.add(menuHelpButton);
+
+		// makes sure focus is kept on the main window
+		menuHelpButton.setFocusable(false);
+		
+		
+		// creates the exit to menu button
+		JButton menuExitToMenuButton = new JButton("Main Menu");
+		menuExitToMenuButton.addActionListener(this);
+		menuExitToMenuButton.setActionCommand("menuExitToMenuBtn");
+		ingameMenuPanel.add(menuExitToMenuButton);
+
+		// makes sure focus is kept on the main window
+		menuExitToMenuButton.setFocusable(false);
+		
+		
 		// creates the exit button
 		JButton menuExitButton = new JButton("Exit");
 		menuExitButton.addActionListener(this);
@@ -176,38 +214,10 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 		menuExitButton.setFocusable(false);
 
 
-		// creates the exit button
-		JButton menuExitToMenuButton = new JButton("Main Menu");
-		menuExitToMenuButton.addActionListener(this);
-		menuExitToMenuButton.setActionCommand("menuExitToMenuBtn");
-		ingameMenuPanel.add(menuExitToMenuButton);
-
-		// makes sure focus is kept on the main window
-		menuExitToMenuButton.setFocusable(false);
-
-		// creates the help button
-		JButton menuHelpButton = new JButton("How to play");
-		menuHelpButton.addActionListener(this);
-		menuHelpButton.setActionCommand("menuHelpBtn");
-		ingameMenuPanel.add(menuHelpButton);
-
-		// makes sure focus is kept on the main window
-		menuHelpButton.setFocusable(false);
-
-		// creates the help button
-		JButton menuResumeButton = new JButton("Resume");
-		menuResumeButton.addActionListener(this);
-		menuResumeButton.setActionCommand("menuResumeBtn");
-		ingameMenuPanel.add(menuResumeButton);
-
-		// makes sure focus is kept on the main window
-		menuResumeButton.setFocusable(false);
-
 		ingameMenuPanel.setVisible(false);
 		//setLayout(new BorderLayout());
 
 		ingameMenuPanel.setOpaque(true);
-
 
 
 		pack();
@@ -237,14 +247,13 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	 */
 	private void enterMainMenu(){
 
-		mainMenu.setBounds(256, 200, 600, 600);
-		//adds the main menu
-		//this.add(mainMenu, BorderLayout.NORTH);
+		//sets the location and dimensions of the menu
+		mainMenu.setBounds(mainMenu.getMenuX(), mainMenu.getMenuY(), mainMenu.getMenuWidth(), mainMenu.getMenuHeight());
+		
+		//adds the main menu;
 		this.add(mainMenu);
 
-
 		mainMenu.setVisible(true);
-		//this.pack();
 		mainMenu.revalidate();
 		mainMenu.repaint();
 		this.revalidate();
@@ -309,9 +318,6 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 	layeredPane = new JLayeredPane();
 
-	//this.setLayout(new BorderLayout());
-
-
 
 	this.add(layeredPane);
 
@@ -320,15 +326,22 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	layeredPane.setBounds(0,0,windowDimensionX,windowDimensionY);
 
 	//add in game menu
-	ingameMenuPanel.setBounds(0,200,windowDimensionX,windowDimensionY);
+	ingameMenuPanel.setBounds(ingameMenuX,ingameMenuY,ingameMenuW,ingameMenuH);
 	ingameMenuPanel.setOpaque(false);
+	
+	//gives it a black background
+	ingameMenuPanel.setBackground(Color.black);
+	ingameMenuPanel.setOpaque(true);
+	
 	//adds it at 3rd layer of the pane
 	layeredPane.add(ingameMenuPanel,new Integer(2),0);
 
-
+	
 	//add the rendering panel
 	gamePanel = new GamePanel(player);
+	
 	gamePanel.setBounds(0,0,windowDimensionX,windowDimensionY);
+	
 	gamePanel.setOpaque(false);
 	//adds it at bottom layer of the pane
 	layeredPane.add(gamePanel,new Integer(0),0);
