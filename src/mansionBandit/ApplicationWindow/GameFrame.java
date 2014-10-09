@@ -702,6 +702,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	}
 
 	//TODO: this method requires a game world parameter
+	//TODO: need to create a ServerRunning thread which will call this method. (last line must be in a thread)
 	public void runServer(int port, int nclients, String userName) {
 		System.out.println("Creating server on port " + port + " with " + nclients + " limit");
 
