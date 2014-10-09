@@ -277,6 +277,7 @@ public class TopBottomStrategy implements SurfaceStrategy {
 	 * @return the transformed Image object
 	 */
 	private Image warpImage(String imagePath){
+		//TODO seems to be an issue with images not tiling correctly rotation???
 		BufferedImage image = null;
 		//load image
 		try {
