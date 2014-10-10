@@ -511,6 +511,25 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		this.repaint();
 	}
 
+	public void clientPlayerHasConnected(ArrayList<String> usernameList){
+		if(clientPlayer1NameLabel.getText().equals("Empty slot")){
+			clientPlayer1NameLabel.setText(usernameList.get(0));
+		}
+		else if(clientPlayer2NameLabel.getText().equals("Empty slot"))
+		{
+			clientPlayer2NameLabel.setText(usernameList.get(1));
+		}
+		else if(clientPlayer3NameLabel.getText().equals("Empty slot"))
+		{
+			clientPlayer3NameLabel.setText(usernameList.get(2));
+		}
+		else if(clientPlayer3NameLabel.getText().equals("Empty slot"))
+		{
+			clientPlayer4NameLabel.setText(usernameList.get(3));
+		}
+		this.repaint();
+	}
+
 	/**
 	 * starts process to begin hosting a game. Uses textfields for any required information.
 	 */

@@ -565,7 +565,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 						//hide the item from the room so that it no longer appears on the screen and CANT BE INTERRACTED WITH
 						//TODO: remove item from room
-						//draggingItem.remove();
+						//player.getBandit().getArea().removeItem(draggingItem)
 
 						// SET CURSOR TO ITEM HERE //
 						setCursorImage(e, draggingItem.getImage() +".png");
