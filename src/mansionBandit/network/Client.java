@@ -20,7 +20,6 @@ public final class Client {
 	private final Socket socket;
 	private ObjectOutputStream output;
 	private ObjectInputStream input;
-	private int uid; //unique id
 	private String username;
 	private ArrayList<String> usernameList;
 
@@ -35,32 +34,61 @@ public final class Client {
 		usernameList = new ArrayList<String>();
 		this.gameFrame = gameframe;
 	}
-
+	
+	/**
+	 * This method sets up the Client by creating a ServerListener thread and sending
+	 * the Client's username.
+	 * @author Shreyas
+	 * 
+	 */
 	public void start() {
 		try {
 			System.out.println("Client creating new streams");
 			output = new ObjectOutputStream(socket.getOutputStream());
 			input = new ObjectInputStream(socket.getInputStream());
 
-			//read game info
+			//Reading initial info from Server, also setting up a listener thread
 			new ServerListener().start();
 
-			//write our username to server
+			//Write our username to server
 			try {
-				output.writeObject(username); //Client writing test id here
+				output.writeObject(username);
 			}
 			catch (IOException e) {
 				System.out.println("Exception writing uid to server : " + e);
+				disconnect();
 			}
 
 		} catch(IOException e) {
 			System.err.println("I/O Error: " + e.getMessage());
 			e.printStackTrace(System.err);
+			disconnect();
 		}
 	}
 
-	// TODO: MOVEMENT DETECTION METHODS (SENDING UPDATES)
-	// TODO: DISCONNECT METHOD FOR SAFETY
+	// TODO: METHODS FOR SENDING UPDATES
+	
+	/**
+	 * The disconnect method closes all I/O streams and closes the socket.
+	 * @author Shreyas
+	 * 
+	 */
+	private void disconnect() {
+		try {
+			if(input != null) input.close();
+		}
+		catch(Exception e) {}
+		try {
+			if(output != null) output.close();
+		}
+		catch(Exception e) {}
+        try{
+			if(socket != null) socket.close();
+		}
+		catch(Exception e) {}
+        
+        //TODO: NEED TO INFORM THE GUI
+	}
 
 	/**
 	 * This class is used to wait for messages from the server in order to update the
@@ -73,7 +101,7 @@ public final class Client {
 		public void run() {
 			while(true) {
 				try {
-					//read server updates here
+					//Read server updates here
 					Object o = input.readObject();
 					if (o instanceof MansionArea[][]) {
 						System.out.println("Received grid");
@@ -97,7 +125,7 @@ public final class Client {
 	}
 
 	/**
-	 * @return The gameWorld this client is using
+	 * @return The Player this Client is associated with.
 	 */
 	public Slave getPlayer(){
 		return player;
