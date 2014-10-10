@@ -14,7 +14,8 @@ import mansionBandit.gameWorld.areas.StartSpace;
  *
  */
 public class Bandit extends Character{
-	private List<Grabable> inventory = new ArrayList<Grabable>();
+	//private List<Grabable> inventory = new ArrayList<Grabable>();
+	private Grabable[] inventory = new Grabable[7];
 	private StartSpace van;
 	private MansionArea[][] grid;
 	private MansionArea area;
@@ -131,8 +132,8 @@ public class Bandit extends Character{
 	 */
 	public boolean addItem(Grabable itm, int slot){
 		if(slot>=0&&slot<=6){
-			if(inventory.get(slot)==null){
-				inventory.set(slot, itm);
+			if(inventory[slot]==null){
+				inventory[slot] = itm;
 				return true;
 			}
 		}
@@ -147,9 +148,9 @@ public class Bandit extends Character{
 	 * @return
 	 */
 	public Grabable getItem(int slot){
-		if(inventory.size() > slot){
+		if(inventory.length > slot){
 			if(slot>=0&&slot<=5){
-				return inventory.get(slot);
+				return inventory[slot];
 				}
 			}
 		return null;
@@ -161,8 +162,10 @@ public class Bandit extends Character{
 	 * @return whether the item was added succesfully
 	 */
 	public boolean addItem(Grabable item){
-		if(inventory.size()<6){
-			return inventory.add(item);
+		for(int i=0; i<inventory.length; i++){
+			if(inventory[i]==null){
+				inventory[i] = item;
+			}
 		}
 		return false;
 	}
@@ -180,10 +183,12 @@ public class Bandit extends Character{
 	}
 
 	/**
-	 * TODO Kill the bandit
+	 * Kill the bandit drop their items and send back to van
 	 */
 	public void killBandit(){
-
+		//for()
+		van.addItem(this);
+		area = van;
 	}
 
 	@Override
@@ -200,8 +205,8 @@ public class Bandit extends Character{
 	 * sets the 6 inventory slots to null at the start
 	 */
 	public void initialiseInventory(){
-		for(int i=0;i<7;i++){
-			inventory.add(null);
+		for(int i=0; i<inventory.length; i++){
+			inventory[i] = null;
 		}
 	}
 

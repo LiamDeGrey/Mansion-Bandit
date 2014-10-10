@@ -10,6 +10,7 @@ import java.io.Serializable;
  *
  */
 public abstract class  GameMatter implements Serializable {
+	private static int itemCounter = 0;
 	private Face face;
 	private Dimensions dimens;
 	private String name;
@@ -71,6 +72,22 @@ public abstract class  GameMatter implements Serializable {
 	 */
 	public String getDescription(){
 		return description;
+	}
+
+	/**
+	 * returns amount of items made
+	 */
+	public int getItemCounter(){
+		return itemCounter++;
+	}
+
+
+	@Override
+	public boolean equals(Object o){
+		if(this.getName().equals(((GameMatter) o).getName())){
+			return true;
+		}
+		return false;
 	}
 
 
