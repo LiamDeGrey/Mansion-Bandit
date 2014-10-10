@@ -8,8 +8,9 @@ import mansionBandit.gameWorld.matter.Door;
 import mansionBandit.gameWorld.matter.Face;
 
 public class RoomFactory {
-	private static final int roomFloorObjects = 3;
+	private static final int roomFloorObjects = 3, chanceToLock = 7, chanceToHallwayItem = 5;
 	private ItemFactory floorItems;
+	private Random random;
 	
 	public RoomFactory(){
 		//setup wall texture lists
@@ -17,6 +18,7 @@ public class RoomFactory {
 		//.. ceilings
 		//setup object factory(s)
 		floorItems = new ItemFactory("floor");
+		random = new Random();
 	}
 	
 	/**
@@ -28,17 +30,19 @@ public class RoomFactory {
 		//populate doors
 		//TODO random placed doors? (x axis)
 		if (room.getNorth() != null && !(room instanceof Hallway && room.getNorth() instanceof Hallway)){
-			//room.addItem(new Door("North Door", new Dimensions(50, 100, 70), Face.NORTHERN, false, ""));
+			room.addItem(new Door("North Door", Face.NORTHERN, new Dimensions(50, 100, 70), random.nextInt(chanceToLock) == 1));
 		}
-		if (room.getEast() != null && !(room instanceof Hallway && room.getEast() instanceof Hallway)){
-			//room.addItem(new Door("East Door", new Dimensions(50, 100, 70), Face.EASTERN, false, ""));
+		if (room.getEast() != null && (room instanceof Room || room.getEast() instanceof Room)){
+			room.addItem(new Door("East Door", Face.EASTERN, new Dimensions(50, 100, 70), random.nextInt(chanceToLock) == 1));
 		}
-		if (room.getSouth() != null && !(room instanceof Hallway && room.getSouth() instanceof Hallway)){
-			//room.addItem(new Door("South Door", new Dimensions(50, 100, 70), Face.SOUTHERN, false, ""));
+		if (room.getSouth() != null && (room instanceof Room || room.getSouth() instanceof Room)){
+			room.addItem(new Door("South Door", Face.SOUTHERN, new Dimensions(50, 100, 70), random.nextInt(chanceToLock) == 1));
 		}
-		if (room.getWest() != null && !(room instanceof Hallway && room.getWest() instanceof Hallway)){
-			//room.addItem(new Door("West Door", new Dimensions(50, 100, 70), Face.WESTERN, false, ""));
+		if (room.getWest() != null && (room instanceof Room || room.getWest() instanceof Room)){
+			room.addItem(new Door("West Door", Face.WESTERN, new Dimensions(50, 100, 70), random.nextInt(chanceToLock) == 1));
 		}
+		
+		//place objects
 		if (room instanceof Hallway){
 			//call factory on the ceiling 
 			popFloor(room, false);
@@ -58,13 +62,12 @@ public class RoomFactory {
 	 */
 	private void popFloor(MansionArea room, boolean isRoom){
 		int numbObjects = 0;
-		Random rand = new Random();
 		//determine number of objects to create
 		if (isRoom){
-			numbObjects = rand.nextInt(roomFloorObjects);
+			numbObjects = random.nextInt(roomFloorObjects);
 		} else {
 			// much lower chance of random
-			numbObjects = rand.nextInt(5);
+			numbObjects = random.nextInt(chanceToHallwayItem);
 			if (numbObjects != 1){
 				numbObjects = 3;
 			}

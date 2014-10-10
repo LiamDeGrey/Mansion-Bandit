@@ -190,7 +190,7 @@ public class TopBottomStrategy implements SurfaceStrategy {
 			//load image
 			BufferedImage image = null;
 			try {
-				image = ImageIO.read(this.getClass().getResource("/object/" + item.getName() + ".png"));
+				image = ImageIO.read(this.getClass().getResource("/object/" + item.getImage() + ".png"));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

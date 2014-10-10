@@ -156,7 +156,7 @@ public class SideWallStrategy implements SurfaceStrategy {
 			int left = (int) (surfaceX + (x * ((double) surfaceWidth / 100))) - (scale / 4);
 			
 			//create the wrapped object and add to list (with warped image)
-			DrawnObject dob = new DrawnObject(item, warpImage("/object/" + item.getName() + ".png"), left, objectCenterY, scale / 2, scale);
+			DrawnObject dob = new DrawnObject(item, warpImage("/object/" + item.getImage() + ".png"), left, objectCenterY, scale / 2, scale);
 			obs.add(dob);
 		}
 		surface.objects = obs;
