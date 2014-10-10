@@ -8,7 +8,7 @@ import mansionBandit.gameWorld.matter.Door;
 import mansionBandit.gameWorld.matter.Face;
 
 public class RoomFactory {
-	private static final int roomFloorObjects = 3, roomWallObjects = 2, chanceToLock = 7, chanceToHallwayItem = 5;
+	private final int roomFloorObjects = 3, roomWallObjects = 2, chanceToLock = 7, chanceToHallwayItem = 5, chanceToHallWallItem = 8;
 	private ItemFactory floorItems, ceilingItems, hallWallItems, wallItems;
 	private RoomPainter roomPainter;
 	private Random random;
@@ -92,11 +92,38 @@ public class RoomFactory {
 	 * @param isRoom true if room is a Room object (as opposed to hallway)
 	 */
 	private void popWall(MansionArea room, boolean isRoom){
+		Face face = Face.NORTHERN;
 		if (isRoom){
-			int numbObjects = random.nextInt(roomWallObjects);
-			
+			do {
+				int numbObjects = random.nextInt(roomWallObjects);
+				for (int i = 0; i < numbObjects; i++){
+					//add random object to room
+					room.addItem(wallItems.getItem(face));
+				}
+				face = face.getLeft(face);
+			} while (face != Face.NORTHERN);
+
 		} else {
-			
+			//check hall way for valid walls
+			if (room.getNorth() instanceof Room){
+				makeHallWallItem(room, Face.NORTHERN);
+			}
+			if (room.getEast() instanceof Room){
+				makeHallWallItem(room, Face.EASTERN);
+			}
+			if (room.getSouth() instanceof Room){
+				makeHallWallItem(room, Face.SOUTHERN);
+			}
+			if (room.getWest() instanceof Room){
+				makeHallWallItem(room, Face.WESTERN);
+			}
+		}
+	}
+	
+	private void makeHallWallItem(MansionArea room, Face face){
+		if (random.nextInt(chanceToHallWallItem) == 1){
+			//add random object to room
+			room.addItem(hallWallItems.getItem(face));
 		}
 	}
 }
