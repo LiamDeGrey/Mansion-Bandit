@@ -21,6 +21,7 @@ import mansionBandit.gameWorld.main.Host;
 public final class Server {
 	private static int uniqueID;
 	private String username;
+	private ArrayList<String> usernameList;
 	private int port, playerLimit;
 	private ArrayList<ClientThread> clientList;
 	private boolean end;
@@ -31,6 +32,7 @@ public final class Server {
 		this.port = port;
 		this.playerLimit = playerLimit;
 		this.username = userName;
+		usernameList = new ArrayList<String>();
 		clientList = new ArrayList<ClientThread>();
 		this.player = player;
 		this.gameFrame = gameframe;
@@ -99,12 +101,16 @@ public final class Server {
 				//Read username that Client broadcasts to us
 				username = (String) input.readObject();
 				System.out.println(username + " has connected.");
+				usernameList.add(username);
 				gameFrame.repaint();
 				gameFrame.playerHasConnected(username);
 
 				//Broadcasting grid to clients that connect
 				MansionArea[][] grid = player.getGrid();
 				output.writeObject(grid);
+
+				//Broadcasting username list to clients that connect
+				output.writeObject(usernameList);
 			}
 			catch (IOException e) {
 				System.out.println(username + ": Exception creating IO Object Streams: " + e);
