@@ -3,6 +3,7 @@ package mansionBandit.gameWorld.areas;
 import java.io.Serializable;
 import java.util.List;
 
+import mansionBandit.gameWorld.matter.Door;
 import mansionBandit.gameWorld.matter.GameMatter;
 
 /**
@@ -88,5 +89,11 @@ public interface MansionArea extends Serializable {
 	 * @return String name of texture
 	 */
 	public String getFloorTexture();
+	
+	/**
+	 * sets the doors for each area
+	 * @param d the door to be set
+	 */
+	public void setDoor(Door d);
 
 }

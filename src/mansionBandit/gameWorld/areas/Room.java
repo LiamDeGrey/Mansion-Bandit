@@ -3,6 +3,7 @@ package mansionBandit.gameWorld.areas;
 import java.util.ArrayList;
 import java.util.List;
 
+import mansionBandit.gameWorld.matter.Door;
 import mansionBandit.gameWorld.matter.GameMatter;
 
 /**
@@ -14,12 +15,32 @@ import mansionBandit.gameWorld.matter.GameMatter;
 public class Room implements MansionArea{
 	private MansionArea north, east, south, west;
 	private List<GameMatter> items = new ArrayList<GameMatter>();
-	private String wallTexture, ceilingTexture, floorTexture = null;
+	private String wallTexture, ceilingTexture, floorTexture;
+	private Door nDoor, eDoor, sDoor, wDoor;
 
 	public Room(String wall, String ceiling, String floor){
 		this.wallTexture = wall;
 		this.ceilingTexture = ceiling;
 		this.floorTexture = floor;
+	}
+	
+	private void makeDoors() {
+		if(north!=null) {
+			nDoor = new Door("NDoor", false, "keyA");
+			north.setDoor(nDoor);
+		}
+		if(east!=null) {
+			eDoor = new Door("EDoor", false, "keyA");
+			east.setDoor(eDoor);
+		}
+		if(south!=null) {
+			sDoor = new Door("SDoor", false, "keyA");
+			south.setDoor(sDoor);
+		}
+		if(west!=null) {
+			wDoor = new Door("WDoor", false, "keyA");
+			west.setDoor(wDoor);
+		}
 	}
 
 	/*
@@ -46,6 +67,7 @@ public class Room implements MansionArea{
 		this.east = east;
 		this.south = south;
 		this.west = west;
+		makeDoors();
 	}
 
 	public void addItem(GameMatter itm){
@@ -101,6 +123,18 @@ public class Room implements MansionArea{
 	@Override
 	public void setEast(MansionArea area) {
 		this.east = area;
+	}
+
+	@Override
+	public void setDoor(Door d) {
+		if(d.getName().equals("NDoor"))
+			sDoor = d;
+		else if(d.getName().equals("EDoor"))
+			wDoor = d;
+		else if(d.getName().equals("SDoor"))
+			nDoor = d;
+		else if(d.getName().equals("WDoor"))
+			eDoor = d;
 	}
 
 }

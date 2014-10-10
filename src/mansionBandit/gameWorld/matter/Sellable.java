@@ -13,6 +13,9 @@ public class Sellable extends Grabable{
 	private String name;
 	private String image;
 	private int value;
+	private Face face;
+	private Dimensions dimens;
+	private MansionArea area;
 
 	public Sellable(){
 		randomize();
@@ -39,29 +42,32 @@ public class Sellable extends Grabable{
 
 	@Override
 	public Face getFace() {
-		return null;
+		return face;
 	}
 
 	@Override
 	public void setFace(Face f) {
+		face = f;
 	}
 
 	@Override
 	public Dimensions getDimensions() {
-		return null;
+		return dimens;
 	}
 
 	@Override
 	public void setDimensions(Dimensions d) {
+		dimens = d;
 	}
 
 	@Override
 	public MansionArea getArea() {
-		return null;
+		return area;
 	}
 
 	@Override
 	public void setArea(MansionArea r) {
+		area = r;
 	}
 
 	@Override
