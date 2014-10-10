@@ -68,12 +68,6 @@ public class GUICanvas extends JPanel{
 
 	        		System.out.println(player.getItem(i).getName());
 
-	        		//obImage = ImageIO.read(this.getClass().getResource("/object/" + ob.getImage() + ".png"));
-
-	        		//set up the path to the image
-	        		String imgPath = "/object/"+player.getItem(i).getImage();
-
-
 	        		//set up the image at slot i in player inventory
 	        		BufferedImage img;
 					try {

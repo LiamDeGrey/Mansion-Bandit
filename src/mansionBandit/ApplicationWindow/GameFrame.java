@@ -110,7 +110,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	private GUICanvas guiCanvas;
 
 	//the position of the inventory bar
-	private final Point inventoryBarPos = new Point(50,250);
+	private final Point inventoryBarPos = new Point(50,300);
 
 	private final int inventorySlotSize = 100;
 
@@ -503,25 +503,15 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 			}
 
-
-			// if the player isn't dragging an item
-			else {
-
-				// check if there is an object/creature/item at mouse position
-
-				if (gamePanel.getObject(mouseX,mouseY) != null) {
-
-					//TODO ADD DESCRIPTION TEXT FOR ITEMS
-					// change the description text to the items description
-					//descriptionText = gamePanel.getObject(e.getPoint().x, e.getPoint().y).getDescription();
-				}
-			}
-
-
-		// right button released
 		}
 		if (e.getButton() == MouseEvent.BUTTON3) {
-
+			
+			// check if there is an object/creature/item at mouse position
+			if (gamePanel.getObject(mouseX,mouseY) != null) {
+				
+				// change the description text to the items description
+				descriptionText = gamePanel.getObject(mouseX, mouseY).getDescription();
+			}
 		}
 
 
@@ -542,6 +532,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 	public void mousePressed(MouseEvent e) {
 
+		if(e.getButton() == MouseEvent.BUTTON1){
 		int mouseX = e.getPoint().x;
 		int mouseY = e.getPoint().y - mouseOffSetY;
 
@@ -590,7 +581,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 				}
 				guiCanvas.repaint();
-
+		}
 	}
 
 	// WINDOW INTERACTION//
