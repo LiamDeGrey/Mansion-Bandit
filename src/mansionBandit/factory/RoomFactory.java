@@ -9,7 +9,7 @@ import mansionBandit.gameWorld.matter.Face;
 
 public class RoomFactory {
 	private static final int roomFloorObjects = 3, chanceToLock = 7, chanceToHallwayItem = 5;
-	private ItemFactory floorItems;
+	private ItemFactory floorItems, ceilingItems;
 	private RoomPainter roomPainter;
 	private Random random;
 	
@@ -18,6 +18,8 @@ public class RoomFactory {
 		roomPainter = new RoomPainter("/texture/room.txt");
 		//setup object factory(s)
 		floorItems = new ItemFactory("/object/floor.txt");
+		
+		ceilingItems = new ItemFactory("/object/ceiling.txt");
 		
 		random = new Random();
 	}

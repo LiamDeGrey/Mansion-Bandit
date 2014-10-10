@@ -813,7 +813,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	//TODO get rid of later
 	public Room makeRoom(){
 		//currently this is a test integration of objects
-        Room demoRoom = new Room("wall1", "ceiling1", "carpet1");
+        Room demoRoom = new Room("wall1", "ceiling1", "floor1");
         //demo object to be placed on all sides
         demoRoom.addItem(makeDeco(Face.FLOOR));
         demoRoom.addItem(makeDeco(Face.EASTERN));
