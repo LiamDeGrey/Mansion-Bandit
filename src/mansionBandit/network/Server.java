@@ -33,6 +33,7 @@ public final class Server {
 		this.playerLimit = playerLimit;
 		this.username = userName;
 		usernameList = new ArrayList<String>();
+		usernameList.add(username);
 		clientList = new ArrayList<ClientThread>();
 		this.player = player;
 		this.gameFrame = gameframe;
@@ -103,7 +104,7 @@ public final class Server {
 				System.out.println(username + " has connected.");
 				usernameList.add(username);
 				gameFrame.repaint();
-				gameFrame.playerHasConnected(username);
+				gameFrame.playerHasConnected(usernameList);
 
 				//Broadcasting grid to clients that connect
 				MansionArea[][] grid = player.getGrid();

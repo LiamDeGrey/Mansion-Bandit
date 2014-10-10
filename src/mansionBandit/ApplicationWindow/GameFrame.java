@@ -21,6 +21,7 @@ import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -743,8 +744,8 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	/**
 	 * indicates that a player has connected to the game
 	 */
-	public void playerHasConnected(String username){
-		mainMenu.playerHasConnected(username);
+	public void playerHasConnected(ArrayList<String> usernameList){
+		mainMenu.playerHasConnected(usernameList);
 	}
 
 	/**
