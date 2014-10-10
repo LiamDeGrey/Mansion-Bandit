@@ -8,7 +8,10 @@ import com.sun.xml.internal.ws.api.pipe.NextAction;
 import mansionBandit.gameWorld.matter.Decoration;
 import mansionBandit.gameWorld.matter.Dimensions;
 import mansionBandit.gameWorld.matter.Face;
+import mansionBandit.gameWorld.matter.FurnitureStatic;
 import mansionBandit.gameWorld.matter.GameMatter;
+import mansionBandit.gameWorld.matter.Key;
+import mansionBandit.gameWorld.matter.Sellable;
 
 public class ItemTemplate {
 
@@ -54,17 +57,18 @@ public class ItemTemplate {
 			x = random.nextInt(100 - scale) + (scale / 2);
 			y = random.nextInt(100 - scale) + scale;
 		}
-		Dimensions dim = new Dimensions(x, y, scale);
+		Dimensions position = new Dimensions(x, y, scale);
 		
 		if (type.equals("sell")){
-			//return new sellable
-			//return null;
-			return new Decoration(image, face, dim);
+			return new Sellable(name, description, image, face, position, value);
+		} else if (type.equals("static")){
+			//return new furniture
+			return new FurnitureStatic(name, description, image, face, position);
+		} else if (type.equals("key")){
+			return new Key(name, face, position);
 		} else {
-			//return new Decoration
-			return new Decoration(image, face, dim);
+			return null;
 		}
-		
 	}
 	
 	
