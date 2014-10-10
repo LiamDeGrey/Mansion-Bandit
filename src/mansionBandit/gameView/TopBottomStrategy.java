@@ -187,7 +187,6 @@ public class TopBottomStrategy implements SurfaceStrategy {
 				top -= scale;
 			}
 
-			System.out.println("/object/" + item.getImage() + ".png");
 			//load image
 			BufferedImage image = null;
 			try {
@@ -281,7 +280,6 @@ public class TopBottomStrategy implements SurfaceStrategy {
 		//TODO seems to be an issue with images not tiling correctly rotation???
 		BufferedImage image = null;
 		//load image
-		System.out.println(imagePath);
 		try {
 			image = ImageIO.read(this.getClass().getResource(imagePath));
 		} catch (IOException e) {

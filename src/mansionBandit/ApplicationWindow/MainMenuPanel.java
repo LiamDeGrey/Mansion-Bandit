@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -39,6 +40,12 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 	JLabel player2NameLabel =new JLabel("Empty slot");
 	JLabel player3NameLabel=new JLabel("Empty slot");
 	JLabel player4NameLabel=new JLabel("Empty slot");
+
+	//player name fields for the lobby
+	JLabel clientPlayer1NameLabel = new JLabel("Empty slot");
+	JLabel clientPlayer2NameLabel =new JLabel("Empty slot");
+	JLabel clientPlayer3NameLabel=new JLabel("Empty slot");
+	JLabel clientPlayer4NameLabel=new JLabel("Empty slot");
 
 	//the textbox that multiplayer users into their name into
 	private JTextField usernameTextField;
@@ -335,19 +342,13 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 
 		//Sets up the labels that will display the names of the players
 		//JLabel player1NameLabel = new JLabel();
-		slaveLobbyMenuPanel.add(player1NameLabel);
+		slaveLobbyMenuPanel.add(clientPlayer1NameLabel);
 		//JLabel player2NameLabel = new JLabel();
-		slaveLobbyMenuPanel.add(player2NameLabel);
+		slaveLobbyMenuPanel.add(clientPlayer2NameLabel);
 		//JLabel player3NameLabel = new JLabel();
-		slaveLobbyMenuPanel.add(player3NameLabel);
+		slaveLobbyMenuPanel.add(clientPlayer3NameLabel);
 		//JLabel player4NameLabel = new JLabel();
-		slaveLobbyMenuPanel.add(player4NameLabel);
-
-		player1NameLabel.setText("Empty slot 1");
-		player2NameLabel.setText("Empty slot 2");
-		player3NameLabel.setText("Empty slot 3");
-		player4NameLabel.setText("Empty slot 4");
-
+		slaveLobbyMenuPanel.add(clientPlayer4NameLabel);
 
 		//set the position of the menu
 		slaveLobbyMenuPanel.setBounds(menuX,menuY,menuH,menuW);
@@ -493,19 +494,19 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 	}
 
 
-	public void playerHasConnected(String username){
+	public void playerHasConnected(ArrayList<String> usernameList){
 
 		if(player2NameLabel.getText().equals("Empty slot"))
 		{
-			player2NameLabel.setText(username);
+			player2NameLabel.setText(usernameList.get(1));
 		}
 		else if(player3NameLabel.getText().equals("Empty slot"))
 		{
-			player3NameLabel.setText(username);
+			player3NameLabel.setText(usernameList.get(2));
 		}
 		else if(player3NameLabel.getText().equals("Empty slot"))
 		{
-			player4NameLabel.setText(username);
+			player4NameLabel.setText(usernameList.get(3));
 		}
 		this.repaint();
 	}

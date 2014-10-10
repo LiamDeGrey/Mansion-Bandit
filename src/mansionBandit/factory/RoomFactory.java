@@ -8,8 +8,8 @@ import mansionBandit.gameWorld.matter.Door;
 import mansionBandit.gameWorld.matter.Face;
 
 public class RoomFactory {
-	private static final int roomFloorObjects = 3, chanceToLock = 7, chanceToHallwayItem = 5;
-	private ItemFactory floorItems, ceilingItems;
+	private static final int roomFloorObjects = 3, roomWallObjects = 2, chanceToLock = 7, chanceToHallwayItem = 5;
+	private ItemFactory floorItems, ceilingItems, hallWallItems, wallItems;
 	private RoomPainter roomPainter;
 	private Random random;
 	
@@ -18,7 +18,8 @@ public class RoomFactory {
 		roomPainter = new RoomPainter("/texture/room.txt");
 		//setup object factory(s)
 		floorItems = new ItemFactory("/object/floor.txt");
-		
+		hallWallItems = new ItemFactory("/object/hallWall.txt");
+		wallItems = new ItemFactory("/object/wall.txt");
 		ceilingItems = new ItemFactory("/object/ceiling.txt");
 		
 		random = new Random();
@@ -47,7 +48,7 @@ public class RoomFactory {
 		
 		//place objects
 		if (room instanceof Hallway){
-			
+			popWall(room, false);
 			popFloor(room, false);
 		} else if (room instanceof StartSpace){
 			
@@ -55,12 +56,13 @@ public class RoomFactory {
 			//apply textures to the room
 			roomPainter.paintRoom((Room) room);
 			
+			popWall(room, true);
 			popFloor(room, true);
 		}
 	}
 	
 	/**
-	 * add objects to room
+	 * add objects to the floor of a room
 	 * 
 	 * @param room the room to add objects to
 	 * @param isRoom true if room is a Room object (as opposed to hallway)
@@ -80,6 +82,21 @@ public class RoomFactory {
 		for (int i = 0; i < numbObjects; i++){
 			//add random object to room
 			room.addItem(floorItems.getItem(Face.FLOOR));
+		}
+	}
+	
+	/**
+	 * add objects to the walls of a room
+	 * 
+	 * @param room the room to add objects to
+	 * @param isRoom true if room is a Room object (as opposed to hallway)
+	 */
+	private void popWall(MansionArea room, boolean isRoom){
+		if (isRoom){
+			int numbObjects = random.nextInt(roomWallObjects);
+			
+		} else {
+			
 		}
 	}
 }

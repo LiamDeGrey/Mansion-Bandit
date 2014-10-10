@@ -5,6 +5,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import mansionBandit.ApplicationWindow.GameFrame;
 import mansionBandit.gameWorld.areas.MansionArea;
 import mansionBandit.gameWorld.main.Slave;
 
@@ -24,6 +25,8 @@ public final class Client {
 	private ArrayList<String> usernameList;
 
 	private Slave player;
+
+	private GameFrame gameFrame;
 
 	public Client (Socket socket, String username, Slave player) {
 		this.socket = socket;

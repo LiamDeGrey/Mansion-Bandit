@@ -77,7 +77,7 @@ public abstract class  GameMatter implements Serializable {
 	/**
 	 * returns amount of items made
 	 */
-	public int getItemCounter(){
+	public static int getItemCounter(){
 		return itemCounter++;
 	}
 

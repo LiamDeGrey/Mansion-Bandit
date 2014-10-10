@@ -60,10 +60,10 @@ public class ItemTemplate {
 		Dimensions position = new Dimensions(x, y, scale);
 		
 		if (type.equals("sell")){
-			return new Sellable(name, description, image, face, position, value);
+			return new Sellable(name + GameMatter.getItemCounter(), description, image, face, position, value);
 		} else if (type.equals("static")){
 			//return new furniture
-			return new FurnitureStatic(name, description, image, face, position);
+			return new FurnitureStatic(name + GameMatter.getItemCounter(), description, image, face, position);
 		} else if (type.equals("key")){
 			return new Key(name, face, position);
 		} else {
