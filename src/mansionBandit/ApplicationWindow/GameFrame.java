@@ -578,7 +578,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 						// remove the item at the selected position from the players
 						// inventory
-						player.removeItem(inventoryItem);
+						player.removeItem(inventoryItem, getInventorySlot(mouseX,mouseY));
 
 						// set the removed item as the dragged item
 						draggingItem = inventoryItem;
