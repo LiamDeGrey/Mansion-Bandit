@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import mansionBandit.gameWorld.areas.MansionArea;
 import mansionBandit.gameWorld.main.Slave;
@@ -20,6 +21,7 @@ public final class Client {
 	private ObjectInputStream input;
 	private int uid; //unique id
 	private String username;
+	private ArrayList<String> usernameList;
 
 	private Slave player;
 
@@ -27,6 +29,7 @@ public final class Client {
 		this.socket = socket;
 		this.username = username;
 		this.player = player;
+		usernameList = new ArrayList<String>();
 	}
 
 	public void start() {
@@ -71,6 +74,10 @@ public final class Client {
 					if (o instanceof MansionArea[][]) {
 						System.out.println("Received grid");
 						player.setGrid((MansionArea[][]) o);
+					}
+					else if (o instanceof ArrayList) {
+						System.out.println("Received username list");
+						usernameList = (ArrayList<String>) o;
 					}
 				}
 				catch(IOException e) {
