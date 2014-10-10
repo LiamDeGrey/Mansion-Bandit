@@ -19,9 +19,8 @@ import mansionBandit.gameWorld.main.Host;
  *
  */
 public final class Server {
-	//FIELDS
-	//game
 	private static int uniqueID;
+	private String username;
 	private int port, playerLimit;
 	private ArrayList<ClientThread> clientList;
 	private boolean end;
@@ -31,6 +30,7 @@ public final class Server {
 	public Server(int port, int playerLimit, String userName, Host player, GameFrame gameframe) {
 		this.port = port;
 		this.playerLimit = playerLimit;
+		this.username = userName;
 		clientList = new ArrayList<ClientThread>();
 		this.player = player;
 		this.gameFrame = gameframe;
@@ -92,13 +92,17 @@ public final class Server {
 			System.out.println("New client thread created");
 
 			try {
+				//Creating I/O streams for a client
 				output = new ObjectOutputStream(socket.getOutputStream());
 				input  = new ObjectInputStream(socket.getInputStream());
-				//testid = (int) input.readObject(); //Server listening for test id here
+
+				//Read username that Client broadcasts to us
 				username = (String) input.readObject();
 				System.out.println(username + " has connected.");
 				gameFrame.repaint();
 				gameFrame.playerHasConnected(username);
+
+				//Broadcasting grid to clients that connect
 				MansionArea[][] grid = player.getGrid();
 				output.writeObject(grid);
 			}
@@ -143,7 +147,7 @@ public final class Server {
 		}
 
 
-		public String getUserName(){
+		public String getClientUserName(){
 			return username;
 		}
 		//TODO: METHOD TO WRITE UPDATES
@@ -151,6 +155,10 @@ public final class Server {
 
 	public ClientThread getClient(int i){
 		return clientList.get(i);
+	}
+
+	public String getServerUserName() {
+		return username;
 	}
 
 

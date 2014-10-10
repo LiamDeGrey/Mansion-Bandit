@@ -16,13 +16,11 @@ import mansionBandit.gameWorld.main.Slave;
  */
 public final class Client {
 	private final Socket socket;
-	//game field needed
 	private ObjectOutputStream output;
 	private ObjectInputStream input;
 	private int uid; //unique id
 	private String username;
 
-	//Gets gameWorld from the server it connects to
 	private Slave player;
 
 	public Client (Socket socket, String username, Slave player) {
@@ -86,7 +84,7 @@ public final class Client {
 	}
 
 	/**
-	 * @return the gameWorld this client is using
+	 * @return The gameWorld this client is using
 	 */
 	public Slave getPlayer(){
 		return player;
