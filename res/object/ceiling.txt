@@ -1,0 +1,3 @@
+chandelier Expensive_Chandelier If_I_find_two_of_these_I_could_make_a_pair_of_errings. sell 20 20 200 200
+chandelier Stuck_Chandelier Damn_this_stupid_thing_wont_come_loose static 30 0 0 0
+light1 Inset_Downlight Curiously_this_light_doesnt_seem_to_be_emitting_any_light..._Perhaps_it_someone_was_just_being_lazy. static 20 0 0 0
