@@ -64,9 +64,9 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	// window dimensions
 	private final int windowDimensionX = 1024;
 	private final int windowDimensionY = 768;
-	
-	
-	
+
+
+
 	private final int ingameMenuX = 325;
 	private final int ingameMenuY = 200;
 	private final int ingameMenuW = 150;
@@ -101,7 +101,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 
 	//the offset of the mouse Y position, caused by the frame
-	private final int mouseOffSetY; 
+	private final int mouseOffSetY;
 
 	//GUI FIELDS//
 	//the GUI drawing canvas
@@ -115,6 +115,9 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	//the pane that all components are added to so that they can stack properly
 	private JLayeredPane layeredPane;
 
+	//Server
+	private Server server;
+
 
 	public GameFrame(ApplicationMain main) {
 		super();
@@ -122,7 +125,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 		this.setLayout(null);
 
 		getContentPane().setBackground(Color.BLACK);
-		
+
 		//creates the main menu
 		mainMenu = new MainMenuPanel(this);
 
@@ -152,7 +155,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 		//sets up user interface elements
 		setupInterface();
-	
+
 		mouseOffSetY = getInsets().top;
 	}
 
@@ -174,7 +177,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 		// sets up a new frame
 		ingameMenuPanel = new JPanel(gridLayout);
 
-		
+
 		// creates the resume button
 		JButton menuResumeButton = new JButton("Resume");
 		menuResumeButton.addActionListener(this);
@@ -183,8 +186,8 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 		// makes sure focus is kept on the main window
 		menuResumeButton.setFocusable(false);
-		
-		
+
+
 		// creates the help button
 		JButton menuHelpButton = new JButton("How to play");
 		menuHelpButton.addActionListener(this);
@@ -193,8 +196,8 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 		// makes sure focus is kept on the main window
 		menuHelpButton.setFocusable(false);
-		
-		
+
+
 		// creates the exit to menu button
 		JButton menuExitToMenuButton = new JButton("Main Menu");
 		menuExitToMenuButton.addActionListener(this);
@@ -203,8 +206,8 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 		// makes sure focus is kept on the main window
 		menuExitToMenuButton.setFocusable(false);
-		
-		
+
+
 		// creates the exit button
 		JButton menuExitButton = new JButton("Exit");
 		menuExitButton.addActionListener(this);
@@ -247,10 +250,10 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	 * Goes to the main menu by adding it to this frame
 	 */
 	private void enterMainMenu(){
-		  
-		
-	
-		
+
+
+
+
 		//adds the main menu;
 		this.add(mainMenu);
 
@@ -329,20 +332,20 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	//add in game menu
 	ingameMenuPanel.setBounds(ingameMenuX,ingameMenuY,ingameMenuW,ingameMenuH);
 	ingameMenuPanel.setOpaque(false);
-	
+
 	//gives it a black background
 	ingameMenuPanel.setBackground(Color.black);
 	ingameMenuPanel.setOpaque(true);
-	
+
 	//adds it at 3rd layer of the pane
 	layeredPane.add(ingameMenuPanel,new Integer(2),0);
 
-	
+
 	//add the rendering panel
 	gamePanel = new GamePanel(player);
-	
+
 	gamePanel.setBounds(0,0,windowDimensionX,windowDimensionY);
-	
+
 	gamePanel.setOpaque(false);
 	//adds it at bottom layer of the pane
 	layeredPane.add(gamePanel,new Integer(0),0);
@@ -416,9 +419,9 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 		int mouseX = e.getPoint().x;
 		int mouseY = e.getPoint().y - mouseOffSetY;
-		
+
 		//only checks for user input if gameplay has started
-		
+
 		if(gameStarted){
 
 			//debug statement
@@ -533,10 +536,10 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	public void mouseExited(MouseEvent arg0) {}
 
 	public void mousePressed(MouseEvent e) {
-		
+
 		int mouseX = e.getPoint().x;
 		int mouseY = e.getPoint().y - mouseOffSetY;
-		
+
 		//TODO make all of these method calls apply to actual classes
 
 				//only checks for user input if the game has started
@@ -562,10 +565,10 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 						// SET CURSOR TO ITEM HERE //
 						setCursorImage(e, draggingItem.getName() +".png");
 					}
-				
+
 					//else check if they selected an item in an inventory slot and that slot has an item in it
 					else if (player.getItem(getInventorySlot(mouseX,mouseY)) != null) {
-						
+
 						Grabable inventoryItem = player.getItem(getInventorySlot(mouseX,mouseY));
 
 						// remove the item at the selected position from the players
@@ -671,7 +674,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 				//if the mouse is in the y bounds of the inventory slots
 				if(y> inventoryBarPos.y + inventoryBarYOffset && y<inventoryBarPos.y +inventorySlotSize + inventoryBarYOffset){
-			
+
 				System.out.println("inventory slot found Y " + i);
 
 				//return this inventory slot
@@ -726,11 +729,16 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 		//grid = player.getGrid();
 
 		//creates a new server
-		new Server(port, nclients, userName,(Host)player).start();
+		this.server = new Server(port, nclients, userName,(Host)player);
+		new ServerRunning().start();
 	}
 
 
-
+	class ServerRunning extends Thread {
+		public void run() {
+			server.start();
+		}
+	}
 
 	/**
 	 * sets the cursor to a custom image given by item name
