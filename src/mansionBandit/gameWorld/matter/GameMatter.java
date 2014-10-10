@@ -84,8 +84,10 @@ public abstract class  GameMatter implements Serializable {
 
 	@Override
 	public boolean equals(Object o){
-		if(this.getName().equals(((GameMatter) o).getName())){
-			return true;
+		if(o!=null){
+			if(this.getName().equals(((GameMatter) o).getName())){
+				return true;
+			}
 		}
 		return false;
 	}

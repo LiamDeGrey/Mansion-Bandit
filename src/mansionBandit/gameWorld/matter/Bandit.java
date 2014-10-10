@@ -176,8 +176,9 @@ public class Bandit extends Character{
 	 * @return whether the item was removed succesfully
 	 */
 	public boolean removeItem(Grabable item){
-		if(inventory.contains(item)){
-			return inventory.remove(item);
+		for(int i=0; i<inventory.length; i++){
+			if(inventory[i].equals(item))
+				inventory[i] = null;
 		}
 		return false;
 	}
@@ -186,7 +187,12 @@ public class Bandit extends Character{
 	 * Kill the bandit drop their items and send back to van
 	 */
 	public void killBandit(){
-		//for()
+		for(int i=0; i<inventory.length; i++){
+			if(inventory[i]!=null){
+				area.addItem(inventory[i]);
+			}
+		}
+		System.out.println("DEAD. Get out of here filthy Bandit!!");
 		van.addItem(this);
 		area = van;
 	}
