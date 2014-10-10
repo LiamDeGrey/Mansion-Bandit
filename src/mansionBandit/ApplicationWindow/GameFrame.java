@@ -36,6 +36,7 @@ import mansionBandit.gameView.GamePanel;
 import mansionBandit.gameView.TestScreen;
 import mansionBandit.gameWorld.areas.MansionArea;
 import mansionBandit.gameWorld.areas.Grid;
+import mansionBandit.gameWorld.areas.Map;
 import mansionBandit.gameWorld.areas.Room;
 import mansionBandit.gameWorld.main.Host;
 import mansionBandit.gameWorld.main.Player;
@@ -225,6 +226,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 		ingameMenuPanel.setOpaque(true);
 
 
+
 		pack();
 	}
 
@@ -360,6 +362,8 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	layeredPane.add(guiCanvas,new Integer(1),0);
 
 
+	//adds the map to the game screen
+	layeredPane.add(new Map(player.getGrid()));
 
 	//redisplay the screen
 	this.revalidate();
