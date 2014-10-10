@@ -7,6 +7,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import mansionBandit.ApplicationWindow.GameFrame;
 import mansionBandit.gameWorld.areas.MansionArea;
 import mansionBandit.gameWorld.main.Host;
 
@@ -25,12 +26,14 @@ public final class Server {
 	private ArrayList<ClientThread> clientList;
 	private boolean end;
 	protected Host player;
+	private GameFrame gameFrame;
 
-	public Server(int port, int playerLimit, String userName, Host player) {
+	public Server(int port, int playerLimit, String userName, Host player, GameFrame gameframe) {
 		this.port = port;
 		this.playerLimit = playerLimit;
 		clientList = new ArrayList<ClientThread>();
 		this.player = player;
+		this.gameFrame = gameframe;
 	}
 
 	public void start() {
@@ -74,7 +77,7 @@ public final class Server {
 	 * @author Shreyas
 	 *
 	 */
-	class ClientThread extends Thread {
+	public class ClientThread extends Thread {
 		Socket socket;
 		ObjectInputStream input;
 		ObjectOutputStream output;
@@ -94,6 +97,8 @@ public final class Server {
 				//testid = (int) input.readObject(); //Server listening for test id here
 				username = (String) input.readObject();
 				System.out.println(username + " has connected.");
+				gameFrame.repaint();
+				gameFrame.playerHasConnected(username);
 				MansionArea[][] grid = player.getGrid();
 				output.writeObject(grid);
 			}
@@ -137,6 +142,16 @@ public final class Server {
 			catch (Exception e) {}
 		}
 
+
+		public String getUserName(){
+			return username;
+		}
 		//TODO: METHOD TO WRITE UPDATES
 	}
+
+	public ClientThread getClient(int i){
+		return clientList.get(i);
+	}
+
+
 }

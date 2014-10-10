@@ -729,7 +729,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 		//grid = player.getGrid();
 
 		//creates a new server
-		this.server = new Server(port, nclients, userName,(Host)player);
+		this.server = new Server(port, nclients, userName,(Host)player,this);
 		new ServerRunning().start();
 	}
 
@@ -738,6 +738,13 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 		public void run() {
 			server.start();
 		}
+	}
+
+	/**
+	 * indicates that a player has connected to the game
+	 */
+	public void playerHasConnected(String username){
+		mainMenu.playerHasConnected(username);
 	}
 
 	/**
@@ -775,6 +782,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	}
 
 
+
 	/**
 	 * @return the item being dragged by the player
 	 */
@@ -798,6 +806,10 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	 */
 	public int getInventorySlotSize(){
 		return inventorySlotSize;
+	}
+
+	public Server getServer(){
+		return server;
 	}
 
 

@@ -30,11 +30,16 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 
 	//the current panel displayed
 	JPanel currentPanel;
-	
+
 	//The frame that this menu is added to
 	GameFrame gameFrame;
-	
-	
+
+	//player name fields for the lobby
+
+	JLabel player1NameLabel = new JLabel("Empty slot");
+	JLabel player2NameLabel =new JLabel("Empty slot");
+	JLabel player3NameLabel=new JLabel("Empty slot");
+	JLabel player4NameLabel=new JLabel("Empty slot");
 
 	//the textbox that multiplayer users into their name into
 	private JTextField usernameTextField;// = new JTextField();
@@ -57,8 +62,8 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		//sets the location and dimensions of the menu
 		this.setBounds(menuX, menuY, menuW, menuH);
 		this.setBackground(Color.black);
-		
-		
+
+
 		//sets the frame that this menu will be placed in
 		gameFrame = frame;
 
@@ -76,28 +81,28 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		//Sets the menu to the main menu initially
 		setMenu(startMenuPanel);
 
-		
+
 		this.setSize(1024,768);
 		this.setLocation(0, 0);
 		JLabel titleLabel = new JLabel();
 		try {
 			titleLabel.setIcon(new ImageIcon(ImageIO.read( this.getClass().getResource("/GUIgraphics/titlescaled.png"))));
-		
+
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
-		
+
 		titleLabel.setBounds(150, -675, 2000, 1500);
 		titleLabel.setVisible(true);
 		titleLabel.repaint();
-		
+
 		this.add(titleLabel);
 		this.repaint();
-		
+
 		gameFrame.pack();
 		gameFrame.repaint();
-		
+
 	 }
 
 
@@ -183,10 +188,10 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		backButton.setFocusable(false);
 
 		multiplayerMenuPanel.add(backButton);
-		
+
 		//set the position of the menu
 		multiplayerMenuPanel.setBounds(menuX,menuY,menuH,menuW);
-		
+
 		multiplayerMenuPanel.setBackground(Color.black);
 	}
 
@@ -241,10 +246,10 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 
 		//add the name textbox to the panel
 		connectToGamePanel.add(usernameTextField);
-		
+
 		//set the position of the menu
 		connectToGamePanel.setBounds(menuX,menuY,menuH,menuW);
-		
+
 		connectToGamePanel.setBackground(Color.black);
 	}
 
@@ -275,6 +280,25 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 
 		hostGamePanel.add(startHostingButton);
 
+		//sets up addressLabel
+		JLabel addressLabel = new JLabel("Address");
+
+		hostGamePanel.add(addressLabel);
+
+		//sets up text box for user to input host address
+		addressTextField = new JTextField();
+		//add the name textbox to the panel
+		hostGamePanel.add(addressTextField);
+
+		//set the size of the textbox
+		addressTextField.setPreferredSize(textBoxDimension);
+
+
+		//sets up addressLabel
+		JLabel nameLabel = new JLabel("Name");
+
+		hostGamePanel.add(nameLabel);
+
 		//sets up a textbox for the player to input their name
 		usernameTextField = new JTextField();
 
@@ -283,10 +307,10 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 
 		//add the textbox
 		hostGamePanel.add(usernameTextField);
-		
+
 		//set the position of the menu
 		hostGamePanel.setBounds(menuX,menuY,menuH,menuW);
-		
+
 		hostGamePanel.setBackground(Color.black);
 	}
 
@@ -323,10 +347,10 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		player3NameLabel.setText("Empty slot 3");
 		player4NameLabel.setText("Empty slot 4");
 
-		
+
 		//set the position of the menu
 		slaveLobbyMenuPanel.setBounds(menuX,menuY,menuH,menuW);
-		
+
 		slaveLobbyMenuPanel.setBackground(Color.black);
 	}
 
@@ -361,23 +385,26 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 
 
 		//Sets up the labels that will display the names of the players
-		JLabel player1NameLabel = new JLabel();
+		//JLabel player1NameLabel = new JLabel();
 		hostLobbyMenuPanel.add(player1NameLabel);
-		JLabel player2NameLabel = new JLabel();
+		//JLabel player2NameLabel = new JLabel();
 		hostLobbyMenuPanel.add(player2NameLabel);
-		JLabel player3NameLabel = new JLabel();
+		//JLabel player3NameLabel = new JLabel();
 		hostLobbyMenuPanel.add(player3NameLabel);
-		JLabel player4NameLabel = new JLabel();
+		//JLabel player4NameLabel = new JLabel();
 		hostLobbyMenuPanel.add(player4NameLabel);
 
-		player1NameLabel.setText("Empty slot 1");
-		player2NameLabel.setText("Empty slot 2");
-		player3NameLabel.setText("Empty slot 3");
-		player4NameLabel.setText("Empty slot 4");
-		
+		//player1NameLabel.setText("Empty slot 1");
+		//player2NameLabel.setText("Empty slot 2");
+		//player3NameLabel.setText("Empty slot 3");
+		//player4NameLabel.setText("Empty slot 4");
+
+
+		//player1NameLabel.setText(gameFrame.getServer().getClient(0).getUserName());
+
 		//set the position of the menu
 		hostLobbyMenuPanel.setBounds(menuX,menuY,menuH,menuW);
-		
+
 		hostLobbyMenuPanel.setBackground(Color.black);
 	}
 
@@ -412,7 +439,7 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 	 * quits out of the main menu and starts the game
 	 */
 	private void startGame(){
-		
+
 		this.setVisible(false);
 
 		gameFrame.startGame();
@@ -469,6 +496,13 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 
 	}
 
+
+	public void playerHasConnected(String username){
+
+		player1NameLabel.setText(username);
+		this.repaint();
+	}
+
 	/**
 	 * starts process to begin hosting a game. Uses textfields for any required information.
 	 */
@@ -494,7 +528,7 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public int getMenuWidth(){
 		return menuW;
 	}
@@ -507,5 +541,5 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 	public int getMenuY(){
 		return menuY;
 	}
-	
+
 }
