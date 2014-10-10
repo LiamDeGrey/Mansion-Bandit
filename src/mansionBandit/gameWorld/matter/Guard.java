@@ -37,6 +37,7 @@ public class Guard extends Character {
 				}
 			}
 		};
+		clockTick.start();
 	}
 
 	@Override
