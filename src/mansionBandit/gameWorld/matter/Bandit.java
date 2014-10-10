@@ -183,10 +183,14 @@ public class Bandit extends Character{
 		return false;
 	}
 
+	//TODO Drop item
+
+
 	/**
 	 * Kill the bandit drop their items and send back to van
 	 */
-	public void killBandit(){
+	@Override
+	public void kill(){
 		for(int i=0; i<inventory.length; i++){
 			if(inventory[i]!=null){
 				area.addItem(inventory[i]);

@@ -33,10 +33,16 @@ public class Guard extends Character {
 					e.printStackTrace();
 				}
 				if(area.getItems().contains(prey)){
-					prey.killBandit();
+					prey.kill();
 				}
 			}
 		};
+	}
+
+	@Override
+	public void kill(){
+		area.addItem(new Knife(getName(), Face.FLOOR, new Dimensions(50, 50, 2)));
+		area.getItems().remove(this);
 	}
 
 	@Override
