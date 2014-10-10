@@ -753,6 +753,14 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	}
 
 	/**
+	 * indicates that a player has connected to the game
+	 */
+	public void clientPlayerHasConnected(ArrayList<String> usernameList){
+		mainMenu.clientPlayerHasConnected(usernameList);
+	}
+
+
+	/**
 	 * sets the cursor to a custom image given by item name
 	 * @param e the mouse that will have its cursor set
 	 * @param itemName the string for the image

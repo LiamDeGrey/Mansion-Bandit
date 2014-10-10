@@ -81,6 +81,7 @@ public final class Client {
 					else if (o instanceof ArrayList) {
 						System.out.println("Received username list");
 						usernameList = (ArrayList<String>) o;
+
 					}
 				}
 				catch(IOException e) {
