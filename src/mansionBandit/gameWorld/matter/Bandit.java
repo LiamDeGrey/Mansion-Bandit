@@ -165,6 +165,7 @@ public class Bandit extends Character{
 		for(int i=0; i<inventory.length; i++){
 			if(inventory[i]==null){
 				inventory[i] = item;
+				return true;
 			}
 		}
 		return false;
