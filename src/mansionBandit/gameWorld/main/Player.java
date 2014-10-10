@@ -67,7 +67,7 @@ public abstract class Player {
 	}
 
 	public int getInventorySize(){
-		return 6;
+		return 7;
 	}
 
 

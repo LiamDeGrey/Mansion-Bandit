@@ -114,7 +114,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	//the position of the inventory bar
 	private final Point inventoryBarPos = new Point(50,300);
 
-	private final int inventorySlotSize = 100;
+	private final int inventorySlotSize = 80;
 
 	//the pane that all components are added to so that they can stack properly
 	private JLayeredPane layeredPane;
@@ -598,12 +598,15 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 					}
 				}
 
-				}
+				
 				guiCanvas.repaint();
+				
+				//resets descriptiontext
+				descriptionLabel.setText("");
+				}
 		}
 		
-		//resets descriptiontext
-		descriptionLabel.setText("");
+		
 	}
 
 	// WINDOW INTERACTION//
@@ -686,17 +689,19 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 		int totalSlots =  player.getInventorySize();
 
 		  //needed so that it draws in the right position. Placeholder.
-		int inventoryBarYOffset = 250;
+		int offsetY = 285;
+		int offsetX = 52;
+		
 
 		for(int i = 0; i<totalSlots;i++){
 
 			//if the mouse is in the x bounds of one of the inventory slots
-			if(x > inventoryBarPos.x + (i*inventorySlotSize) && x< inventoryBarPos.x + ((i+1)*inventorySlotSize)){
-
+			//if(x > inventoryBarPos.x + (i*inventorySlotSize) + offsetX && x< inventoryBarPos.x + ((i+1)*inventorySlotSize)+ offsetX){
+			if(x > inventoryBarPos.x + (i*inventorySlotSize) + offsetX && x< inventoryBarPos.x + ((i+1)*inventorySlotSize)+ offsetX){
 				System.out.println("inventory slot found X " + i);
 
 				//if the mouse is in the y bounds of the inventory slots
-				if(y> inventoryBarPos.y + inventoryBarYOffset && y<inventoryBarPos.y +inventorySlotSize + inventoryBarYOffset){
+				if(y> inventoryBarPos.y + offsetY && y<inventoryBarPos.y +inventorySlotSize + offsetY){
 
 				System.out.println("inventory slot found Y " + i);
 
@@ -793,8 +798,6 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 		try {
 
 			img = ImageIO.read(this.getClass().getResource("/object/" + itemName));
-			//obImage = ImageIO.read(this.getClass().getResource("/object/" + ob.getImage() + ".png"));
-
 
 			//create a cursor with item as image
 			itemImageCursor = Toolkit.getDefaultToolkit().createCustomCursor(img,new Point(1,1), "itemCursor");

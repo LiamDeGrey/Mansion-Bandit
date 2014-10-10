@@ -48,22 +48,21 @@ public class GUICanvas extends JPanel{
 	        super.paintComponent(g);
 
 	        //draws the inventory slot bar
-
+	        
 	        g.drawImage(inventoryBarImage, frame.getInventoryBarPos().x, frame.getInventoryBarPos().y, null);
 
 	        //draws each of the items in a players inventory
 
 	        //for each item in player inventory
 	        //draw image in players inventory [i] at (increment *i)
-
-
+	        
 	        for(int i =0;i<player.getInventorySize();i++){
 
 	        	//if player has an item in this slot
 	        	if(player.getItem(i)!=null){
 
 	        		//set the x and y position of the image
-	        		int itemImageX = frame.getInventoryBarPos().x + (i*frame.getInventorySlotSize());
+	        		int itemImageX = frame.getInventoryBarPos().x + (i*frame.getInventorySlotSize())+10;
 	        		int itemImageY = frame.getInventoryBarPos().y;
 
 	        		System.out.println(player.getItem(i).getName());

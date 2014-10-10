@@ -149,7 +149,7 @@ public class Bandit extends Character{
 	 */
 	public Grabable getItem(int slot){
 		if(inventory.length > slot){
-			if(slot>=0&&slot<=5){
+			if(slot>=0&&slot<=6){
 				return inventory[slot];
 				}
 			}
