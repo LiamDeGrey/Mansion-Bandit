@@ -1,0 +1,72 @@
+package mansionBandit.factory;
+
+import java.util.Random;
+import java.util.Scanner;
+
+import com.sun.xml.internal.ws.api.pipe.NextAction;
+
+import mansionBandit.gameWorld.matter.Decoration;
+import mansionBandit.gameWorld.matter.Dimensions;
+import mansionBandit.gameWorld.matter.Face;
+import mansionBandit.gameWorld.matter.GameMatter;
+
+public class ItemTemplate {
+
+	private int valueMin, valueRange, sizeMin, sizeRange;
+	private String name, description, image, type;
+	private Random random;
+	
+	public ItemTemplate(String input){
+		//read the string into a template
+		Scanner scan = new Scanner(input);
+		image = scan.next();
+		name = scan.next().replace('_', ' ');
+		description = scan.next().replace('_', ' ');
+		type = scan.next(); 
+		sizeMin = scan.nextInt();
+		sizeRange = scan.nextInt();
+		valueMin = scan.nextInt();
+		
+		System.out.println("name: " + name +
+				"\ndescription: " + description +
+				"\nminS: " + sizeMin +
+				"\nsrange: " + sizeRange +
+				"\nminV: " + valueMin +
+				"\nvrange: " + valueRange
+				);
+		
+		valueRange = scan.nextInt();
+		
+		random = new Random();
+	}
+	
+	public GameMatter getItem(Face face){
+		int value, scale, x, y = 0;
+		double r = random.nextDouble();
+		value = (int) (valueMin + (valueRange * r));
+		scale = (int) (sizeMin + (sizeRange * r));
+		
+		//get x and y
+		if (face == Face.CEILING || face == Face.FLOOR){
+			x = random.nextInt(100 - scale) + (scale / 2);
+			y = random.nextInt(100 - scale) + (scale / 2);
+		} else {
+			x = random.nextInt(100 - scale) + (scale / 2);
+			y = random.nextInt(100 - scale) + scale;
+		}
+		Dimensions dim = new Dimensions(x, y, scale);
+		
+		if (type.equals("sell")){
+			//return new sellable
+			//return null;
+			return new Decoration(image, face, dim);
+		} else {
+			//return new Decoration
+			return new Decoration(image, face, dim);
+		}
+		
+	}
+	
+	
+	
+}
