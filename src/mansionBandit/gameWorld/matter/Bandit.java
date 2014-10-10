@@ -165,6 +165,7 @@ public class Bandit extends Character{
 		for(int i=0; i<inventory.length; i++){
 			if(inventory[i]==null){
 				inventory[i] = item;
+				return true;
 			}
 		}
 		return false;
@@ -175,10 +176,14 @@ public class Bandit extends Character{
 	 * @param the item to remove
 	 * @return whether the item was removed succesfully
 	 */
-	public boolean removeItem(Grabable item){
-		for(int i=0; i<inventory.length; i++){
-			if(inventory[i].equals(item))
-				inventory[i] = null;
+	public boolean removeItem(Grabable item, int slot){
+		//for(int i=0; i<inventory.length; i++){
+		//	if(inventory[i].equals(item))
+		//		inventory[i] = null;
+		//}
+		if(inventory[slot]!=null){
+			inventory[slot] =null;
+			return true;
 		}
 		return false;
 	}
