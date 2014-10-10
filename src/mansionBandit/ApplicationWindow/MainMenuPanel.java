@@ -485,6 +485,7 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 			setMenu(startMenuPanel);
 		}
 		else if(e.getActionCommand().equals("disconnectButton")){
+			//TODO gameFrame.getClient.disconnect()
 			//go back to the main menu
 			setMenu(multiplayerMenuPanel);
 		}
@@ -494,6 +495,10 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 	}
 
 
+	/**
+	 * gives list of connected players
+	 * @param usernameList
+	 */
 	public void playerHasConnected(ArrayList<String> usernameList){
 
 		if(player2NameLabel.getText().equals("Empty slot"))
@@ -511,6 +516,9 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		this.repaint();
 	}
 
+	/**
+	 * @param list of user names
+	 */
 	public void clientPlayerHasConnected(ArrayList<String> usernameList){
 
 		if(clientPlayer1NameLabel.getText().equals("Empty slot"))
