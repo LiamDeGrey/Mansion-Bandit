@@ -106,9 +106,9 @@ public class TopBottomStrategy implements SurfaceStrategy {
 		//load and warp the image
 		this.surface = surface;
 		if (ceiling){
-			surfaceTexture = warpImage("/ceilings/" + surface.roomView.room.getCeilingTexture() + ".png");
+			surfaceTexture = warpImage("/texture/" + surface.roomView.room.getCeilingTexture() + ".png");
 		} else {
-			surfaceTexture = warpImage("/floors/" + surface.roomView.room.getFloorTexture() + ".png");
+			surfaceTexture = warpImage("/texture/" + surface.roomView.room.getFloorTexture() + ".png");
 		}
 		
 		//create object list for surface

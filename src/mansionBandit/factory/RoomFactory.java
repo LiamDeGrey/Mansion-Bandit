@@ -18,6 +18,7 @@ public class RoomFactory {
 		//.. ceilings
 		//setup object factory(s)
 		floorItems = new ItemFactory("floor");
+		
 		random = new Random();
 	}
 	
@@ -69,7 +70,7 @@ public class RoomFactory {
 			// much lower chance of random
 			numbObjects = random.nextInt(chanceToHallwayItem);
 			if (numbObjects != 1){
-				numbObjects = 3;
+				numbObjects = 0;
 			}
 		}
 		for (int i = 0; i < numbObjects; i++){

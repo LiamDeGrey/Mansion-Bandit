@@ -22,7 +22,7 @@ public class ItemFactory {
 	
 	public ItemFactory(String itemDefinitions){
 		items = new ArrayList<ItemTemplate>();
-		InputStream in = this.getClass().getResourceAsStream(itemDefinitions + ".txt");
+		InputStream in = this.getClass().getResourceAsStream("/object/" + itemDefinitions + ".txt");
 		System.out.println(in.toString());
 		Scanner scan = new Scanner(in);
 		while (scan.hasNextLine()){

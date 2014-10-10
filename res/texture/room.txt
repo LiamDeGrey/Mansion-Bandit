@@ -1,0 +1,4 @@
+floor1 wall3 ceiling1
+floor2 wall1 ceiling2
+floor3 wall2 ceiling2
+floor4 wall2 ceiling1

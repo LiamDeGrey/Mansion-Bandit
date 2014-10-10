@@ -51,8 +51,8 @@ public class TestScreen extends JFrame implements KeyListener{
         
         MansionArea[][] grid = new MansionArea[3][5];
         //rooms
-        Room room1 = new Room("wall2", "ceiling1", "carpet1");
-        Room room2 = new Room("wall1", "ceiling1", "carpet1");
+        Room room1 = new Room("wall2", "ceiling1", "floor1");
+        Room room2 = new Room("wall1", "ceiling2", "floor4");
         
         grid[1][0] = room2;
         grid[0][1] = room1;

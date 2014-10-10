@@ -52,7 +52,7 @@ public class SideWallStrategy implements SurfaceStrategy {
 	public void setupSurface(Surface surface, Face direction) {
 		this.surface = surface;
 		//get the warped image
-		surfaceTexture = warpImage("/walls/" + surface.roomView.room.getWallTexture() + ".png");
+		surfaceTexture = warpImage("/texture/" + surface.roomView.room.getWallTexture() + ".png");
 		
 		//set bounds for the surface
 		surfaceWidth = surface.roomView.width / 4;
@@ -88,8 +88,8 @@ public class SideWallStrategy implements SurfaceStrategy {
 				sideRoom = new RoomView(nextRoom, surface.roomView.playerDirection, surface.roomView.boundX, surface.roomView.boundY, surface.roomView.width, surface.roomView.height, left);
 
 			} else if (nextRoom != null && nextRoom instanceof Room){
-				//its a room, so use its texture for this surface
-				surfaceTexture = warpImage("/walls/" + nextRoom.getWallTexture() + ".png");
+				//its a room, so use hallway wall texture
+				surfaceTexture = warpImage("/texture/hallwayW.png");
 			}
 		}
 		

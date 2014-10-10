@@ -25,7 +25,7 @@ public class BackWallStrategy implements SurfaceStrategy {
 	private Image surfaceTexture;
 	private int surfaceX, surfaceY, surfaceWidth, surfaceHeight;
 	private RoomView nextRoom = null;
-	private static String fog = "/walls/fog.png";
+	private static String fog = "/texture/fog.png";
 	
 	@Override
 	public void paintSurface(Graphics g) {
@@ -80,7 +80,7 @@ public class BackWallStrategy implements SurfaceStrategy {
 		this.surface = surface;
 		try {
 			//set image for the view
-			surfaceTexture = ImageIO.read(this.getClass().getResource("/walls/" + surface.roomView.room.getWallTexture() + ".png"));
+			surfaceTexture = ImageIO.read(this.getClass().getResource("/texture/" + surface.roomView.room.getWallTexture() + ".png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -127,9 +127,9 @@ public class BackWallStrategy implements SurfaceStrategy {
 				}
 				
 			} else if (next != null && next instanceof Room){
-				//next room is a room, so copy its wallpaper for use in the hallway
+				//next room is a room, so use hallway Wall texture for use in the hallway
 				try {
-					surfaceTexture = ImageIO.read(this.getClass().getResource("/walls/" + next.getWallTexture() + ".png"));
+					surfaceTexture = ImageIO.read(this.getClass().getResource("/texture/hallwayW.png"));
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
