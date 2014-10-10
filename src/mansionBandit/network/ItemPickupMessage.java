@@ -4,6 +4,12 @@ import mansionBandit.gameWorld.areas.MansionArea;
 import mansionBandit.gameWorld.main.Player;
 import mansionBandit.gameWorld.matter.GameMatter;
 
+/**
+ * This class represents a network message for whenever a player picks up
+ * or moves an item.
+ * @author ramasushre
+ *
+ */
 public class ItemPickupMessage implements Message {
 	private Player player;
 	private GameMatter item;
