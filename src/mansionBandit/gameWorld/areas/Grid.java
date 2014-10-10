@@ -3,7 +3,7 @@ package mansionBandit.gameWorld.areas;
 import java.util.ArrayList;
 import java.util.List;
 
-import mansionBandit.gameWorld.matter.CreateItems;
+import mansionBandit.factory.RoomFactory;
 import mansionBandit.gameWorld.matter.GameMatter;
 
 /**
@@ -16,46 +16,18 @@ public class Grid {
 	private List<Room> rooms = new ArrayList<Room>();
 	private List<GameMatter> allItems = new ArrayList<GameMatter>();
 	private MansionArea[][] grid;
+	private RoomFactory factory;
 
 	public Grid(int numRooms){
+		factory = new RoomFactory();
 		int rand = (int) (Math.random()*numRooms+numRooms);
-		CreateItems gameItems = new CreateItems(rand);
-		allItems = gameItems.getItems();
 		makeRooms(numRooms);
 		setLinks();
-		giveItems();
-		// Testing
-		new Map(grid);
 	}
 
 	public void makeRooms(int numRooms){
 		for(int i=0; i<numRooms; i++){
 			rooms.add(new Room());
-		}
-	}
-
-	/**
-	 * this method puts items in the rooms randomly, some rooms wont have items
-	 * and some rooms will have multiple items
-	 */
-	public void giveItems(){
-		int itemNum = 0;
-		int rand;
-		while(itemNum<allItems.size()) {
-			for(int i=0; i<grid.length; i++) {
-				for(int j=0; j<grid[0].length; j++) {
-
-					if(grid[i][j] instanceof Room) {
-						rand = (int)(Math.random() * 2 + 1);//either 1 or 2
-						if(rand==1&&itemNum<allItems.size()) {
-							((Room)grid[i][j]).addItem(allItems.get(itemNum));//Add item to room
-							itemNum++;
-						}
-					}
-					if(itemNum==allItems.size())
-						return;
-				}
-			}
 		}
 	}
 
@@ -115,6 +87,7 @@ public class Grid {
 				if(j!=grid[0].length-1)
 					e = grid[i][j+1];
 				current.setLinks(n, e, s, w);
+				factory.populateRoom(current);
 			}
 		}
 	}

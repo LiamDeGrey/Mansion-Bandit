@@ -22,11 +22,17 @@ public class Room implements MansionArea{
 		this.floorTexture = floor;
 	}
 
-	/*
-	 * For testing purposes primarily
-	 */
+
 	public Room(){
 
+	}
+
+	public boolean removeItem(GameMatter itm){
+		if(itm!=null&&items.contains(itm)){
+			items.remove(itm);
+			return true;
+		}
+		return false;
 	}
 
 	public void setTextures(String wall, String ceiling, String floor){
