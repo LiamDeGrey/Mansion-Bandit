@@ -14,7 +14,7 @@ public class Key extends Grabable{
 	}
 
 	@Override
-	public boolean useItemOn(Grabable playerItm, GameMatter itm){
+	public boolean useItemOn(GameMatter itm){
 		if(itm instanceof Door){
 			((Door) itm).unlock();
 			return true;

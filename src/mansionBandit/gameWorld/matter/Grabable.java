@@ -12,7 +12,7 @@ public abstract class Grabable extends GameMatter {
 		super(name, description, image, face, position);
 	}
 
-	public boolean useItemOn(Grabable playerItm, GameMatter itm){
+	public boolean useItemOn(GameMatter itm){
 		return false;
 	}
 

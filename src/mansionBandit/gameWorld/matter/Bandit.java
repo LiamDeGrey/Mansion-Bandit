@@ -179,6 +179,13 @@ public class Bandit extends Character{
 		return false;
 	}
 
+	/**
+	 * TODO Kill the bandit
+	 */
+	public void killBandit(){
+
+	}
+
 	@Override
 	public String getDescription(){
 		return "It's another bandit!";
