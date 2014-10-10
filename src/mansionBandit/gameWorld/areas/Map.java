@@ -6,6 +6,9 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
+import mansionBandit.gameWorld.matter.Bandit;
+import mansionBandit.gameWorld.matter.GameMatter;
+
 /**
  * This class creates a visual representation of the mansion
  * @author Liam De Grey
@@ -16,6 +19,7 @@ public class Map extends JPanel{
 	private static final int widthBlock = 10;
 	private static final int heightBlock = 10;
 	private static final int padding = 20;
+	private static final int bandit = 5;
 
 	public Map(MansionArea[][] grid){
 		this.grid = grid;
@@ -52,6 +56,21 @@ public class Map extends JPanel{
 				}else if(grid[i][j].equals(botMid)){
 					g.setColor(Color.BLUE);
 					g.fillRect(i*widthBlock+padding, j*heightBlock+heightBlock+padding, widthBlock, heightBlock);
+				}
+				drawPlayers(g);
+			}
+		}
+	}
+
+	private void drawPlayers(Graphics g){
+		g.setColor(Color.BLACK);
+		for(int i=0; i<grid.length; i++){
+			for(int j=0; j<grid[0].length; j++){
+				for(GameMatter itm: grid[i][j].getItems()){
+					if(itm instanceof Bandit){
+						g.fillRect(i*widthBlock+padding, j*heightBlock+padding, bandit, bandit);
+						break;
+					}
 				}
 			}
 		}
