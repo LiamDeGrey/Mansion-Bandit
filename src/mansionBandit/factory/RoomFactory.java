@@ -10,14 +10,15 @@ import mansionBandit.gameWorld.matter.Face;
 public class RoomFactory {
 	private static final int roomFloorObjects = 3, chanceToLock = 7, chanceToHallwayItem = 5;
 	private ItemFactory floorItems;
+	private RoomPainter roomPainter;
 	private Random random;
 	
 	public RoomFactory(){
 		//setup wall texture lists
-		//.. floors
-		//.. ceilings
+		roomPainter = new RoomPainter("/texture/room.txt");
 		//setup object factory(s)
-		floorItems = new ItemFactory("floor");
+		floorItems = new ItemFactory("/object/floor.txt");
+		
 		random = new Random();
 	}
 	
@@ -44,12 +45,14 @@ public class RoomFactory {
 		
 		//place objects
 		if (room instanceof Hallway){
-			//call factory on the ceiling 
+			
 			popFloor(room, false);
 		} else if (room instanceof StartSpace){
-			//call factory on the ceiling 
+			
 		} else if (room instanceof Room){
-			//call factory on the ceiling 
+			//apply textures to the room
+			roomPainter.paintRoom((Room) room);
+			
 			popFloor(room, true);
 		}
 	}
@@ -69,7 +72,7 @@ public class RoomFactory {
 			// much lower chance of random
 			numbObjects = random.nextInt(chanceToHallwayItem);
 			if (numbObjects != 1){
-				numbObjects = 3;
+				numbObjects = 0;
 			}
 		}
 		for (int i = 0; i < numbObjects; i++){

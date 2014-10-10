@@ -24,7 +24,8 @@ public class Grid {
 		makeRooms(numRooms);
 		setLinks();
 		giveItems();
-		//drawMap();
+		// Testing
+		new Map(grid);
 	}
 
 	public void makeRooms(int numRooms){
@@ -120,55 +121,6 @@ public class Grid {
 
 	public MansionArea[][] getGrid(){
 		return grid;
-	}
-
-
-	/**
-	 * Draws a textual map in the console to show
-	 * the layout of the rooms
-	 */
-	public void drawMap(){
-		for(int i=0; i<grid.length; i++){
-			for(int j=0; j<grid[0].length; j++){
-				if(grid[i][j] instanceof Room){
-					if(((Room)grid[i][j]).getItems().size()>0)
-						System.out.print("  I  ");
-					else
-						System.out.print("  R  ");
-				}else{
-					System.out.print("  =  ");
-				}
-			}
-			System.out.println();
-		}
-
-		System.out.println("rows = "+grid.length+" cols = "+grid[0].length);
-		System.out.println("I = Room has Item, R = Room has no Item, '=' = Is a Hallway");
-
-
-		/*if(room.getNorth()!=null&&!drawn.contains(room.getNorth())){
-			drawMap(room.getNorth());
-		}
-		if(room.getWest()!=null&&!drawn.contains(room.getWest())){
-			drawMap(room.getWest());
-		}
-
-		if(!drawn.contains(room)){
-			if(drawn.size()%2==0)
-				System.out.println();
-			if(room.getItems().size()>0)
-				System.out.print("  I  ");//Show if the room has an Item
-			else
-				System.out.print("  R  ");
-			drawn.add(room);
-		}
-
-		if(room.getEast()!=null&&!drawn.contains(room.getEast())){
-			drawMap(room.getEast());
-		}
-		if(room.getSouth()!=null&&!drawn.contains(room.getSouth())){
-			drawMap(room.getSouth());
-		}*/
 	}
 
 }

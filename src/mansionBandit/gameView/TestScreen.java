@@ -51,8 +51,8 @@ public class TestScreen extends JFrame implements KeyListener{
         
         MansionArea[][] grid = new MansionArea[3][5];
         //rooms
-        Room room1 = new Room("wall2", "ceiling1", "carpet1");
-        Room room2 = new Room("wall1", "ceiling1", "carpet1");
+        Room room1 = new Room();
+        Room room2 = new Room();
         
         grid[1][0] = room2;
         grid[0][1] = room1;
@@ -80,9 +80,23 @@ public class TestScreen extends JFrame implements KeyListener{
 //        p.getBandit().setArea(demoRoom);
         
         RoomFactory factory = new RoomFactory();
+        //pop halls
         factory.populateRoom(grid[1][1]);
         factory.populateRoom(grid[1][2]);
         factory.populateRoom(grid[1][3]);
+        factory.populateRoom(grid[0][2]);
+        factory.populateRoom(grid[2][3]);
+        
+        //pop rooms
+        factory.populateRoom(grid[0][1]);
+        factory.populateRoom(grid[0][3]);
+        
+        factory.populateRoom(grid[1][0]);
+        factory.populateRoom(grid[1][4]);
+        
+        factory.populateRoom(grid[2][1]);
+        factory.populateRoom(grid[2][2]);
+        factory.populateRoom(grid[2][4]);
 
         p.getBandit().setFace(Face.EASTERN);
 
