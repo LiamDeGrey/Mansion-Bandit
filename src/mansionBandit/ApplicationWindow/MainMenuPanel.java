@@ -35,17 +35,18 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 	GameFrame gameFrame;
 
 	//player name fields for the lobby
-
 	JLabel player1NameLabel = new JLabel("Empty slot");
 	JLabel player2NameLabel =new JLabel("Empty slot");
 	JLabel player3NameLabel=new JLabel("Empty slot");
 	JLabel player4NameLabel=new JLabel("Empty slot");
 
 	//the textbox that multiplayer users into their name into
-	private JTextField usernameTextField;// = new JTextField();
+	private JTextField usernameTextField;
+
+	private JTextField hostNameTextField;
 
 	//the textfield clients enter the address of a host into
-	private JTextField addressTextField;// = new JTextField();
+	private JTextField addressTextField;
 
 
 	//the dimension/width and height of the textboxes in the menu
@@ -300,13 +301,13 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		hostGamePanel.add(nameLabel);
 
 		//sets up a textbox for the player to input their name
-		usernameTextField = new JTextField();
+		hostNameTextField = new JTextField();
 
 		//set the size of the textbox
-		usernameTextField.setPreferredSize(textBoxDimension);
+		hostNameTextField.setPreferredSize(textBoxDimension);
 
 		//add the textbox
-		hostGamePanel.add(usernameTextField);
+		hostGamePanel.add(hostNameTextField);
 
 		//set the position of the menu
 		hostGamePanel.setBounds(menuX,menuY,menuH,menuW);
@@ -333,13 +334,13 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 
 
 		//Sets up the labels that will display the names of the players
-		JLabel player1NameLabel = new JLabel();
+		//JLabel player1NameLabel = new JLabel();
 		slaveLobbyMenuPanel.add(player1NameLabel);
-		JLabel player2NameLabel = new JLabel();
+		//JLabel player2NameLabel = new JLabel();
 		slaveLobbyMenuPanel.add(player2NameLabel);
-		JLabel player3NameLabel = new JLabel();
+		//JLabel player3NameLabel = new JLabel();
 		slaveLobbyMenuPanel.add(player3NameLabel);
-		JLabel player4NameLabel = new JLabel();
+		//JLabel player4NameLabel = new JLabel();
 		slaveLobbyMenuPanel.add(player4NameLabel);
 
 		player1NameLabel.setText("Empty slot 1");
@@ -393,11 +394,6 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		hostLobbyMenuPanel.add(player3NameLabel);
 		//JLabel player4NameLabel = new JLabel();
 		hostLobbyMenuPanel.add(player4NameLabel);
-
-		//player1NameLabel.setText("Empty slot 1");
-		//player2NameLabel.setText("Empty slot 2");
-		//player3NameLabel.setText("Empty slot 3");
-		//player4NameLabel.setText("Empty slot 4");
 
 
 		//player1NameLabel.setText(gameFrame.getServer().getClient(0).getUserName());
@@ -499,7 +495,18 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 
 	public void playerHasConnected(String username){
 
-		player1NameLabel.setText(username);
+		if(player2NameLabel.getText().equals("Empty slot"))
+		{
+			player2NameLabel.setText(username);
+		}
+		else if(player3NameLabel.getText().equals("Empty slot"))
+		{
+			player3NameLabel.setText(username);
+		}
+		else if(player3NameLabel.getText().equals("Empty slot"))
+		{
+			player4NameLabel.setText(username);
+		}
 		this.repaint();
 	}
 
@@ -508,8 +515,12 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 	 */
 	private void beginHostingGame(){
 		//calls to methods that create the host object, give it a game object and a player as well as give the gameFrame a game object and player
-		String userName = usernameTextField.getText();
+		String userName = hostNameTextField.getText();
+		player1NameLabel.setText(userName);
+		this.repaint();
 		gameFrame.runServer(32768,4,userName);
+
+
 	}
 
 	/**
@@ -524,7 +535,7 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		try {
 			gameFrame.runClient(address,32768, userName);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 	}

@@ -187,6 +187,7 @@ public class TopBottomStrategy implements SurfaceStrategy {
 				top -= scale;
 			}
 
+			System.out.println("/object/" + item.getImage() + ".png");
 			//load image
 			BufferedImage image = null;
 			try {
