@@ -2,10 +2,12 @@ package mansionBandit.factory;
 
 import java.util.Random;
 
+import jdk.internal.org.objectweb.asm.commons.StaticInitMerger;
 import mansionBandit.gameWorld.areas.*;
 import mansionBandit.gameWorld.matter.Dimensions;
 import mansionBandit.gameWorld.matter.Door;
 import mansionBandit.gameWorld.matter.Face;
+import mansionBandit.gameWorld.matter.FurnitureStatic;
 
 public class RoomFactory {
 	private final int roomFloorObjects = 3, roomWallObjects = 2, chanceToLock = 7, chanceToHallwayItem = 5, chanceToHallWallItem = 8;
@@ -50,6 +52,7 @@ public class RoomFactory {
 		if (room instanceof Hallway){
 			popWall(room, false);
 			popFloor(room, false);
+			popCeiling(room, false);
 		} else if (room instanceof StartSpace){
 			
 		} else if (room instanceof Room){
@@ -58,6 +61,21 @@ public class RoomFactory {
 			
 			popWall(room, true);
 			popFloor(room, true);
+			popCeiling(room, true);
+		}
+	}
+	
+	/**
+	 * add objects to the ceiling of a room
+	 * 
+	 * @param room the room to add objects to
+	 * @param isRoom true if room is a Room object (as opposed to hallway)
+	 */
+	private void popCeiling(MansionArea room, boolean isRoom){
+		if (isRoom){
+			room.addItem(ceilingItems.getItem(Face.CEILING));
+		} else {
+			room.addItem(new FurnitureStatic("Hall Light", "What a sweet light bro", "light2", Face.CEILING, new Dimensions(50,50,30)));
 		}
 	}
 	

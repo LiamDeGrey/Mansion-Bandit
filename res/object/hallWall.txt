@@ -1,1 +1,1 @@
-bookshelf Reading_is_for_squares static 40 0 0 0
+bookshelf Bookshelf Reading_is_for_squares static 60 0 0 0
