@@ -29,6 +29,12 @@ public class Room implements MansionArea{
 
 	}
 
+	public void setTextures(String wall, String ceiling, String floor){
+		this.wallTexture = wall;
+		this.ceilingTexture = ceiling;
+		this.floorTexture = floor;
+	}
+
 	public String getWallTexture(){
 		return wallTexture;
 	}
