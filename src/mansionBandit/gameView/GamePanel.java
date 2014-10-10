@@ -10,23 +10,32 @@ import javax.swing.JPanel;
 import sun.net.www.content.text.plain;
 import mansionBandit.gameWorld.areas.Room;
 import mansionBandit.gameWorld.main.Player;
-import mansionBandit.gameWorld.matter.Couch;
+import mansionBandit.gameWorld.matter.FurnitureStatic;
 import mansionBandit.gameWorld.matter.Decoration;
 import mansionBandit.gameWorld.matter.Face;
 import mansionBandit.gameWorld.matter.Dimensions;
 import mansionBandit.gameWorld.matter.GameMatter;
 
+/**
+ * This panel is responsible for displaying the game world
+ * It takes a Player as an argument, and renders the room that player is in.
+ * Also handles mouse clicks, so that if the user clicks an object in the game,
+ * the GamePanel will return that object 
+ * @author Andy
+ *
+ */
 public class GamePanel extends JPanel{
 	private int height = 600;
 	private int width = 800;
 	private Player player;
-	private Face direction;
 
 	public RoomView room;
 
 	/**
 	 * returns the object the user clicked on
 	 * x and y should be given as relative to this panel, not the frame it is contained in
+	 * NOTE: only works in the room the player is in
+	 * and currently only working for the floor and back wall
 	 * 
 	 * @param x position to check
 	 * @param y position to check
@@ -36,26 +45,23 @@ public class GamePanel extends JPanel{
 		return room.findObjectByMouse(x, y);
 	}
 
-	public GamePanel(){
-		//TODO remove
-		Room demoRoom = new Room("wall1", "ceiling1", "carpet1");
-		room = new RoomView(demoRoom, Face.NORTHERN, 0, 0, width, height, 0);
-	}
-
 	/**
 	 * creates a gamePanel using a Player object to determine the direction faced, and location
 	 * @param p
 	 */
 	public GamePanel(Player p){
 		player = p;
-		direction = player.getBandit().getFace();
-		
-		room = new RoomView(player.getBandit().getArea(), direction, 0, 0, width, height, 0);
+		//create the initial RoomView
+		room = new RoomView(player.getBandit().getArea(), player.getBandit().getFace(), 0, 0, width, height, 0);
 	}
 	
+	/**
+	 * calls upon the GamePanel to redraw the scene (should be called when something
+	 * in the players view has changed (object added/removed from room, player turned or moved)
+	 * NOTE: currently is unoptimised. This will redraw the entire scene from scratch
+	 */
 	public void update(){
-		direction = player.getBandit().getFace();
-		room = new RoomView(player.getBandit().getArea(), direction, 0, 0, width, height, 0);
+		room = new RoomView(player.getBandit().getArea(), player.getBandit().getFace(), 0, 0, width, height, 0);
 		this.repaint();
 	}
 

@@ -9,51 +9,52 @@ import mansionBandit.gameWorld.areas.MansionArea;
  *
  */
 public class Guard extends Character {
-	private Face face;
-	private Dimensions pos;
-	private String name;
+	private MansionArea area;
 
-	@Override
-	public Face getFace() {
-		return face;
+	public Guard(String name, Face face, Dimensions position, MansionArea area) {
+		super(name, null, null, face, position);
+		this.area = area;
+	}
+
+	public void wakeUp(){
+		Thread clockTick = new Thread(){
+			private Bandit prey = null;
+
+			@Override
+			public void run(){
+				for(GameMatter itm: area.getItems()){
+					if(itm instanceof Bandit){
+						prey = (Bandit) itm;
+					}
+				}
+				try {
+					this.sleep(5000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				if(area.getItems().contains(prey)){
+					prey.kill();
+				}
+			}
+		};
+		clockTick.start();
 	}
 
 	@Override
-	public Dimensions getDimensions() {
-		return pos;
+	public void kill(){
+		area.addItem(new Knife(getName(), Face.FLOOR, new Dimensions(50, 50, 2)));
+		area.getItems().remove(this);
 	}
 
 	@Override
-	public String getName() {
-		return name;
+	public String getImage(){
+		return "guard";
 	}
 
 	@Override
-	public String getImage() {
-		return null;
+	public String getDescription(){
+		return "Oh no! It's a guard! Stab him quick!";
 	}
 
-	@Override
-	public MansionArea getArea() {
-		return null;
-	}
-
-	@Override
-	public void setFace(Face f) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setDimensions(Dimensions d) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setArea(MansionArea r) {
-		// TODO Auto-generated method stub
-
-	}
 
 }

@@ -57,8 +57,6 @@ public class GUICanvas extends JPanel{
 	        //draw image in players inventory [i] at (increment *i)
 
 
-	        //TODO FIX IT copy from setmouseimage
-
 	        for(int i =0;i<player.getInventorySize();i++){
 
 	        	//if player has an item in this slot
@@ -75,15 +73,15 @@ public class GUICanvas extends JPanel{
 	        		//set up the path to the image
 	        		String imgPath = "/object/"+player.getItem(i).getImage();
 
-	        	
+
 	        		//set up the image at slot i in player inventory
 	        		BufferedImage img;
 					try {
-						
+
 						System.out.printf("ITEM IMAGE " + i + " " +player.getItem(i).getImage() );
-						
-						img = ImageIO.read(this.getClass().getResource("/object/" + player.getItem(i).getName()+".png"));
-						//img = ImageIO.read(this.getClass().getResource("/object/" + player.getItem(i).getImage()));
+
+						img = ImageIO.read(this.getClass().getResource("/object/" + player.getItem(i).getImage()+".png"));
+
 						//draw the item at slot i in player inventory
 		        		g.drawImage(img, itemImageX, itemImageY, 50, 50, null);
 

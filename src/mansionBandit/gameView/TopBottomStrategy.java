@@ -1,6 +1,7 @@
 package mansionBandit.gameView;
 
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,9 +19,13 @@ import mansionBandit.gameWorld.matter.GameMatter;
 public class TopBottomStrategy implements SurfaceStrategy {
 	private boolean ceiling;
 	private Surface surface;
-	private BufferedImage surfaceTexture;
+	private Image surfaceTexture, shadow;
 	private int surfaceX, surfaceY, surfaceWidth, surfaceHeight;
 
+	/**
+	 * create strategy for top or bottom
+	 * @param top true if surface is a ceiling
+	 */
 	public TopBottomStrategy(boolean top) {
 		this.ceiling = top;
 	}
@@ -29,24 +34,17 @@ public class TopBottomStrategy implements SurfaceStrategy {
 	public void paintSurface(Graphics g) {
 		g.drawImage(surfaceTexture, surfaceX, surfaceY, surfaceWidth, surfaceHeight, null);
 
-		//draw objects on the wall
-		for (DrawnObject ob : surface.objects){
-			BufferedImage obImage = null;
-			BufferedImage shadow = null;
-			try {
-				obImage = ImageIO.read(this.getClass().getResource("/object/" + ob.getImage() + ".png"));
-				shadow = ImageIO.read(this.getClass().getResource("/object/shadow.png"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			//TODO move into its own loop to prevent shadows overlapping other objects
-			if (!ceiling){
-				//draw shadow if object on floor
+		if (!ceiling){
+			//draw shadows on floor first to prevent overlapping shadows on objects
+			for (DrawnObject ob : surface.objects){
 				g.drawImage(shadow, ob.getBoundX() -10, ob.getBoundY() + ob.getHeight() - 10, ob.getWidth() + 20, 20, null);
 			}
+		}
+
+		//draw objects on the wall
+		for (DrawnObject ob : surface.objects){
 			//draw object
-			g.drawImage(obImage, ob.getBoundX(), ob.getBoundY(), ob.getWidth(), ob.getHeight(), null);
+			g.drawImage(ob.getImage(), ob.getBoundX(), ob.getBoundY(), ob.getWidth(), ob.getHeight(), null);
 		}
 	}
 
@@ -68,111 +66,169 @@ public class TopBottomStrategy implements SurfaceStrategy {
 	}
 
 	@Override
-	public void setupSurface(Surface surface, Face face) {
-		this.surface = surface;
-		try {
-			//set image for the view
-			if (ceiling){
-				surfaceTexture = ImageIO.read(this.getClass().getResource("/ceilings/" + surface.roomView.room.getCeilingTexture() + ".png"));
-			} else {
-				surfaceTexture = ImageIO.read(this.getClass().getResource("/floors/" + surface.roomView.room.getFloorTexture() + ".png"));
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void setupSurface(Surface surface, Face direction) {
+		
 		//set bounds for the surface
 		surfaceX = surface.roomView.boundX;
 		surfaceWidth = surface.roomView.width;
+		
+		if (surface.roomView.sidePassage){
+			/* 
+			 * override for sidepassages.
+			 * when using the skew feature of javaxt, we must only use coordinates
+			 * within the bounds of the original image file, so here we have to
+			 * scale the width up so that we can move one edge past the other
+			 * and maintain the correct ratio: 
+			 *  ___________________________
+			 *  |      /                  /
+			 *  |     /                  /|
+			 *  |    /                  / |
+			 *  |   /  transformed     /  |
+			 *  |  /     image        /   |
+			 *  | /                  /    |
+			 *  |/__________________/_____|
+			 *      original image bounds
+			 * 
+			 */
+			surfaceWidth = (int) (surface.roomView.width * 1.25);
+			if (!surface.roomView.sidePassageLeft){
+				surfaceX = (int) (surface.roomView.boundX - (surface.roomView.width * 0.25));
+			}
+		}
+		
 		surfaceHeight = surface.roomView.height/4;
 		if (ceiling){
 			surfaceY = surface.roomView.boundY;
 		} else {
 			surfaceY = surface.roomView.boundY + ((surface.roomView.height * 3) / 4);
 		}
-
+		
+		//load and warp the image
+		this.surface = surface;
+		if (ceiling){
+			surfaceTexture = warpImage("/texture/" + surface.roomView.room.getCeilingTexture() + ".png");
+		} else {
+			surfaceTexture = warpImage("/texture/" + surface.roomView.room.getFloorTexture() + ".png");
+		}
+		
 		//create object list for surface
-		createGameObjects(surface.roomView.room, face);
-	}
+		createGameObjects(surface.roomView.room, direction);
 
+		//load shadow for objects if on floor
+		if (!ceiling){
+			try {
+				shadow = ImageIO.read(this.getClass().getResource("/object/shadow.png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	/**
-	 * wraps objects to be drawn into DrawnObjects
-	 * with appropriate size and position distortion
-	 *
-	 * @param wall
+	 * gets the objects in the room, filters them for this wall
+	 * only, and wraps them into a drawn object, complete with
+	 * resized bounds
+	 * 
+	 * @param room the room this surface belongs to
+	 * @param direction the direction this surface is on
 	 */
-	private void createGameObjects(MansionArea room, Face face){
+	private void createGameObjects(MansionArea room, Face direction){
 			List<DrawnObject> obs = new ArrayList<DrawnObject>();
 
 		//loop through objects on floor, and resize them
 		for (GameMatter item : room.getItems()){
-			if (item.getFace() != face){
+			if (item.getFace() != direction){
 				continue;
 			}
+			
 			//determine x and y based on direction facing in room
 			int x = getX(item.getDimensions());
 			int y = getY(item.getDimensions());
 
 			//get base height of object
-			int size = (int) ((((double) item.getDimensions().getScale()) / 100) * (surfaceHeight * 4));
+			int scale = (int) ((((double) item.getDimensions().getScale()) / 100) * (surfaceHeight * 4));
 
 			/* determine width and height based on distance away from viewer perspective
 			 * this causes items that are further away to appear smaller
-			 * (variable scale is the level of scaling to apply as a double between 0.5 and 1) */
-			double scale = 0.5 + (0.5 * (((double) y) / 100));
-			if (this.ceiling){
+			 * (variable distanceScale is the level of scaling to apply as a double between 0.5 and 1) */
+			double distanceScale = 0.5 + (0.5 * (((double) y) / 100));
+			if (ceiling){
 				//invert scale if this object is on the ceiling
-				scale = 0.5 + (1 - scale);
+				distanceScale = 0.5 + (1 - distanceScale);
 			}
 			//apply scale
-			size = (int) (size * scale);
+			scale = (int) (scale * distanceScale);
 
-			//determine where the horizontal center of the image should be
+			/* determine where the horizontal center of the image should be
+			 * it will be closer to the center, the further away it is
+			 *    ______________________
+			 *    \  o      :<---->o   /
+			 *     \  o     :<--->o   /
+			 *      \  o    :<-->o   /
+			 *       \__o___:<->o___/
+			 */
 			int objectCenterX = (int) (surfaceX + (x * ((double) surfaceWidth / 100)));
-			//have to alter horizontal position to be closer to the center when further back
 			int surfaceCenterX = surfaceX + (surfaceWidth / 2);
 			int diff = Math.abs(surfaceCenterX - objectCenterX);
-			//apply scaling to the diff
-			diff = (int) (diff * scale);
+			//apply scaling to the difference
+			diff = (int) (diff * distanceScale);
 
 			//apply the new x position, and account for having to draw from top left corner
 			if (objectCenterX < surfaceCenterX){
-				objectCenterX = surfaceCenterX - diff - (size / 2);
+				objectCenterX = surfaceCenterX - diff - (scale / 2);
 			} else if (surfaceCenterX < objectCenterX){
-				objectCenterX = surfaceCenterX + diff - (size / 2);
+				objectCenterX = surfaceCenterX + diff - (scale / 2);
 			}
 
-			//TODO change variable names so that we're not relying on scope?
 			int top = (int) (surfaceY + (y * ((double) surfaceHeight / 100)));
-			if (!this.ceiling){
+			if (!ceiling){
 				//objects y positions are anchored at the top of the object if being drawn on the ceiling, so no need to modify y here
-				top -= size;
+				top -= scale;
 			}
 
-			//create the wrapped object and add to list
-			DrawnObject dob = new DrawnObject(item, objectCenterX, top, size, size);
+			//load image
+			BufferedImage image = null;
+			try {
+				image = ImageIO.read(this.getClass().getResource("/object/" + item.getImage() + ".png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			DrawnObject dob = new DrawnObject(item, image, objectCenterX, top, scale, scale);
 			obs.add(dob);
 		}
+
+		//sort objects to ensure drawing order is correct (back first)
 		Collections.sort(obs);
 		if (ceiling){
-			//TODO wont work on ceiling objects! need custom comparator!
+			//TODO wont work on ceiling objects! need custom comparator as ceiling objects are anchored on top!
 			Collections.reverse(obs);
 		}
 		surface.objects = obs;
 	}
 
+	/**
+	 * objects dimensions are given as if 0,0 is the North West corner,
+	 * this method returns the x value depending on which direction
+	 * the viewer is actually facing (basically rotates coordinates)
+	 * 
+	 * @param dim dimensions of the object
+	 * @return the correct x value
+	 */
 	private int getX(Dimensions dim){
-		Face face = surface.roomView.playerDirection;
-		if (face == Face.EASTERN){
+		Face direction = surface.roomView.playerDirection;
+		if (direction == Face.EASTERN){
 			if (ceiling){
 				return 100 - dim.getY();
 			}
 			return dim.getY();
 		}
-		if (face == Face.SOUTHERN){
+		if (direction == Face.SOUTHERN){
 			return 100 - dim.getX();
 		}
-		if (face == Face.WESTERN){
+		if (direction == Face.WESTERN){
 			if (ceiling){
 				return dim.getY();
 			}
@@ -182,18 +238,26 @@ public class TopBottomStrategy implements SurfaceStrategy {
 		return dim.getX();
 	}
 
+	/**
+	 * objects dimensions are given as if 0,0 is the North West corner,
+	 * this method returns the y value depending on which direction
+	 * the viewer is actually facing. (basically rotates coordinates)
+	 * 
+	 * @param dim dimensions of the object
+	 * @return the correct y value
+	 */
 	private int getY(Dimensions dim){
-		Face face = surface.roomView.playerDirection;
-		if (face == Face.EASTERN){
+		Face direction = surface.roomView.playerDirection;
+		if (direction == Face.EASTERN){
 			if (ceiling){
 				return dim.getX();
 			}
 			return 100 - dim.getX();
 		}
-		if (face == Face.SOUTHERN){
+		if (direction == Face.SOUTHERN){
 			return 100 - dim.getY();
 		}
-		if (face == Face.WESTERN){
+		if (direction == Face.WESTERN){
 			if (ceiling){
 				return 100 - dim.getX();
 			}
@@ -201,5 +265,82 @@ public class TopBottomStrategy implements SurfaceStrategy {
 		}
 		//must be facing north
 		return dim.getY();
+	}
+	
+	/**
+	 * applies perspective transformations on passed images depending on whether this is a right
+	 * or left wall and returns the result
+	 * uses the javaxt library
+	 * Note: does not change height or width, thats currently done by the parameters passed to the DrawnObject 
+	 * 
+	 * @param imagePath string path to image
+	 * @return the transformed Image object
+	 */
+	private Image warpImage(String imagePath){
+		//TODO seems to be an issue with images not tiling correctly rotation???
+		BufferedImage image = null;
+		//load image
+		try {
+			image = ImageIO.read(this.getClass().getResource(imagePath));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//wrap image in the transformer object
+		javaxt.io.Image warped = new javaxt.io.Image(image);
+		int width = warped.getWidth();
+		int height = warped.getHeight();
+
+		//TODO condense?
+		//apply the transform
+		if (surface.roomView.sidePassage){
+			//here we use skew to slide the far away edge towards the center (side passages only)
+			int closeWidth = (int) (width * 0.8);
+			int farWidth = (int) (width * 0.4);
+			if (surface.roomView.sidePassageLeft){
+				//left side
+				if (ceiling){
+					warped.setCorners(0, 0, //UL
+							closeWidth, 0, //UR
+							width, height, //LR
+							width - farWidth, height);//LL
+				} else {
+					//floor
+					warped.setCorners(width - farWidth, 0, //UL
+							width, 0, //UR
+							closeWidth, height, //LR
+							0, height);//LL
+				}
+			} else {
+				//right side
+				if (ceiling){
+					warped.setCorners(width - closeWidth, 0, //UL
+							closeWidth, 0, //UR
+							farWidth, height, //LR
+							0, height);//LL
+				} else {
+					//floor
+					warped.setCorners(0, 0, //UL
+							farWidth, 0, //UR
+							width, height, //LR
+							width - closeWidth, height);//LL
+				}
+			}
+		} else {
+			//normal transform, just have to shrink the far edge
+			if (ceiling){
+				warped.setCorners(0, 0, //UL
+						width, 0, //UR
+						(3 * (width / 4)), height, //LR
+						(width / 4), height);//LL
+			} else {
+				//floor
+				warped.setCorners((3 * (width / 4)), 0, //UL
+						(width / 4), 0, //UR
+						0, height, //LR
+						width, height);//LL
+			}
+		}
+		return warped.getImage();
 	}
 }

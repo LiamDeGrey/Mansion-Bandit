@@ -24,8 +24,8 @@ public class Hallway implements MansionArea{
 
 	public Hallway(){
 		this.wallTexture = "hallway";
-		this.ceilingTexture = "hallway";
-		this.floorTexture = "hallway";
+		this.ceilingTexture = "hallwayC";
+		this.floorTexture = "hallwayF";
 	}
 
 	public String getWallTexture(){

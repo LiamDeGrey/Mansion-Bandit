@@ -43,11 +43,23 @@ public class Room implements MansionArea{
 		}
 	}
 
-	/*
-	 * For testing purposes primarily
-	 */
+
 	public Room(){
 
+	}
+
+	public boolean removeItem(GameMatter itm){
+		if(itm!=null&&items.contains(itm)){
+			items.remove(itm);
+			return true;
+		}
+		return false;
+	}
+
+	public void setTextures(String wall, String ceiling, String floor){
+		this.wallTexture = wall;
+		this.ceilingTexture = ceiling;
+		this.floorTexture = floor;
 	}
 
 	public String getWallTexture(){
@@ -96,12 +108,14 @@ public class Room implements MansionArea{
 
 	@Override
 	public boolean equals(Object o){
-		MansionArea compared = (MansionArea)o;
-		if(compared.getNorth()==getNorth()
-				&&compared.getEast()==getEast()
-				&&compared.getSouth()==getSouth()
-				&&compared.getWest()==getWest())
-			return true;
+		if(o!=null){
+			MansionArea compared = (MansionArea)o;
+			if(compared.getNorth()==getNorth()
+					&&compared.getEast()==getEast()
+					&&compared.getSouth()==getSouth()
+					&&compared.getWest()==getWest())
+				return true;
+		}
 		return false;
 	}
 

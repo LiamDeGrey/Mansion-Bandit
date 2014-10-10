@@ -3,7 +3,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 
+import mansionBandit.ApplicationWindow.GameFrame;
 import mansionBandit.gameWorld.areas.MansionArea;
 import mansionBandit.gameWorld.main.Slave;
 
@@ -16,19 +18,22 @@ import mansionBandit.gameWorld.main.Slave;
  */
 public final class Client {
 	private final Socket socket;
-	//game field needed
 	private ObjectOutputStream output;
 	private ObjectInputStream input;
 	private int uid; //unique id
 	private String username;
+	private ArrayList<String> usernameList;
 
-	//Gets gameWorld from the server it connects to
 	private Slave player;
 
-	public Client (Socket socket, String username, Slave player) {
+	private GameFrame gameFrame;
+
+	public Client (Socket socket, String username, Slave player, GameFrame gameframe) {
 		this.socket = socket;
 		this.username = username;
 		this.player = player;
+		usernameList = new ArrayList<String>();
+		this.gameFrame = gameframe;
 	}
 
 	public void start() {
@@ -72,6 +77,13 @@ public final class Client {
 					Object o = input.readObject();
 					if (o instanceof MansionArea[][]) {
 						System.out.println("Received grid");
+						player.setGrid((MansionArea[][]) o);
+					}
+					else if (o instanceof ArrayList) {
+						System.out.println("Received username list");
+						usernameList = (ArrayList<String>) o;
+						System.out.println("list " + usernameList);
+						gameFrame.clientPlayerHasConnected(usernameList);
 					}
 				}
 				catch(IOException e) {
@@ -85,7 +97,7 @@ public final class Client {
 	}
 
 	/**
-	 * @return the gameWorld this client is using
+	 * @return The gameWorld this client is using
 	 */
 	public Slave getPlayer(){
 		return player;

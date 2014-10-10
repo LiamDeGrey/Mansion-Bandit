@@ -1,6 +1,7 @@
 package mansionBandit.gameView;
 
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,10 +22,10 @@ import mansionBandit.gameWorld.matter.GameMatter;
  */
 public class BackWallStrategy implements SurfaceStrategy {
 	private Surface surface;
-	private BufferedImage surfaceTexture;
+	private Image surfaceTexture;
 	private int surfaceX, surfaceY, surfaceWidth, surfaceHeight;
 	private RoomView nextRoom = null;
-	private static String fog = "/walls/fog.png";
+	private static String fog = "/texture/fog.png";
 	
 	@Override
 	public void paintSurface(Graphics g) {
@@ -45,34 +46,28 @@ public class BackWallStrategy implements SurfaceStrategy {
 
 		//draw objects on the wall
 		for (DrawnObject ob : surface.objects){
-			BufferedImage obImage = null;
-			try {
-				obImage = ImageIO.read(this.getClass().getResource("/object/" + ob.getImage() + ".png"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			g.drawImage(obImage, ob.getBoundX(), ob.getBoundY(), ob.getWidth(), ob.getHeight(), null);
+			g.drawImage(ob.getImage(), ob.getBoundX(), ob.getBoundY(), ob.getWidth(), ob.getHeight(), null);
 		}
 	}
 
 	/**
-	 * generates the bounds of the wall
+	 * generates the bounds of the surface
+	 * has to check if the roomView is for a side passage
 	 */
 	private void getBounds(){
-		//set bounds for the surface
 		surfaceWidth = surface.roomView.width / 2;
 
 		if (surface.roomView.sidePassage){
-
+			//is a sidepassage
 			if (surface.roomView.sidePassageLeft){
-
+				//is on left
 				surfaceX = surface.roomView.boundX + surfaceWidth + (surfaceWidth / 2);
 			} else {
-
+				//is on right
 				surfaceX = surface.roomView.boundX - (surfaceWidth / 2);
 			}
 		} else {
+			//not a side passage
 			surfaceX = surface.roomView.boundX + (surfaceWidth / 2);
 		}
 
@@ -81,11 +76,11 @@ public class BackWallStrategy implements SurfaceStrategy {
 	}
 
 	@Override
-	public void setupSurface(Surface surface, Face face) {
+	public void setupSurface(Surface surface, Face direction) {
 		this.surface = surface;
 		try {
 			//set image for the view
-			surfaceTexture = ImageIO.read(this.getClass().getResource("/walls/" + surface.roomView.room.getWallTexture() + ".png"));
+			surfaceTexture = ImageIO.read(this.getClass().getResource("/texture/" + surface.roomView.room.getWallTexture() + ".png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -97,9 +92,9 @@ public class BackWallStrategy implements SurfaceStrategy {
 
 		//here we check to see if we need to draw more rooms in the distance (eg are we in a hallway)
 		if (surface.roomView.room instanceof Hallway){
-
+			//ok now find out what the next room we have to draw is
 			MansionArea next = null;
-			switch (face){
+			switch (direction){
 			case NORTHERN:
 				next = surface.roomView.room.getNorth();
 				break;
@@ -111,13 +106,30 @@ public class BackWallStrategy implements SurfaceStrategy {
 				break;
 			case EASTERN:
 				next = surface.roomView.room.getEast();
+				break;
 			}
-			
+
 			if (next != null && next instanceof Hallway && depth <= surface.roomView.viewDepthMAX){
-				nextRoom = new RoomView(next, face, surfaceX, surfaceY, surfaceWidth, surfaceHeight, depth + 1);
+				//next room is a hallway and within range of the main view,
+				//so setup that room to be drawn behind this one
+				
+				if (next != null && surface.roomView.sidePassage){
+					/* except that we are a side passage
+					 * (if the room is drawn behind the back wall here
+					 * it will look out of place as the perspective 
+					 * for a back wall is not configured to be drawn at this
+					 * angle
+					 */
+					//TODO fix perspective in back wall for this??
+					nextRoom = null;
+				} else {
+					nextRoom = new RoomView(next, direction, surfaceX, surfaceY, surfaceWidth, surfaceHeight, depth + 1);
+				}
+				
 			} else if (next != null && next instanceof Room){
+				//next room is a room, so use hallway Wall texture for use in the hallway
 				try {
-					surfaceTexture = ImageIO.read(this.getClass().getResource("/walls/" + next.getWallTexture() + ".png"));
+					surfaceTexture = ImageIO.read(this.getClass().getResource("/texture/hallwayW.png"));
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -126,7 +138,7 @@ public class BackWallStrategy implements SurfaceStrategy {
 		}
 		
 		//create object list for surface
-		createGameObjects(surface.roomView.room, face);
+		createGameObjects(surface.roomView.room, direction);
 	}
 	
 	/**
@@ -135,17 +147,40 @@ public class BackWallStrategy implements SurfaceStrategy {
 	 * 
 	 * @param wall
 	 */
-	private void createGameObjects(MansionArea room, Face face){
+	
+	/**
+	 * gets the objects in the room, filters them for this wall
+	 * only, and wraps them into a drawn object, complete with
+	 * resized bounds
+	 * 
+	 * @param room the room this surface belongs to
+	 * @param direction the direction this surface is on
+	 */
+	private void createGameObjects(MansionArea room, Face direction){
 		List<DrawnObject> obs = new ArrayList<DrawnObject>();
+		
 		//loop through objects on wall, and resize them
 		for (GameMatter item : room.getItems()){
-			if (item.getFace() != face){
+			if (item.getFace() != direction){
+				//item not on this wall, move on
 				continue;
 			}
+			
+			//scale and position the object appropriately
 			int scale = (int) ((((double) item.getDimensions().getScale()) / 100) * surfaceHeight);
 			int left = (int) (surfaceX + (item.getDimensions().getX() * ((double) surfaceWidth / 100)) - (scale / 2));
 			int top = (int) (surfaceY + (item.getDimensions().getY() * ((double) surfaceHeight / 100)) - scale);
-			DrawnObject dob = new DrawnObject(item, left, top, scale, scale);
+			
+			BufferedImage image = null;
+			try {
+				image = ImageIO.read(this.getClass().getResource("/object/" + item.getImage() + ".png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			//create the DrawnObject with the computed bounds
+			DrawnObject dob = new DrawnObject(item, image, left, top, scale, scale);
 			obs.add(dob);
 		}
 		surface.objects = obs;

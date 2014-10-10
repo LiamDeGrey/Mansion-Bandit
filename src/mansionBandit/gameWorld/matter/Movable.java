@@ -6,6 +6,10 @@ package mansionBandit.gameWorld.matter;
  * @author Liam De Grey
  *
  */
-public abstract class Movable implements GameMatter{
+public abstract class Movable extends GameMatter{
+
+	public Movable(String name, String description, String image, Face face, Dimensions position) {
+		super(name, description, image, face, position);
+	}
 
 }

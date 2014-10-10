@@ -58,8 +58,8 @@ public abstract class Player {
 		return bandit.addItem(itm);
 	}
 
-	public boolean removeItem(Grabable itm){
-		return bandit.removeItem(itm);
+	public boolean removeItem(Grabable itm, int slot){
+		return bandit.removeItem(itm, slot);
 	}
 
 	public Grabable getItem(int slot){

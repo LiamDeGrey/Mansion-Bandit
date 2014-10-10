@@ -14,33 +14,27 @@ import mansionBandit.gameWorld.areas.StartSpace;
  *
  */
 public class Bandit extends Character{
-	private Face face;
-	private Dimensions dimensions;
-	private String name;
-	private List<Grabable> inventory = new ArrayList<Grabable>();
-	private MansionArea area;
+	//private List<Grabable> inventory = new ArrayList<Grabable>();
+	private Grabable[] inventory = new Grabable[7];
 	private StartSpace van;
 	private MansionArea[][] grid;
-	
+	private MansionArea area;
+
 
 	public Bandit(String name, MansionArea[][] grid) {
-		this.name = name;
+		super(name, null, null, null, null);
 		this.grid = grid;
 		setStartSpace();
-		
-		//Makes inventory array usable right after being initialized
-		for(int i=0;i<7;i++){
-			inventory.add(null);
-		}
-		
+		initialiseInventory();
 	}
 
-	public Bandit(String name) {
-		this.name = name;
+	public Bandit(String name){
+		super(name, null, null, null, null);
+		initialiseInventory();
 	}
 
 	/**
-	 * Sets the spot this bandit will start at
+	 * Sets the spot this bandit will start at and the dimensions
 	 */
 	public void setStartSpace(){
 		van = new StartSpace();
@@ -53,15 +47,27 @@ public class Bandit extends Character{
 		if(leftMid.getWest()==null){
 			van.setLinks(null, leftMid, null, null);
 			leftMid.setWest(van);
+			this.setFace(Face.EASTERN);
+			Dimensions dimens = new Dimensions(10, 10, 50);
+			this.setDimensions(dimens);
 		}else if(topMid.getNorth()==null){
 			van.setLinks(null, null, topMid, null);
 			topMid.setNorth(van);
+			this.setFace(Face.SOUTHERN);
+			Dimensions dimens = new Dimensions(10, 10, 50);
+			this.setDimensions(dimens);
 		}else if(rightMid.getEast()==null){
 			van.setLinks(null, null, null, rightMid);
 			rightMid.setEast(van);
+			this.setFace(Face.WESTERN);
+			Dimensions dimens = new Dimensions(10, 10, 50);
+			this.setDimensions(dimens);
 		}else if(botMid.getSouth()==null){
 			van.setLinks(botMid, null, null, null);
 			botMid.setSouth(van);
+			this.setFace(Face.NORTHERN);
+			Dimensions dimens = new Dimensions(10, 10, 50);
+			this.setDimensions(dimens);
 		}else
 			System.out.println("Cannot add more than 4 players!!");
 	}
@@ -71,44 +77,14 @@ public class Bandit extends Character{
 		setStartSpace();
 	}
 
-	@Override
-	public MansionArea getArea() {
+	public MansionArea getArea(){
 		return area;
 	}
 
-	public void setFace(Face f) {
-		face = f;
+	public void setArea(MansionArea area){
+		this.area = area;
 	}
 
-	@Override
-	public Face getFace() {
-		return face;
-	}
-
-	@Override
-	public Dimensions getDimensions() {
-		return dimensions;
-	}
-
-	@Override
-	public void setDimensions(Dimensions d) {
-		dimensions = d;
-	}
-
-	@Override
-	public void setArea(MansionArea r) {
-		area = r;
-	}
-
-	@Override
-	public String getName() {
-		return name;
-	}
-
-	@Override
-	public String getImage() {
-		return "bandit.png";
-	}
 
 	/**
 	 * bandit moves forward
@@ -155,14 +131,13 @@ public class Bandit extends Character{
 	 * @return
 	 */
 	public boolean addItem(Grabable itm, int slot){
-	
 		if(slot>=0&&slot<=6){
-			if(inventory.get(slot)==null){
-				inventory.set(slot, itm);
+			if(inventory[slot]==null){
+				inventory[slot] = itm;
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 
@@ -173,13 +148,11 @@ public class Bandit extends Character{
 	 * @return
 	 */
 	public Grabable getItem(int slot){
-	
-		if(inventory.size() >slot){
-		if(slot>=0&&slot<=5){
-			return inventory.get(slot);
-		}
-		}
-		
+		if(inventory.length > slot){
+			if(slot>=0&&slot<=5){
+				return inventory[slot];
+				}
+			}
 		return null;
 	}
 
@@ -189,8 +162,11 @@ public class Bandit extends Character{
 	 * @return whether the item was added succesfully
 	 */
 	public boolean addItem(Grabable item){
-		if(inventory.size()<6){
-			return inventory.add(item);
+		for(int i=0; i<inventory.length; i++){
+			if(inventory[i]==null){
+				inventory[i] = item;
+				return true;
+			}
 		}
 		return false;
 	}
@@ -200,11 +176,53 @@ public class Bandit extends Character{
 	 * @param the item to remove
 	 * @return whether the item was removed succesfully
 	 */
-	public boolean removeItem(Grabable item){
-		if(inventory.contains(item)){
-			return inventory.remove(item);
+	public boolean removeItem(Grabable item, int slot){
+		//for(int i=0; i<inventory.length; i++){
+		//	if(inventory[i].equals(item))
+		//		inventory[i] = null;
+		//}
+		if(inventory[slot]!=null){
+			inventory[slot] =null;
+			return true;
 		}
 		return false;
+	}
+
+	//TODO Drop item
+
+
+	/**
+	 * Kill the bandit drop their items and send back to van
+	 */
+	@Override
+	public void kill(){
+		for(int i=0; i<inventory.length; i++){
+			if(inventory[i]!=null){
+				area.addItem(inventory[i]);
+			}
+		}
+		System.out.println("DEAD. Get out of here filthy Bandit!!");
+		van.addItem(this);
+		area = van;
+	}
+
+	@Override
+	public String getDescription(){
+		return "It's another bandit!";
+	}
+
+	@Override
+	public String getImage(){
+		return "bandit";
+	}
+
+	/**
+	 * sets the 6 inventory slots to null at the start
+	 */
+	public void initialiseInventory(){
+		for(int i=0; i<inventory.length; i++){
+			inventory[i] = null;
+		}
 	}
 
 }
