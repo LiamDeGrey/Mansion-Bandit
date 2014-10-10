@@ -31,6 +31,7 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import mansionBandit.gameView.GamePanel;
 import mansionBandit.gameView.TestScreen;
@@ -79,6 +80,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 	// description text of the thing that the player is examining
 	private String descriptionText;
+	private JLabel descriptionLabel;
 
 	// whether or not the ingame menu is up
 	private boolean ingameMenuActive = false;
@@ -119,7 +121,9 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 	//Server
 	private Server server;
-
+	
+	
+	
 
 	public GameFrame(ApplicationMain main) {
 		super();
@@ -224,7 +228,6 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 		//setLayout(new BorderLayout());
 
 		ingameMenuPanel.setOpaque(true);
-
 
 
 		pack();
@@ -362,9 +365,24 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	layeredPane.add(guiCanvas,new Integer(1),0);
 
 
+	Map map = new Map(player.getGrid());
+	//sets position of map
+	map.setBounds(649,10,150,150);
+	map.setVisible(true);
+	map.repaint();
 	//adds the map to the game screen
-	layeredPane.add(new Map(player.getGrid()));
-
+	layeredPane.add(map, new Integer(1),0);
+	
+	//adds description LABEL
+	descriptionLabel = new JLabel("<html><p><center></center></p></html>");
+	descriptionLabel.setBounds(662,inventoryBarPos.y+299,137,87);
+	descriptionLabel.setBackground(Color.GRAY);
+	descriptionLabel.setOpaque(true);
+	descriptionLabel.setHorizontalAlignment(SwingConstants.CENTER);
+	descriptionLabel.setVerticalAlignment(SwingConstants.CENTER);
+	layeredPane.add(descriptionLabel, new Integer(1),0);
+	
+	
 	//redisplay the screen
 	this.revalidate();
 	this.repaint();
@@ -510,7 +528,8 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 			if (gamePanel.getObject(mouseX,mouseY) != null) {
 				
 				// change the description text to the items description
-				descriptionText = gamePanel.getObject(mouseX, mouseY).getDescription();
+				descriptionText =("<html><p><center>" +  gamePanel.getObject(mouseX, mouseY).getDescription() + "</center></p></html>");
+				descriptionLabel.setText(descriptionText);
 			}
 		}
 
@@ -582,6 +601,9 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 				}
 				guiCanvas.repaint();
 		}
+		
+		//resets descriptiontext
+		descriptionLabel.setText("");
 	}
 
 	// WINDOW INTERACTION//
@@ -646,7 +668,12 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 			}
 		}
 		}
+		
+		//resets descriptiontext
+		descriptionLabel.setText("");
+		
 		gamePanel.update();
+		
 	}
 
 
