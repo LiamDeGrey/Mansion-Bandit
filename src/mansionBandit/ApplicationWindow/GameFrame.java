@@ -242,7 +242,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 		this.remove(layeredPane);
 		closeIngameMenu();
-		//gamePanel.setVisible(false);
+
 		gameStarted = false;
 	}
 
@@ -563,7 +563,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 						//draggingItem.remove();
 
 						// SET CURSOR TO ITEM HERE //
-						setCursorImage(e, draggingItem.getName() +".png");
+						setCursorImage(e, draggingItem.getImage() +".png");
 					}
 
 					//else check if they selected an item in an inventory slot and that slot has an item in it
@@ -579,7 +579,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 						draggingItem = inventoryItem;
 
 						// SET CURSOR TO ITEM HERE //
-						setCursorImage(e, draggingItem.getName() +".png");
+						setCursorImage(e, draggingItem.getImage() +".png");
 					}
 				}
 
@@ -754,14 +754,11 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	 */
 	private void setCursorImage(MouseEvent e, String itemName){
 
-		//set up the path to the image
-		String imgPath = "GameMatter/"+itemName;
-
 		//set up the image
 		BufferedImage img;
 		System.out.println("Set cursor to" +itemName);
-		try {
 
+		try {
 
 			img = ImageIO.read(this.getClass().getResource("/object/" + itemName));
 			//obImage = ImageIO.read(this.getClass().getResource("/object/" + ob.getImage() + ".png"));
