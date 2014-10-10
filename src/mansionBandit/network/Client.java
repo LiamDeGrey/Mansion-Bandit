@@ -28,11 +28,12 @@ public final class Client {
 
 	private GameFrame gameFrame;
 
-	public Client (Socket socket, String username, Slave player) {
+	public Client (Socket socket, String username, Slave player, GameFrame gameframe) {
 		this.socket = socket;
 		this.username = username;
 		this.player = player;
 		usernameList = new ArrayList<String>();
+		this.gameFrame = gameframe;
 	}
 
 	public void start() {
@@ -81,7 +82,8 @@ public final class Client {
 					else if (o instanceof ArrayList) {
 						System.out.println("Received username list");
 						usernameList = (ArrayList<String>) o;
-
+						System.out.println("list " + usernameList);
+						gameFrame.clientPlayerHasConnected(usernameList);
 					}
 				}
 				catch(IOException e) {

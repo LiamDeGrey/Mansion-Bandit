@@ -717,7 +717,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 		player = new Slave(username);
 
-		Client client = new Client(s, username,(Slave)player);
+		Client client = new Client(s, username,(Slave)player,this);
 
 		client.start();
 
@@ -756,6 +756,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	 * indicates that a player has connected to the game
 	 */
 	public void clientPlayerHasConnected(ArrayList<String> usernameList){
+		System.out.println("IN GAME FRAME " +usernameList);
 		mainMenu.clientPlayerHasConnected(usernameList);
 	}
 
