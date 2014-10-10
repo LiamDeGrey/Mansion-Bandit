@@ -24,10 +24,20 @@ public class Bandit extends Character{
 		super(name, null, null, null, null);
 		this.grid = grid;
 		setStartSpace();
+
+		//initializes array so that you can add to any point in it from the beginning
+		for(int i=0;i<7;i++){
+			inventory.add(null);
+		}
 	}
 
 	public Bandit(String name){
 		super(name, null, null, null, null);
+
+		//initializes array so that you can add to any point in it from the beginning
+		for(int i=0;i<7;i++){
+			inventory.add(null);
+		}
 	}
 
 	/**
