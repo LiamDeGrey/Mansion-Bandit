@@ -29,11 +29,9 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 	JPanel hostGamePanel = new JPanel(gridLayout);
 	JPanel connectToGamePanel = new JPanel(gridLayout);
 
-	//the current panel displayed
-	JPanel currentPanel;
+	JPanel currentPanel;//the current panel displayed
 
-	//The frame that this menu is added to
-	GameFrame gameFrame;
+	GameFrame gameFrame;//The frame that this menu is added to
 
 	//player name fields for the lobby
 	JLabel player1NameLabel = new JLabel("Empty slot");
@@ -49,18 +47,16 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 
 	//the textbox that multiplayer users into their name into
 	private JTextField usernameTextField;
-
 	private JTextField hostNameTextField;
 
 	//the textfield clients enter the address of a host into
 	private JTextField addressTextField;
 
-
 	//the dimension/width and height of the textboxes in the menu
 	private final Dimension textBoxDimension = new Dimension(150,25);
 
 	//the set location and dimensions of the menu
-	private final int menuX = 350;
+	private final int menuX = 250;
 	private final int menuY = 250;
 	private final int menuH = 300;
 	private final int menuW = 300;
@@ -84,8 +80,6 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		setupHostGameMenu();
 		setupConnectToGameMenu();
 
-
-
 		//Sets the menu to the main menu initially
 		setMenu(startMenuPanel);
 
@@ -101,7 +95,7 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 			e.printStackTrace();
 		}
 
-		titleLabel.setBounds(150, -675, 2000, 1500);
+		titleLabel.setBounds(20, -675, 2000, 1500);
 		titleLabel.setVisible(true);
 		titleLabel.repaint();
 

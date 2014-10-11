@@ -1,13 +1,9 @@
 package mansionBandit.ApplicationWindow;
 
-import java.awt.BorderLayout;
-import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.Frame;
-import java.awt.Graphics;
-import java.awt.GridLayout;
+import java.awt.Font;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -15,7 +11,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
@@ -24,26 +19,19 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import mansionBandit.gameView.GamePanel;
-import mansionBandit.gameView.TestScreen;
-import mansionBandit.gameWorld.areas.MansionArea;
 import mansionBandit.gameWorld.areas.Grid;
 import mansionBandit.gameWorld.areas.Map;
 import mansionBandit.gameWorld.areas.Room;
 import mansionBandit.gameWorld.main.Host;
 import mansionBandit.gameWorld.main.Player;
 import mansionBandit.gameWorld.main.Slave;
-import mansionBandit.gameWorld.matter.Bandit;
-import mansionBandit.gameWorld.matter.Decoration;
 import mansionBandit.gameWorld.matter.Dimensions;
 import mansionBandit.gameWorld.matter.Face;
 import mansionBandit.gameWorld.matter.Grabable;
@@ -52,14 +40,15 @@ import mansionBandit.network.Client;
 import mansionBandit.network.Server;
 
 /**
+ * The frame that the user interacts with
  * @author Theo
  */
 public class GameFrame extends JFrame implements ActionListener,
 		WindowListener, KeyListener {
 
 	// window dimensions
-	private final int windowDimensionX = 1024;
-	private final int windowDimensionY = 768;
+	private final int windowDimensionX = 800;
+	private final int windowDimensionY = 717;
 
 	private Grabable draggingItem; //the item being dragged by the player
 
@@ -89,7 +78,8 @@ public class GameFrame extends JFrame implements ActionListener,
 	private final Point inventoryBarPos = new Point(50,300);//the position of the inventory bar
 	private final int inventorySlotSize = 80;//size of a single inventory slot
 	private JLayeredPane layeredPane;//the pane that all components are added to so that they can stack properly
-
+	private JLabel timeLabel;//the label used to display how much time is left
+	
 	//Server
 	private Server server;
 
@@ -112,11 +102,9 @@ public class GameFrame extends JFrame implements ActionListener,
 		setVisible(true);
 
 		// listens for mouse input
-		
-		//addMouseListener(this);
 		addMouseListener(controller);
-		// listens for keyboard input
 		
+		// listens for keyboard input
 		addKeyListener(this);
 		addKeyListener(controller);
 
@@ -184,11 +172,21 @@ public class GameFrame extends JFrame implements ActionListener,
 		//adds description LABEL
 		descriptionLabel = new JLabel("<html><p><center></center></p></html>");
 		descriptionLabel.setBounds(662,inventoryBarPos.y+299,137,87);
-		descriptionLabel.setBackground(Color.GRAY);
+		descriptionLabel.setBackground(Color.DARK_GRAY);
 		descriptionLabel.setOpaque(true);
 		descriptionLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		descriptionLabel.setVerticalAlignment(SwingConstants.CENTER);
 		layeredPane.add(descriptionLabel, new Integer(1),0);
+		
+		
+		//adds TIME LABEL
+		timeLabel = new JLabel("<html><p><center></center></p></html>");
+		timeLabel.setBounds(0,inventoryBarPos.y+299,98,87);
+		timeLabel.setBackground(Color.DARK_GRAY);
+		timeLabel.setOpaque(true);
+		timeLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		timeLabel.setVerticalAlignment(SwingConstants.CENTER);
+		layeredPane.add(timeLabel, new Integer(1),0);
 		
 		
 		//redisplay the screen
@@ -261,8 +259,8 @@ public class GameFrame extends JFrame implements ActionListener,
 
 	//remove the main menu
 	this.remove(mainMenu);
-
-	Grid r = new Grid(1);
+	
+	//make the player
 	player = new Host("", 20);
 
 
@@ -410,6 +408,14 @@ public class GameFrame extends JFrame implements ActionListener,
 		//if nothing is found return -1 indicating no slot here
 		return -1;
 	}
+	
+	/**
+	 * sets the time of the time displayed in the time label.
+	 * @param time
+	 */
+	public void updateTimeLeft(int time){
+		timeLabel.setText("" +time);
+	}
 
 	public void setDescriptionText(String text){
 		descriptionLabel.setText(text);
@@ -443,8 +449,6 @@ public class GameFrame extends JFrame implements ActionListener,
 
 		//creates a game object that the server hosts
 		player = new Host(userName, 25);
-
-		//grid = player.getGrid();
 
 		//creates a new server
 		this.server = new Server(port, nclients, userName,(Host)player,this);
