@@ -39,12 +39,12 @@ public final class Server {
 		this.player = player;
 		this.gameFrame = gameframe;
 	}
-	
+
 	/**
 	 * The start method sets up the ServerSocket and enters a loop where it awaits connections. Upon a
 	 * successful connection, the Client is added to a list.
 	 * @author Shreyas
-	 * 
+	 *
 	 */
 	public void start() {
 		end = false;
@@ -81,17 +81,17 @@ public final class Server {
 			System.out.println("Exception with socket: " + e);
 		}
 	}
-	
+
 	/**
 	 * Used for iterating the list of clients and sending them each a message.
 	 * @param msg The message to be sent to all clients.
 	 * @author Shreyas
-	 * 
+	 *
 	 */
 	private synchronized void broadcast(Message msg) {
 		for(int i = clientList.size(); --i >= 0;) {
 			ClientThread ct = clientList.get(i);
-			
+
 			ct.sendMessage(msg);
 		}
 	}
@@ -141,7 +141,7 @@ public final class Server {
 				System.out.println(username + ": Exception with class: " + e);
 			}
 		}
-		
+
 		/**
 		 * This method sends a single message to an individual Client along the stream. Checks for
 		 * whether the Client is still connected via the socket.
@@ -154,7 +154,7 @@ public final class Server {
 				System.out.println(username + " is not connected, closing socket.");
 				close();
 			}
-			
+
 			//Send the message out on its stream
 			try {
 				output.writeObject(msg);
@@ -202,11 +202,21 @@ public final class Server {
 		public String getClientUserName(){
 			return username;
 		}
-		
+
 	}
 
 	public ClientThread getClient(int i){
 		return clientList.get(i);
+	}
+
+	public ClientThread getClient(String username) {
+		ClientThread clientThread = null;
+		for (ClientThread ct : clientList) {
+			if (ct.username == username) {
+				clientThread = ct;
+			}
+		}
+		return clientThread;
 	}
 
 	public String getServerUserName() {
