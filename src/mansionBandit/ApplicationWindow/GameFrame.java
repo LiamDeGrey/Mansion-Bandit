@@ -445,7 +445,7 @@ public class GameFrame extends JFrame implements ActionListener,
 
 		player = new Slave(username);
 
-		Client client = new Client(s, username,(Slave)player,this);
+		client = new Client(s, username,(Slave)player,this);
 
 		client.start();
 
