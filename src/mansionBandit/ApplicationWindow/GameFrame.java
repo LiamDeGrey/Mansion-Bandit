@@ -54,77 +54,46 @@ import mansionBandit.network.Server;
 /**
  * @author Theo
  */
-public class GameFrame extends JFrame implements ActionListener, MouseListener,
+public class GameFrame extends JFrame implements ActionListener,
 		WindowListener, KeyListener {
-
-	//PLACEHOLDER represents main logic class
-	//private ApplicationMain game;
-
-	//The main drawing class
-	//GameCanvas canvas = new GameCanvas();
 
 	// window dimensions
 	private final int windowDimensionX = 1024;
 	private final int windowDimensionY = 768;
 
+	private Grabable draggingItem; //the item being dragged by the player
 
+	private JLabel descriptionLabel;	//contains descriptions of items
 
+	private boolean ingameMenuActive = false; 	// whether or not the ingame menu is up
+
+	InGameMenuPanel ingameMenuPanel;//the in-game menu
+	
+	private GamePanel gamePanel;//the panel used for displaying game graphics
+	
+	private Cursor itemImageCursor;// the cursor image used for when the player drags items
+
+	private MainMenuPanel mainMenu;//the main menu
+	
+	private boolean gameStarted = false;//whether gameplay has started. The game only checks for mouse and keyboard user input if the game has started.
+
+	private Player player;//the player this window is used by/applies to
+
+	//GUI FIELDS//
+	//position of in game menu
 	private final int ingameMenuX = 325;
 	private final int ingameMenuY = 200;
 	private final int ingameMenuW = 150;
 	private final int ingameMenuH = 150;
-
-	// whether the player is currently dragging an item with the mouse
-	private Grabable draggingItem;
-
-	// description text of the thing that the player is examining
-	private String descriptionText;
-	private JLabel descriptionLabel;
-
-	// whether or not the ingame menu is up
-	private boolean ingameMenuActive = false;
-
-	// the panel used for displaying the in game menu
-	//private JPanel ingameMenuPanel;
-
-	InGameMenuPanel ingameMenuPanel;// = new InGameMenuPanel(this);
-	
-	//the panel used for displaying game graphics
-	private GamePanel gamePanel;
-
-	// the cursor image used for when the player drags items
-	Cursor itemImageCursor;
-
-	//The main menu panel that is used as the main menu and contains the buttons and navigation
-	private MainMenuPanel mainMenu;
-
-	//if gameplay has started. The game only checks for mouse and keyboard user input if the game has started
-	private boolean gameStarted = false;
-
-	//the player this window is used by/applies to
-	private Player player;
-
-
-	//the offset of the mouse Y position, caused by the frame
-	private final int mouseOffSetY;
-
-	//GUI FIELDS//
-	//the GUI drawing canvas
-	private GUICanvas guiCanvas;
-
-	//the position of the inventory bar
-	private final Point inventoryBarPos = new Point(50,300);
-
-	private final int inventorySlotSize = 80;
-
-	//the pane that all components are added to so that they can stack properly
-	private JLayeredPane layeredPane;
+	private GUICanvas guiCanvas;//the GUI drawing canvas
+	private final Point inventoryBarPos = new Point(50,300);//the position of the inventory bar
+	private final int inventorySlotSize = 80;//size of a single inventory slot
+	private JLayeredPane layeredPane;//the pane that all components are added to so that they can stack properly
 
 	//Server
 	private Server server;
-	
-	
-	
+
+	private Controller controller;//the controller that manages player interaction
 
 	public GameFrame(ApplicationMain main) {
 		super();
@@ -135,35 +104,25 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 		//creates the main menu
 		mainMenu = new MainMenuPanel(this);
-
-
-		// add(canvas, BorderLayout.CENTER); // add canvas
-		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);// set frame not to close
-														// when "x" button
-														// clicked.
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		addWindowListener(this);
-
-		// create a canvas/draw object here and add it
 
 		pack(); // pack components tightly together
 		setResizable(false); // prevent us from being resizeable
 		setVisible(true);
 
 		// listens for mouse input
-		addMouseListener(this);
-
+		
+		//addMouseListener(this);
+		addMouseListener(controller);
 		// listens for keyboard input
+		
 		addKeyListener(this);
-
+		addKeyListener(controller);
 
 		//sets up main menu interface
 		enterMainMenu();
 
-
-		
-		
-
-		mouseOffSetY = getInsets().top;
 	}
 
 	public Dimension getPreferredSize() {
@@ -174,14 +133,12 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	 * Sets up GUI elements
 	 */
 	private void setupScreen() {
+		
 		ingameMenuPanel = new InGameMenuPanel(this);
 		
-
 		layeredPane = new JLayeredPane();
 
-
 		this.add(layeredPane);
-
 
 		//set the size and location of the layeredPane
 		layeredPane.setBounds(0,0,windowDimensionX,windowDimensionY);
@@ -247,11 +204,6 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	 * ends the current game by resetting values, disconnecting and removing GUI components
 	 */
 	private void endGame(){
-		//this.removeAll();
-
-		//resets all game values and discards the game object
-
-		//also hides canvas, GUI components
 
 		this.remove(layeredPane);
 		closeIngameMenu();
@@ -263,9 +215,6 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	 * Goes to the main menu by adding it to this frame
 	 */
 	private void enterMainMenu(){
-
-
-
 
 		//adds the main menu;
 		this.add(mainMenu);
@@ -284,11 +233,8 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	 * options
 	 */
 	private void showIngameMenu() {
-
-		//layeredPane.add
 		ingameMenuPanel.setVisible(true);
 		ingameMenuActive = true;
-
 	}
 
 	/**
@@ -307,7 +253,6 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 		}
 	}
-
 
 	/**
 	 * Exits the main menu and begins gameplay. Adds all panels that are relevant to gameplay to the frame.
@@ -328,11 +273,14 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	//sets up user interface elements
 	setupScreen();
 	
+	
+	controller= new Controller(player, gamePanel,this);
+	addMouseListener(controller);
+	addKeyListener(controller);
 	//indicate that gameplay has started
 	gameStarted = true;
 
 	}
-
 
 	/**
 	 * Exits the game completely. Asks user for confirmation before exiting.
@@ -375,180 +323,6 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 		}
 	}
 
-	// MOUSE INTERACTION//
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-
-		int mouseX = e.getPoint().x;
-		int mouseY = e.getPoint().y - mouseOffSetY;
-
-		//only checks for user input if gameplay has started
-
-		if(gameStarted){
-
-			//debug statement
-			System.out.println("Mouse release at " + (mouseX) + " " + mouseY);
-
-		// left button released
-		if (e.getButton() == MouseEvent.BUTTON1) {
-
-			// Check if the player is dragging something
-
-			if (draggingItem != null) {
-
-				// see if there is an object or enemy at this position and
-				// whether it can be used on it
-				if (gamePanel.getObject(mouseX,mouseY) != null) {
-
-					// check if the item being dragged can be used on the
-					// targeted item
-					//TODO ADD ability to use items on other items
-					if (draggingItem.useItemOn(gamePanel.getObject(mouseX,mouseY))) {
-
-						// if it was used successfully, the item will have been
-						// used and is deleted and the item is removed from
-						// inventory
-						draggingItem = null;
-
-						// set the cursor back to default
-						e.getComponent()
-								.setCursor(
-										Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-					} else {
-
-						// if the interaction was invalid the item is returned
-						// to the players inventory
-
-						//draggingItem.addToInventory(player);
-
-						player.addItem(draggingItem);
-						// remove the dragging item
-						draggingItem = null;
-
-						// set the cursor back to default
-						e.getComponent()
-								.setCursor(
-										Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-					}
-				}
-
-				// check if mouse is at an inventory slot and that slot is empty
-				else if(getInventorySlot(mouseX,mouseY)>=0 && player.getItem(getInventorySlot(mouseX,mouseY)) == null){
-
-					// if its at this spot then stop dragging and add it to the players inventory at specified position
-
-					player.addItem(draggingItem, getInventorySlot(mouseX,mouseY));
-
-					System.out.println("added to inventory " + draggingItem.getImage());
-
-					draggingItem = null;
-
-					// set the cursor back to default
-					e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-				}
-				 else {
-					// otherwise just drop the object at this position in the room
-
-					 //TODO add drop item method
-					//player.dropItem(e.getPoint());
-
-					 draggingItem = null;
-
-					// set the cursor back to default
-					e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-				}
-
-			}
-
-		}
-		if (e.getButton() == MouseEvent.BUTTON3) {
-			
-			// check if there is an object/creature/item at mouse position
-			if (gamePanel.getObject(mouseX,mouseY) != null) {
-				
-				// change the description text to the items description
-				descriptionText =("<html><p><center>" +  gamePanel.getObject(mouseX, mouseY).getDescription() + "</center></p></html>");
-				descriptionLabel.setText(descriptionText);
-			}
-		}
-
-
-		//repaint the canvas so that changes show up
-		guiCanvas.repaint();
-
-	}
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-
-	}
-
-	// These mouse events are required for the MouseListener interface but are not used
-	public void mouseEntered(MouseEvent arg0) {}
-	public void mouseExited(MouseEvent arg0) {}
-
-	public void mousePressed(MouseEvent e) {
-
-		if(e.getButton() == MouseEvent.BUTTON1){
-		int mouseX = e.getPoint().x;
-		int mouseY = e.getPoint().y - mouseOffSetY;
-
-		//TODO make all of these method calls apply to actual classes
-
-				//only checks for user input if the game has started
-
-				if(gameStarted){
-
-					//debug code
-					System.out.println("Mouse clicked at " + e.getPoint().toString());
-
-				// firstly check that the player isn't already holding something
-				if (draggingItem == null) {
-					// check if there is an item that can be dragged at the current
-					// mouse position
-					if (gamePanel.getObject(mouseX,mouseY) instanceof Grabable) {
-
-						// begin dragging the item at mouse position
-						draggingItem = (Grabable) gamePanel.getObject(mouseX,mouseY);
-
-						//hide the item from the room so that it no longer appears on the screen and CANT BE INTERRACTED WITH
-						//TODO: remove item from room
-						//player.getBandit().getArea().removeItem(draggingItem)
-
-						// SET CURSOR TO ITEM HERE //
-						setCursorImage(e, draggingItem.getImage() +".png");
-					}
-
-					//else check if they selected an item in an inventory slot and that slot has an item in it
-					else if (player.getItem(getInventorySlot(mouseX,mouseY)) != null) {
-
-						Grabable inventoryItem = player.getItem(getInventorySlot(mouseX,mouseY));
-
-						// remove the item at the selected position from the players
-						// inventory
-						player.removeItem(inventoryItem, getInventorySlot(mouseX,mouseY));
-
-						// set the removed item as the dragged item
-						draggingItem = inventoryItem;
-
-						// SET CURSOR TO ITEM HERE //
-						setCursorImage(e, draggingItem.getImage() +".png");
-					}
-				}
-
-				
-				guiCanvas.repaint();
-				
-				//resets descriptiontext
-				descriptionLabel.setText("");
-				}
-		}
-		
-		
-	}
-
 	// WINDOW INTERACTION//
 
 	/**
@@ -579,29 +353,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 		if(gameStarted){
 
-		System.out.println("key released: "
-				+ KeyEvent.getKeyText(e.getKeyCode()));
-
-		// if the user presses W
-		if (KeyEvent.getKeyText(e.getKeyCode()).equals("W")) {
-
-			// attempt to move the player forwards
-			player.moveForward();
-		}
-
-		else if (KeyEvent.getKeyText(e.getKeyCode()).equals("D")) {
-
-			// turn the player right
-			player.turnRight();
-		}
-
-		else if (KeyEvent.getKeyText(e.getKeyCode()).equals("A")) {
-
-			// turn the player left
-			player.turnLeft();
-		}
-
-		else if (KeyEvent.getKeyText(e.getKeyCode()).equals("Escape")) {
+		if (KeyEvent.getKeyText(e.getKeyCode()).equals("Escape")) {
 			// if the in game menu is up, close it
 			if (ingameMenuActive) {
 				closeIngameMenu();
@@ -616,16 +368,20 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 		descriptionLabel.setText("");
 		
 		gamePanel.update();
-		
 	}
-
+	
+	// These methods are unused but required for the KeyListener interface
+	@Override
+	public void keyPressed(KeyEvent arg0) {}
+	@Override
+	public void keyTyped(KeyEvent arg0) {}
 
 	/**
 	 * gives the inventory slot at the given position.
 	 * @param the mouse position
 	 * @return the number of the inventory slot found at the mouse position. -1 if no slot found.
 	 */
-	private int getInventorySlot(int x,int y){
+	public int getInventorySlot(int x,int y){
 		int totalSlots =  player.getInventorySize();
 
 		  //needed so that it draws in the right position. Placeholder.
@@ -655,15 +411,9 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 		return -1;
 	}
 
-	// These methods are unused but required for the KeyListener interface
-	@Override
-	public void keyPressed(KeyEvent arg0) {
+	public void setDescriptionText(String text){
+		descriptionLabel.setText(text);
 	}
-
-	@Override
-	public void keyTyped(KeyEvent arg0) {
-	}
-
 
 
 	/**
@@ -729,7 +479,7 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	 * @param e the mouse that will have its cursor set
 	 * @param itemName the string for the image
 	 */
-	private void setCursorImage(MouseEvent e, String itemName){
+	public void setCursorImage(MouseEvent e, String itemName){
 
 		//set up the image
 		BufferedImage img;
@@ -782,6 +532,14 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 
 	public Server getServer(){
 		return server;
+	}
+	
+	public boolean gameStarted(){
+		return gameStarted;
+	}
+	
+	public GUICanvas getGUICanvas(){
+		return guiCanvas;
 	}
 
 
