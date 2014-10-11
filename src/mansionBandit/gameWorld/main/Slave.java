@@ -11,7 +11,8 @@ import mansionBandit.gameWorld.areas.MansionArea;
  */
 public class Slave extends Player{
 
-
+	//TODO: Create a reference to Client. Slave needs Client to broadcast
+	//its messages out to the Server and eventually all clients.
 	public Slave(String name){
 		super(name);
 	}

@@ -8,6 +8,8 @@ package mansionBandit.gameWorld.main;
  */
 public class Host extends Player{
 
+	//TODO: Create a reference to a server. Host needs Server to broadcast out,
+	//it doesn't need to send messages anywhere else.
 	public Host (String name, int rooms){
 		super(name, rooms);
 	}
