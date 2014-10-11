@@ -2,7 +2,7 @@ package mansionBandit.factory;
 
 import java.util.Random;
 
-import jdk.internal.org.objectweb.asm.commons.StaticInitMerger;
+//import jdk.internal.org.objectweb.asm.commons.StaticInitMerger;
 import mansionBandit.gameWorld.areas.*;
 import mansionBandit.gameWorld.matter.Dimensions;
 import mansionBandit.gameWorld.matter.Door;
@@ -14,7 +14,7 @@ public class RoomFactory {
 	private ItemFactory floorItems, ceilingItems, hallWallItems, wallItems;
 	private RoomPainter roomPainter;
 	private Random random;
-	
+
 	public RoomFactory(){
 		//setup wall texture lists
 		roomPainter = new RoomPainter("/texture/room.txt");
@@ -23,13 +23,13 @@ public class RoomFactory {
 		hallWallItems = new ItemFactory("/object/hallWall.txt");
 		wallItems = new ItemFactory("/object/wall.txt");
 		ceilingItems = new ItemFactory("/object/ceiling.txt");
-		
+
 		random = new Random();
 	}
-	
+
 	/**
 	 * will texture, and fill a room based on what type of room it is
-	 * 
+	 *
 	 * @param room the room to texture
 	 */
 	public void populateRoom(MansionArea room){
@@ -47,27 +47,27 @@ public class RoomFactory {
 		if (room.getWest() != null && (room instanceof Room || room.getWest() instanceof Room)){
 			room.addItem(new Door("West Door", Face.WESTERN, new Dimensions(50, 100, 70), random.nextInt(chanceToLock) == 1));
 		}
-		
+
 		//place objects
 		if (room instanceof Hallway){
 			popWall(room, false);
 			popFloor(room, false);
 			popCeiling(room, false);
 		} else if (room instanceof StartSpace){
-			
+
 		} else if (room instanceof Room){
 			//apply textures to the room
 			roomPainter.paintRoom((Room) room);
-			
+
 			popWall(room, true);
 			popFloor(room, true);
 			popCeiling(room, true);
 		}
 	}
-	
+
 	/**
 	 * add objects to the ceiling of a room
-	 * 
+	 *
 	 * @param room the room to add objects to
 	 * @param isRoom true if room is a Room object (as opposed to hallway)
 	 */
@@ -78,10 +78,10 @@ public class RoomFactory {
 			room.addItem(new FurnitureStatic("Hall Light", "What a sweet light bro", "light2", Face.CEILING, new Dimensions(50,50,30)));
 		}
 	}
-	
+
 	/**
 	 * add objects to the floor of a room
-	 * 
+	 *
 	 * @param room the room to add objects to
 	 * @param isRoom true if room is a Room object (as opposed to hallway)
 	 */
@@ -102,10 +102,10 @@ public class RoomFactory {
 			room.addItem(floorItems.getItem(Face.FLOOR));
 		}
 	}
-	
+
 	/**
 	 * add objects to the walls of a room
-	 * 
+	 *
 	 * @param room the room to add objects to
 	 * @param isRoom true if room is a Room object (as opposed to hallway)
 	 */
@@ -137,7 +137,7 @@ public class RoomFactory {
 			}
 		}
 	}
-	
+
 	private void makeHallWallItem(MansionArea room, Face face){
 		if (random.nextInt(chanceToHallWallItem) == 1){
 			//add random object to room

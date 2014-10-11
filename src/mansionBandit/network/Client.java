@@ -34,12 +34,12 @@ public final class Client {
 		usernameList = new ArrayList<String>();
 		this.gameFrame = gameframe;
 	}
-	
+
 	/**
 	 * This method sets up the Client by creating a ServerListener thread and sending
 	 * the Client's username.
 	 * @author Shreyas
-	 * 
+	 *
 	 */
 	public void start() {
 		try {
@@ -67,13 +67,13 @@ public final class Client {
 	}
 
 	// TODO: METHODS FOR SENDING UPDATES
-	
+
 	/**
 	 * The disconnect method closes all I/O streams and closes the socket.
 	 * @author Shreyas
-	 * 
+	 *
 	 */
-	private void disconnect() {
+	public void disconnect() {
 		try {
 			if(input != null) input.close();
 		}
@@ -86,7 +86,7 @@ public final class Client {
 			if(socket != null) socket.close();
 		}
 		catch(Exception e) {}
-        
+
         //TODO: NEED TO INFORM THE GUI
 	}
 

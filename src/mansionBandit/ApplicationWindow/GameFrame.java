@@ -57,13 +57,13 @@ public class GameFrame extends JFrame implements ActionListener,
 	private boolean ingameMenuActive = false; 	// whether or not the ingame menu is up
 
 	InGameMenuPanel ingameMenuPanel;//the in-game menu
-	
+
 	private GamePanel gamePanel;//the panel used for displaying game graphics
-	
+
 	private Cursor itemImageCursor;// the cursor image used for when the player drags items
 
 	private MainMenuPanel mainMenu;//the main menu
-	
+
 	private boolean gameStarted = false;//whether gameplay has started. The game only checks for mouse and keyboard user input if the game has started.
 
 	private Player player;//the player this window is used by/applies to
@@ -79,9 +79,12 @@ public class GameFrame extends JFrame implements ActionListener,
 	private final int inventorySlotSize = 80;//size of a single inventory slot
 	private JLayeredPane layeredPane;//the pane that all components are added to so that they can stack properly
 	private JLabel timeLabel;//the label used to display how much time is left
-	
+
 	//Server
 	private Server server;
+
+	//Client
+	private Client client;
 
 	private Controller controller;//the controller that manages player interaction
 
@@ -97,19 +100,23 @@ public class GameFrame extends JFrame implements ActionListener,
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		addWindowListener(this);
 
+		setLocationRelativeTo(null);
+
 		pack(); // pack components tightly together
 		setResizable(false); // prevent us from being resizeable
 		setVisible(true);
 
 		// listens for mouse input
 		addMouseListener(controller);
-		
+
 		// listens for keyboard input
 		addKeyListener(this);
 		addKeyListener(controller);
 
 		//sets up main menu interface
 		enterMainMenu();
+
+
 
 	}
 
@@ -121,9 +128,9 @@ public class GameFrame extends JFrame implements ActionListener,
 	 * Sets up GUI elements
 	 */
 	private void setupScreen() {
-		
+
 		ingameMenuPanel = new InGameMenuPanel(this);
-		
+
 		layeredPane = new JLayeredPane();
 
 		this.add(layeredPane);
@@ -168,7 +175,7 @@ public class GameFrame extends JFrame implements ActionListener,
 		map.repaint();
 		//adds the map to the game screen
 		layeredPane.add(map, new Integer(1),0);
-		
+
 		//adds description LABEL
 		descriptionLabel = new JLabel("<html><p><center></center></p></html>");
 		descriptionLabel.setBounds(662,inventoryBarPos.y+299,137,87);
@@ -178,8 +185,8 @@ public class GameFrame extends JFrame implements ActionListener,
 		descriptionLabel.setVerticalAlignment(SwingConstants.CENTER);
 		descriptionLabel.setForeground(Color.white);
 		layeredPane.add(descriptionLabel, new Integer(1),0);
-		
-		
+
+
 		//adds TIME LABEL
 		timeLabel = new JLabel("<html><p><center></center></p></html>");
 		timeLabel.setBounds(0,inventoryBarPos.y+299,98,87);
@@ -189,8 +196,8 @@ public class GameFrame extends JFrame implements ActionListener,
 		timeLabel.setVerticalAlignment(SwingConstants.CENTER);
 		timeLabel.setForeground(Color.white);
 		layeredPane.add(timeLabel, new Integer(1),0);
-		
-		
+
+
 		//redisplay the screen
 		this.revalidate();
 		this.repaint();
@@ -260,7 +267,7 @@ public class GameFrame extends JFrame implements ActionListener,
 
 	//remove the main menu
 	this.remove(mainMenu);
-	
+
 	//make the player
 	player = new Host("", 20);
 
@@ -269,7 +276,7 @@ public class GameFrame extends JFrame implements ActionListener,
 
 	//sets up user interface elements
 	setupScreen();
-	
+
 	controller= new Controller(player, gamePanel,this);
 	addMouseListener(controller);
 	addKeyListener(controller);
@@ -307,7 +314,7 @@ public class GameFrame extends JFrame implements ActionListener,
 							this,
 							"Steal as much as you can before the time runs out. Take stolen items to the van to cash them in. Drag items around to interact with them. Right click them to get a description.",
 							"Help ", JOptionPane.INFORMATION_MESSAGE);
-			  
+
 		}
 
 		// if the user presses resume in the in-game menu
@@ -363,13 +370,13 @@ public class GameFrame extends JFrame implements ActionListener,
 			}
 		}
 		}
-		
+
 		//resets descriptiontext
 		descriptionLabel.setText("");
-		
+
 		gamePanel.update();
 	}
-	
+
 	// These methods are unused but required for the KeyListener interface
 	@Override
 	public void keyPressed(KeyEvent arg0) {}
@@ -387,7 +394,7 @@ public class GameFrame extends JFrame implements ActionListener,
 		  //needed so that it draws in the right position. Placeholder.
 		int offsetY = 285;
 		int offsetX = 52;
-		
+
 
 		for(int i = 0; i<totalSlots;i++){
 
@@ -410,7 +417,7 @@ public class GameFrame extends JFrame implements ActionListener,
 		//if nothing is found return -1 indicating no slot here
 		return -1;
 	}
-	
+
 	/**
 	 * sets the time of the time displayed in the time label.
 	 * @param time
@@ -537,13 +544,20 @@ public class GameFrame extends JFrame implements ActionListener,
 	}
 
 	public Server getServer(){
+		if(server != null){
 		return server;
+		}
+		return null;
 	}
-	
+
+	public Client getClient(){
+		return client;
+	}
+
 	public boolean gameStarted(){
 		return gameStarted;
 	}
-	
+
 	public GUICanvas getGUICanvas(){
 		return guiCanvas;
 	}

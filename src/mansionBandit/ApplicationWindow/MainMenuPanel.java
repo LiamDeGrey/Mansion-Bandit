@@ -335,7 +335,7 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		// creates the back button which will take the player back to the start of the main menu
 		JButton disconnectButton = new JButton("Disconnect");
 		disconnectButton.addActionListener(this);
-		disconnectButton.setActionCommand("disconnectButton");
+		disconnectButton.setActionCommand("disconnectButtonClient");
 
 		//makes sure that focus is kept on the main window
 		disconnectButton.setFocusable(false);
@@ -369,7 +369,7 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		// creates the disconnect button which will exit from the session and bring them back to the start menu
 		JButton disconnectButton = new JButton("Disconnect");
 		disconnectButton.addActionListener(this);
-		disconnectButton.setActionCommand("disconnectButton");
+		disconnectButton.setActionCommand("disconnectButtonHost");
 
 		//makes sure that focus is kept on the main window
 		disconnectButton.setFocusable(false);
@@ -487,17 +487,26 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 			//go back to the main menu
 			setMenu(startMenuPanel);
 		}
-		else if(e.getActionCommand().equals("disconnectButton")){
+		else if(e.getActionCommand().equals("disconnectButtonHost")){
 			//TODO gameFrame.getClient.disconnect()
+			//gameFrame.getServer().close();
 			//go back to the main menu
 			setMenu(multiplayerMenuPanel);
 		}
+		else if(e.getActionCommand().equals("disconnectButtonClient")){
+			//TODO gameFrame.getClient.disconnect()
+			//go back to the main menu
+			gameFrame.getClient().disconnect();
+			setMenu(multiplayerMenuPanel);
+		}
 		else if(e.getActionCommand().equals("makeHelpMessage")){
-			JOptionPane
-			.showMessageDialog(
+			 JOptionPane.showMessageDialog(
 					this,
-					"Steal as much as you can before the time runs out. Take stolen items to the van to cash them in. Drag items around to interact with them. Right click them to get a description.",
+					"Steal as much as you can before the time runs out. Take stolen items to the van"
+					+ " to cash them in.\n Drag items to the inventory bar to store them. "
+					+ "Drag items to other items to use them.\n Right click an item to get its description.",
 					"Help ", JOptionPane.INFORMATION_MESSAGE);
+
 		}
 
 

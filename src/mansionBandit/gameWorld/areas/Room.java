@@ -23,23 +23,23 @@ public class Room implements MansionArea{
 		this.ceilingTexture = ceiling;
 		this.floorTexture = floor;
 	}
-	
+
 	private void makeDoors() {
 		if(north!=null) {
-			nDoor = new Door("NDoor", false, "keyA");
-			north.setDoor(nDoor);
+			//nDoor = new Door("NDoor", false, "keyA");
+			//north.setDoor(nDoor);
 		}
 		if(east!=null) {
-			eDoor = new Door("EDoor", false, "keyA");
-			east.setDoor(eDoor);
+			//eDoor = new Door("EDoor", false, "keyA");
+			//east.setDoor(eDoor);
 		}
 		if(south!=null) {
-			sDoor = new Door("SDoor", false, "keyA");
-			south.setDoor(sDoor);
+		//	sDoor = new Door("SDoor", false, "keyA");
+			//south.setDoor(sDoor);
 		}
 		if(west!=null) {
-			wDoor = new Door("WDoor", false, "keyA");
-			west.setDoor(wDoor);
+		//	wDoor = new Door("WDoor", false, "keyA");
+		//	west.setDoor(wDoor);
 		}
 	}
 
