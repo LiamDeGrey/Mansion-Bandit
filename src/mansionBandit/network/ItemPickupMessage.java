@@ -7,7 +7,7 @@ import mansionBandit.gameWorld.matter.GameMatter;
 /**
  * This class represents a network message for whenever a player picks up
  * or moves an item.
- * @author ramasushre
+ * @author Shreyas
  *
  */
 public class ItemPickupMessage implements Message {

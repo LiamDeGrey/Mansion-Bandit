@@ -7,6 +7,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+//import Server.ClientThread;
 import mansionBandit.ApplicationWindow.GameFrame;
 import mansionBandit.gameWorld.areas.MansionArea;
 import mansionBandit.gameWorld.main.Host;
@@ -38,7 +39,13 @@ public final class Server {
 		this.player = player;
 		this.gameFrame = gameframe;
 	}
-
+	
+	/**
+	 * The start method sets up the ServerSocket and enters a loop where it awaits connections. Upon a
+	 * successful connection, the Client is added to a list.
+	 * @author Shreyas
+	 * 
+	 */
 	public void start() {
 		end = false;
 
@@ -55,7 +62,7 @@ public final class Server {
 				ct.start();
 			}
 
-			try { //attempt to close sockets/clients
+			try { //Attempt to close sockets/clients
 				ss.close();
 				for (ClientThread c : clientList) {
 					try {
@@ -72,6 +79,20 @@ public final class Server {
 
 		} catch (IOException e) {
 			System.out.println("Exception with socket: " + e);
+		}
+	}
+	
+	/**
+	 * Used for iterating the list of clients and sending them each a message.
+	 * @param msg The message to be sent to all clients.
+	 * @author Shreyas
+	 * 
+	 */
+	private synchronized void broadcast(Message msg) {
+		for(int i = clientList.size(); --i >= 0;) {
+			ClientThread ct = clientList.get(i);
+			
+			ct.sendMessage(msg);
 		}
 	}
 
@@ -120,19 +141,44 @@ public final class Server {
 				System.out.println(username + ": Exception with class: " + e);
 			}
 		}
+		
+		/**
+		 * This method sends a single message to an individual Client along the stream. Checks for
+		 * whether the Client is still connected via the socket.
+		 * @param msg
+		 * @author Shreyas
+		 */
+		public void sendMessage(Message msg) {
+			//Check if Client is still connected
+			if(!socket.isConnected()) {
+				System.out.println(username + " is not connected, closing socket.");
+				close();
+			}
+			
+			//Send the message out on its stream
+			try {
+				output.writeObject(msg);
+			}
+			//Inform that an error ocurred with sending the message, do not close anything
+			catch(IOException e) {
+				System.out.println("Error sending message to " + username);
+				System.out.println(e.toString());
+			}
+		}
 
 		public void run() {
 			boolean end = false;
 			while(!end) {
 				try {
-					//read input
+					//TODO: Switch and case for the type of message, then broadcast
+					//Read input and act accordingly
 				}
 				catch (Exception e) {
 					System.out.println(username + ": Exception reading Object Streams: " + e);
 					break;
 				}
 			}
-			//out of loop, therefore close everything
+			//ClientThread has ended
 			close();
 		}
 
@@ -153,11 +199,10 @@ public final class Server {
 			catch (Exception e) {}
 		}
 
-
 		public String getClientUserName(){
 			return username;
 		}
-		//TODO: METHOD TO WRITE UPDATES
+		
 	}
 
 	public ClientThread getClient(int i){

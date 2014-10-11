@@ -5,7 +5,7 @@ import mansionBandit.gameWorld.main.Player;
 
 /**
  * This class represents a network message for whenever a player changes location.
- * @author ramasushre
+ * @author Shreyas
  *
  */
 public class PlayerLocationMessage implements Message {
