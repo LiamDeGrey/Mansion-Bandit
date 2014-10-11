@@ -117,38 +117,46 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		//set up buttons
 
 		// creates the exit button
-		JButton playButton = new JButton("Play");
+		JButton playButton = new JButton("PLAY");
 		playButton.addActionListener(this);
 		playButton.setActionCommand("startGame");
 		//makes sure that focus is kept on the main window
 		playButton.setFocusable(false);
+		playButton.setBackground(Color.black);
+		playButton.setForeground(Color.white);
 		//adds the button to the menu
 		startMenuPanel.add(playButton);
 
 
 		// creates the multiplayer button
-		JButton multiplayerButton = new JButton("Multiplayer");
+		JButton multiplayerButton = new JButton("MULTIPLAYER");
 		multiplayerButton.addActionListener(this);
 		multiplayerButton.setActionCommand("setMenuMultiplayer");
 		//makes sure that focus is kept on the main window
 		multiplayerButton.setFocusable(false);
+		multiplayerButton.setBackground(Color.black);
+		multiplayerButton.setForeground(Color.white);
 		startMenuPanel.add(multiplayerButton);
 
 
 		// creates the tutorial button in the menu
-		JButton helpButton = new JButton("How To Play");
+		JButton helpButton = new JButton("HOW TO PLAY");
 		helpButton.addActionListener(this);
 		helpButton.setActionCommand("makeHelpMessage");
 		//makes sure that focus is kept on the main window
 		helpButton.setFocusable(false);
+		helpButton.setBackground(Color.black);
+		helpButton.setForeground(Color.white);
 		startMenuPanel.add(helpButton);
 
 		// creates the exit button
-		JButton exitButton = new JButton("Exit");
+		JButton exitButton = new JButton("EXIT");
 		exitButton.addActionListener(this);
 		exitButton.setActionCommand("exitButton");
 		//makes sure that focus is kept on the main window
 		exitButton.setFocusable(false);
+		exitButton.setBackground(Color.black);
+		exitButton.setForeground(Color.white);
 		//adds the button to the menu panel
 		startMenuPanel.add(exitButton);
 
