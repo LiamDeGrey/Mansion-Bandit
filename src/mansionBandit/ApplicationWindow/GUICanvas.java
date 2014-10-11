@@ -36,7 +36,7 @@ public class GUICanvas extends JPanel{
 	player = gFrame.getPlayer();
 
 	try {
-		inventoryBarImage = ImageIO.read(this.getClass().getResource("/GUIgraphics/inventorybar.png"));
+		inventoryBarImage = ImageIO.read(this.getClass().getResource("/GUIgraphics/inventoryBar2.png"));
 	} catch (IOException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
