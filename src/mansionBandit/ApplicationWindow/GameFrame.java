@@ -53,7 +53,6 @@ import mansionBandit.network.Server;
 
 /**
  * @author Theo
- *TODO Change all placeholder classes to actual classes. Change all PlayerPlayerHolders to players, change canvas to GamPanel, change item to gamematter item, etc
  */
 public class GameFrame extends JFrame implements ActionListener, MouseListener,
 		WindowListener, KeyListener {
@@ -86,8 +85,10 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	private boolean ingameMenuActive = false;
 
 	// the panel used for displaying the in game menu
-	private JPanel ingameMenuPanel;
+	//private JPanel ingameMenuPanel;
 
+	InGameMenuPanel ingameMenuPanel;// = new InGameMenuPanel(this);
+	
 	//the panel used for displaying game graphics
 	private GamePanel gamePanel;
 
@@ -159,8 +160,8 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 		enterMainMenu();
 
 
-		//sets up user interface elements
-		setupInterface();
+		
+		
 
 		mouseOffSetY = getInsets().top;
 	}
@@ -172,65 +173,71 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	/**
 	 * Sets up GUI elements
 	 */
-	private void setupInterface() {
+	private void setupScreen() {
+		ingameMenuPanel = new InGameMenuPanel(this);
+		
 
-		GridLayout gridLayout = new GridLayout(0,1,10,10);
-		// this panel is for the part of the UI that presents information about
-		// the player such as inventory
-
-
-		// check that the window is not already active
-		// sets up a new frame
-		ingameMenuPanel = new JPanel(gridLayout);
+		layeredPane = new JLayeredPane();
 
 
-		// creates the resume button
-		JButton menuResumeButton = new JButton("Resume");
-		menuResumeButton.addActionListener(this);
-		menuResumeButton.setActionCommand("menuResumeBtn");
-		ingameMenuPanel.add(menuResumeButton);
-
-		// makes sure focus is kept on the main window
-		menuResumeButton.setFocusable(false);
+		this.add(layeredPane);
 
 
-		// creates the help button
-		JButton menuHelpButton = new JButton("How to play");
-		menuHelpButton.addActionListener(this);
-		menuHelpButton.setActionCommand("menuHelpBtn");
-		ingameMenuPanel.add(menuHelpButton);
+		//set the size and location of the layeredPane
+		layeredPane.setBounds(0,0,windowDimensionX,windowDimensionY);
 
-		// makes sure focus is kept on the main window
-		menuHelpButton.setFocusable(false);
+		//add in game menu
+		ingameMenuPanel.setBounds(ingameMenuX,ingameMenuY,ingameMenuW,ingameMenuH);
+		ingameMenuPanel.setOpaque(false);
 
-
-		// creates the exit to menu button
-		JButton menuExitToMenuButton = new JButton("Main Menu");
-		menuExitToMenuButton.addActionListener(this);
-		menuExitToMenuButton.setActionCommand("menuExitToMenuBtn");
-		ingameMenuPanel.add(menuExitToMenuButton);
-
-		// makes sure focus is kept on the main window
-		menuExitToMenuButton.setFocusable(false);
-
-
-		// creates the exit button
-		JButton menuExitButton = new JButton("Exit");
-		menuExitButton.addActionListener(this);
-		menuExitButton.setActionCommand("menuExitGameBtn");
-		ingameMenuPanel.add(menuExitButton);
-
-		// makes sure focus is kept on the main window
-		menuExitButton.setFocusable(false);
-
-
-		ingameMenuPanel.setVisible(false);
-		//setLayout(new BorderLayout());
-
+		//gives it a black background
+		ingameMenuPanel.setBackground(Color.black);
 		ingameMenuPanel.setOpaque(true);
 
+		//adds it at 3rd layer of the pane
+		layeredPane.add(ingameMenuPanel,new Integer(2),0);
 
-		pack();
+
+		//add the rendering panel
+		gamePanel = new GamePanel(player);
+
+		gamePanel.setBounds(0,0,windowDimensionX,windowDimensionY);
+
+		gamePanel.setOpaque(false);
+		//adds it at bottom layer of the pane
+		layeredPane.add(gamePanel,new Integer(0),0);
+
+
+		//add the GUI rendering panel
+		guiCanvas = new GUICanvas(this);
+		guiCanvas.setBounds(inventoryBarPos.x,inventoryBarPos.y,windowDimensionX,windowDimensionY);
+		guiCanvas.setOpaque(false);
+		//adds it at 2nd layer of the pane
+		layeredPane.add(guiCanvas,new Integer(1),0);
+
+
+		Map map = new Map(player.getGrid());
+		//sets position of map
+		map.setBounds(649,10,150,150);
+		map.setVisible(true);
+		map.repaint();
+		//adds the map to the game screen
+		layeredPane.add(map, new Integer(1),0);
+		
+		//adds description LABEL
+		descriptionLabel = new JLabel("<html><p><center></center></p></html>");
+		descriptionLabel.setBounds(662,inventoryBarPos.y+299,137,87);
+		descriptionLabel.setBackground(Color.GRAY);
+		descriptionLabel.setOpaque(true);
+		descriptionLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		descriptionLabel.setVerticalAlignment(SwingConstants.CENTER);
+		layeredPane.add(descriptionLabel, new Integer(1),0);
+		
+		
+		//redisplay the screen
+		this.revalidate();
+		this.repaint();
+		this.pack();
 	}
 
 	// MENUS AND FRAME INTERACTION//
@@ -310,14 +317,6 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	//remove the main menu
 	this.remove(mainMenu);
 
-
-
-	//creates player that this applicationWindow applies to
-	//TODO make create player
-	//player = gameWorld.createPlayer(this);
-
-	//TODO Make proper create player method
-
 	Grid r = new Grid(1);
 	player = new Host("", 20);
 
@@ -326,68 +325,9 @@ public class GameFrame extends JFrame implements ActionListener, MouseListener,
 	player.getBandit().setArea(makeRoom());
 	player.getBandit().setFace(Face.NORTHERN);
 
-	layeredPane = new JLayeredPane();
-
-
-	this.add(layeredPane);
-
-
-	//set the size and location of the layeredPane
-	layeredPane.setBounds(0,0,windowDimensionX,windowDimensionY);
-
-	//add in game menu
-	ingameMenuPanel.setBounds(ingameMenuX,ingameMenuY,ingameMenuW,ingameMenuH);
-	ingameMenuPanel.setOpaque(false);
-
-	//gives it a black background
-	ingameMenuPanel.setBackground(Color.black);
-	ingameMenuPanel.setOpaque(true);
-
-	//adds it at 3rd layer of the pane
-	layeredPane.add(ingameMenuPanel,new Integer(2),0);
-
-
-	//add the rendering panel
-	gamePanel = new GamePanel(player);
-
-	gamePanel.setBounds(0,0,windowDimensionX,windowDimensionY);
-
-	gamePanel.setOpaque(false);
-	//adds it at bottom layer of the pane
-	layeredPane.add(gamePanel,new Integer(0),0);
-
-
-	//add the GUI rendering panel
-	guiCanvas = new GUICanvas(this);
-	guiCanvas.setBounds(inventoryBarPos.x,inventoryBarPos.y,windowDimensionX,windowDimensionY);
-	guiCanvas.setOpaque(false);
-	//adds it at 2nd layer of the pane
-	layeredPane.add(guiCanvas,new Integer(1),0);
-
-
-	Map map = new Map(player.getGrid());
-	//sets position of map
-	map.setBounds(649,10,150,150);
-	map.setVisible(true);
-	map.repaint();
-	//adds the map to the game screen
-	layeredPane.add(map, new Integer(1),0);
+	//sets up user interface elements
+	setupScreen();
 	
-	//adds description LABEL
-	descriptionLabel = new JLabel("<html><p><center></center></p></html>");
-	descriptionLabel.setBounds(662,inventoryBarPos.y+299,137,87);
-	descriptionLabel.setBackground(Color.GRAY);
-	descriptionLabel.setOpaque(true);
-	descriptionLabel.setHorizontalAlignment(SwingConstants.CENTER);
-	descriptionLabel.setVerticalAlignment(SwingConstants.CENTER);
-	layeredPane.add(descriptionLabel, new Integer(1),0);
-	
-	
-	//redisplay the screen
-	this.revalidate();
-	this.repaint();
-	this.pack();
-
 	//indicate that gameplay has started
 	gameStarted = true;
 
