@@ -14,6 +14,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -56,10 +57,10 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 	private final Dimension textBoxDimension = new Dimension(150,25);
 
 	//the set location and dimensions of the menu
-	private final int menuX = 250;
-	private final int menuY = 250;
-	private final int menuH = 300;
-	private final int menuW = 300;
+	private final int menuX = 275;
+	private final int menuY = 275;
+	private final int menuH = 250;
+	private final int menuW = 250;
 
 	public MainMenuPanel(GameFrame frame){
 		this.setLayout(null);
@@ -135,9 +136,9 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 
 
 		// creates the tutorial button in the menu
-		JButton helpButton = new JButton("Tutorial");
+		JButton helpButton = new JButton("How To Play");
 		helpButton.addActionListener(this);
-		helpButton.setActionCommand("startTutorial");
+		helpButton.setActionCommand("makeHelpMessage");
 		//makes sure that focus is kept on the main window
 		helpButton.setFocusable(false);
 		startMenuPanel.add(helpButton);
@@ -482,6 +483,13 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 			//TODO gameFrame.getClient.disconnect()
 			//go back to the main menu
 			setMenu(multiplayerMenuPanel);
+		}
+		else if(e.getActionCommand().equals("makeHelpMessage")){
+			JOptionPane
+			.showMessageDialog(
+					this,
+					"Steal as much as you can before the time runs out. Take stolen items to the van to cash them in. Drag items around to interact with them. Right click them to get a description.",
+					"Help ", JOptionPane.INFORMATION_MESSAGE);
 		}
 
 

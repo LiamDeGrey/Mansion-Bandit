@@ -176,6 +176,7 @@ public class GameFrame extends JFrame implements ActionListener,
 		descriptionLabel.setOpaque(true);
 		descriptionLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		descriptionLabel.setVerticalAlignment(SwingConstants.CENTER);
+		descriptionLabel.setForeground(Color.white);
 		layeredPane.add(descriptionLabel, new Integer(1),0);
 		
 		
@@ -186,6 +187,7 @@ public class GameFrame extends JFrame implements ActionListener,
 		timeLabel.setOpaque(true);
 		timeLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		timeLabel.setVerticalAlignment(SwingConstants.CENTER);
+		timeLabel.setForeground(Color.white);
 		layeredPane.add(timeLabel, new Integer(1),0);
 		
 		
@@ -248,7 +250,6 @@ public class GameFrame extends JFrame implements ActionListener,
 
 			// indicates that it is no longer up
 			ingameMenuActive = false;
-
 		}
 	}
 
@@ -263,14 +264,11 @@ public class GameFrame extends JFrame implements ActionListener,
 	//make the player
 	player = new Host("", 20);
 
-
-	//TODO PLACEHOLDER get rid of
 	player.getBandit().setArea(makeRoom());
 	player.getBandit().setFace(Face.NORTHERN);
 
 	//sets up user interface elements
 	setupScreen();
-	
 	
 	controller= new Controller(player, gamePanel,this);
 	addMouseListener(controller);
@@ -305,7 +303,11 @@ public class GameFrame extends JFrame implements ActionListener,
 
 		// if the user presses help in the in-game menu
 		if (act.getActionCommand().equals("menuHelpBtn")) {
-
+			JOptionPane.showMessageDialog(
+							this,
+							"Steal as much as you can before the time runs out. Take stolen items to the van to cash them in. Drag items around to interact with them. Right click them to get a description.",
+							"Help ", JOptionPane.INFORMATION_MESSAGE);
+			  
 		}
 
 		// if the user presses resume in the in-game menu
