@@ -178,12 +178,18 @@ public final class Server {
 					//Read input and act accordingly
 					Object obj = (Message) input.readObject();
 					if (obj instanceof ClientDisconnectMessage) {
+						System.out.println("got clientdisconnect message");
 						ClientThread toDisconnect = getClient(((ClientDisconnectMessage) obj).getUsername());
 						usernameList.remove(username);
+						System.out.println(usernameList);
 						remove(toDisconnect);
-						for (ClientThread ct : clientList) {
-							ct.output.writeObject(usernameList);
+						System.out.println(clientList.size());
+						if (clientList.size() != 0) {
+							for (ClientThread ct : clientList) {
+								ct.output.writeObject(usernameList);
+							}
 						}
+						gameFrame.playerHasConnected(usernameList);
 					}
 				}
 				catch (Exception e) {
