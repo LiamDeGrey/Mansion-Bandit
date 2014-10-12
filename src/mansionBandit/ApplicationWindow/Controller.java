@@ -172,6 +172,8 @@ public class Controller implements MouseListener, KeyListener{
 					// targeted item
 					if (draggingItem.useItemOn(gamePanel.getObject(mouseX,mouseY))) {
 
+						System.out.println("UUUUUUUUUUUUUUSED ITEM ON ITEM  ===========================");
+
 						// if it was used successfully, the item will have been
 						// used and is deleted and the item is removed from
 						// inventory
@@ -181,6 +183,11 @@ public class Controller implements MouseListener, KeyListener{
 						e.getComponent()
 								.setCursor(
 										Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+
+						//updates the money label in gameframe
+						//TODO
+						//gameFrame.setMoneyText(player.getMoney());
+						gameFrame.setMoneyText(10);
 					} else {
 
 						// if the interaction was invalid the item is returned

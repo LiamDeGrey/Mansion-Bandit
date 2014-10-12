@@ -84,7 +84,7 @@ WindowListener, KeyListener {
 	private JLabel timeLabel;//the label used to display how much time is left
 	private JLabel moneyLabel;//the label used to display how much money the player has
 
-	private int money =10;//money that the player has stolen
+	//private int money =10;//money that the player has stolen
 
 	//Server
 	private Server server;
@@ -200,11 +200,12 @@ WindowListener, KeyListener {
 		//adds TIME LABEL
 		timeLabel = new JLabel("<html><p><center></center></p></html>");
 		timeLabel.setBounds(350,inventoryBarPos.y-300,98,87);
-		timeLabel.setBackground(Color.DARK_GRAY);
-		timeLabel.setOpaque(true);
+		//timeLabel.setBackground(Color.DARK_GRAY);
+		//timeLabel.setOpaque(true);
 		timeLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		timeLabel.setVerticalAlignment(SwingConstants.CENTER);
-		timeLabel.setForeground(Color.white);
+		timeLabel.setForeground(Color.red);
+		timeLabel.setFont(new Font("Courier New", Font.BOLD, 40));
 		layeredPane.add(timeLabel, new Integer(1),0);
 
 		//adds MONEY LABEL
@@ -492,7 +493,7 @@ WindowListener, KeyListener {
 		if(time==0){
 			JOptionPane.showMessageDialog(
 					this,
-					"You stole $" + money + " worth of goods!","GAME OVER" , JOptionPane.INFORMATION_MESSAGE);
+					"You stole $" +  "money worth of goods!","GAME OVER" , JOptionPane.INFORMATION_MESSAGE);
 			endGame();
 			enterMainMenu();
 		}
@@ -506,6 +507,10 @@ WindowListener, KeyListener {
 	 */
 	public void setDescriptionText(String text){
 		descriptionLabel.setText(text);
+	}
+
+	public void setMoneyText(int money){
+		moneyLabel.setText("$" + money);
 	}
 
 

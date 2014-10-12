@@ -176,7 +176,7 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 	private void setupMultiplayerMenu(){
 
 		// creates the back button which will take the player back to the start of the main menu
-		JButton connectButton = new JButton("Connect to game");
+		JButton connectButton = new JButton("CONNECT TO GAME");
 		connectButton.addActionListener(this);
 		connectButton.setActionCommand("setMenuConnectToGame");
 
@@ -189,7 +189,7 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		multiplayerMenuPanel.add(connectButton);
 
 		// creates the back button which will take the player back to the start of the main menu
-		JButton hostGameButton = new JButton("Host Game");
+		JButton hostGameButton = new JButton("HOST GAME");
 		hostGameButton.addActionListener(this);
 		hostGameButton.setActionCommand("setMenuHostGame");
 
@@ -202,7 +202,7 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		multiplayerMenuPanel.add(hostGameButton);
 
 		// creates the disconnect button which will take the player back to the start of the main menu
-		JButton backButton = new JButton("Back");
+		JButton backButton = new JButton("BACK");
 		backButton.addActionListener(this);
 		backButton.setActionCommand("backButton");
 
@@ -372,13 +372,13 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 
 
 		//Sets up the labels that will display the names of the players
-		//JLabel player1NameLabel = new JLabel();
+
 		slaveLobbyMenuPanel.add(clientPlayer1NameLabel);
-		//JLabel player2NameLabel = new JLabel();
+
 		slaveLobbyMenuPanel.add(clientPlayer2NameLabel);
-		//JLabel player3NameLabel = new JLabel();
+
 		slaveLobbyMenuPanel.add(clientPlayer3NameLabel);
-		//JLabel player4NameLabel = new JLabel();
+
 		slaveLobbyMenuPanel.add(clientPlayer4NameLabel);
 
 		//set the position of the menu
