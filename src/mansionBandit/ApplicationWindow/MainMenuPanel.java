@@ -610,8 +610,6 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		String userName = usernameTextField.getText();
 		String address = addressTextField.getText();
 
-		System.out.println("user " + userName +  " attempting to connect to game "+ address);
-
 		try {
 			gameFrame.runClient(address,32768, userName);
 		} catch (IOException e) {

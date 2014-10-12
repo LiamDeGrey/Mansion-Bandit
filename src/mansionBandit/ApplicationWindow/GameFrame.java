@@ -450,12 +450,13 @@ WindowListener, KeyListener {
 					showIngameMenu();
 				}
 			}
+			//resets descriptiontext
+			descriptionLabel.setText("");
+
+			gamePanel.update();
 		}
 
-		//resets descriptiontext
-		descriptionLabel.setText("");
 
-		gamePanel.update();
 	}
 
 	// These methods are unused but required for the KeyListener interface
@@ -481,12 +482,9 @@ WindowListener, KeyListener {
 
 			//if the mouse is in the x bounds of one of the inventory slots
 			if(x > inventoryBarPos.x + (i*inventorySlotSize) + offsetX && x< inventoryBarPos.x + ((i+1)*inventorySlotSize)+ offsetX){
-				System.out.println("inventory slot found X " + i);
 
 				//if the mouse is in the y bounds of the inventory slots
 				if(y> inventoryBarPos.y + offsetY && y<inventoryBarPos.y +inventorySlotSize + offsetY){
-
-					System.out.println("inventory slot found Y " + i);
 
 					//return this inventory slot
 					return i;
@@ -573,6 +571,7 @@ WindowListener, KeyListener {
 	 * indicates that a player has connected to the game
 	 */
 	public void updatePlayerList(ArrayList<String> usernameList){
+
 		mainMenu.updatePlayerList(usernameList);
 	}
 
@@ -580,7 +579,7 @@ WindowListener, KeyListener {
 	 * indicates that a player has connected to the game
 	 */
 	public void updateClientPlayerList(ArrayList<String> usernameList){
-		System.out.println("IN GAME FRAME " +usernameList);
+
 		mainMenu.updateClientPlayerList(usernameList);
 	}
 
@@ -594,7 +593,6 @@ WindowListener, KeyListener {
 
 		//set up the image
 		BufferedImage img;
-		System.out.println("Set cursor to" +itemName);
 
 		try {
 
@@ -718,7 +716,7 @@ WindowListener, KeyListener {
 		return new Key("testFace", face, new Dimensions(x, y, size));
 		//return new Grabable("testFace", face, new Dimensions(x, y, size));
 	}
-
+	//TODO remove
 	private MansionArea[][] getTestGrid(){
 
 		//           X

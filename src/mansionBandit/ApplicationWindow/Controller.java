@@ -36,7 +36,6 @@ public class Controller implements MouseListener, KeyListener{
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
 
 		//only checks for user input if the game has started
 
@@ -95,9 +94,6 @@ public class Controller implements MouseListener, KeyListener{
 
 				if(gameFrame.gameStarted()){
 
-					//debug code
-					System.out.println("Mouse clicked at " + e.getPoint().toString());
-
 				// firstly check that the player isn't already holding something
 				if (draggingItem == null) {
 					// check if there is an item that can be dragged at the current
@@ -107,9 +103,9 @@ public class Controller implements MouseListener, KeyListener{
 						// begin dragging the item at mouse position
 						draggingItem = (Grabable) gamePanel.getObject(mouseX,mouseY);
 
-						//hide the item from the room so that it no longer appears on the screen and CANT BE INTERRACTED WITH
-						//TODO: remove item from room
+						//remove the item from the room
 						player.removeItemFromRoom(draggingItem);
+
 						// SET CURSOR TO ITEM HERE //
 						gameFrame.setCursorImage(e, draggingItem.getImage() +".png");
 					}
@@ -131,21 +127,18 @@ public class Controller implements MouseListener, KeyListener{
 					}
 				}
 
-
 				gameFrame.getGUICanvas().repaint();
 
-				//resets descriptiontext
-				gameFrame.setDescriptionText("");
+
 				}
 		}
 
+		//resets descriptiontext
+		gameFrame.setDescriptionText("");
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-
 
 		int mouseX = e.getPoint().x;
 		int mouseY = e.getPoint().y - mouseOffSetY;
@@ -153,9 +146,6 @@ public class Controller implements MouseListener, KeyListener{
 		//only checks for user input if gameplay has started
 
 		if(gameFrame.gameStarted()){
-
-			//debug statement
-			System.out.println("Mouse release at " + (mouseX) + " " + mouseY);
 
 		// left button released
 		if (e.getButton() == MouseEvent.BUTTON1) {
@@ -192,7 +182,7 @@ public class Controller implements MouseListener, KeyListener{
 						// to the players inventory
 
 						if(!player.addItem(draggingItem)){
-							//TODO add drop item method
+							//drop the item on the ground
 							player.dropItem(draggingItem);
 						}
 						// remove the dragging item
@@ -212,15 +202,13 @@ public class Controller implements MouseListener, KeyListener{
 
 					player.addItem(draggingItem, gameFrame.getInventorySlot(mouseX,mouseY));
 
+					//player is no longer dragging an item
 					draggingItem = null;
-
 
 					e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));// set the cursor back to default
 				}
 				 else {
 					// otherwise just drop the object at this position in the room
-
-					 //TODO add drop item method
 					player.dropItem(draggingItem);
 
 					 draggingItem = null;
