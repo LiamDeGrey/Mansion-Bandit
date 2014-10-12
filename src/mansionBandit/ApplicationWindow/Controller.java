@@ -218,7 +218,7 @@ public class Controller implements MouseListener, KeyListener{
 					// otherwise just drop the object at this position in the room
 
 					 //TODO add drop item method
-					//player.dropItem(e.getPoint());
+					//player.dropItem();
 
 					 draggingItem = null;
 
