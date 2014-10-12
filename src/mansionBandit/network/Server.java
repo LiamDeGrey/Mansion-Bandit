@@ -130,7 +130,12 @@ public final class Server {
 				//Read username that Client broadcasts to us
 				username = (String) input.readObject();
 				System.out.println(username + " has connected.");
-				usernameList.add(username);
+				for (int i = 0; i < usernameList.size(); i++) {
+					if(usernameList.get(i) == null) {
+						usernameList.set(i, username);
+						break;
+					}
+				}
 				gameFrame.repaint();
 				gameFrame.playerHasConnected(usernameList);
 
@@ -192,6 +197,7 @@ public final class Server {
 								ct.output.writeObject(usernameList);
 							}
 						}
+						System.out.println("updating server client list view");
 						gameFrame.playerHasConnected(usernameList);
 					}
 				}
