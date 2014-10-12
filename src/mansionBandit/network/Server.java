@@ -200,6 +200,11 @@ public final class Server {
 						System.out.println("updating server client list view");
 						gameFrame.updatePlayerList(usernameList);
 					}
+					if (obj instanceof UpdateGridMessage) {
+						System.out.println("got update grid message");
+						player.setGrid(((UpdateGridMessage) obj).getGrid());
+						broadcast((Message) obj);
+					}
 				}
 				catch (Exception e) {
 					System.out.println(username + ": Exception reading Object Streams: " + e);

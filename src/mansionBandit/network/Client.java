@@ -68,6 +68,14 @@ public final class Client {
 	}
 
 	// TODO: METHODS FOR SENDING UPDATES
+	public void sendGrid() {
+		MansionArea[][] toSend = player.getGrid();
+		try {
+			output.writeObject(toSend);
+		} catch (IOException e) {
+			System.out.println("Exception sending grid update " + e);
+		}
+	}
 
 	/**
 	 * The disconnect method closes all I/O streams and closes the socket.
