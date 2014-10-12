@@ -168,11 +168,15 @@ public class GameFrame extends JFrame implements ActionListener,
 		layeredPane.add(guiCanvas,new Integer(1),0);
 
 
-		Map map = new Map(player.getGrid());
+		Map map = new Map(player);
 		//sets position of map
-		map.setBounds(649,10,150,150);
-		map.setVisible(true);
-		map.repaint();
+		
+		map.setLocation(690,10);
+        map.setSize(map.getPreferredSize());
+		
+        //map.setBounds(649,10,1500,1500);
+		//map.setVisible(true);
+		//map.repaint();
 		//adds the map to the game screen
 		layeredPane.add(map, new Integer(1),0);
 

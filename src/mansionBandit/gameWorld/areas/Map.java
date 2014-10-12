@@ -6,6 +6,7 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
+import mansionBandit.gameWorld.main.Player;
 import mansionBandit.gameWorld.matter.Bandit;
 import mansionBandit.gameWorld.matter.GameMatter;
 
@@ -20,16 +21,26 @@ public class Map extends JPanel{
 	private static final int heightBlock = 10;
 	private static final int padding = 20;
 	private static final int bandit = 5;
+	private int widthMap;
+	private int heightMap;
 
-	public Map(MansionArea[][] grid){
-		this.grid = grid;
-		setPreferredSize(new Dimension((grid[0].length*widthBlock)+(padding*2), (grid.length*heightBlock)+(padding*2)));
-		setLayout(null);
+	public Map(Player player){
+		grid = player.getGrid();
+		widthMap = (grid[0].length*widthBlock)+(padding*2);
+		heightMap = (grid.length*heightBlock)+(padding*2);
 		setVisible(true);
+		setLayout(null);
+	}
+	
+	@Override
+	public Dimension getPreferredSize() {
+	    return new Dimension(widthMap, heightMap);
 	}
 
 	@Override
-	public void paintComponents(Graphics g){
+	public void paintComponent(Graphics g){
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, widthMap, heightMap);
 		MansionArea leftMid = grid[grid.length/2][0];
 		MansionArea topMid = grid[0][grid[0].length/2];
 		MansionArea rightMid = grid[grid.length/2][grid[0].length-1];
@@ -39,25 +50,25 @@ public class Map extends JPanel{
 			for(int j=0; j<grid[0].length; j++){
 				if(grid[i][j] instanceof Room){
 					g.setColor(Color.RED);
-					g.fillRect(i*widthBlock+padding, j*heightBlock+padding, widthBlock, heightBlock);
+					g.fillRect(j*widthBlock+padding, i*heightBlock+padding, widthBlock, heightBlock);
 				}else if(grid[i][j] instanceof Hallway){
 					g.setColor(Color.GRAY);
-					g.fillRect(i*widthBlock+padding, j*heightBlock+padding, widthBlock, heightBlock);
+					g.fillRect(j*widthBlock+padding, i*heightBlock+padding, widthBlock, heightBlock);
 				}
 				if(grid[i][j].equals(leftMid)){
 					g.setColor(Color.BLUE);
-					g.fillRect(padding, j*heightBlock+padding, widthBlock, heightBlock);
+					g.fillRect(padding-widthBlock, i*heightBlock+padding, widthBlock, heightBlock);
 				}else if(grid[i][j].equals(topMid)){
 					g.setColor(Color.BLUE);
-					g.fillRect(i*widthBlock+padding, padding, widthBlock, heightBlock);
+					g.fillRect(j*widthBlock+padding, padding, widthBlock, heightBlock);
 				}else if(grid[i][j].equals(rightMid)){
 					g.setColor(Color.BLUE);
-					g.fillRect(i*widthBlock+widthBlock+padding, j*heightBlock+padding, widthBlock, heightBlock);
+					g.fillRect(j*widthBlock+widthBlock+padding, i*heightBlock+padding, widthBlock, heightBlock);
 				}else if(grid[i][j].equals(botMid)){
 					g.setColor(Color.BLUE);
-					g.fillRect(i*widthBlock+padding, j*heightBlock+heightBlock+padding, widthBlock, heightBlock);
+					g.fillRect(j*widthBlock+padding, i*heightBlock+heightBlock+padding, widthBlock, heightBlock);
 				}
-				drawPlayers(g);
+				//drawPlayers(g);
 			}
 		}
 	}
