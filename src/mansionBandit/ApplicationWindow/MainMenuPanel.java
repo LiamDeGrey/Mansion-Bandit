@@ -461,6 +461,7 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		this.add(submenu);
 		//set the current panel to the just added panel
 		this.currentPanel = submenu;
+
 		//ensures the newly added menu is presented to the user
 		submenu.validate();
 		submenu.setVisible(true);
@@ -473,9 +474,7 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 	 * quits out of the main menu and starts the game
 	 */
 	private void startGame(){
-
 		this.setVisible(false);
-
 		gameFrame.startGame();
 	}
 
@@ -556,11 +555,12 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 	 */
 	public void updatePlayerList(ArrayList<String> usernameList){
 
-	player2NameLabel.setText(usernameList.get(1));
+		//sets names
+		player2NameLabel.setText(usernameList.get(1));
 
-	player3NameLabel.setText(usernameList.get(2));
+		player3NameLabel.setText(usernameList.get(2));
 
-	player4NameLabel.setText(usernameList.get(3));
+		player4NameLabel.setText(usernameList.get(3));
 
 		this.repaint();
 	}
@@ -592,7 +592,6 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		player1NameLabel.setText(userName);
 		this.repaint();
 		gameFrame.runServer(32768,4,userName);
-
 
 	}
 

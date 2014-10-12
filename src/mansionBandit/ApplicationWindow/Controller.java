@@ -22,25 +22,22 @@ public class Controller implements MouseListener, KeyListener{
 	Grabable draggingItem; //the item the player is dragging
 	private final int mouseOffSetY;
 	GameFrame gameFrame;
-	
+
 	Controller(Player p, GamePanel gp, GameFrame gameframe){
 		player = p;
 		gamePanel = gp;
 		gameFrame = gameframe;
 		mouseOffSetY = gameFrame.getInsets().top;
 	}
-	
-	
+
+
 	@Override
-	public void keyPressed(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void keyPressed(KeyEvent arg0) {}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+
 		//only checks for user input if the game has started
 
 		if(gameFrame.gameStarted()){
@@ -67,20 +64,17 @@ public class Controller implements MouseListener, KeyListener{
 			player.turnLeft();
 		}
 		}
-		
+
 		//resets descriptiontext
 		gameFrame.setDescriptionText("");
-		
+
 		gamePanel.update();
-		
-		
+
+
 	}
 
 	@Override
-	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void keyTyped(KeyEvent arg0) {}
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {}
@@ -90,8 +84,8 @@ public class Controller implements MouseListener, KeyListener{
 	public void mouseExited(MouseEvent arg0) {}
 	@Override
 	public void mousePressed(MouseEvent e) {
-	
-		
+
+
 
 		if(e.getButton() == MouseEvent.BUTTON1){
 		int mouseX = e.getPoint().x;
@@ -137,26 +131,22 @@ public class Controller implements MouseListener, KeyListener{
 					}
 				}
 
-				
+
 				gameFrame.getGUICanvas().repaint();
-				
+
 				//resets descriptiontext
 				gameFrame.setDescriptionText("");
 				}
 		}
-		
-		
-		
-		
-		
+
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
-	
-		
+
+
+
 		int mouseX = e.getPoint().x;
 		int mouseY = e.getPoint().y - mouseOffSetY;
 
@@ -180,7 +170,6 @@ public class Controller implements MouseListener, KeyListener{
 
 					// check if the item being dragged can be used on the
 					// targeted item
-					//TODO ADD ability to use items on other items
 					if (draggingItem.useItemOn(gamePanel.getObject(mouseX,mouseY))) {
 
 						// if it was used successfully, the item will have been
@@ -197,7 +186,10 @@ public class Controller implements MouseListener, KeyListener{
 						// if the interaction was invalid the item is returned
 						// to the players inventory
 
-						player.addItem(draggingItem);
+						if(!player.addItem(draggingItem)){
+							//TODO add drop item method
+							//player.dropItem();
+						}
 						// remove the dragging item
 						draggingItem = null;
 
@@ -238,10 +230,10 @@ public class Controller implements MouseListener, KeyListener{
 
 		}
 		if (e.getButton() == MouseEvent.BUTTON3) {
-			
+
 			// check if there is an object/creature/item at mouse position
 			if (gamePanel.getObject(mouseX,mouseY) != null) {
-				
+
 				// change the description text to the items description
 				String descriptionText =("<html><p><center>" +  gamePanel.getObject(mouseX, mouseY).getDescription() + "</center></p></html>");
 				gameFrame.setDescriptionText(descriptionText);
@@ -252,8 +244,7 @@ public class Controller implements MouseListener, KeyListener{
 		//repaint the canvas so that changes show up
 		gameFrame.getGUICanvas().repaint();
 
-		
-		
+
 	}
 
 }
