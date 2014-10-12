@@ -100,7 +100,7 @@ public final class Server {
 	 * @author Shreyas
 	 *
 	 */
-	private synchronized void broadcast(Message msg) {
+	public synchronized void broadcast(Message msg) {
 		for(int i = clientList.size(); --i >= 0;) {
 			ClientThread ct = clientList.get(i);
 

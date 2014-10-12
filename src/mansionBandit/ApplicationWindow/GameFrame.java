@@ -38,6 +38,7 @@ import mansionBandit.gameWorld.matter.Grabable;
 import mansionBandit.gameWorld.matter.Key;
 import mansionBandit.network.Client;
 import mansionBandit.network.Server;
+import mansionBandit.network.StringMessage;
 
 /**
  * The frame that the user interacts with
@@ -295,11 +296,34 @@ public class GameFrame extends JFrame implements ActionListener,
 
 		setupScreen();
 
+		player.getBandit().setArea(makeRoom());
+		player.getBandit().setFace(Face.NORTHERN);
+
 		controller= new Controller(player, gamePanel,this);
 		addMouseListener(controller);
 		addKeyListener(controller);
 
 		gameStarted = true;
+
+		server.broadcast(new StringMessage("START"));
+	}
+
+	public void startClientMultiplayerGame(){
+		//remove the main menu
+		this.remove(mainMenu);
+
+		player.getBandit().setArea(makeRoom());
+		player.getBandit().setFace(Face.NORTHERN);
+
+		//sets up user interface elements
+		setupScreen();
+
+		controller= new Controller(player, gamePanel,this);
+		addMouseListener(controller);
+		addKeyListener(controller);
+		//indicate that gameplay has started
+		gameStarted = true;
+
 	}
 
 	/**
