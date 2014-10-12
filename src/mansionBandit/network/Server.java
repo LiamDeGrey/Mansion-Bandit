@@ -85,6 +85,11 @@ public final class Server {
 		}
 	}
 
+	private void updateGrid(MansionArea[][] grid) {
+		this.player.setGrid(grid);
+		broadcast(new UpdateGridMessage(this.player.getGrid()));
+	}
+
 	/**
 	 * Used for iterating the list of clients and sending them each a message.
 	 * @param msg The message to be sent to all clients.
