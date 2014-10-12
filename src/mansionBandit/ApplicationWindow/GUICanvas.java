@@ -20,7 +20,6 @@ import mansionBandit.gameWorld.main.Player;
  * @author Theo
  *
  */
-
 public class GUICanvas extends JPanel{
 	private GameFrame frame;
 

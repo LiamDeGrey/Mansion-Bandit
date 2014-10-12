@@ -47,7 +47,7 @@ import mansionBandit.network.Server;
 import mansionBandit.network.StringMessage;
 
 /**
- * The frame that the user interacts with
+ * The frame that the user interacts with and that holds all other components
  * @author Theo
  */
 public class GameFrame extends JFrame implements ActionListener,
@@ -322,11 +322,8 @@ WindowListener, KeyListener {
 
 		this.remove(mainMenu);
 
-		//TODO PLACE HOLDER
-		//player.getBandit().setArea(makeRoom());
 		MansionArea[][] testGrid = getTestGrid();
-		//player.setGrid(testGrid);
-		//player.getBandit().setArea(testGrid[1][1]);
+
 		player.getBandit().setArea(player.getGrid()[1][2]);
 		player.getBandit().setFace(Face.NORTHERN);
 
@@ -350,9 +347,6 @@ WindowListener, KeyListener {
 		//remove the main menu
 		this.remove(mainMenu);
 
-		//TODO PLACEHOLDER
-		//player.getBandit().setArea(makeRoom());
-		//player.getBandit().setArea(getTestGrid()[2][2]);
 		player.getBandit().setFace(Face.NORTHERN);
 
 		//sets up user interface elements
@@ -486,7 +480,6 @@ WindowListener, KeyListener {
 		for(int i = 0; i<totalSlots;i++){
 
 			//if the mouse is in the x bounds of one of the inventory slots
-			//if(x > inventoryBarPos.x + (i*inventorySlotSize) + offsetX && x< inventoryBarPos.x + ((i+1)*inventorySlotSize)+ offsetX){
 			if(x > inventoryBarPos.x + (i*inventorySlotSize) + offsetX && x< inventoryBarPos.x + ((i+1)*inventorySlotSize)+ offsetX){
 				System.out.println("inventory slot found X " + i);
 

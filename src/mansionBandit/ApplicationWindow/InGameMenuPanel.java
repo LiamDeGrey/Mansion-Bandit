@@ -11,6 +11,11 @@ public class InGameMenuPanel extends JPanel{
 
 	GameFrame gameFrame;
 
+	/**
+	 * an ingame menu that is displayed when the user presses esc while the game is running
+	 * @param gameframe that this menu is added to
+	 * @author theo
+	 */
 	public InGameMenuPanel(GameFrame gameframe){
 		gameFrame = gameframe;
 		GridLayout gridLayout = new GridLayout(0,1,10,0);

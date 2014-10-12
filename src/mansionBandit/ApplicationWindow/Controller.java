@@ -103,7 +103,7 @@ public class Controller implements MouseListener, KeyListener{
 					// check if there is an item that can be dragged at the current
 					// mouse position
 					if (gamePanel.getObject(mouseX,mouseY) instanceof Grabable) {
-						System.out.println("============+WOWOWOWOWOOWOWOWOOWOWOWOOWO++++++++++++++++++++++++++++++");
+
 						// begin dragging the item at mouse position
 						draggingItem = (Grabable) gamePanel.getObject(mouseX,mouseY);
 
@@ -172,8 +172,6 @@ public class Controller implements MouseListener, KeyListener{
 					// targeted item
 					if (draggingItem.useItemOn(gamePanel.getObject(mouseX,mouseY))) {
 
-						System.out.println("UUUUUUUUUUUUUUSED ITEM ON ITEM  ===========================");
-
 						// if it was used successfully, the item will have been
 						// used and is deleted and the item is removed from
 						// inventory
@@ -214,12 +212,10 @@ public class Controller implements MouseListener, KeyListener{
 
 					player.addItem(draggingItem, gameFrame.getInventorySlot(mouseX,mouseY));
 
-					System.out.println("added to inventory " + draggingItem.getImage());
-
 					draggingItem = null;
 
-					// set the cursor back to default
-					e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+
+					e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));// set the cursor back to default
 				}
 				 else {
 					// otherwise just drop the object at this position in the room
@@ -249,6 +245,7 @@ public class Controller implements MouseListener, KeyListener{
 
 		gameFrame.getGamePanel().repaint();
 		gameFrame.getGamePanel().update();
+
 		//repaint the canvas so that changes show up
 		gameFrame.getGUICanvas().repaint();
 

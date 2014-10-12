@@ -19,6 +19,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+/**
+ * A main menu which handles navigation between submenus of the mainmenu. This is never displayed while the game is in play.
+ * @author Theo
+ *
+ */
 public class MainMenuPanel extends JPanel implements ActionListener{
 
 
