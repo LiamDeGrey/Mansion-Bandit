@@ -119,6 +119,7 @@ public final class Client {
 					if (o instanceof MansionArea[][]) {
 						System.out.println("Received grid");
 						player.setGridStart((MansionArea[][]) o);
+						player.getBandit().setArea(((MansionArea[][]) o)[1][2]);
 					}
 					if (o instanceof ArrayList) {
 						System.out.println("Received username list");
