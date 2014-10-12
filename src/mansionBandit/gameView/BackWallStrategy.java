@@ -126,7 +126,7 @@ public class BackWallStrategy implements SurfaceStrategy {
 					nextRoom = new RoomView(next, direction, surfaceX, surfaceY, surfaceWidth, surfaceHeight, depth + 1);
 				}
 				
-			} else if (next != null && next instanceof Room){
+			} else {
 				//next room is a room, so use hallway Wall texture for use in the hallway
 				try {
 					surfaceTexture = ImageIO.read(this.getClass().getResource("/texture/hallwayW.png"));

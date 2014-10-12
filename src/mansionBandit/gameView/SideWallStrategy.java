@@ -1,5 +1,6 @@
 package mansionBandit.gameView;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -87,7 +88,7 @@ public class SideWallStrategy implements SurfaceStrategy {
 				//as it is a very specific perspective we must use a special constructor in RoomView
 				sideRoom = new RoomView(nextRoom, surface.roomView.playerDirection, surface.roomView.boundX, surface.roomView.boundY, surface.roomView.width, surface.roomView.height, left);
 
-			} else if (nextRoom != null && nextRoom instanceof Room){
+			} else {
 				//its a room, so use hallway wall texture
 				surfaceTexture = warpImage("/texture/hallwayW.png");
 			}
@@ -157,12 +158,14 @@ public class SideWallStrategy implements SurfaceStrategy {
 			
 			//create the wrapped object and add to list (with warped image)
 			DrawnObject dob = new DrawnObject(item, warpImage("/object/" + item.getImage() + ".png"), left, objectCenterY, scale / 2, scale);
+			dob = computeCorners(item);
 			obs.add(dob);
 		}
 		surface.objects = obs;
 	}
 	
-	private void computeCorners(GameMatter item){
+	private DrawnObject computeCorners(GameMatter item){
+		System.out.print("\n\n\n");
 		int LLx ,LLy, LRx, LRy, ULx, ULy, URx, URy;
 		int scale = item.getDimensions().getScale();
 		
@@ -193,11 +196,32 @@ public class SideWallStrategy implements SurfaceStrategy {
 		URx = LRx;
 		URy = ULy;
 		
+		System.out.println("LLx: " + LLx
+				+ " LLy: " + LLy
+				+ " LRx: " + LRx
+				+ " LRy: " + LRy
+				+ " ULx: " + ULx
+				+ " ULy: " + ULy
+				+ " URx: " + URx
+				+ " URy: " + URy);
+		
 		//scale the corners
-		LLx = scaleY(LLx, LLy);
-		LRx = scaleY(LRx, LRy);
-		ULx = scaleY(ULx, ULy);
-		URx = scaleY(URx, URy);
+		LLy = scaleY(LLx, LLy);
+		LRy = scaleY(LRx, LRy);
+		ULy = scaleY(ULx, ULy);
+		URy = scaleY(URx, URy);
+		
+		System.out.println("LLx: " + LLx
+				+ " LLy: " + LLy
+				+ " LRx: " + LRx
+				+ " LRy: " + LRy
+				+ " ULx: " + ULx
+				+ " ULy: " + ULy
+				+ " URx: " + URx
+				+ " URy: " + URy);
+		
+		Image image = warpImage("/object/" + item.getImage() + ".png", ULy, URy, LRy, LLy);
+		//Image image = warpImage("/object/" + item.getImage() + ".png");
 		
 		//find points to draw image with
 		int drawnY, height;
@@ -210,9 +234,15 @@ public class SideWallStrategy implements SurfaceStrategy {
 			height = scale + (URy - ULy);
 		}
 		
-		warpImage(item.getImage(), ULy, URy, LRy, LLy);
+		//scale all points to fit surface
+		scale = (int) ((((double) scale) / 100) * surfaceHeight);
+		height = (int) ((((double) height) / 100) * surfaceHeight);
+		int left = (int) (surfaceX + (item.getDimensions().getX() * ((double) surfaceWidth / 100))) - (scale / 4);
+		int top = surfaceY + (drawnY * surfaceHeight / 100);
+		
+		return new DrawnObject(item, image, left, top, scale / 2, height);
 	}
-	
+
 	private int scaleY(int x, int y){
 		/* determine where the vertical position of the given point should be
 		 * it will be closer to the center the further away it is,
@@ -225,15 +255,15 @@ public class SideWallStrategy implements SurfaceStrategy {
 		 *       \__o___:<->o___/
 		 */
 		
-		double distanceScale = 0.5 + (0.5 * (((double) x) / 100));
+		double distanceScale = 0.3 + (0.7 * (((double) x) / 100));
 		
 		if (left){
 			//invert scale if this object is on the left
-			distanceScale = 0.5 + (1 - distanceScale);
+			distanceScale = 0.3 + (1 - distanceScale);
 		}
 
-		int surfaceCenterY = 100 / 2;
-		int diff = surfaceCenterY - y;
+		int surfaceCenterY = 50;
+		int diff = y - surfaceCenterY;
 		//apply scaling to the diff
 		diff = (int) (diff * distanceScale);
 		
@@ -243,18 +273,15 @@ public class SideWallStrategy implements SurfaceStrategy {
 	
 	/**
 	 * warps the image according to the given points
+	 * 
 	 * @param imagePath
-	 * @param ULx
 	 * @param ULy
-	 * @param URx
 	 * @param URy
-	 * @param LRx
 	 * @param LRy
-	 * @param LLx
 	 * @param LLy
 	 * @return
 	 */
-	private Image warpImage(String imagePath, int ULy, int URy, int LRy, int LLy){
+	private Image warpImage(String imagePath, double ULy, double URy, double LRy, double LLy){
 		BufferedImage image = null;
 		try {
 			image = ImageIO.read(this.getClass().getResource(imagePath));
@@ -265,24 +292,40 @@ public class SideWallStrategy implements SurfaceStrategy {
 		//wrap in transformer object
 		javaxt.io.Image warped = new javaxt.io.Image(image);
 		int width = warped.getWidth();
-		int height = warped.getHeight();
+		int imageHeight = warped.getHeight();
 		
-		int origTop, origLeft, origWidth, origHeight;
-		origTop = Math.min(ULy, URy);
-		//origLeft = Math.min(ULx, LLx);
-		//origWidth = Math.max(origLeft + URx, origLeft + LRx);
-		origHeight = Math.max(origTop + LLy, origTop + LRy);
+		double origTop = Math.min(ULy, URy);
 		
 		//scale points to image
-		ULy = ((ULy - origTop) / origHeight) * height;
-		URy = ((ULy - origTop) / origHeight) * height;
-		LRy = ((ULy - origTop) / origHeight) * height;
-		LLy = ((ULy - origTop) / origHeight) * height;
+//		float UL = (float) (((ULy - origTop) / origHeight) * height);
+//		float UR = (float) (((URy - origTop) / origHeight) * height);
+//		float LR = (float) (((LRy - origTop) / origHeight) * height);
+//		float LL = (float) (((LLy - origTop) / origHeight) * height);
 		
-		warped.setCorners(0, ULy, //UL
-				width, URy, //UR
-				width, LRy, //LR
-				0, LLy);//LL
+		//get corners as distance from the top
+		float UL = (float) (ULy - origTop);
+		float UR = (float) (URy - origTop);
+		float LR = (float) (LRy - origTop);
+		float LL = (float) (LLy - origTop);
+		
+		double origHeight = Math.max(LL, LR);
+		
+		//scale to image size
+		UL = (float) ((UL / origHeight) * imageHeight);
+		UR = (float) ((UR / origHeight) * imageHeight);
+		LR = (float) ((LR / origHeight) * imageHeight);
+		LL = (float) ((LL / origHeight) * imageHeight);
+				
+				
+		System.out.print("float values: top left = (" + 0 + "," + UL + ")"
+				+ " top right = (" + width + "," + UR + ")"
+				+ " bottom right = (" + width + "," + LR + ")"
+				+ " bottom left = (" + 0 + "," + LL + ")");
+		
+		warped.setCorners(0, UL, //UL
+				width, UR, //UR
+				width, LR, //LR
+				0, LL);//LL
 		
 		return warped.getImage();
 	}
