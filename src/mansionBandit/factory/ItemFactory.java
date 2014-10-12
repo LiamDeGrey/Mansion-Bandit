@@ -1,7 +1,5 @@
 package mansionBandit.factory;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,13 +19,14 @@ public class ItemFactory {
 	private Random random;
 	
 	public ItemFactory(String itemDefinitions){
+		//create the ItemTemplate list, and populate it
 		items = new ArrayList<ItemTemplate>();
 		InputStream in = this.getClass().getResourceAsStream(itemDefinitions);
 		Scanner scan = new Scanner(in);
 		while (scan.hasNextLine()){
 			items.add(new ItemTemplate(scan.nextLine()));
 		}
-		
+		scan.close();
 		random = new Random();
 	}
 	

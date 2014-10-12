@@ -13,6 +13,11 @@ import mansionBandit.gameWorld.matter.GameMatter;
 import mansionBandit.gameWorld.matter.Key;
 import mansionBandit.gameWorld.matter.Sellable;
 
+/**
+ * item template contains a set of specifications that it uses to create objects in the game
+ * @author Andy
+ *
+ */
 public class ItemTemplate {
 
 	private int valueMin, valueRange, sizeMin, sizeRange;
@@ -30,19 +35,25 @@ public class ItemTemplate {
 		sizeRange = scan.nextInt();
 		valueMin = scan.nextInt();
 		
-		System.out.println("name: " + name +
-				"\ndescription: " + description +
-				"\nminS: " + sizeMin +
-				"\nsrange: " + sizeRange +
-				"\nminV: " + valueMin +
-				"\nvrange: " + valueRange
-				);
+		//TODO remove
+//		System.out.println("name: " + name +
+//				"\ndescription: " + description +
+//				"\nminS: " + sizeMin +
+//				"\nsrange: " + sizeRange +
+//				"\nminV: " + valueMin +
+//				"\nvrange: " + valueRange
+//				);
 		
 		valueRange = scan.nextInt();
-		
+		scan.close();
 		random = new Random();
 	}
 	
+	/**
+	 * generates and returns a new randomised item
+	 * @param face the face to set the item to
+	 * @return the new item (GameMatter)
+	 */
 	public GameMatter getItem(Face face){
 		int value, scale, x, y = 0;
 		double r = random.nextDouble();
@@ -57,6 +68,13 @@ public class ItemTemplate {
 			x = random.nextInt(100 - scale) + (scale / 2);
 			y = random.nextInt(100 - scale) + scale;
 		}
+		
+		//hack solution for bookshelf
+		if (image.equals("bookshelf")){
+			System.out.println("ppo");
+			y = 100;
+		}
+		
 		Dimensions position = new Dimensions(x, y, scale);
 		
 		if (type.equals("sell")){

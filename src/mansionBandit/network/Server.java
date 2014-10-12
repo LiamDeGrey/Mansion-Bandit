@@ -35,6 +35,9 @@ public final class Server {
 		this.username = userName;
 		usernameList = new ArrayList<String>();
 		usernameList.add(username);
+		usernameList.add("Empty slot");
+		usernameList.add("Empty slot");
+		usernameList.add("Empty slot");
 		clientList = new ArrayList<ClientThread>();
 		this.player = player;
 		this.gameFrame = gameframe;
@@ -127,9 +130,14 @@ public final class Server {
 				//Read username that Client broadcasts to us
 				username = (String) input.readObject();
 				System.out.println(username + " has connected.");
-				usernameList.add(username);
+				for (int i = 0; i < usernameList.size(); i++) {
+					if(usernameList.get(i) == "Empty slot") {
+						usernameList.set(i, username);
+						break;
+					}
+				}
 				gameFrame.repaint();
-				gameFrame.playerHasConnected(usernameList);
+				gameFrame.updatePlayerList(usernameList);
 
 				//Broadcasting grid to clients that connect
 				MansionArea[][] grid = player.getGrid();
@@ -178,12 +186,19 @@ public final class Server {
 					//Read input and act accordingly
 					Object obj = (Message) input.readObject();
 					if (obj instanceof ClientDisconnectMessage) {
+						System.out.println("got clientdisconnect message");
 						ClientThread toDisconnect = getClient(((ClientDisconnectMessage) obj).getUsername());
-						usernameList.remove(username);
+						usernameList.set(usernameList.indexOf(username), "Empty slot");
+						System.out.println(usernameList);
 						remove(toDisconnect);
-						for (ClientThread ct : clientList) {
-							ct.output.writeObject(usernameList);
+						System.out.println(clientList.size());
+						if (clientList.size() != 0) {
+							for (ClientThread ct : clientList) {
+								ct.output.writeObject(usernameList);
+							}
 						}
+						System.out.println("updating server client list view");
+						gameFrame.updatePlayerList(usernameList);
 					}
 				}
 				catch (Exception e) {
