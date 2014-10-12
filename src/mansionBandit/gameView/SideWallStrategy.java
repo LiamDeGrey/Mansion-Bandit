@@ -162,6 +162,131 @@ public class SideWallStrategy implements SurfaceStrategy {
 		surface.objects = obs;
 	}
 	
+	private void computeCorners(GameMatter item){
+		int LLx ,LLy, LRx, LRy, ULx, ULy, URx, URy;
+		int scale = item.getDimensions().getScale();
+		
+		/*
+		 * objects are defined as a position and a size relative to a 100x100 wall
+		 * the x and y position specify the the bottom center of the object
+		 * 
+		 * 0,0 ___________
+		 *    |   ___ ____|____ 
+		 *    |  |\ /|    |    | scale
+		 *    |  |/_\|____|____|
+		 *    |    ^(x,y) |
+		 *    |___________|
+		 *                 100,100
+		 */
+		
+		//get unscaled corners
+		//LL
+		LLx = item.getDimensions().getX() - (scale / 2);
+		LLy = item.getDimensions().getY();
+		//LR
+		LRx = LLx + scale;
+		LRy = LLy;
+		//UL
+		ULx = LLx;
+		ULy = LLy - scale;
+		//UR
+		URx = LRx;
+		URy = ULy;
+		
+		//scale the corners
+		LLx = scaleY(LLx, LLy);
+		LRx = scaleY(LRx, LRy);
+		ULx = scaleY(ULx, ULy);
+		URx = scaleY(URx, URy);
+		
+		//find points to draw image with
+		int drawnY, height;
+		if (ULy <= URy){
+			//top left corner is higher
+			drawnY = ULy;
+			height = scale;
+		} else {
+			drawnY = URy;
+			height = scale + (URy - ULy);
+		}
+		
+		warpImage(item.getImage(), ULy, URy, LRy, LLy);
+	}
+	
+	private int scaleY(int x, int y){
+		/* determine where the vertical position of the given point should be
+		 * it will be closer to the center the further away it is,
+		 * same as for TopBottomStrategy, although the diagram should be
+		 * flipped onto its side
+		 *    ______________________
+		 *    \  o      :<---->o   /
+		 *     \  o     :<--->o   /
+		 *      \  o    :<-->o   /
+		 *       \__o___:<->o___/
+		 */
+		
+		double distanceScale = 0.5 + (0.5 * (((double) x) / 100));
+		
+		if (left){
+			//invert scale if this object is on the left
+			distanceScale = 0.5 + (1 - distanceScale);
+		}
+
+		int surfaceCenterY = 100 / 2;
+		int diff = surfaceCenterY - y;
+		//apply scaling to the diff
+		diff = (int) (diff * distanceScale);
+		
+		//apply the new y position
+		return surfaceCenterY + diff;
+	}
+	
+	/**
+	 * warps the image according to the given points
+	 * @param imagePath
+	 * @param ULx
+	 * @param ULy
+	 * @param URx
+	 * @param URy
+	 * @param LRx
+	 * @param LRy
+	 * @param LLx
+	 * @param LLy
+	 * @return
+	 */
+	private Image warpImage(String imagePath, int ULy, int URy, int LRy, int LLy){
+		BufferedImage image = null;
+		try {
+			image = ImageIO.read(this.getClass().getResource(imagePath));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//wrap in transformer object
+		javaxt.io.Image warped = new javaxt.io.Image(image);
+		int width = warped.getWidth();
+		int height = warped.getHeight();
+		
+		int origTop, origLeft, origWidth, origHeight;
+		origTop = Math.min(ULy, URy);
+		//origLeft = Math.min(ULx, LLx);
+		//origWidth = Math.max(origLeft + URx, origLeft + LRx);
+		origHeight = Math.max(origTop + LLy, origTop + LRy);
+		
+		//scale points to image
+		ULy = ((ULy - origTop) / origHeight) * height;
+		URy = ((ULy - origTop) / origHeight) * height;
+		LRy = ((ULy - origTop) / origHeight) * height;
+		LLy = ((ULy - origTop) / origHeight) * height;
+		
+		warped.setCorners(0, ULy, //UL
+				width, URy, //UR
+				width, LRy, //LR
+				0, LLy);//LL
+		
+		return warped.getImage();
+	}
+	
 	/**
 	 * applies perspective transformations on passed images depending on whether this is a right
 	 * or left wall and returns the result
