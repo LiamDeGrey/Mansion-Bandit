@@ -555,18 +555,16 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 	 */
 	public void playerHasConnected(ArrayList<String> usernameList){
 
-		if(player2NameLabel.getText().equals("Empty slot"))
-		{
+		if(usernameList.get(1)!=null){
 			player2NameLabel.setText(usernameList.get(1));
 		}
-		else if(player3NameLabel.getText().equals("Empty slot"))
-		{
+		if(usernameList.get(2)!=null){
 			player3NameLabel.setText(usernameList.get(2));
 		}
-		else if(player3NameLabel.getText().equals("Empty slot"))
-		{
+		if(usernameList.get(3)!=null){
 			player4NameLabel.setText(usernameList.get(3));
 		}
+
 		this.repaint();
 	}
 
