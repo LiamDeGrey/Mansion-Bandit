@@ -71,7 +71,7 @@ public class TestScreen extends JFrame implements KeyListener{
         grid[1][0].setLinks(null, grid[1][1], null, null); //[1][1]
         grid[1][4].setLinks(null, null, grid[2][4], grid[1][3]); //[1][1]
         grid[2][1].setLinks(grid[1][1], grid[2][2], null, null); //[1][1]
-        grid[2][2].setLinks(grid[1][2], grid[2][3], null, grid[1][0]); //[1][1]
+        grid[2][2].setLinks(grid[1][2], grid[2][3], null, grid[2][1]); //[1][1]
         grid[2][4].setLinks(grid[1][4], null, null, grid[2][3]); //[1][1]
         
         grid[1][1].setLinks(grid[0][1], grid[1][2], grid[2][1], grid[1][0]); //[1][1]
