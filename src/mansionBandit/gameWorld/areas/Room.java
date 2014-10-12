@@ -24,25 +24,6 @@ public class Room implements MansionArea{
 		this.floorTexture = floor;
 	}
 
-	private void makeDoors() {
-		if(north!=null) {
-			//nDoor = new Door("NDoor", false, "keyA");
-			//north.setDoor(nDoor);
-		}
-		if(east!=null) {
-			//eDoor = new Door("EDoor", false, "keyA");
-			//east.setDoor(eDoor);
-		}
-		if(south!=null) {
-		//	sDoor = new Door("SDoor", false, "keyA");
-			//south.setDoor(sDoor);
-		}
-		if(west!=null) {
-		//	wDoor = new Door("WDoor", false, "keyA");
-		//	west.setDoor(wDoor);
-		}
-	}
-
 
 	public Room(){
 
@@ -79,7 +60,6 @@ public class Room implements MansionArea{
 		this.east = east;
 		this.south = south;
 		this.west = west;
-		makeDoors();
 	}
 
 	public void addItem(GameMatter itm){
