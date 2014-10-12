@@ -131,7 +131,7 @@ public final class Server {
 				username = (String) input.readObject();
 				System.out.println(username + " has connected.");
 				for (int i = 0; i < usernameList.size(); i++) {
-					if(usernameList.get(i) == null) {
+					if(usernameList.get(i) == "Empty slot") {
 						usernameList.set(i, username);
 						break;
 					}

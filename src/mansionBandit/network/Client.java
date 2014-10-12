@@ -22,6 +22,7 @@ public final class Client {
 	private ObjectInputStream input;
 	private String username;
 	private ArrayList<String> usernameList;
+	private boolean keepGoing = true;
 
 	private Slave player;
 
@@ -105,7 +106,7 @@ public final class Client {
 	class ServerListener extends Thread {
 
 		public void run() {
-			while(true) {
+			while(keepGoing) {
 				try {
 					//Read server updates here
 					Object o = input.readObject();
@@ -122,6 +123,7 @@ public final class Client {
 				}
 				catch(IOException e) {
 					System.out.println("Connection has been ended by server: " + e);
+					keepGoing = false;
 				} catch (ClassNotFoundException e2) {
 					System.out.println("Exception with class: " + e2);
 				}
