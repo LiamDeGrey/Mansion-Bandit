@@ -110,7 +110,7 @@ public class Bandit extends Character{
 	}
 
 	public MansionArea getArea(){
-		return grid[y][x];
+		return grid[x][y];
 	}
 
 	public void setArea(MansionArea area){
