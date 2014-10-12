@@ -71,7 +71,7 @@ public final class Client {
 	public void clientSendGrid() {
 		MansionArea[][] toSend = player.getGrid();
 		try {
-			output.writeObject(toSend);
+			output.writeObject(new UpdateGridMessage(toSend));
 		} catch (IOException e) {
 			System.out.println("Exception sending grid update " + e);
 		}
