@@ -211,7 +211,7 @@ public final class Server {
 					}
 					if (obj instanceof UpdateGridMessage) {
 						System.out.println("got update grid message");
-						player.setGridStart(((UpdateGridMessage) obj).getGrid());
+						player.setGrid(((UpdateGridMessage) obj).getGrid());
 						broadcast((Message) obj);
 					}
 				}
