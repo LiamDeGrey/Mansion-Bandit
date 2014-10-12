@@ -3,6 +3,7 @@ package mansionBandit.ApplicationWindow;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -124,6 +125,7 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		playButton.setFocusable(false);
 		playButton.setBackground(Color.black);
 		playButton.setForeground(Color.white);
+		playButton.setFont(new Font("Courier New", 20, 20));
 		//adds the button to the menu
 		startMenuPanel.add(playButton);
 
@@ -136,6 +138,7 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		multiplayerButton.setFocusable(false);
 		multiplayerButton.setBackground(Color.black);
 		multiplayerButton.setForeground(Color.white);
+		multiplayerButton.setFont(new Font("Courier New", 20, 20));
 		startMenuPanel.add(multiplayerButton);
 
 
@@ -147,6 +150,7 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		helpButton.setFocusable(false);
 		helpButton.setBackground(Color.black);
 		helpButton.setForeground(Color.white);
+		helpButton.setFont(new Font("Courier New", 20, 20));
 		startMenuPanel.add(helpButton);
 
 		// creates the exit button
@@ -157,6 +161,7 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		exitButton.setFocusable(false);
 		exitButton.setBackground(Color.black);
 		exitButton.setForeground(Color.white);
+		exitButton.setFont(new Font("Courier New", 20, 20));
 		//adds the button to the menu panel
 		startMenuPanel.add(exitButton);
 
@@ -177,6 +182,9 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 
 		//makes sure that focus is kept on the main window
 		connectButton.setFocusable(false);
+		connectButton.setBackground(Color.black);
+		connectButton.setForeground(Color.white);
+		connectButton.setFont(new Font("Courier New", 20, 20));
 
 		multiplayerMenuPanel.add(connectButton);
 
@@ -187,6 +195,9 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 
 		//makes sure that focus is kept on the main window
 		hostGameButton.setFocusable(false);
+		hostGameButton.setBackground(Color.black);
+		hostGameButton.setForeground(Color.white);
+		hostGameButton.setFont(new Font("Courier New", 20, 20));
 
 		multiplayerMenuPanel.add(hostGameButton);
 
@@ -197,6 +208,9 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 
 		//makes sure that focus is kept on the main window
 		backButton.setFocusable(false);
+		backButton.setBackground(Color.black);
+		backButton.setForeground(Color.white);
+		backButton.setFont(new Font("Courier New", 20, 20));
 
 		multiplayerMenuPanel.add(backButton);
 
@@ -219,6 +233,9 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 
 		//makes sure that focus is kept on the main window
 		backButton.setFocusable(false);
+		backButton.setBackground(Color.black);
+		backButton.setForeground(Color.white);
+		backButton.setFont(new Font("Courier New", 20, 20));
 
 		connectToGamePanel.add(backButton);
 
@@ -230,6 +247,9 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 
 		//makes sure that focus is kept on the main window
 		connectButton.setFocusable(false);
+		connectButton.setBackground(Color.black);
+		connectButton.setForeground(Color.white);
+		connectButton.setFont(new Font("Courier New", 20, 20));
 
 		connectToGamePanel.add(connectButton);
 
@@ -254,7 +274,6 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 
 		//set the size of the textbox
 		usernameTextField.setPreferredSize(textBoxDimension);
-
 		//add the name textbox to the panel
 		connectToGamePanel.add(usernameTextField);
 
@@ -277,6 +296,9 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 
 		//makes sure that focus is kept on the main window
 		backButton.setFocusable(false);
+		backButton.setBackground(Color.black);
+		backButton.setForeground(Color.white);
+		backButton.setFont(new Font("Courier New", 20, 20));
 
 		hostGamePanel.add(backButton);
 
@@ -288,6 +310,9 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 
 		//makes sure that focus is kept on the main window
 		startHostingButton.setFocusable(false);
+		startHostingButton.setBackground(Color.black);
+		startHostingButton.setForeground(Color.white);
+		startHostingButton.setFont(new Font("Courier New", 20, 20));
 
 		hostGamePanel.add(startHostingButton);
 
@@ -339,6 +364,9 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 
 		//makes sure that focus is kept on the main window
 		disconnectButton.setFocusable(false);
+		disconnectButton.setBackground(Color.black);
+		disconnectButton.setForeground(Color.white);
+		disconnectButton.setFont(new Font("Courier New", 20, 20));
 
 		slaveLobbyMenuPanel.add(disconnectButton);
 
@@ -373,6 +401,9 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 
 		//makes sure that focus is kept on the main window
 		disconnectButton.setFocusable(false);
+		disconnectButton.setBackground(Color.black);
+		disconnectButton.setForeground(Color.white);
+		disconnectButton.setFont(new Font("Courier New", 20, 20));
 
 		hostLobbyMenuPanel.add(disconnectButton);
 
@@ -384,6 +415,9 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 
 		//makes sure that focus is kept on the main window
 		startGameButton.setFocusable(false);
+		startGameButton.setBackground(Color.black);
+		startGameButton.setForeground(Color.white);
+		startGameButton.setFont(new Font("Courier New", 20, 20));
 
 		hostLobbyMenuPanel.add(startGameButton);
 
@@ -484,6 +518,7 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 
 		}
 		else if(e.getActionCommand().equals("backButton")){
+
 			//go back to the main menu
 			setMenu(startMenuPanel);
 		}
