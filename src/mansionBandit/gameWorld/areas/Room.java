@@ -16,7 +16,6 @@ public class Room implements MansionArea{
 	private MansionArea north, east, south, west;
 	private List<GameMatter> items = new ArrayList<GameMatter>();
 	private String wallTexture, ceilingTexture, floorTexture;
-	private Door nDoor, eDoor, sDoor, wDoor;
 
 	public Room(String wall, String ceiling, String floor){
 		this.wallTexture = wall;
@@ -117,18 +116,6 @@ public class Room implements MansionArea{
 	@Override
 	public void setEast(MansionArea area) {
 		this.east = area;
-	}
-
-	@Override
-	public void setDoor(Door d) {
-		if(d.getName().equals("NDoor"))
-			sDoor = d;
-		else if(d.getName().equals("EDoor"))
-			wDoor = d;
-		else if(d.getName().equals("SDoor"))
-			nDoor = d;
-		else if(d.getName().equals("WDoor"))
-			eDoor = d;
 	}
 
 }

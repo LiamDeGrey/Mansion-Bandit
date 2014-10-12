@@ -17,10 +17,11 @@ public class Grid {
 	private List<GameMatter> allItems = new ArrayList<GameMatter>();
 	private MansionArea[][] grid;
 	private RoomFactory factory;
+	private boolean hallwayES = true;//true if the hallway should go south at the eastern wall
+	private boolean hallwayWS = false;//true if the hallway should go south at the western wall
 
 	public Grid(int numRooms){
 		factory = new RoomFactory();
-		int rand = (int) (Math.random()*numRooms+numRooms);
 		makeRooms(numRooms);
 		setLinks();
 	}
@@ -77,10 +78,27 @@ public class Grid {
 					if(i!=grid.length-1)
 						s = grid[i+1][j];
 				}else {
-					if((j==0&&i>0)||(i!=0&&grid[i-1][j] instanceof Room))
+					if(i>0&&grid[i-1][j] instanceof Room)
 						n = grid[i-1][j];
-					if((j==grid.length-1&&i<grid.length-1)||(i!=grid.length-1&&grid[i+1][j] instanceof Room))
+					if(i<(grid.length-1)&&grid[i+1][j] instanceof Room)
 						s = grid[i+1][j];
+					if(j==(grid[0].length-1)) {//If current is against the far east wall
+						if(hallwayES) {//If the current needs to snake down
+							if(i<(grid.length-1)&&s==null)
+								s = grid[i+1][j];
+						}else if(n==null)
+							n = grid[i-1][j];
+						hallwayES = (hallwayES)? false:true;
+					}else if(j==0) {//If current is against the most western wall
+						if(hallwayWS) {//If current needs to snake down
+							if(i<(grid.length-1)&&s==null)
+								s = grid[i+1][j];
+						}else if(i>0&&n==null) 
+							n = grid[i-1][j];
+						hallwayWS = (hallwayWS)? false:true;
+					}
+					
+					
 				}
 				if(j!=0)
 					w = grid[i][j-1];

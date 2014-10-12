@@ -23,6 +23,8 @@ public class Map extends JPanel{
 	private static final int heightBlock = 10;
 	private static final int padding = 10;
 	private static final int bandit = 5;
+	private static final int doorWidth = 6;//widthBlock/2;
+	private static final int doorX = 2;//doorWidth/2;
 	private int widthMap;
 	private int heightMap;
 
@@ -48,6 +50,7 @@ public class Map extends JPanel{
 		g.setColor(Color.BLACK);
 		g.drawRect(0, 0, widthMap-1, heightMap-1);
 		drawGrid(g);
+		drawWalls(g);
 		drawPlayers(g);
 	}
 	
@@ -59,27 +62,65 @@ public class Map extends JPanel{
 		for(int i=0; i<grid.length; i++){
 			for(int j=0; j<grid[0].length; j++){
 				if(grid[i][j] instanceof Room){
-					g.setColor(Color.RED);
+					g.setColor(Color.decode("#99FF33"));//Greenish
 					g.fillRect(j*widthBlock+padding, i*heightBlock+padding, widthBlock, heightBlock);
 				}else if(grid[i][j] instanceof Hallway){
-					g.setColor(Color.GRAY);
+					g.setColor(Color.decode("#CCFFFF"));//Light blue
 					g.fillRect(j*widthBlock+padding, i*heightBlock+padding, widthBlock, heightBlock);
 				}
 				/*
 				 * Draw the start position(van) on the map
 				 */
 				if(adjacentGrid[0]==i&&adjacentGrid[1]==j) {
-					g.setColor(Color.blue);
+					g.setColor(Color.decode("#FF66FF"));//Purple
 					if(i==0)
-						g.fillRect(j*widthBlock+padding, padding-widthBlock, widthBlock, heightBlock);
+						g.fillRect(j*widthBlock+padding, padding-heightBlock, widthBlock, heightBlock);
 					else if(i==grid.length-1)
-						g.fillRect(j*widthBlock+padding, i*widthBlock+padding+widthBlock, widthBlock, heightBlock);
+						g.fillRect(j*widthBlock+padding, i*heightBlock+padding+heightBlock, widthBlock, heightBlock);
 					else if(j==0)
-						g.fillRect(padding-widthBlock, i*widthBlock+padding, widthBlock, heightBlock);
+						g.fillRect(padding-widthBlock, i*heightBlock+padding, widthBlock, heightBlock);
 					else if(j==grid[0].length-1)
-						g.fillRect(j*widthBlock+padding+widthBlock, i*widthBlock+padding, widthBlock, heightBlock);
+						g.fillRect(j*widthBlock+padding+widthBlock, i*heightBlock+padding, widthBlock, heightBlock);
 					else
 						System.out.println("I can't find your van!!!");
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Draws on lines to show a door or show a wall
+	 */
+	private void drawWalls(Graphics g) {
+		for(int i=0; i<grid.length; i++){
+			for(int j=0; j<grid[0].length; j++){
+				if(grid[i][j].getNorth()!=null) {
+					g.setColor(Color.decode("#CC3300"));//Brown
+					g.drawLine(j*widthBlock+padding+doorX, i*heightBlock+padding, j*widthBlock+padding+doorWidth, i*heightBlock+padding);
+				}else {
+					g.setColor(Color.BLACK);
+					g.drawLine(j*widthBlock+padding, i*heightBlock+padding, j*widthBlock+padding+widthBlock, i*heightBlock+padding);
+				}
+				if(grid[i][j].getEast()!=null) {
+					g.setColor(Color.decode("#CC3300"));//Brown
+					g.drawLine((j+1)*widthBlock+padding, i*heightBlock+padding+doorX, (j+1)*widthBlock+padding, i*heightBlock+padding+doorWidth);
+				}else {
+					g.setColor(Color.BLACK);
+					g.drawLine((j+1)*widthBlock+padding, i*heightBlock+padding, (j+1)*widthBlock+padding, (i+1)*heightBlock+padding);
+				}
+				if(grid[i][j].getSouth()!=null) {
+					g.setColor(Color.decode("#CC3300"));//Brown
+					g.drawLine(j*widthBlock+padding+doorX, (i+1)*heightBlock+padding, j*widthBlock+padding+doorWidth, (i+1)*heightBlock+padding);
+				}else {
+					g.setColor(Color.BLACK);
+					g.drawLine(j*widthBlock+padding, (i+1)*heightBlock+padding, (j+1)*widthBlock+padding, (i+1)*heightBlock+padding);
+				}
+				if(grid[i][j].getWest()!=null) {
+					g.setColor(Color.decode("#CC3300"));//Brown
+					g.drawLine(j*widthBlock+padding, i*heightBlock+padding+doorX, j*widthBlock+padding, i*heightBlock+padding+doorWidth);
+				}else {
+					g.setColor(Color.BLACK);
+					g.drawLine(j*widthBlock+padding, i*heightBlock+padding, j*widthBlock+padding, (i+1)*heightBlock+padding);
 				}
 			}
 		}

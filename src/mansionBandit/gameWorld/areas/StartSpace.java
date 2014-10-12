@@ -16,7 +16,6 @@ import mansionBandit.gameWorld.matter.GameMatter;
 public class StartSpace implements MansionArea {
 	private MansionArea north, south, east, west;
 	private List<GameMatter> items = new ArrayList<GameMatter>();
-	private Door nDoor, eDoor, sDoor, wDoor;
 
 	@Override
 	public void setLinks(MansionArea north, MansionArea east, MansionArea south, MansionArea west) {
@@ -98,18 +97,6 @@ public class StartSpace implements MansionArea {
 	@Override
 	public void setEast(MansionArea area) {
 		this.east = area;
-	}
-
-	@Override
-	public void setDoor(Door d) {
-		if(d.getName().equals("NDoor"))
-			sDoor = d;
-		else if(d.getName().equals("EDoor"))
-			wDoor = d;
-		else if(d.getName().equals("SDoor"))
-			nDoor = d;
-		else if(d.getName().equals("WDoor"))
-			eDoor = d;
 	}
 
 }
