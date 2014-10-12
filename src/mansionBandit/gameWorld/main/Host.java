@@ -21,4 +21,9 @@ public class Host extends Player{
 		this.server = s;
 	}
 
+	protected void updateGrid(){
+		System.out.println("============= HOST SENT MESSAGE ================");
+		server.serverSendGrid();
+	}
+
 }

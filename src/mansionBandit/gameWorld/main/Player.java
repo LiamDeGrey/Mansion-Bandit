@@ -33,8 +33,12 @@ public abstract class Player {
 		return grid;
 	}
 
-	public void setGrid(MansionArea[][] grid){
+	public void setGridStart(MansionArea[][] grid){
 		this.grid = grid;
+		bandit.setGridStart(grid);
+	}
+
+	public void setGrid(MansionArea[][] grid) {
 		bandit.setGrid(grid);
 	}
 
@@ -47,15 +51,28 @@ public abstract class Player {
 	}
 
 	public boolean moveForward(){
-		return bandit.moveForward();
+		if(bandit.moveForward()){
+			updateGrid();
+			return true;
+		}
+		return false;
 	}
 
 	public boolean addItem(Grabable itm, int slot){
-		return bandit.addItem(itm, slot);
+
+		if(bandit.addItem(itm,slot)){
+			updateGrid();
+			return true;
+		}
+		return false;
 	}
 
 	public boolean addItem(Grabable itm){
-		return bandit.addItem(itm);
+		if(bandit.addItem(itm)){
+			updateGrid();
+			return true;
+		}
+		return false;
 	}
 
 	public boolean removeItem(Grabable itm, int slot){
@@ -69,6 +86,8 @@ public abstract class Player {
 	public int getInventorySize(){
 		return 7;
 	}
+
+	protected abstract void updateGrid();
 
 
 }

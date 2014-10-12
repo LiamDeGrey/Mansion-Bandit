@@ -38,6 +38,7 @@ import mansionBandit.gameWorld.matter.Grabable;
 import mansionBandit.gameWorld.matter.Key;
 import mansionBandit.network.Client;
 import mansionBandit.network.Server;
+import mansionBandit.network.StringMessage;
 
 /**
  * The frame that the user interacts with
@@ -275,6 +276,7 @@ public class GameFrame extends JFrame implements ActionListener,
 	//make the player
 	player = new Host("", 20);
 
+	//TODO PLACE HOLDER
 	player.getBandit().setArea(makeRoom());
 	player.getBandit().setFace(Face.NORTHERN);
 
@@ -284,6 +286,7 @@ public class GameFrame extends JFrame implements ActionListener,
 	controller= new Controller(player, gamePanel,this);
 	addMouseListener(controller);
 	addKeyListener(controller);
+
 	//indicate that gameplay has started
 	gameStarted = true;
 
@@ -293,6 +296,10 @@ public class GameFrame extends JFrame implements ActionListener,
 
 		this.remove(mainMenu);
 
+		//TODO PLACE HOLDER
+		player.getBandit().setArea(makeRoom());
+		player.getBandit().setFace(Face.NORTHERN);
+
 		setupScreen();
 
 		controller= new Controller(player, gamePanel,this);
@@ -300,6 +307,27 @@ public class GameFrame extends JFrame implements ActionListener,
 		addKeyListener(controller);
 
 		gameStarted = true;
+
+		server.broadcast(new StringMessage("START"));
+	}
+
+	public void startClientMultiplayerGame(){
+		//remove the main menu
+		this.remove(mainMenu);
+
+		//TODO PLACEHOLDER
+		player.getBandit().setArea(makeRoom());
+		player.getBandit().setFace(Face.NORTHERN);
+
+		//sets up user interface elements
+		setupScreen();
+
+		controller= new Controller(player, gamePanel,this);
+		addMouseListener(controller);
+		addKeyListener(controller);
+		//indicate that gameplay has started
+		gameStarted = true;
+
 	}
 
 	/**
@@ -475,7 +503,7 @@ public class GameFrame extends JFrame implements ActionListener,
 		System.out.println("Creating server on port " + port + " with " + nclients + " limit");
 
 		//creates a game object that the server hosts
-		player = new Host(userName, 25);
+		player = new Host(userName, 20);
 
 		//creates a new server
 		this.server = new Server(port, nclients, userName,(Host)player,this);

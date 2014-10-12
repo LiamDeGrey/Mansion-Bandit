@@ -524,7 +524,7 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		}
 		else if(e.getActionCommand().equals("startMultiplayerGame")){
 			//starts the multiplayer game. Used only be host.
-
+			startMultiplayerGame();
 		}
 		else if(e.getActionCommand().equals("backButton")){
 

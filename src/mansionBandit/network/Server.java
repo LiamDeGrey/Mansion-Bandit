@@ -85,8 +85,12 @@ public final class Server {
 		}
 	}
 
-	private void updateGrid(MansionArea[][] grid) {
-		this.player.setGrid(grid);
+	/**
+	 * This method will broadcast the Server's movements out to the Clients.
+	 *
+	 * @author Shreyas
+	 */
+	public void serverSendGrid() {
 		broadcast(new UpdateGridMessage(this.player.getGrid()));
 	}
 
@@ -96,7 +100,7 @@ public final class Server {
 	 * @author Shreyas
 	 *
 	 */
-	private synchronized void broadcast(Message msg) {
+	public synchronized void broadcast(Message msg) {
 		for(int i = clientList.size(); --i >= 0;) {
 			ClientThread ct = clientList.get(i);
 

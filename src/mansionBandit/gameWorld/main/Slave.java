@@ -22,4 +22,9 @@ public class Slave extends Player{
 	public void setClient(Client c) {
 		this.client = c;
 	}
+
+	protected void updateGrid(){
+		System.out.println("====== CLIENT SENT MESSAGE ========");
+		client.clientSendGrid();
+	}
 }

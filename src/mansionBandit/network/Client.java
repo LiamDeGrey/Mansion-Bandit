@@ -68,10 +68,9 @@ public final class Client {
 	}
 
 	// TODO: METHODS FOR SENDING UPDATES
-	public void sendGrid() {
-		MansionArea[][] toSend = player.getGrid();
+	public void clientSendGrid() {
 		try {
-			output.writeObject(toSend);
+			output.writeObject(new UpdateGridMessage(player.getGrid()));
 		} catch (IOException e) {
 			System.out.println("Exception sending grid update " + e);
 		}
@@ -120,13 +119,24 @@ public final class Client {
 					Object o = input.readObject();
 					if (o instanceof MansionArea[][]) {
 						System.out.println("Received grid");
-						player.setGrid((MansionArea[][]) o);
+						player.setGridStart((MansionArea[][]) o);
 					}
-					else if (o instanceof ArrayList) {
+					if (o instanceof ArrayList) {
 						System.out.println("Received username list");
 						usernameList = (ArrayList<String>) o;
 						System.out.println("list " + usernameList);
 						gameFrame.updateClientPlayerList(usernameList);
+					}
+					if (o instanceof StringMessage) {
+						System.out.println("Received string message");
+						if (((StringMessage) o).getString().equals("START")) {
+							System.out.println("Starting game");
+							gameFrame.startClientMultiplayerGame();
+						}
+					}
+					if (o instanceof UpdateGridMessage) {
+						System.out.println("Received grid message");
+						player.setGrid(((UpdateGridMessage) o).getGrid());
 					}
 				}
 				catch(IOException e) {

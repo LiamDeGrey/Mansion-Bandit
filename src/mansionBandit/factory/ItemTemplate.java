@@ -71,7 +71,6 @@ public class ItemTemplate {
 		
 		//hack solution for bookshelf
 		if (image.equals("bookshelf")){
-			System.out.println("ppo");
 			y = 100;
 		}
 		
