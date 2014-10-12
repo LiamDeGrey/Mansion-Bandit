@@ -35,6 +35,9 @@ public final class Server {
 		this.username = userName;
 		usernameList = new ArrayList<String>();
 		usernameList.add(username);
+		usernameList.add(null);
+		usernameList.add(null);
+		usernameList.add(null);
 		clientList = new ArrayList<ClientThread>();
 		this.player = player;
 		this.gameFrame = gameframe;
