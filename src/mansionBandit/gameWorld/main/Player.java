@@ -78,17 +78,26 @@ public abstract class Player {
 	public boolean removeItem(int slot){
 		return bandit.removeItem(slot);
 	}
-	
+
 	public boolean removeItem(Grabable itm) {
 		return bandit.removeItem(itm);
 	}
-	
+
 	public boolean removeItemFromRoom(Grabable itm) {
-		return bandit.getArea().getItems().remove(itm);
+
+		if(bandit.getArea().getItems().remove(itm)){
+			updateGrid();
+			return true;
+		}
+		return false;
 	}
-	
+
 	public boolean dropItem(Grabable itm) {
-		return bandit.getArea().getItems().add(itm);
+		if(bandit.getArea().getItems().add(itm)){
+			updateGrid();
+			return true;
+		}
+		return false;
 	}
 
 	public Grabable getItem(int slot){

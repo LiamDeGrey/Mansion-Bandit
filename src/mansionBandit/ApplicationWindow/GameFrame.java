@@ -325,8 +325,9 @@ WindowListener, KeyListener {
 		//TODO PLACE HOLDER
 		//player.getBandit().setArea(makeRoom());
 		MansionArea[][] testGrid = getTestGrid();
-		player.setGrid(testGrid);
-		player.getBandit().setArea(testGrid[1][1]);
+		//player.setGrid(testGrid);
+		//player.getBandit().setArea(testGrid[1][1]);
+		player.getBandit().setArea(player.getGrid()[1][2]);
 		player.getBandit().setFace(Face.NORTHERN);
 
 		setupScreen();
