@@ -478,6 +478,16 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		gameFrame.startGame();
 	}
 
+
+	/**
+	 * quits out of the main menu and starts the game
+	 */
+	private void startMultiplayerGame(){
+		this.setVisible(false);
+		gameFrame.startMultiplayerGame();
+	}
+
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 

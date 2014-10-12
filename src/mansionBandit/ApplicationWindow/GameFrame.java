@@ -170,10 +170,10 @@ public class GameFrame extends JFrame implements ActionListener,
 
 		Map map = new Map(player);
 		//sets position of map
-		
+
 		map.setLocation(690,10);
         map.setSize(map.getPreferredSize());
-		
+
         //map.setBounds(649,10,1500,1500);
 		//map.setVisible(true);
 		//map.repaint();
@@ -287,6 +287,19 @@ public class GameFrame extends JFrame implements ActionListener,
 	//indicate that gameplay has started
 	gameStarted = true;
 
+	}
+
+	public void startMultiplayerGame(){
+
+		this.remove(mainMenu);
+
+		setupScreen();
+
+		controller= new Controller(player, gamePanel,this);
+		addMouseListener(controller);
+		addKeyListener(controller);
+
+		gameStarted = true;
 	}
 
 	/**
@@ -466,6 +479,7 @@ public class GameFrame extends JFrame implements ActionListener,
 
 		//creates a new server
 		this.server = new Server(port, nclients, userName,(Host)player,this);
+		((Host) player).setServer(server);
 		new ServerRunning().start();
 	}
 
