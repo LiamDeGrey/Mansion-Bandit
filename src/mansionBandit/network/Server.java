@@ -46,7 +46,6 @@ public final class Server {
 	/**
 	 * The start method sets up the ServerSocket and enters a loop where it awaits connections. Upon a
 	 * successful connection, the Client is added to a list.
-	 * @author Shreyas
 	 *
 	 */
 	public void start() {
@@ -88,7 +87,6 @@ public final class Server {
 	/**
 	 * This method will broadcast the Server's movements out to the Clients.
 	 *
-	 * @author Shreyas
 	 */
 	public void serverSendGrid() {
 		broadcast(new UpdateGridMessage(this.player.getGrid()));
@@ -97,7 +95,6 @@ public final class Server {
 	/**
 	 * Used for iterating the list of clients and sending them each a message.
 	 * @param msg The message to be sent to all clients.
-	 * @author Shreyas
 	 *
 	 */
 	public synchronized void broadcast(Message msg) {
@@ -108,13 +105,16 @@ public final class Server {
 		}
 	}
 
+	/**
+	 * Removes a specific ClientThread from the list.
+	 * @param ct The ClientThread to be removed.
+	 */
 	synchronized void remove(ClientThread ct) {
 		clientList.remove(ct);
 	}
 
 	/**
 	 * This class represents a Thread that will run for each of the clients connected to the server.
-	 * @author Shreyas
 	 *
 	 */
 	public class ClientThread extends Thread {
@@ -166,8 +166,7 @@ public final class Server {
 		/**
 		 * This method sends a single message to an individual Client along the stream. Checks for
 		 * whether the Client is still connected via the socket.
-		 * @param msg
-		 * @author Shreyas
+		 * @param msg The single message to be sent.
 		 */
 		public void sendMessage(Message msg) {
 			//Check if Client is still connected
@@ -180,7 +179,7 @@ public final class Server {
 			try {
 				output.writeObject(msg);
 			}
-			//Inform that an error ocurred with sending the message, do not close anything
+			//Inform that an error occurred with sending the message, do not close anything
 			catch(IOException e) {
 				System.out.println("Error sending message to " + username);
 				System.out.println(e.toString());
@@ -191,7 +190,6 @@ public final class Server {
 			boolean end = false;
 			while(!end) {
 				try {
-					//TODO: Switch and case(?) for the type of message, then broadcast
 					//Read input and act accordingly
 					Object obj = (Message) input.readObject();
 					if (obj instanceof ClientDisconnectMessage) {
@@ -224,8 +222,9 @@ public final class Server {
 			close();
 		}
 
-		//TODO: STOP METHOD (OPTION FOR SERVER HOST)
-
+		/**
+		 * Attempts to close all the sockets/streams for a single ClientThread.
+		 */
 		private void close() {
 			try {
 				if(output != null) output.close();
