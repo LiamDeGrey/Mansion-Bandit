@@ -17,15 +17,19 @@ import mansionBandit.gameWorld.matter.GameMatter;
  */
 public class Map extends JPanel{
 	private MansionArea[][] grid;
+	private int[] adjacentGrid;
+	private Player player;
 	private static final int widthBlock = 10;
 	private static final int heightBlock = 10;
-	private static final int padding = 20;
+	private static final int padding = 10;
 	private static final int bandit = 5;
 	private int widthMap;
 	private int heightMap;
 
 	public Map(Player player){
+		this.player = player;
 		grid = player.getGrid();
+		adjacentGrid = player.getBandit().getAdjacentGrid();
 		widthMap = (grid[0].length*widthBlock)+(padding*2);
 		heightMap = (grid.length*heightBlock)+(padding*2);
 		setVisible(true);
@@ -39,13 +43,19 @@ public class Map extends JPanel{
 
 	@Override
 	public void paintComponent(Graphics g){
-		g.setColor(Color.WHITE);
+		g.setColor(Color.YELLOW);
 		g.fillRect(0, 0, widthMap, heightMap);
-		MansionArea leftMid = grid[grid.length/2][0];
-		MansionArea topMid = grid[0][grid[0].length/2];
-		MansionArea rightMid = grid[grid.length/2][grid[0].length-1];
-		MansionArea botMid = grid[0][grid[0].length/2];
-
+		g.setColor(Color.BLACK);
+		g.drawRect(0, 0, widthMap-1, heightMap-1);
+		drawGrid(g);
+		drawPlayers(g);
+	}
+	
+	/**
+	 * Draws the grid
+	 * @param graphics
+	 */
+	private void drawGrid(Graphics g) {
 		for(int i=0; i<grid.length; i++){
 			for(int j=0; j<grid[0].length; j++){
 				if(grid[i][j] instanceof Room){
@@ -55,31 +65,39 @@ public class Map extends JPanel{
 					g.setColor(Color.GRAY);
 					g.fillRect(j*widthBlock+padding, i*heightBlock+padding, widthBlock, heightBlock);
 				}
-				if(grid[i][j].equals(leftMid)){
-					g.setColor(Color.BLUE);
-					g.fillRect(padding-widthBlock, i*heightBlock+padding, widthBlock, heightBlock);
-				}else if(grid[i][j].equals(topMid)){
-					g.setColor(Color.BLUE);
-					g.fillRect(j*widthBlock+padding, padding, widthBlock, heightBlock);
-				}else if(grid[i][j].equals(rightMid)){
-					g.setColor(Color.BLUE);
-					g.fillRect(j*widthBlock+widthBlock+padding, i*heightBlock+padding, widthBlock, heightBlock);
-				}else if(grid[i][j].equals(botMid)){
-					g.setColor(Color.BLUE);
-					g.fillRect(j*widthBlock+padding, i*heightBlock+heightBlock+padding, widthBlock, heightBlock);
+				/*
+				 * Draw the start position(van) on the map
+				 */
+				if(adjacentGrid[0]==i&&adjacentGrid[1]==j) {
+					g.setColor(Color.blue);
+					if(i==0)
+						g.fillRect(j*widthBlock+padding, padding-widthBlock, widthBlock, heightBlock);
+					else if(i==grid.length-1)
+						g.fillRect(j*widthBlock+padding, i*widthBlock+padding+widthBlock, widthBlock, heightBlock);
+					else if(j==0)
+						g.fillRect(padding-widthBlock, i*widthBlock+padding, widthBlock, heightBlock);
+					else if(j==grid[0].length-1)
+						g.fillRect(j*widthBlock+padding+widthBlock, i*widthBlock+padding, widthBlock, heightBlock);
+					else
+						System.out.println("I can't find your van!!!");
 				}
-				//drawPlayers(g);
 			}
 		}
 	}
 
+	/**
+	 * draws the players on the map
+	 * @param graphics
+	 */
 	private void drawPlayers(Graphics g){
 		g.setColor(Color.BLACK);
 		for(int i=0; i<grid.length; i++){
 			for(int j=0; j<grid[0].length; j++){
 				for(GameMatter itm: grid[i][j].getItems()){
 					if(itm instanceof Bandit){
-						g.fillRect(i*widthBlock+padding, j*heightBlock+padding, bandit, bandit);
+						if(itm.equals(player))
+							g.setColor(Color.MAGENTA);
+						g.fillRect(j*widthBlock+padding, i*heightBlock+padding, bandit, bandit);
 						break;
 					}
 				}
