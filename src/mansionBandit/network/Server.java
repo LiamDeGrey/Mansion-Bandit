@@ -90,7 +90,7 @@ public final class Server {
 	 *
 	 * @author Shreyas
 	 */
-	private void serverSendGrid() {
+	public void serverSendGrid() {
 		broadcast(new UpdateGridMessage(this.player.getGrid()));
 	}
 

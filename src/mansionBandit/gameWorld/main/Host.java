@@ -21,4 +21,8 @@ public class Host extends Player{
 		this.server = s;
 	}
 
+	protected void updateGrid(){
+		server.serverSendGrid();
+	}
+
 }

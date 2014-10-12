@@ -276,6 +276,7 @@ public class GameFrame extends JFrame implements ActionListener,
 	//make the player
 	player = new Host("", 20);
 
+	//TODO PLACE HOLDER
 	player.getBandit().setArea(makeRoom());
 	player.getBandit().setFace(Face.NORTHERN);
 
@@ -285,6 +286,7 @@ public class GameFrame extends JFrame implements ActionListener,
 	controller= new Controller(player, gamePanel,this);
 	addMouseListener(controller);
 	addKeyListener(controller);
+
 	//indicate that gameplay has started
 	gameStarted = true;
 
@@ -294,10 +296,11 @@ public class GameFrame extends JFrame implements ActionListener,
 
 		this.remove(mainMenu);
 
-		setupScreen();
-
+		//TODO PLACE HOLDER
 		player.getBandit().setArea(makeRoom());
 		player.getBandit().setFace(Face.NORTHERN);
+
+		setupScreen();
 
 		controller= new Controller(player, gamePanel,this);
 		addMouseListener(controller);
@@ -312,6 +315,7 @@ public class GameFrame extends JFrame implements ActionListener,
 		//remove the main menu
 		this.remove(mainMenu);
 
+		//TODO PLACEHOLDER
 		player.getBandit().setArea(makeRoom());
 		player.getBandit().setFace(Face.NORTHERN);
 
@@ -499,7 +503,7 @@ public class GameFrame extends JFrame implements ActionListener,
 		System.out.println("Creating server on port " + port + " with " + nclients + " limit");
 
 		//creates a game object that the server hosts
-		player = new Host(userName, 25);
+		player = new Host(userName, 20);
 
 		//creates a new server
 		this.server = new Server(port, nclients, userName,(Host)player,this);

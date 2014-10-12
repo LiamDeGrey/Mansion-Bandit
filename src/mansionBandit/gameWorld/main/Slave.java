@@ -22,4 +22,8 @@ public class Slave extends Player{
 	public void setClient(Client c) {
 		this.client = c;
 	}
+
+	protected void updateGrid(){
+		client.clientSendGrid();
+	}
 }
