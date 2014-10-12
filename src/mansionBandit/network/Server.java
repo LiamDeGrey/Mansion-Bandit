@@ -35,9 +35,9 @@ public final class Server {
 		this.username = userName;
 		usernameList = new ArrayList<String>();
 		usernameList.add(username);
-		usernameList.add(null);
-		usernameList.add(null);
-		usernameList.add(null);
+		usernameList.add("Empty slot");
+		usernameList.add("Empty slot");
+		usernameList.add("Empty slot");
 		clientList = new ArrayList<ClientThread>();
 		this.player = player;
 		this.gameFrame = gameframe;
@@ -188,7 +188,7 @@ public final class Server {
 					if (obj instanceof ClientDisconnectMessage) {
 						System.out.println("got clientdisconnect message");
 						ClientThread toDisconnect = getClient(((ClientDisconnectMessage) obj).getUsername());
-						usernameList.remove(username);
+						usernameList.set(usernameList.indexOf(username), "Empty slot");
 						System.out.println(usernameList);
 						remove(toDisconnect);
 						System.out.println(clientList.size());
