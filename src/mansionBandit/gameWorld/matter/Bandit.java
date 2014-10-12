@@ -1,5 +1,6 @@
 package mansionBandit.gameWorld.matter;
 
+import mansionBandit.factory.RoomFactory;
 import mansionBandit.gameWorld.areas.MansionArea;
 import mansionBandit.gameWorld.areas.StartSpace;
 
@@ -12,7 +13,7 @@ import mansionBandit.gameWorld.areas.StartSpace;
  */
 public class Bandit extends Character{
 	private Grabable[] inventory = new Grabable[7];
-	private StartSpace van;
+	private StartSpace start;
 	private MansionArea[][] grid;
 	private MansionArea area;
 	private int[] adjacentGrid = new int[2];
@@ -34,7 +35,7 @@ public class Bandit extends Character{
 	 * Sets the spot this bandit will start at and the dimensions
 	 */
 	public void setStartSpace(){
-		van = new StartSpace();
+		start = new StartSpace();
 		MansionArea leftMid = grid[grid.length/2][0];
 		MansionArea topMid = grid[0][grid[0].length/2];
 		MansionArea rightMid = grid[grid.length/2][grid[0].length-1];
@@ -42,26 +43,26 @@ public class Bandit extends Character{
 
 
 		if(leftMid.getWest()==null){
-			van.setLinks(null, leftMid, null, null);
-			leftMid.setWest(van);
+			start.setLinks(null, leftMid, null, null);
+			leftMid.setWest(start);
 			this.setFace(Face.EASTERN);
 			adjacentGrid[0]=grid.length/2;
 			adjacentGrid[1]=0;
 		}else if(topMid.getNorth()==null){
-			van.setLinks(null, null, topMid, null);
-			topMid.setNorth(van);
+			start.setLinks(null, null, topMid, null);
+			topMid.setNorth(start);
 			this.setFace(Face.SOUTHERN);
 			adjacentGrid[0]=0;
 			adjacentGrid[1]=grid.length/2;
 		}else if(rightMid.getEast()==null){
-			van.setLinks(null, null, null, rightMid);
-			rightMid.setEast(van);
+			start.setLinks(null, null, null, rightMid);
+			rightMid.setEast(start);
 			this.setFace(Face.WESTERN);
 			adjacentGrid[0]=grid.length/2;
 			adjacentGrid[1]=grid[0].length-1;
 		}else if(botMid.getSouth()==null){
-			van.setLinks(botMid, null, null, null);
-			botMid.setSouth(van);
+			start.setLinks(botMid, null, null, null);
+			botMid.setSouth(start);
 			this.setFace(Face.NORTHERN);
 			adjacentGrid[0]=grid.length-1;
 			adjacentGrid[1]=grid[0].length/2;
@@ -72,6 +73,8 @@ public class Bandit extends Character{
 
 		Dimensions dimens = new Dimensions(10, 10, 50);
 		this.setDimensions(dimens);
+		RoomFactory rf = new RoomFactory();
+		rf.populateRoom(start);
 	}
 
 	/**
@@ -81,6 +84,14 @@ public class Bandit extends Character{
 	 */
 	public int[] getAdjacentGrid() {
 		return adjacentGrid;
+	}
+	
+	public Van getVan() {
+		for(GameMatter matter : start.getItems()) {
+			if(matter instanceof Van)
+				return (Van) matter;
+		}
+		return null;
 	}
 
 	public void setGrid(MansionArea[][] grid){
@@ -147,10 +158,8 @@ public class Bandit extends Character{
 	 */
 	public boolean addItem(Grabable itm, int slot){
 		if(slot>=0&&slot<=6){
-			if(inventory[slot]==null){
 				inventory[slot] = itm;
 				return true;
-			}
 		}
 
 		return false;
@@ -191,14 +200,20 @@ public class Bandit extends Character{
 	 * @param the item to remove
 	 * @return whether the item was removed succesfully
 	 */
-	public boolean removeItem(Grabable item, int slot){
-		//for(int i=0; i<inventory.length; i++){
-		//	if(inventory[i].equals(item))
-		//		inventory[i] = null;
-		//}
+	public boolean removeItem(int slot){
 		if(inventory[slot]!=null){
 			inventory[slot] =null;
 			return true;
+		}
+		return false;
+	}
+	
+	public boolean removeItem(Grabable itm) {
+		for(int i=0; i<inventory.length; i++) {
+			if(itm.equals(inventory[i])) {
+				inventory[i] = null;
+				return true;
+			}
 		}
 		return false;
 	}
@@ -217,8 +232,8 @@ public class Bandit extends Character{
 			}
 		}
 		System.out.println("DEAD. Get out of here filthy Bandit!!");
-		van.addItem(this);
-		area = van;
+		start.addItem(this);
+		area = start;
 	}
 
 	@Override

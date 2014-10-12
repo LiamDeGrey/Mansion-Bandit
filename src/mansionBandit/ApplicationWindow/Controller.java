@@ -121,7 +121,7 @@ public class Controller implements MouseListener, KeyListener{
 
 						// remove the item at the selected position from the players
 						// inventory
-						player.removeItem(inventoryItem, gameFrame.getInventorySlot(mouseX,mouseY));
+						player.removeItem(gameFrame.getInventorySlot(mouseX,mouseY));
 
 						// set the removed item as the dragged item
 						draggingItem = inventoryItem;
