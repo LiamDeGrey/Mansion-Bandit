@@ -176,10 +176,11 @@ public class TopBottomStrategy implements SurfaceStrategy {
 
 			//apply the new x position, and account for having to draw from top left corner
 			if (objectCenterX < surfaceCenterX){
-				objectCenterX = surfaceCenterX - diff - (scale / 2);
+				objectCenterX = surfaceCenterX - diff;// - (scale / 2);
 			} else if (surfaceCenterX < objectCenterX){
-				objectCenterX = surfaceCenterX + diff - (scale / 2);
+				objectCenterX = surfaceCenterX + diff;// - (scale / 2);
 			}
+			objectCenterX -= scale / 2;
 
 			int top = (int) (surfaceY + (y * ((double) surfaceHeight / 100)));
 			if (!ceiling){

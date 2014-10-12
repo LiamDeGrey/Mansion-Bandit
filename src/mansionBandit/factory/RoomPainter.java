@@ -7,9 +7,12 @@ import java.util.Random;
 import java.util.Scanner;
 
 import mansionBandit.gameWorld.areas.Room;
-import mansionBandit.gameWorld.matter.Face;
-import mansionBandit.gameWorld.matter.GameMatter;
 
+/**
+ * The RoomPainter will apply wall, floor, and ceiling textures to a room
+ * @author Andy
+ *
+ */
 public class RoomPainter {
 	private List<RoomPaint> paints;
 	private Random random;
@@ -21,15 +24,13 @@ public class RoomPainter {
 		while (scan.hasNextLine()){
 			paints.add(new RoomPaint(scan.nextLine()));
 		}
-		
+		scan.close();
 		random = new Random();
 	}
 	
 	/**
-	 * generates a random item on the given face
-	 * 
-	 * @param face to add the item to
-	 * @return the new item
+	 * applies a textures to the given room
+	 * @param room the room to apply textures to
 	 */
 	public void paintRoom(Room room){
 		paints.get(random.nextInt(paints.size())).paint(room);
