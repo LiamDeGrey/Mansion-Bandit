@@ -17,6 +17,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -45,7 +47,7 @@ import mansionBandit.network.StringMessage;
  * @author Theo
  */
 public class GameFrame extends JFrame implements ActionListener,
-		WindowListener, KeyListener {
+WindowListener, KeyListener {
 
 	// window dimensions
 	private final int windowDimensionX = 800;
@@ -80,6 +82,9 @@ public class GameFrame extends JFrame implements ActionListener,
 	private final int inventorySlotSize = 80;//size of a single inventory slot
 	private JLayeredPane layeredPane;//the pane that all components are added to so that they can stack properly
 	private JLabel timeLabel;//the label used to display how much time is left
+	private JLabel moneyLabel;//the label used to display how much money the player has
+
+	private int money =10;//money that the player has stolen
 
 	//Server
 	private Server server;
@@ -88,6 +93,10 @@ public class GameFrame extends JFrame implements ActionListener,
 	private Client client;
 
 	private Controller controller;//the controller that manages player interaction
+
+	//game timers
+	TimerTask gameTimerTask;
+	Timer gameTimer;
 
 	public GameFrame(ApplicationMain main) {
 		super();
@@ -116,7 +125,6 @@ public class GameFrame extends JFrame implements ActionListener,
 
 		//sets up main menu interface
 		enterMainMenu();
-
 
 
 	}
@@ -173,11 +181,8 @@ public class GameFrame extends JFrame implements ActionListener,
 		//sets position of map
 
 		map.setLocation(690,10);
-        map.setSize(map.getPreferredSize());
+		map.setSize(map.getPreferredSize());
 
-        //map.setBounds(649,10,1500,1500);
-		//map.setVisible(true);
-		//map.repaint();
 		//adds the map to the game screen
 		layeredPane.add(map, new Integer(1),0);
 
@@ -194,7 +199,7 @@ public class GameFrame extends JFrame implements ActionListener,
 
 		//adds TIME LABEL
 		timeLabel = new JLabel("<html><p><center></center></p></html>");
-		timeLabel.setBounds(0,inventoryBarPos.y+299,98,87);
+		timeLabel.setBounds(350,inventoryBarPos.y-300,98,87);
 		timeLabel.setBackground(Color.DARK_GRAY);
 		timeLabel.setOpaque(true);
 		timeLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -202,6 +207,15 @@ public class GameFrame extends JFrame implements ActionListener,
 		timeLabel.setForeground(Color.white);
 		layeredPane.add(timeLabel, new Integer(1),0);
 
+		//adds MONEY LABEL
+		moneyLabel = new JLabel("<html><p><center></center></p></html>");
+		moneyLabel.setBounds(0,inventoryBarPos.y+299,98,87);
+		moneyLabel.setBackground(Color.DARK_GRAY);
+		moneyLabel.setOpaque(true);
+		moneyLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		moneyLabel.setVerticalAlignment(SwingConstants.CENTER);
+		moneyLabel.setForeground(Color.yellow);
+		layeredPane.add(moneyLabel, new Integer(1),0);
 
 		//redisplay the screen
 		this.revalidate();
@@ -236,6 +250,7 @@ public class GameFrame extends JFrame implements ActionListener,
 		mainMenu.repaint();
 		this.revalidate();
 		this.repaint();
+
 	}
 
 
@@ -270,25 +285,30 @@ public class GameFrame extends JFrame implements ActionListener,
 	 */
 	public void startGame(){
 
-	//remove the main menu
-	this.remove(mainMenu);
+		//remove the main menu
+		this.remove(mainMenu);
 
-	//make the player
-	player = new Host("", 20);
+		//make the player
+		player = new Host("", 20);
 
-	//TODO PLACE HOLDER
-	player.getBandit().setArea(makeRoom());
-	player.getBandit().setFace(Face.NORTHERN);
+		//TODO PLACE HOLDER
+		player.getBandit().setArea(makeRoom());
+		player.getBandit().setFace(Face.NORTHERN);
 
-	//sets up user interface elements
-	setupScreen();
+		//sets up user interface elements
+		setupScreen();
 
-	controller= new Controller(player, gamePanel,this);
-	addMouseListener(controller);
-	addKeyListener(controller);
+		controller= new Controller(player, gamePanel,this);
+		addMouseListener(controller);
+		addKeyListener(controller);
 
-	//indicate that gameplay has started
-	gameStarted = true;
+		//starts the game timer
+		TimerTask gameTimerTask = new GameTimer();
+		Timer gameTimer = new Timer(true);
+		gameTimer.scheduleAtFixedRate(gameTimerTask, 0, 10*100);
+
+		//indicate that gameplay has started
+		gameStarted = true;
 
 	}
 
@@ -356,9 +376,9 @@ public class GameFrame extends JFrame implements ActionListener,
 		// if the user presses help in the in-game menu
 		if (act.getActionCommand().equals("menuHelpBtn")) {
 			JOptionPane.showMessageDialog(
-							this,
-							"Steal as much as you can before the time runs out. Take stolen items to the van to cash them in. Drag items around to interact with them. Right click them to get a description.",
-							"Help ", JOptionPane.INFORMATION_MESSAGE);
+					this,
+					"Steal as much as you can before the time runs out. Take stolen items to the van to cash them in. Drag items around to interact with them. Right click them to get a description.",
+					"Help ", JOptionPane.INFORMATION_MESSAGE);
 
 		}
 
@@ -385,6 +405,7 @@ public class GameFrame extends JFrame implements ActionListener,
 	 */
 	@Override
 	public void windowClosing(WindowEvent arg0) {
+
 		// exits game
 		exitGame();
 	}
@@ -405,15 +426,15 @@ public class GameFrame extends JFrame implements ActionListener,
 
 		if(gameStarted){
 
-		if (KeyEvent.getKeyText(e.getKeyCode()).equals("Escape")) {
-			// if the in game menu is up, close it
-			if (ingameMenuActive) {
-				closeIngameMenu();
-			} else {
-				// otherwise bring up the ingame menu
-				showIngameMenu();
+			if (KeyEvent.getKeyText(e.getKeyCode()).equals("Escape")) {
+				// if the in game menu is up, close it
+				if (ingameMenuActive) {
+					closeIngameMenu();
+				} else {
+					// otherwise bring up the ingame menu
+					showIngameMenu();
+				}
 			}
-		}
 		}
 
 		//resets descriptiontext
@@ -436,7 +457,7 @@ public class GameFrame extends JFrame implements ActionListener,
 	public int getInventorySlot(int x,int y){
 		int totalSlots =  player.getInventorySize();
 
-		  //needed so that it draws in the right position. Placeholder.
+		//needed so that it draws in the right position. Placeholder.
 		int offsetY = 285;
 		int offsetX = 52;
 
@@ -451,10 +472,10 @@ public class GameFrame extends JFrame implements ActionListener,
 				//if the mouse is in the y bounds of the inventory slots
 				if(y> inventoryBarPos.y + offsetY && y<inventoryBarPos.y +inventorySlotSize + offsetY){
 
-				System.out.println("inventory slot found Y " + i);
+					System.out.println("inventory slot found Y " + i);
 
-				//return this inventory slot
-				return i;
+					//return this inventory slot
+					return i;
 				}
 			}
 		}
@@ -468,9 +489,21 @@ public class GameFrame extends JFrame implements ActionListener,
 	 * @param time
 	 */
 	public void updateTimeLeft(int time){
+		if(time==0){
+			JOptionPane.showMessageDialog(
+					this,
+					"You stole $" + money + " worth of goods!","GAME OVER" , JOptionPane.INFORMATION_MESSAGE);
+			endGame();
+			enterMainMenu();
+		}
 		timeLabel.setText("" +time);
+
 	}
 
+	/**
+	 * sets the description text displayed onscreen
+	 * @param text to display
+	 */
 	public void setDescriptionText(String text){
 		descriptionLabel.setText(text);
 	}
@@ -564,6 +597,35 @@ public class GameFrame extends JFrame implements ActionListener,
 	}
 
 
+	public class GameTimer extends TimerTask{
+		private int time = 5;
+		@Override
+		public void run() {
+			if(gameStarted){
+				updateTimeLeft(time);
+				decrementTime();
+			}
+			else{
+				this.cancel();
+			}
+		}
+
+		/**
+		 * decrements time
+		 */
+		private void decrementTime(){
+			try {
+				if(gameStarted){
+					Thread.sleep(1000);
+					time--;
+				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+
 
 	/**
 	 * @return the item being dragged by the player
@@ -592,7 +654,7 @@ public class GameFrame extends JFrame implements ActionListener,
 
 	public Server getServer(){
 		if(server != null){
-		return server;
+			return server;
 		}
 		return null;
 	}
@@ -613,16 +675,16 @@ public class GameFrame extends JFrame implements ActionListener,
 	//TODO get rid of later
 	public Room makeRoom(){
 		//currently this is a test integration of objects
-        Room demoRoom = new Room("wall1", "ceiling1", "floor1");
-        //demo object to be placed on all sides
-        demoRoom.addItem(makeDeco(Face.FLOOR));
-        demoRoom.addItem(makeDeco(Face.EASTERN));
-        demoRoom.addItem(makeDeco(Face.NORTHERN));
-        demoRoom.addItem(makeDeco(Face.SOUTHERN));
-        demoRoom.addItem(makeDeco(Face.CEILING));
-        demoRoom.addItem(makeDeco(Face.WESTERN));
+		Room demoRoom = new Room("wall1", "ceiling1", "floor1");
+		//demo object to be placed on all sides
+		demoRoom.addItem(makeDeco(Face.FLOOR));
+		demoRoom.addItem(makeDeco(Face.EASTERN));
+		demoRoom.addItem(makeDeco(Face.NORTHERN));
+		demoRoom.addItem(makeDeco(Face.SOUTHERN));
+		demoRoom.addItem(makeDeco(Face.CEILING));
+		demoRoom.addItem(makeDeco(Face.WESTERN));
 
-        return demoRoom;
+		return demoRoom;
 	}
 
 	//TODO remove

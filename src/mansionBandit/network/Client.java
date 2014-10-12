@@ -39,7 +39,6 @@ public final class Client {
 	/**
 	 * This method sets up the Client by creating a ServerListener thread and sending
 	 * the Client's username.
-	 * @author Shreyas
 	 *
 	 */
 	public void start() {
@@ -67,7 +66,10 @@ public final class Client {
 		}
 	}
 
-	// TODO: METHODS FOR SENDING UPDATES
+	/**
+	 * This method writes the updated grid out to the stream for the Server to eventually
+	 * broadcast.
+	 */
 	public void clientSendGrid() {
 		try {
 			output.writeObject(new UpdateGridMessage(player.getGrid()));
@@ -78,7 +80,6 @@ public final class Client {
 
 	/**
 	 * The disconnect method closes all I/O streams and closes the socket.
-	 * @author Shreyas
 	 *
 	 */
 	public void disconnect() {
@@ -101,14 +102,12 @@ public final class Client {
 			if(socket != null) socket.close();
 		}
 		catch(Exception e) {}
-        //TODO: NEED TO INFORM THE GUI
 	}
 
 	/**
 	 * This class is used to wait for messages from the server in order to update the
 	 * local copy of the game.
 	 * @author Shreyas
-	 *
 	 */
 	class ServerListener extends Thread {
 

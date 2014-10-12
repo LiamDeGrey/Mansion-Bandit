@@ -424,17 +424,10 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 
 
 		//Sets up the labels that will display the names of the players
-		//JLabel player1NameLabel = new JLabel();
 		hostLobbyMenuPanel.add(player1NameLabel);
-		//JLabel player2NameLabel = new JLabel();
 		hostLobbyMenuPanel.add(player2NameLabel);
-		//JLabel player3NameLabel = new JLabel();
 		hostLobbyMenuPanel.add(player3NameLabel);
-		//JLabel player4NameLabel = new JLabel();
 		hostLobbyMenuPanel.add(player4NameLabel);
-
-
-		//player1NameLabel.setText(gameFrame.getServer().getClient(0).getUserName());
 
 		//set the position of the menu
 		hostLobbyMenuPanel.setBounds(menuX,menuY,menuH,menuW);
