@@ -15,7 +15,7 @@ public class Bandit extends Character{
 	private Grabable[] inventory = new Grabable[7];
 	private StartSpace start;
 	private MansionArea[][] grid;
-	private int x, y;
+	private int x = 2, y = 1;
 	private MansionArea area;
 	private int[] adjacentGrid = new int[2];
 
