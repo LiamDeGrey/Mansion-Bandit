@@ -85,8 +85,12 @@ public final class Server {
 		}
 	}
 
-	private void updateGrid(MansionArea[][] grid) {
-		this.player.setGrid(grid);
+	/**
+	 * This method will broadcast the Server's movements out to the Clients.
+	 *
+	 * @author Shreyas
+	 */
+	private void serverSendGrid() {
 		broadcast(new UpdateGridMessage(this.player.getGrid()));
 	}
 

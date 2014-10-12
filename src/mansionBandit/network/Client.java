@@ -68,7 +68,7 @@ public final class Client {
 	}
 
 	// TODO: METHODS FOR SENDING UPDATES
-	public void sendGrid() {
+	public void clientSendGrid() {
 		MansionArea[][] toSend = player.getGrid();
 		try {
 			output.writeObject(toSend);
@@ -122,7 +122,7 @@ public final class Client {
 						System.out.println("Received grid");
 						player.setGrid((MansionArea[][]) o);
 					}
-					else if (o instanceof ArrayList) {
+					if (o instanceof ArrayList) {
 						System.out.println("Received username list");
 						usernameList = (ArrayList<String>) o;
 						System.out.println("list " + usernameList);
