@@ -1,8 +1,5 @@
 package mansionBandit.gameWorld.matter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import mansionBandit.gameWorld.areas.MansionArea;
 import mansionBandit.gameWorld.areas.StartSpace;
 
@@ -14,11 +11,11 @@ import mansionBandit.gameWorld.areas.StartSpace;
  *
  */
 public class Bandit extends Character{
-	//private List<Grabable> inventory = new ArrayList<Grabable>();
 	private Grabable[] inventory = new Grabable[7];
 	private StartSpace van;
 	private MansionArea[][] grid;
 	private MansionArea area;
+	private int[] adjacentGrid = new int[2];
 
 
 	public Bandit(String name, MansionArea[][] grid) {
@@ -41,35 +38,49 @@ public class Bandit extends Character{
 		MansionArea leftMid = grid[grid.length/2][0];
 		MansionArea topMid = grid[0][grid[0].length/2];
 		MansionArea rightMid = grid[grid.length/2][grid[0].length-1];
-		MansionArea botMid = grid[0][grid[0].length/2];
+		MansionArea botMid = grid[grid.length-1][grid[0].length/2];
 
 
 		if(leftMid.getWest()==null){
 			van.setLinks(null, leftMid, null, null);
 			leftMid.setWest(van);
 			this.setFace(Face.EASTERN);
-			Dimensions dimens = new Dimensions(10, 10, 50);
-			this.setDimensions(dimens);
+			adjacentGrid[0]=grid.length/2;
+			adjacentGrid[1]=0;
 		}else if(topMid.getNorth()==null){
 			van.setLinks(null, null, topMid, null);
 			topMid.setNorth(van);
 			this.setFace(Face.SOUTHERN);
-			Dimensions dimens = new Dimensions(10, 10, 50);
-			this.setDimensions(dimens);
+			adjacentGrid[0]=0;
+			adjacentGrid[1]=grid.length/2;
 		}else if(rightMid.getEast()==null){
 			van.setLinks(null, null, null, rightMid);
 			rightMid.setEast(van);
 			this.setFace(Face.WESTERN);
-			Dimensions dimens = new Dimensions(10, 10, 50);
-			this.setDimensions(dimens);
+			adjacentGrid[0]=grid.length/2;
+			adjacentGrid[1]=grid[0].length-1;
 		}else if(botMid.getSouth()==null){
 			van.setLinks(botMid, null, null, null);
 			botMid.setSouth(van);
 			this.setFace(Face.NORTHERN);
-			Dimensions dimens = new Dimensions(10, 10, 50);
-			this.setDimensions(dimens);
-		}else
+			adjacentGrid[0]=grid.length-1;
+			adjacentGrid[1]=grid[0].length/2;
+		}else {
 			System.out.println("Cannot add more than 4 players!!");
+			return;
+		}
+		
+		Dimensions dimens = new Dimensions(10, 10, 50);
+		this.setDimensions(dimens);
+	}
+	
+	/**
+	 * This method gets the adjacent grid space to the startSpace(van)
+	 * and returns the coords in an array
+	 * @return array containing 2 ints, i and j
+	 */
+	public int[] getAdjacentGrid() {
+		return adjacentGrid;
 	}
 
 	public void setGrid(MansionArea[][] grid){
