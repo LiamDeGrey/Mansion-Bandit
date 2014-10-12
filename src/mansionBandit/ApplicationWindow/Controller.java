@@ -103,13 +103,13 @@ public class Controller implements MouseListener, KeyListener{
 					// check if there is an item that can be dragged at the current
 					// mouse position
 					if (gamePanel.getObject(mouseX,mouseY) instanceof Grabable) {
-
+						System.out.println("============+WOWOWOWOWOOWOWOWOOWOWOWOOWO++++++++++++++++++++++++++++++");
 						// begin dragging the item at mouse position
 						draggingItem = (Grabable) gamePanel.getObject(mouseX,mouseY);
 
 						//hide the item from the room so that it no longer appears on the screen and CANT BE INTERRACTED WITH
 						//TODO: remove item from room
-
+						player.removeItemFromRoom(draggingItem);
 						// SET CURSOR TO ITEM HERE //
 						gameFrame.setCursorImage(e, draggingItem.getImage() +".png");
 					}
@@ -186,7 +186,7 @@ public class Controller implements MouseListener, KeyListener{
 
 						//updates the money label in gameframe
 						//TODO
-						//gameFrame.setMoneyText(player.getMoney());
+						//gameFrame.setMoneyText(player.getTotal());
 						gameFrame.setMoneyText(10);
 					} else {
 
@@ -195,7 +195,7 @@ public class Controller implements MouseListener, KeyListener{
 
 						if(!player.addItem(draggingItem)){
 							//TODO add drop item method
-							//player.dropItem();
+							player.dropItem(draggingItem);
 						}
 						// remove the dragging item
 						draggingItem = null;
@@ -225,7 +225,7 @@ public class Controller implements MouseListener, KeyListener{
 					// otherwise just drop the object at this position in the room
 
 					 //TODO add drop item method
-					//player.dropItem();
+					player.dropItem(draggingItem);
 
 					 draggingItem = null;
 
@@ -247,7 +247,8 @@ public class Controller implements MouseListener, KeyListener{
 			}
 		}
 
-
+		gameFrame.getGamePanel().repaint();
+		gameFrame.getGamePanel().update();
 		//repaint the canvas so that changes show up
 		gameFrame.getGUICanvas().repaint();
 

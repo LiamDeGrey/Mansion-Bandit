@@ -1,6 +1,7 @@
 package mansionBandit.ApplicationWindow;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -603,7 +604,7 @@ WindowListener, KeyListener {
 
 
 	public class GameTimer extends TimerTask{
-		private int time = 5;
+		private int time = 100;
 		@Override
 		public void run() {
 			if(gameStarted){
@@ -676,6 +677,11 @@ WindowListener, KeyListener {
 		return guiCanvas;
 	}
 
+	public GamePanel getGamePanel() {
+		return gamePanel;
+
+	}
+
 
 	//TODO get rid of later
 	public Room makeRoom(){
@@ -700,5 +706,7 @@ WindowListener, KeyListener {
 		return new Key("testFace", face, new Dimensions(x, y, size));
 		//return new Grabable("testFace", face, new Dimensions(x, y, size));
 	}
+
+
 
 }
