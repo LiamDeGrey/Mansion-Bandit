@@ -74,6 +74,13 @@ public final class Client {
 	 *
 	 */
 	public void disconnect() {
+		ClientDisconnectMessage cdm = new ClientDisconnectMessage(username);
+        try {
+			output.writeObject(cdm);
+		} catch (IOException e) {
+			System.out.println("Exception with sending disconnect message " + e);
+		}
+
 		try {
 			if(input != null) input.close();
 		}
@@ -86,7 +93,6 @@ public final class Client {
 			if(socket != null) socket.close();
 		}
 		catch(Exception e) {}
-
         //TODO: NEED TO INFORM THE GUI
 	}
 

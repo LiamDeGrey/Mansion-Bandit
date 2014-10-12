@@ -96,6 +96,10 @@ public final class Server {
 		}
 	}
 
+	synchronized void remove(ClientThread ct) {
+		clientList.remove(ct);
+	}
+
 	/**
 	 * This class represents a Thread that will run for each of the clients connected to the server.
 	 * @author Shreyas
@@ -170,8 +174,17 @@ public final class Server {
 			boolean end = false;
 			while(!end) {
 				try {
-					//TODO: Switch and case for the type of message, then broadcast
+					//TODO: Switch and case(?) for the type of message, then broadcast
 					//Read input and act accordingly
+					Object obj = (Message) input.readObject();
+					if (obj instanceof ClientDisconnectMessage) {
+						ClientThread toDisconnect = getClient(((ClientDisconnectMessage) obj).getUsername());
+						usernameList.remove(username);
+						remove(toDisconnect);
+						for (ClientThread ct : clientList) {
+							ct.output.writeObject(usernameList);
+						}
+					}
 				}
 				catch (Exception e) {
 					System.out.println(username + ": Exception reading Object Streams: " + e);
