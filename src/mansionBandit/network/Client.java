@@ -130,7 +130,8 @@ public final class Client {
 					}
 					if (o instanceof StringMessage) {
 						System.out.println("Received string message");
-						if (o == "START") {
+						if (((StringMessage) o).getString().equals("START")) {
+							System.out.println("Starting game");
 							gameFrame.startClientMultiplayerGame();
 						}
 					}
