@@ -128,6 +128,12 @@ public final class Client {
 						System.out.println("list " + usernameList);
 						gameFrame.updateClientPlayerList(usernameList);
 					}
+					if (o instanceof StringMessage) {
+						System.out.println("Received string message");
+						if (o == "START") {
+							gameFrame.startClientMultiplayerGame();
+						}
+					}
 				}
 				catch(IOException e) {
 					System.out.println("Connection has been ended by server: " + e);
