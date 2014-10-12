@@ -19,8 +19,7 @@ import mansionBandit.gameWorld.matter.GameMatter;
 public class Hallway implements MansionArea{
 	private MansionArea north, east, south, west;
 	private List<GameMatter> items = new ArrayList<GameMatter>(); //need for chandaliers and stuff like that?
-	private String wallTexture, ceilingTexture, floorTexture = null;
-	private Door nDoor, eDoor, sDoor, wDoor;
+	private String wallTexture, ceilingTexture, floorTexture;
 
 	public Hallway(){
 		this.wallTexture = "hallway";
@@ -100,18 +99,6 @@ public class Hallway implements MansionArea{
 	@Override
 	public void setEast(MansionArea area) {
 		this.east = area;
-	}
-
-	@Override
-	public void setDoor(Door d) {
-		if(d.getName().equals("NDoor"))
-			sDoor = d;
-		else if(d.getName().equals("EDoor"))
-			wDoor = d;
-		else if(d.getName().equals("SDoor"))
-			nDoor = d;
-		else if(d.getName().equals("WDoor"))
-			eDoor = d;
 	}
 
 }

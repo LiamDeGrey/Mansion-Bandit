@@ -42,7 +42,7 @@ public class RoomFactory {
 	public void populateRoom(MansionArea room){
 		//populate doors
 		//TODO random placed doors? (x axis)
-		if (room.getNorth() != null && !(room instanceof Hallway && room.getNorth() instanceof Hallway)){
+		if (room.getNorth() != null && (room instanceof Room || room.getNorth() instanceof Room)){
 			room.addItem(new Door("North Door", Face.NORTHERN, new Dimensions(50, 100, 70), random.nextInt(chanceToLock) == 1));
 		}
 		if (room.getEast() != null && (room instanceof Room || room.getEast() instanceof Room)){
