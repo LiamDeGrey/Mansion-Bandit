@@ -119,7 +119,7 @@ public final class Client {
 					Object o = input.readObject();
 					if (o instanceof MansionArea[][]) {
 						System.out.println("Received grid");
-						player.setGrid((MansionArea[][]) o);
+						player.setGridStart((MansionArea[][]) o);
 					}
 					if (o instanceof ArrayList) {
 						System.out.println("Received username list");
@@ -133,6 +133,10 @@ public final class Client {
 							System.out.println("Starting game");
 							gameFrame.startClientMultiplayerGame();
 						}
+					}
+					if (o instanceof UpdateGridMessage) {
+						System.out.println("Received grid message");
+						player.setGrid(((UpdateGridMessage) o).getGrid());
 					}
 				}
 				catch(IOException e) {

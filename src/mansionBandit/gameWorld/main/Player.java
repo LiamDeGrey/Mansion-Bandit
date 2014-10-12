@@ -33,9 +33,13 @@ public abstract class Player {
 		return grid;
 	}
 
-	public void setGrid(MansionArea[][] grid){
+	public void setGridStart(MansionArea[][] grid){
 		this.grid = grid;
-		bandit.setGrid(grid);
+		bandit.setGridStart(grid);
+	}
+
+	public void setGrid(MansionArea[][] grid) {
+		this.grid = grid;
 	}
 
 	public void turnLeft(){

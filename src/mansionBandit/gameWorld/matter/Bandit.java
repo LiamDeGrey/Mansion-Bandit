@@ -69,11 +69,11 @@ public class Bandit extends Character{
 			System.out.println("Cannot add more than 4 players!!");
 			return;
 		}
-		
+
 		Dimensions dimens = new Dimensions(10, 10, 50);
 		this.setDimensions(dimens);
 	}
-	
+
 	/**
 	 * This method gets the adjacent grid space to the startSpace(van)
 	 * and returns the coords in an array
@@ -84,6 +84,10 @@ public class Bandit extends Character{
 	}
 
 	public void setGrid(MansionArea[][] grid){
+		this.grid = grid;
+	}
+
+	public void setGridStart(MansionArea[][] grid){
 		this.grid = grid;
 		setStartSpace();
 	}
