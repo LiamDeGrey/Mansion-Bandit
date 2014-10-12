@@ -336,6 +336,11 @@ WindowListener, KeyListener {
 		addMouseListener(controller);
 		addKeyListener(controller);
 
+		//starts the game timer
+		TimerTask gameTimerTask = new GameTimer();
+		Timer gameTimer = new Timer(true);
+		gameTimer.scheduleAtFixedRate(gameTimerTask, 0, 10*100);
+
 		gameStarted = true;
 
 		server.broadcast(new StringMessage("START"));
@@ -352,6 +357,11 @@ WindowListener, KeyListener {
 
 		//sets up user interface elements
 		setupScreen();
+
+		//starts the game timer
+		TimerTask gameTimerTask = new GameTimer();
+		Timer gameTimer = new Timer(true);
+		gameTimer.scheduleAtFixedRate(gameTimerTask, 0, 10*100);
 
 		controller= new Controller(player, gamePanel,this);
 		addMouseListener(controller);
@@ -718,64 +728,64 @@ WindowListener, KeyListener {
 
 	private MansionArea[][] getTestGrid(){
 
-		   //           X
-        //    [0][1][2][3][4]
-        // [0] _  R  H  R  _
-        //Y[1] R  H  H  H  R
-        // [2] _  R  R  H  R
-        //		[y][x]
+		//           X
+		//    [0][1][2][3][4]
+		// [0] _  R  H  R  _
+		//Y[1] R  H  H  H  R
+		// [2] _  R  R  H  R
+		//		[y][x]
 
-        MansionArea[][] grid = new MansionArea[3][5];
-        //rooms
-        grid[1][0] = new Room();
-        grid[0][1] = new Room();
-        grid[0][2] = new Hallway();
-        grid[0][3] = new Room();
-        grid[2][1] = new Room();
-        grid[2][2] = new Room();
-        grid[2][3] = new Hallway();
-        grid[1][4] = new Room();
-        grid[2][4] = new Room();
+		MansionArea[][] grid = new MansionArea[3][5];
+		//rooms
+		grid[1][0] = new Room();
+		grid[0][1] = new Room();
+		grid[0][2] = new Hallway();
+		grid[0][3] = new Room();
+		grid[2][1] = new Room();
+		grid[2][2] = new Room();
+		grid[2][3] = new Hallway();
+		grid[1][4] = new Room();
+		grid[2][4] = new Room();
 
-        //halways
-        grid[1][1] = new Hallway();
-        grid[1][2] = new Hallway();
-        grid[1][3] = new Hallway();
+		//halways
+		grid[1][1] = new Hallway();
+		grid[1][2] = new Hallway();
+		grid[1][3] = new Hallway();
 
-        grid[0][1].setLinks(null, grid[0][2], grid[1][1], null); //[1][1]
-        grid[0][3].setLinks(null, null, grid[1][3], grid[0][2]); //[1][1]
-        grid[1][0].setLinks(null, grid[1][1], null, null); //[1][1]
-        grid[1][4].setLinks(null, null, grid[2][4], grid[1][3]); //[1][1]
-        grid[2][1].setLinks(grid[1][1], grid[2][2], null, null); //[1][1]
-        grid[2][2].setLinks(grid[1][2], grid[2][3], null, grid[2][1]); //[1][1]
-        grid[2][4].setLinks(grid[1][4], null, null, grid[2][3]); //[1][1]
+		grid[0][1].setLinks(null, grid[0][2], grid[1][1], null); //[1][1]
+		grid[0][3].setLinks(null, null, grid[1][3], grid[0][2]); //[1][1]
+		grid[1][0].setLinks(null, grid[1][1], null, null); //[1][1]
+		grid[1][4].setLinks(null, null, grid[2][4], grid[1][3]); //[1][1]
+		grid[2][1].setLinks(grid[1][1], grid[2][2], null, null); //[1][1]
+		grid[2][2].setLinks(grid[1][2], grid[2][3], null, grid[2][1]); //[1][1]
+		grid[2][4].setLinks(grid[1][4], null, null, grid[2][3]); //[1][1]
 
-        grid[1][1].setLinks(grid[0][1], grid[1][2], grid[2][1], grid[1][0]); //[1][1]
-        grid[1][2].setLinks(grid[0][2], grid[1][3], grid[2][2], grid[1][1]); //[1][2]
-        grid[1][3].setLinks(grid[0][3], grid[1][4], grid[2][3], grid[1][2]); //[1][3]
-        grid[0][2].setLinks(null, grid[0][3], grid[1][2], grid[0][1]); //[0][2]
-        grid[2][3].setLinks(grid[1][3], grid[2][4], null, grid[2][2]); //[2][3]
+		grid[1][1].setLinks(grid[0][1], grid[1][2], grid[2][1], grid[1][0]); //[1][1]
+		grid[1][2].setLinks(grid[0][2], grid[1][3], grid[2][2], grid[1][1]); //[1][2]
+		grid[1][3].setLinks(grid[0][3], grid[1][4], grid[2][3], grid[1][2]); //[1][3]
+		grid[0][2].setLinks(null, grid[0][3], grid[1][2], grid[0][1]); //[0][2]
+		grid[2][3].setLinks(grid[1][3], grid[2][4], null, grid[2][2]); //[2][3]
 
-        RoomFactory factory = new RoomFactory();
-        //pop halls
-        factory.populateRoom(grid[1][1]);
-        factory.populateRoom(grid[1][2]);
-        factory.populateRoom(grid[1][3]);
-        factory.populateRoom(grid[0][2]);
-        factory.populateRoom(grid[2][3]);
+		RoomFactory factory = new RoomFactory();
+		//pop halls
+		factory.populateRoom(grid[1][1]);
+		factory.populateRoom(grid[1][2]);
+		factory.populateRoom(grid[1][3]);
+		factory.populateRoom(grid[0][2]);
+		factory.populateRoom(grid[2][3]);
 
-        //pop rooms
-        factory.populateRoom(grid[0][1]);
-        factory.populateRoom(grid[0][3]);
+		//pop rooms
+		factory.populateRoom(grid[0][1]);
+		factory.populateRoom(grid[0][3]);
 
-        factory.populateRoom(grid[1][0]);
-        factory.populateRoom(grid[1][4]);
+		factory.populateRoom(grid[1][0]);
+		factory.populateRoom(grid[1][4]);
 
-        factory.populateRoom(grid[2][1]);
-        factory.populateRoom(grid[2][2]);
-        factory.populateRoom(grid[2][4]);
+		factory.populateRoom(grid[2][1]);
+		factory.populateRoom(grid[2][2]);
+		factory.populateRoom(grid[2][4]);
 
-        return grid;
+		return grid;
 	}
 
 
