@@ -15,8 +15,14 @@ public class Bandit extends Character{
 	private Grabable[] inventory = new Grabable[7];
 	private StartSpace start;
 	private MansionArea[][] grid;
+	private int x, y;
 	private MansionArea area;
 	private int[] adjacentGrid = new int[2];
+
+	public void setArea(int x, int y){
+		this.x = x;
+		this.y = y;
+	}
 
 
 	public Bandit(String name, MansionArea[][] grid) {
@@ -85,7 +91,7 @@ public class Bandit extends Character{
 	public int[] getAdjacentGrid() {
 		return adjacentGrid;
 	}
-	
+
 	public Van getVan() {
 		for(GameMatter matter : start.getItems()) {
 			if(matter instanceof Van)
@@ -104,7 +110,7 @@ public class Bandit extends Character{
 	}
 
 	public MansionArea getArea(){
-		return area;
+		return grid[y][x];
 	}
 
 	public void setArea(MansionArea area){
@@ -118,10 +124,22 @@ public class Bandit extends Character{
 	public boolean moveForward() {
 		Face face = getFace();
 		MansionArea area = null;
-		if(face==Face.NORTHERN) area = getArea().getNorth();
-		else if(face==Face.EASTERN) area =getArea().getEast();
-		else if(face==Face.SOUTHERN) area =getArea().getSouth();
-		else if(face==Face.WESTERN) area =getArea().getWest();
+		if(face==Face.NORTHERN) {
+			y += 1;
+			area = getArea().getNorth();
+		}
+		else if(face==Face.EASTERN) {
+			x += 1;
+			area =getArea().getEast();
+		}
+		else if(face==Face.SOUTHERN) {
+			y -= 1;
+			area =getArea().getSouth();
+		}
+		else if(face==Face.WESTERN) {
+			x -= 1;
+			area =getArea().getWest();
+		}
 
 		if(area!=null) {
 			setArea(area);
@@ -207,7 +225,7 @@ public class Bandit extends Character{
 		}
 		return false;
 	}
-	
+
 	public boolean removeItem(Grabable itm) {
 		for(int i=0; i<inventory.length; i++) {
 			if(itm.equals(inventory[i])) {
