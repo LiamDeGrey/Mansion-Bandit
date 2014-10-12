@@ -555,15 +555,11 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 	 */
 	public void playerHasConnected(ArrayList<String> usernameList){
 
-	//	if(!usernameList.get(1).equals("Empty slot")){
-			player2NameLabel.setText(usernameList.get(1));
-		//}
-		//if(!usernameList.get(2).equals("Empty slot")){
-			player3NameLabel.setText(usernameList.get(2));
-		//}
-		//if(usernameList.get(3)!=null){
-			player4NameLabel.setText(usernameList.get(3));
-	//	}
+	player2NameLabel.setText(usernameList.get(1));
+
+	player3NameLabel.setText(usernameList.get(2));
+
+	player4NameLabel.setText(usernameList.get(3));
 
 		this.repaint();
 	}
@@ -573,18 +569,14 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 	 */
 	public void clientPlayerHasConnected(ArrayList<String> usernameList){
 
-		//if(usernameList.get(0)!=null){
-			clientPlayer1NameLabel.setText(usernameList.get(0));
-	//	}
-		//if(usernameList.get(1)!=null){
-			clientPlayer2NameLabel.setText(usernameList.get(1));
-		//}
-		//if(usernameList.get(2)!=null){
-			clientPlayer3NameLabel.setText(usernameList.get(2));
-		//}
-		//if(usernameList.get(3)!=null){
-			clientPlayer4NameLabel.setText(usernameList.get(3));
-		//}
+		clientPlayer1NameLabel.setText(usernameList.get(0));
+
+		clientPlayer2NameLabel.setText(usernameList.get(1));
+
+		clientPlayer3NameLabel.setText(usernameList.get(2));
+
+		clientPlayer4NameLabel.setText(usernameList.get(3));
+
 
 		this.repaint();
 	}
