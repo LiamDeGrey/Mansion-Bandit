@@ -101,4 +101,9 @@ public class Hallway implements MansionArea{
 		this.east = area;
 	}
 
+	@Override
+	public void setTextures(String wall, String ceiling, String floor) {
+		//do nothing
+	}
+
 }

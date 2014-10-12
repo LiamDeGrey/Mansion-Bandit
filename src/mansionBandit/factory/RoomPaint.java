@@ -3,7 +3,9 @@ package mansionBandit.factory;
 import java.util.Random;
 import java.util.Scanner;
 
+import mansionBandit.gameWorld.areas.MansionArea;
 import mansionBandit.gameWorld.areas.Room;
+import mansionBandit.gameWorld.areas.StartSpace;
 
 /**
  * a defined set of textures for painting a room
@@ -26,7 +28,7 @@ public class RoomPaint {
 	 * 
 	 * @param room the room to apply the textures to
 	 */
-	public void paint(Room room){
+	public void paint(MansionArea room){
 		room.setTextures(wall, ceiling, floor);
 	}
 }

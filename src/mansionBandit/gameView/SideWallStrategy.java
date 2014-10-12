@@ -138,7 +138,7 @@ public class SideWallStrategy implements SurfaceStrategy {
 			}
 			//apply scale
 			scale = (int) (scale * distanceScale);
-						
+			
 			//determine where the vertical center of the image should be
 			int objectCenterY = (int) (surfaceY + (y * ((double) surfaceHeight / 100)));
 			//have to alter vertical position to be closer to the center when further back

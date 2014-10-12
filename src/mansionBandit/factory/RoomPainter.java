@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
+import mansionBandit.gameWorld.areas.MansionArea;
 import mansionBandit.gameWorld.areas.Room;
+import mansionBandit.gameWorld.areas.StartSpace;
 
 /**
  * The RoomPainter will apply wall, floor, and ceiling textures to a room
@@ -32,7 +34,7 @@ public class RoomPainter {
 	 * applies a textures to the given room
 	 * @param room the room to apply textures to
 	 */
-	public void paintRoom(Room room){
+	public void paintRoom(MansionArea room){
 		paints.get(random.nextInt(paints.size())).paint(room);
 	}
 }

@@ -61,7 +61,8 @@ public class RoomFactory {
 			popFloor(room, false);
 			popCeiling(room, false);
 		} else if (room instanceof StartSpace){
-
+			roomPainter.paintRoom(room);
+			
 		} else if (room instanceof Room){
 			//apply textures to the room
 			roomPainter.paintRoom((Room) room);

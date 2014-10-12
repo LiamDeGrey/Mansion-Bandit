@@ -89,5 +89,7 @@ public interface MansionArea extends Serializable {
 	 * @return String name of texture
 	 */
 	public String getFloorTexture();
+	
+	public void setTextures(String wall, String ceiling, String floor);
 
 }

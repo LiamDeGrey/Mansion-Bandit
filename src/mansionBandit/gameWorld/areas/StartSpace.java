@@ -16,6 +16,7 @@ import mansionBandit.gameWorld.matter.GameMatter;
 public class StartSpace implements MansionArea {
 	private MansionArea north, south, east, west;
 	private List<GameMatter> items = new ArrayList<GameMatter>();
+	private String wallTexture, ceilingTexture, floorTexture = "hallway";
 
 	@Override
 	public void setLinks(MansionArea north, MansionArea east, MansionArea south, MansionArea west) {
@@ -55,19 +56,16 @@ public class StartSpace implements MansionArea {
 		return items;
 	}
 
-	@Override
-	public String getWallTexture() {
-		return "start";
+	public String getWallTexture(){
+		return wallTexture;
 	}
 
-	@Override
-	public String getCeilingTexture() {
-		return "start";
+	public String getCeilingTexture(){
+		return ceilingTexture;
 	}
 
-	@Override
-	public String getFloorTexture() {
-		return "start";
+	public String getFloorTexture(){
+		return floorTexture;
 	}
 
 	public Bandit getBandit(){
@@ -97,6 +95,12 @@ public class StartSpace implements MansionArea {
 	@Override
 	public void setEast(MansionArea area) {
 		this.east = area;
+	}
+	
+	public void setTextures(String wall, String ceiling, String floor){
+		this.wallTexture = wall;
+		this.ceilingTexture = ceiling;
+		this.floorTexture = floor;
 	}
 
 }
