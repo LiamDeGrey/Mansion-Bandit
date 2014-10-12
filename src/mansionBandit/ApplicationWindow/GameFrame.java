@@ -474,16 +474,16 @@ public class GameFrame extends JFrame implements ActionListener,
 	/**
 	 * indicates that a player has connected to the game
 	 */
-	public void playerHasConnected(ArrayList<String> usernameList){
-		mainMenu.playerHasConnected(usernameList);
+	public void updatePlayerList(ArrayList<String> usernameList){
+		mainMenu.updatePlayerList(usernameList);
 	}
 
 	/**
 	 * indicates that a player has connected to the game
 	 */
-	public void clientPlayerHasConnected(ArrayList<String> usernameList){
+	public void updateClientPlayerList(ArrayList<String> usernameList){
 		System.out.println("IN GAME FRAME " +usernameList);
-		mainMenu.clientPlayerHasConnected(usernameList);
+		mainMenu.updateClientPlayerList(usernameList);
 	}
 
 

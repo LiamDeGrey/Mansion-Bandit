@@ -137,7 +137,7 @@ public final class Server {
 					}
 				}
 				gameFrame.repaint();
-				gameFrame.playerHasConnected(usernameList);
+				gameFrame.updatePlayerList(usernameList);
 
 				//Broadcasting grid to clients that connect
 				MansionArea[][] grid = player.getGrid();
@@ -198,7 +198,7 @@ public final class Server {
 							}
 						}
 						System.out.println("updating server client list view");
-						gameFrame.playerHasConnected(usernameList);
+						gameFrame.updatePlayerList(usernameList);
 					}
 				}
 				catch (Exception e) {

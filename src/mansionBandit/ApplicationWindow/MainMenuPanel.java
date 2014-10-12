@@ -550,10 +550,11 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 
 
 	/**
+	 * updates the names displayed in the label for the host lobby screen
 	 * gives list of connected players
 	 * @param usernameList
 	 */
-	public void playerHasConnected(ArrayList<String> usernameList){
+	public void updatePlayerList(ArrayList<String> usernameList){
 
 	player2NameLabel.setText(usernameList.get(1));
 
@@ -565,10 +566,12 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 	}
 
 	/**
+	 * updates the names displayed in the lobby menu for the client
 	 * @param list of user names
 	 */
-	public void clientPlayerHasConnected(ArrayList<String> usernameList){
+	public void updateClientPlayerList(ArrayList<String> usernameList){
 
+		//sets names
 		clientPlayer1NameLabel.setText(usernameList.get(0));
 
 		clientPlayer2NameLabel.setText(usernameList.get(1));
@@ -576,7 +579,6 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		clientPlayer3NameLabel.setText(usernameList.get(2));
 
 		clientPlayer4NameLabel.setText(usernameList.get(3));
-
 
 		this.repaint();
 	}

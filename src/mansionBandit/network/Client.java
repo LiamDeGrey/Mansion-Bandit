@@ -118,7 +118,7 @@ public final class Client {
 						System.out.println("Received username list");
 						usernameList = (ArrayList<String>) o;
 						System.out.println("list " + usernameList);
-						gameFrame.clientPlayerHasConnected(usernameList);
+						gameFrame.updateClientPlayerList(usernameList);
 					}
 				}
 				catch(IOException e) {
