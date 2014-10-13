@@ -52,6 +52,10 @@ public abstract class  GameMatter implements Serializable {
 	public void setDimensions(Dimensions d){
 		this.dimens = d;
 	}
+	
+	public boolean useItemOn(GameMatter itm) {
+		return false;
+	}
 
 	/**
 	 * returns the name of object

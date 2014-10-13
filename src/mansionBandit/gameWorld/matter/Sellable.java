@@ -16,5 +16,14 @@ public class Sellable extends Grabable{
 	public int getValue(){
 		return value;
 	}
+	
+	@Override
+	public boolean useItemOn(GameMatter itm) {
+		if(itm instanceof Van) {
+			((Van)itm).addItem(this);
+			return true;
+		}
+		return false;
+	}
 
 }

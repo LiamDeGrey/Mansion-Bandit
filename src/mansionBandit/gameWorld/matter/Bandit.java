@@ -87,8 +87,8 @@ public class Bandit extends Character{
 		RoomFactory rf = new RoomFactory();
 		rf.populateRoom(start);
 		
-		//van = new Van(getName()+"van", Face.opposite(getFace()), player);
-		//start.addItem(van);
+		van = new Van(getName()+"van", Face.opposite(getFace()), player);
+		start.addItem(van);
 		Door exit = new Door(getName()+"startDoor", getFace(), new Dimensions(50, 100, 70), false);
 		Door entry = new Door(getName()+"toStart", Face.opposite(getFace()), new Dimensions(50, 100, 70), false);
 		start.addItem(exit);
@@ -134,7 +134,6 @@ public class Bandit extends Character{
 	public MansionArea getArea(){
 		if(i==-1||j==-1)
 			return start;
-		System.out.println("i = "+i+", j = "+j);
 		return grid[i][j];
 	}
 

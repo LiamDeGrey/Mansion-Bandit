@@ -39,19 +39,9 @@ public class Van extends GameMatter{
 		}
 	}
 	
-	/**
-	 * drag item to van
-	 * @param itm
-	 * @return
-	 */
-	public boolean useItemOn(Grabable itm) {
-		if(itm instanceof Sellable) {
-			items.add((Sellable) itm);
-			total += ((Sellable) itm).getValue();
-			player.removeItem(itm);
-			return true;
-		}
-		return false;
+	public boolean addItem(Sellable itm) {
+		total += itm.getValue();
+		return items.add(itm);
 	}
 	
 	public int getTotal() {
@@ -70,7 +60,7 @@ public class Van extends GameMatter{
 	
 	@Override
 	public Dimensions getDimensions() {
-		return new Dimensions(20, 20, 50);
+		return new Dimensions(50, 100, 100);
 	}
 
 }
