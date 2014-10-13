@@ -18,11 +18,11 @@ public abstract class Player {
 
 	public Player(String name, int rooms){
 		this.grid = new Grid(rooms).getGrid();
-		this.bandit = new Bandit(name, grid);
+		this.bandit = new Bandit(name, grid, this);
 	}
 
 	public Player(String name){
-		this.bandit = new Bandit(name);
+		this.bandit = new Bandit(name, this);
 	}
 
 	public Bandit getBandit(){

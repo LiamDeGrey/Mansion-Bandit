@@ -53,5 +53,19 @@ public enum Face {
 		}
 		return null;
 	}
+	
+	public static Face opposite(Face face) {
+		switch(face) {
+		case NORTHERN:
+			return SOUTHERN;
+		case WESTERN:
+			return EASTERN;
+		case SOUTHERN:
+			return NORTHERN;
+		case EASTERN:
+			return WESTERN;
+		}
+		return null;
+	}
 
 }

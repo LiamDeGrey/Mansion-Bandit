@@ -1,8 +1,10 @@
 package mansionBandit.gameWorld.matter;
 
 import mansionBandit.factory.RoomFactory;
+import mansionBandit.factory.RoomPainter;
 import mansionBandit.gameWorld.areas.MansionArea;
 import mansionBandit.gameWorld.areas.StartSpace;
+import mansionBandit.gameWorld.main.Player;
 
 
 /**
@@ -15,22 +17,28 @@ public class Bandit extends Character{
 	private Grabable[] inventory = new Grabable[7];
 	private StartSpace start;
 	private MansionArea[][] grid;
+	private int i, j;
+	private Van van;
+	private Player player;
 
 	//TODO internal array reference to grid, storing current location
 
 	private MansionArea area;
 	private int[] adjacentGrid = new int[2];
 
-	public Bandit(String name, MansionArea[][] grid) {
+	public Bandit(String name, MansionArea[][] grid, Player player) {
 		super(name, null, null, null, null);
 		this.grid = grid;
+		this.player = player;
 		setStartSpace();
 		initialiseInventory();
 	}
 
-	public Bandit(String name){
+	public Bandit(String name, Player player){
 		super(name, null, null, null, null);
+		this.player = player;
 		initialiseInventory();
+		
 	}
 
 	/**
@@ -73,10 +81,20 @@ public class Bandit extends Character{
 			return;
 		}
 
+		setArea(-1,-1);
 		Dimensions dimens = new Dimensions(10, 10, 50);
 		this.setDimensions(dimens);
-		RoomFactory rf = new RoomFactory();
-		rf.populateRoom(start);
+		//RoomFactory rf = new RoomFactory();
+		//rf.populateRoom(start);
+		//TODO initialise start room Fix
+		RoomPainter painter = new RoomPainter("/texture/room.txt");
+		painter.paintRoom(start);
+		van = new Van(getName()+"van", Face.opposite(getFace()), player);
+		start.addItem(van);
+		Door exit = new Door(getName()+"startDoor", getFace(), new Dimensions(50, 100, 70), false);
+		Door entry = new Door(getName()+"toStart", Face.opposite(getFace()), new Dimensions(50, 100, 70), false);
+		start.addItem(exit);
+		grid[adjacentGrid[0]][adjacentGrid[1]].addItem(entry);
 	}
 
 	/**
@@ -102,19 +120,24 @@ public class Bandit extends Character{
 
 	public void setGrid(MansionArea[][] grid){
 		this.grid = grid;
+		setStartSpace();
 	}
 
 	public void setGridStart(MansionArea[][] grid){
 		this.grid = grid;
 		setStartSpace();
 	}
-
-	public MansionArea getArea(){
-		return area;
+	
+	public void setArea(int i, int j) {
+		this.i = i;
+		this.j = j;
 	}
 
-	public void setArea(MansionArea area){
-		this.area = area;
+	public MansionArea getArea(){
+		if(i==-1||j==-1)
+			return start;
+		System.out.println("i = "+i+", j = "+j);
+		return grid[i][j];
 	}
 
 
@@ -122,24 +145,35 @@ public class Bandit extends Character{
 	 * bandit moves forward
 	 */
 	public boolean moveForward() {
-		int moveY = 0, moveX = 0;
+		int newi = 0, newj= 0;
 		Face face = getFace();
-		MansionArea area = null;
+		MansionArea next = null;
 		if(face==Face.NORTHERN) {
-			area = getArea().getNorth();
+			next = getArea().getNorth();
+			newi = i-1;
+			newj = j;
 		}
 		else if(face==Face.EASTERN) {
-			area =getArea().getEast();
+			next =getArea().getEast();
+			newi = i;
+			newj = j+1;
 		}
 		else if(face==Face.SOUTHERN) {
-			area =getArea().getSouth();
+			next =getArea().getSouth();
+			newi = i+1;
+			newj = j;
 		}
 		else if(face==Face.WESTERN) {
-			area =getArea().getWest();
+			next =getArea().getWest();
+			newi = i;
+			newj = j-1;
 		}
 
-		if(area!=null) {
-			setArea(area);
+		if(next!=null) {
+			if(next.equals(start))
+				setArea(-1,-1);
+			else
+				setArea(newi, newj);
 			return true;
 		}
 		return false;

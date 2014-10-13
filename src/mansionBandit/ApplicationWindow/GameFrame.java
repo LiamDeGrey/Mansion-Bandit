@@ -296,10 +296,10 @@ WindowListener, KeyListener {
 		//make the player
 		player = new Host("", 20);
 
-		//TODO PLACE HOLDER
-		player.getBandit().setArea(getTestGrid()[1][1]);
+		//TODO PLACE HOLDER unnecessary -Liam
+		//player.getBandit().setArea(getTestGrid()[1][1]);
 		//player.getBandit().setArea(makeRoom());
-		player.getBandit().setFace(Face.NORTHERN);
+		//player.getBandit().setFace(Face.NORTHERN);
 
 		//sets up user interface elements
 		setupScreen();
@@ -324,8 +324,8 @@ WindowListener, KeyListener {
 
 		MansionArea[][] testGrid = getTestGrid();
 
-		player.getBandit().setArea(player.getGrid()[1][2]);
-		player.getBandit().setFace(Face.NORTHERN);
+		//player.getBandit().setArea(p1][2]);
+		//player.getBandit().setFace(Face.NORTHERN);
 
 		setupScreen();
 
@@ -347,8 +347,8 @@ WindowListener, KeyListener {
 		//remove the main menu
 		this.remove(mainMenu);
 
-		player.getBandit().setArea(player.getGrid()[1][2]);
-		player.getBandit().setFace(Face.NORTHERN);
+		//player.getBandit().setArea(player.getGrid()[1][2]);
+		//player.getBandit().setFace(Face.NORTHERN);
 
 		//sets up user interface elements
 		setupScreen();

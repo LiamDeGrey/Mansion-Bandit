@@ -13,7 +13,7 @@ import mansionBandit.gameWorld.matter.GameMatter;
  * @author Liam De Grey
  *
  */
-public class StartSpace implements MansionArea {
+public class StartSpace extends Room {
 	private MansionArea north, south, east, west;
 	private List<GameMatter> items = new ArrayList<GameMatter>();
 	private String wallTexture, ceilingTexture, floorTexture = "hallway";
