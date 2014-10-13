@@ -3,11 +3,17 @@ package mansionBandit.gameWorld.areas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import mansionBandit.gameWorld.main.Player;
 import mansionBandit.gameWorld.matter.Bandit;
+import mansionBandit.gameWorld.matter.Face;
 import mansionBandit.gameWorld.matter.GameMatter;
 
 /**
@@ -27,6 +33,12 @@ public class Map extends JPanel{
 	private static final int doorX = 2;//doorWidth/2;
 	private int widthMap;
 	private int heightMap;
+	private BufferedImage pointer;
+	private double locationX;
+	private double locationY;
+	private AffineTransform tx;
+	private AffineTransformOp op;
+	private double rotationRequired;
 
 	public Map(Player player){
 		this.player = player;
@@ -36,6 +48,7 @@ public class Map extends JPanel{
 		heightMap = (grid.length*heightBlock)+(padding*2);
 		setVisible(true);
 		setLayout(null);
+		setPointer();
 	}
 	
 	@Override
@@ -86,11 +99,26 @@ public class Map extends JPanel{
 				}
 				if(player.getBandit().getRoomCoords(player.getBandit().getArea())[0]==i
 						&&player.getBandit().getRoomCoords(player.getBandit().getArea())[1]==j){
-					g.setColor(Color.BLACK);
-					g.fillOval(j*widthBlock+padding+2, i*heightBlock+padding+2, bandit, bandit);
+					transformPointer(player.getBandit().getFace());					
+					g.drawImage(op.filter(pointer, null), j*widthBlock+padding+2, i*heightBlock+padding+2, bandit, bandit, null);
 						}
 			}
 		}
+	}
+	
+	public void transformPointer(Face face) {
+		System.out.println("Transforming");
+		if(face==Face.SOUTHERN){
+			rotationRequired = Math.toRadians(90);
+		}else if(face==Face.WESTERN){
+			rotationRequired = Math.toRadians(180);
+		}else if(face==Face.NORTHERN){
+			rotationRequired = Math.toRadians(270);
+		}else if(face==Face.EASTERN){
+			rotationRequired = Math.toRadians(0);
+		}
+		tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
+		op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
 	}
 	
 	/**
@@ -128,6 +156,16 @@ public class Map extends JPanel{
 					g.drawLine(j*widthBlock+padding, i*heightBlock+padding, j*widthBlock+padding, (i+1)*heightBlock+padding);
 				}
 			}
+		}
+	}
+	
+	public void setPointer() {
+		try {
+			pointer = ImageIO.read(this.getClass().getResource("/GUIgraphics/pointer.png"));
+			locationX = pointer.getWidth() / 2;
+			locationY = pointer.getHeight() / 2;
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
