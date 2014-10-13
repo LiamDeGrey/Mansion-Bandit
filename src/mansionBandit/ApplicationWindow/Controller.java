@@ -128,8 +128,7 @@ public class Controller implements MouseListener, KeyListener{
 				}
 
 				gameFrame.getGUICanvas().repaint();
-
-				gameFrame.getGamePanel().repaint();
+				
 				gameFrame.getGamePanel().update();
 				}
 		}
@@ -230,7 +229,6 @@ public class Controller implements MouseListener, KeyListener{
 			}
 		}
 
-		gameFrame.getGamePanel().repaint();
 		gameFrame.getGamePanel().update();
 
 		//repaint the canvas so that changes show up
