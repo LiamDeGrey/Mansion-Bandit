@@ -66,6 +66,11 @@ public interface MansionArea extends Serializable {
 	 */
 	public void addItem(GameMatter itm);
 
+	/**\
+	 * Removes item
+	 */
+	public boolean removeItem(GameMatter itm);
+
 	/**
 	 * gets a list of all items in the area
 	 * @return the list of items
@@ -89,7 +94,7 @@ public interface MansionArea extends Serializable {
 	 * @return String name of texture
 	 */
 	public String getFloorTexture();
-	
+
 	public void setTextures(String wall, String ceiling, String floor);
 
 }

@@ -11,8 +11,8 @@ import mansionBandit.gameWorld.areas.MansionArea;
 public class Guard extends Character {
 	private MansionArea area;
 
-	public Guard(String name, Face face, Dimensions position, MansionArea area) {
-		super(name, null, null, face, position);
+	public Guard(String name, Face face, MansionArea area) {
+		super(name, null, null, face, null);
 		this.area = area;
 	}
 
@@ -22,13 +22,14 @@ public class Guard extends Character {
 
 			@Override
 			public void run(){
+
 				for(GameMatter itm: area.getItems()){
 					if(itm instanceof Bandit){
 						prey = (Bandit) itm;
 					}
 				}
 				try {
-					this.sleep(5000);
+					this.sleep(500);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -54,6 +55,11 @@ public class Guard extends Character {
 	@Override
 	public String getDescription(){
 		return "Oh no! It's a guard! Stab him quick!";
+	}
+
+	@Override
+	public Dimensions getDimensions(){
+		return new Dimensions(50, 50, 70);
 	}
 
 

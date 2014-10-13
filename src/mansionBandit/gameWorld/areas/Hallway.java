@@ -106,4 +106,9 @@ public class Hallway implements MansionArea{
 		//do nothing
 	}
 
+	@Override
+	public boolean removeItem(GameMatter itm) {
+		return items.remove(itm);
+	}
+
 }
