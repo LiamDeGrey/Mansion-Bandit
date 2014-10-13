@@ -15,15 +15,8 @@ public class Bandit extends Character{
 	private Grabable[] inventory = new Grabable[7];
 	private StartSpace start;
 	private MansionArea[][] grid;
-	private int x = 2, y = 1;
 	private MansionArea area;
 	private int[] adjacentGrid = new int[2];
-
-	public void setArea(int x, int y){
-		this.x = x;
-		this.y = y;
-	}
-
 
 	public Bandit(String name, MansionArea[][] grid) {
 		super(name, null, null, null, null);
@@ -110,7 +103,7 @@ public class Bandit extends Character{
 	}
 
 	public MansionArea getArea(){
-		return grid[y][x];
+		return area;
 	}
 
 	public void setArea(MansionArea area){
@@ -126,26 +119,20 @@ public class Bandit extends Character{
 		Face face = getFace();
 		MansionArea area = null;
 		if(face==Face.NORTHERN) {
-			moveY += 1;
 			area = getArea().getNorth();
 		}
 		else if(face==Face.EASTERN) {
-			moveX += 1;
 			area =getArea().getEast();
 		}
 		else if(face==Face.SOUTHERN) {
-			moveY = -1;
 			area =getArea().getSouth();
 		}
 		else if(face==Face.WESTERN) {
-			moveX = -1;
 			area =getArea().getWest();
 		}
 
 		if(area!=null) {
 			setArea(area);
-			x += moveX;
-			y += moveY;
 			return true;
 		}
 		return false;
