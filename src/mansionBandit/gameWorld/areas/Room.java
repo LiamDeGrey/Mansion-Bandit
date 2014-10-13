@@ -3,8 +3,11 @@ package mansionBandit.gameWorld.areas;
 import java.util.ArrayList;
 import java.util.List;
 
+import mansionBandit.gameWorld.matter.Dimensions;
 import mansionBandit.gameWorld.matter.Door;
+import mansionBandit.gameWorld.matter.Face;
 import mansionBandit.gameWorld.matter.GameMatter;
+import mansionBandit.gameWorld.matter.Guard;
 
 /**
  * This is a room object that has links to other areas
@@ -21,11 +24,20 @@ public class Room implements MansionArea{
 		this.wallTexture = wall;
 		this.ceilingTexture = ceiling;
 		this.floorTexture = floor;
+		addGuard();
 	}
 
 
 	public Room(){
 
+	}
+
+	private void addGuard(){
+		int rand = (int)(Math.random()*15)+1;
+		if(rand==5){
+			Guard guard = new Guard("guard", Face.FLOOR, new Dimensions(50, 50, 50), this);
+			addItem(guard);
+		}
 	}
 
 	public boolean removeItem(GameMatter itm){
