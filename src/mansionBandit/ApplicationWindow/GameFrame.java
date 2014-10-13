@@ -1,7 +1,6 @@
 package mansionBandit.ApplicationWindow;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -30,7 +29,6 @@ import javax.swing.SwingConstants;
 
 import mansionBandit.factory.RoomFactory;
 import mansionBandit.gameView.GamePanel;
-import mansionBandit.gameWorld.areas.Grid;
 import mansionBandit.gameWorld.areas.Hallway;
 import mansionBandit.gameWorld.areas.MansionArea;
 import mansionBandit.gameWorld.areas.Map;
@@ -46,9 +44,11 @@ import mansionBandit.network.Client;
 import mansionBandit.network.Server;
 import mansionBandit.network.StringMessage;
 
+
 /**
  * The frame that the user interacts with and that holds all other components
- * @author Theo
+ * @author carrtheo
+ *
  */
 public class GameFrame extends JFrame implements ActionListener,
 WindowListener, KeyListener {

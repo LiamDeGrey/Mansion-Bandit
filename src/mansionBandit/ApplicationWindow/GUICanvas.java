@@ -12,12 +12,11 @@ import javax.swing.JPanel;
 
 import mansionBandit.gameWorld.main.Player;
 
-
 /**
- * The JPanel responsible for drawing GUI elements such as the inventory
+ *  * The JPanel responsible for drawing GUI elements such as the inventory
  * It is given the applicationFrame using it and from that it can identify the player it is used for.
  * It draw inventory items and other GUI elements automatically as it simply looks to the player object.
- * @author Theo
+ * @author carrtheo
  *
  */
 public class GUICanvas extends JPanel{

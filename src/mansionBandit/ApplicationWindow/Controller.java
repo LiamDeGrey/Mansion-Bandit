@@ -12,7 +12,7 @@ import mansionBandit.gameWorld.matter.Grabable;
 
 /**
  * The controller handles control of a players movements and actions
- * @author Theo
+ * @author carrtheo
  *
  */
 public class Controller implements MouseListener, KeyListener{

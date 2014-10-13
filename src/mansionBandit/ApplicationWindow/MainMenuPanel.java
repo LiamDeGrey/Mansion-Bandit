@@ -1,6 +1,5 @@
 package mansionBandit.ApplicationWindow;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -21,8 +20,7 @@ import javax.swing.JTextField;
 
 /**
  * A main menu which handles navigation between submenus of the mainmenu. This is never displayed while the game is in play.
- * @author Theo
- *
+ * @author carrtheo
  */
 public class MainMenuPanel extends JPanel implements ActionListener{
 

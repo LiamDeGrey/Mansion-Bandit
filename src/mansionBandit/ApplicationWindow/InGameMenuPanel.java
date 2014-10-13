@@ -7,16 +7,17 @@ import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+/**
+ * an ingame menu that is displayed when the user presses esc while the game is running
+ * @param gameframe that this menu is added to
+ * @author carrtheo
+ */
 public class InGameMenuPanel extends JPanel{
 
 	GameFrame gameFrame;
 
-	/**
-	 * an ingame menu that is displayed when the user presses esc while the game is running
-	 * @param gameframe that this menu is added to
-	 * @author theo
-	 */
 	public InGameMenuPanel(GameFrame gameframe){
+
 		gameFrame = gameframe;
 		GridLayout gridLayout = new GridLayout(0,1,10,0);
 		// this panel is for the part of the UI that presents information about
