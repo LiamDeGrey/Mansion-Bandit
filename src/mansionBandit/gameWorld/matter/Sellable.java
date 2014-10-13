@@ -25,5 +25,10 @@ public class Sellable extends Grabable{
 		}
 		return false;
 	}
+	
+	@Override
+	public String getDescription(){
+		return super.getDescription() + " (Value: $" + value + ")";
+	}
 
 }
