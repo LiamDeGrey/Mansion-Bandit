@@ -65,6 +65,30 @@ public class Map extends JPanel{
 		drawGrid(g);
 		drawWalls(g);
 		//drawPlayers(g);
+		drawBanditInitial(g);
+	}
+	
+	public void drawBanditInitial(Graphics g) {
+		if(player.getBandit().getRoomCoords(player.getBandit().getArea())[0]==-1
+				||player.getBandit().getRoomCoords(player.getBandit().getArea())[1]==-1) {
+			int i = player.getBandit().getAdjacentGrid()[0];
+			int j = player.getBandit().getAdjacentGrid()[1];
+			if(i==0) {
+				i = i*heightBlock+padding+2-heightBlock;
+				j = j*widthBlock+padding+2;
+			}else if(i==grid.length-1) {
+				i = i*heightBlock+padding+2+heightBlock;
+				j = j*widthBlock+padding+2;
+			}else if(j==grid[0].length-1) {
+				j = j*widthBlock+padding+2+widthBlock;
+				i = i*heightBlock+padding+2;
+			}else if(j==0) {
+				j = j*widthBlock+padding+2-widthBlock;
+				i = i*heightBlock+padding+2;
+			}
+			transformPointer(player.getBandit().getFace());	
+			g.drawImage(op.filter(pointer, null), j, i, bandit, bandit, null);
+		}
 	}
 	
 	/**
@@ -107,7 +131,6 @@ public class Map extends JPanel{
 	}
 	
 	public void transformPointer(Face face) {
-		System.out.println("Transforming");
 		if(face==Face.SOUTHERN){
 			rotationRequired = Math.toRadians(90);
 		}else if(face==Face.WESTERN){
