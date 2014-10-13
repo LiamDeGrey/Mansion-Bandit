@@ -43,7 +43,12 @@ public class GUICanvas extends JPanel{
 
 
 	 public void paintComponent(Graphics g){
-	        super.paintComponent(g);
+	        
+		 	int invImageOffSetX =10;
+		 	int invImageOffSetY =20;
+			 
+		 
+		 	super.paintComponent(g);
 
 	        //draws the inventory slot bar
 
@@ -60,8 +65,8 @@ public class GUICanvas extends JPanel{
 	        	if(player.getItem(i)!=null){
 
 	        		//set the x and y position of the image
-	        		int itemImageX = frame.getInventoryBarPos().x + (i*frame.getInventorySlotSize())+10;
-	        		int itemImageY = frame.getInventoryBarPos().y;
+	        		int itemImageX = frame.getInventoryBarPos().x + (i*frame.getInventorySlotSize())+ invImageOffSetX;
+	        		int itemImageY = frame.getInventoryBarPos().y+invImageOffSetY;
 
 	        		System.out.println(player.getItem(i).getName());
 

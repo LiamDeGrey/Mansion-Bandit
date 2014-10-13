@@ -198,14 +198,13 @@ WindowListener, KeyListener {
 		descriptionLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		descriptionLabel.setVerticalAlignment(SwingConstants.CENTER);
 		descriptionLabel.setForeground(Color.white);
+		descriptionLabel.setFont(new Font("Courier New", Font.BOLD, 11));
 		layeredPane.add(descriptionLabel, new Integer(1),0);
 
 
 		//adds TIME LABEL
 		timeLabel = new JLabel("<html><p><center></center></p></html>");
 		timeLabel.setBounds(350,inventoryBarPos.y-300,98,87);
-		//timeLabel.setBackground(Color.DARK_GRAY);
-		//timeLabel.setOpaque(true);
 		timeLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		timeLabel.setVerticalAlignment(SwingConstants.CENTER);
 		timeLabel.setForeground(Color.red);
@@ -367,9 +366,9 @@ WindowListener, KeyListener {
 		controller= new Controller(player, gamePanel,this);
 		addMouseListener(controller);
 		addKeyListener(controller);
+		
 		//indicate that gameplay has started
 		gameStarted = true;
-
 	}
 
 	/**
