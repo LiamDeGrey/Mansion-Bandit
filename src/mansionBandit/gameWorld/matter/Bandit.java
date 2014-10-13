@@ -84,13 +84,11 @@ public class Bandit extends Character{
 		setArea(-1,-1);
 		Dimensions dimens = new Dimensions(10, 10, 50);
 		this.setDimensions(dimens);
-		//RoomFactory rf = new RoomFactory();
-		//rf.populateRoom(start);
-		//TODO initialise start room Fix
-		RoomPainter painter = new RoomPainter("/texture/room.txt");
-		painter.paintRoom(start);
-		van = new Van(getName()+"van", Face.opposite(getFace()), player);
-		start.addItem(van);
+		RoomFactory rf = new RoomFactory();
+		rf.populateRoom(start);
+		
+		//van = new Van(getName()+"van", Face.opposite(getFace()), player);
+		//start.addItem(van);
 		Door exit = new Door(getName()+"startDoor", getFace(), new Dimensions(50, 100, 70), false);
 		Door entry = new Door(getName()+"toStart", Face.opposite(getFace()), new Dimensions(50, 100, 70), false);
 		start.addItem(exit);
@@ -150,24 +148,19 @@ public class Bandit extends Character{
 		MansionArea next = null;
 		if(face==Face.NORTHERN) {
 			next = getArea().getNorth();
-			newi = i-1;
-			newj = j;
 		}
 		else if(face==Face.EASTERN) {
 			next =getArea().getEast();
-			newi = i;
-			newj = j+1;
 		}
 		else if(face==Face.SOUTHERN) {
 			next =getArea().getSouth();
-			newi = i+1;
-			newj = j;
 		}
 		else if(face==Face.WESTERN) {
 			next =getArea().getWest();
-			newi = i;
-			newj = j-1;
 		}
+		
+		newi = getRoomCoords(next)[0];
+		newj = getRoomCoords(next)[1];
 
 		if(next!=null) {
 			if(next.equals(start))
@@ -177,6 +170,24 @@ public class Bandit extends Character{
 			return true;
 		}
 		return false;
+	}
+	
+	public int[] getRoomCoords(MansionArea room) {
+		int[] coords = {-2, -2};
+		if(room.equals(start)) {
+			coords[0] = -1;
+			coords[1] = -1;
+		}else {
+			for(int i=0; i<grid.length; i++) {
+				for(int j=0; j<grid[0].length; j++) {
+					if(room.equals(grid[i][j])) {
+						coords[0] = i;
+						coords[1] = j;
+					}
+				}
+			}
+		}
+		return coords;
 	}
 
 	/**

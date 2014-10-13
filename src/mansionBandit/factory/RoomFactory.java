@@ -42,34 +42,36 @@ public class RoomFactory {
 	public void populateRoom(MansionArea room){
 		//populate doors
 		//TODO random placed doors? (x axis)
-		if (room.getNorth() != null && (room instanceof Room || room.getNorth() instanceof Room)){
-			room.addItem(new Door("North Door", Face.NORTHERN, new Dimensions(50, 100, 70), random.nextInt(chanceToLock) == 1));
-		}
-		if (room.getEast() != null && (room instanceof Room || room.getEast() instanceof Room)){
-			room.addItem(new Door("East Door", Face.EASTERN, new Dimensions(50, 100, 70), random.nextInt(chanceToLock) == 1));
-		}
-		if (room.getSouth() != null && (room instanceof Room || room.getSouth() instanceof Room)){
-			room.addItem(new Door("South Door", Face.SOUTHERN, new Dimensions(50, 100, 70), random.nextInt(chanceToLock) == 1));
-		}
-		if (room.getWest() != null && (room instanceof Room || room.getWest() instanceof Room)){
-			room.addItem(new Door("West Door", Face.WESTERN, new Dimensions(50, 100, 70), random.nextInt(chanceToLock) == 1));
-		}
-
-		//place objects
-		if (room instanceof Hallway){
-			popWall(room, false);
-			popFloor(room, false);
-			popCeiling(room, false);
-		} else if (room instanceof StartSpace){
+		if (room instanceof StartSpace){
 			roomPainter.paintRoom(room);
 			
-		} else if (room instanceof Room){
-			//apply textures to the room
-			roomPainter.paintRoom((Room) room);
+		}else {
+			if (room.getNorth() != null && (room instanceof Room || room.getNorth() instanceof Room)){
+				room.addItem(new Door("North Door", Face.NORTHERN, new Dimensions(50, 100, 70), random.nextInt(chanceToLock) == 1));
+			}
+			if (room.getEast() != null && (room instanceof Room || room.getEast() instanceof Room)){
+				room.addItem(new Door("East Door", Face.EASTERN, new Dimensions(50, 100, 70), random.nextInt(chanceToLock) == 1));
+			}
+			if (room.getSouth() != null && (room instanceof Room || room.getSouth() instanceof Room)){
+				room.addItem(new Door("South Door", Face.SOUTHERN, new Dimensions(50, 100, 70), random.nextInt(chanceToLock) == 1));
+			}
+			if (room.getWest() != null && (room instanceof Room || room.getWest() instanceof Room)){
+				room.addItem(new Door("West Door", Face.WESTERN, new Dimensions(50, 100, 70), random.nextInt(chanceToLock) == 1));
+			}
 
-			popWall(room, true);
-			popFloor(room, true);
-			popCeiling(room, true);
+			//place objects
+			if (room instanceof Hallway){
+				popWall(room, false);
+				popFloor(room, false);
+				popCeiling(room, false);
+			} else if (room instanceof Room){
+				//apply textures to the room
+				roomPainter.paintRoom((Room) room);
+
+				popWall(room, true);
+				popFloor(room, true);
+				popCeiling(room, true);
+			}
 		}
 	}
 

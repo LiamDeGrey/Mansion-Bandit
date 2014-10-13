@@ -16,7 +16,7 @@ import mansionBandit.gameWorld.matter.GameMatter;
 public class StartSpace extends Room {
 	private MansionArea north, south, east, west;
 	private List<GameMatter> items = new ArrayList<GameMatter>();
-	private String wallTexture, ceilingTexture, floorTexture = "hallway";
+	private String wallTexture, ceilingTexture, floorTexture;
 
 	@Override
 	public void setLinks(MansionArea north, MansionArea east, MansionArea south, MansionArea west) {

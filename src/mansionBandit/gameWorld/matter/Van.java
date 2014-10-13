@@ -65,7 +65,7 @@ public class Van extends GameMatter{
 	
 	@Override
 	public String getImage() {
-		return "van";
+		return "dropoff";
 	}
 	
 	@Override
