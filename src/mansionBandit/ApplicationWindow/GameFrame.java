@@ -56,6 +56,8 @@ WindowListener, KeyListener {
 	// window dimensions
 	private final int windowDimensionX = 800;
 	private final int windowDimensionY = 717;
+	
+	private Map map;
 
 	private Grabable draggingItem; //the item being dragged by the player
 
@@ -181,7 +183,7 @@ WindowListener, KeyListener {
 		layeredPane.add(guiCanvas,new Integer(1),0);
 
 
-		Map map = new Map(player);
+		map = new Map(player);
 		//sets position of map
 
 		map.setLocation(690,10);
@@ -502,6 +504,7 @@ WindowListener, KeyListener {
 	 * @param time
 	 */
 	public void updateTimeLeft(int time){
+		//map.repaint();
 		if(time==0){
 			JOptionPane.showMessageDialog(
 					this,

@@ -51,7 +51,7 @@ public class Map extends JPanel{
 		g.drawRect(0, 0, widthMap-1, heightMap-1);
 		drawGrid(g);
 		drawWalls(g);
-		drawPlayers(g);
+		//drawPlayers(g);
 	}
 	
 	/**
@@ -84,6 +84,11 @@ public class Map extends JPanel{
 					else
 						System.out.println("I can't find your van!!!");
 				}
+				if(player.getBandit().getRoomCoords(player.getBandit().getArea())[0]==i
+						&&player.getBandit().getRoomCoords(player.getBandit().getArea())[1]==j){
+					g.setColor(Color.BLACK);
+					g.fillOval(j*widthBlock+padding+2, i*heightBlock+padding+2, bandit, bandit);
+						}
 			}
 		}
 	}
