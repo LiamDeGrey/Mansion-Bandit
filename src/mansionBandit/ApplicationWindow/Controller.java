@@ -81,9 +81,9 @@ public class Controller implements MouseListener, KeyListener{
 	public void mouseEntered(MouseEvent arg0) {}
 	@Override
 	public void mouseExited(MouseEvent arg0) {}
+	
 	@Override
 	public void mousePressed(MouseEvent e) {
-
 
 
 		if(e.getButton() == MouseEvent.BUTTON1){
@@ -129,7 +129,8 @@ public class Controller implements MouseListener, KeyListener{
 
 				gameFrame.getGUICanvas().repaint();
 
-
+				gameFrame.getGamePanel().repaint();
+				gameFrame.getGamePanel().update();
 				}
 		}
 

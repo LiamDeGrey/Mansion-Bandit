@@ -162,7 +162,6 @@ WindowListener, KeyListener {
 		//adds it at 3rd layer of the pane
 		layeredPane.add(ingameMenuPanel,new Integer(2),0);
 
-
 		//add the rendering panel
 		gamePanel = new GamePanel(player);
 
@@ -265,7 +264,6 @@ WindowListener, KeyListener {
 		mainMenu.repaint();
 		this.revalidate();
 		this.repaint();
-
 	}
 
 
