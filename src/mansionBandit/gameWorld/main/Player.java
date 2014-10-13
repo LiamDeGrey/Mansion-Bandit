@@ -30,7 +30,7 @@ public abstract class Player {
 	}
 
 	public MansionArea[][] getGrid(){
-		return grid;
+		return bandit.getGrid();
 	}
 
 	public void setGridStart(MansionArea[][] grid){

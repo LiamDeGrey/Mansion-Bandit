@@ -347,6 +347,7 @@ WindowListener, KeyListener {
 		//remove the main menu
 		this.remove(mainMenu);
 
+		player.getBandit().setArea(player.getGrid()[1][2]);
 		player.getBandit().setFace(Face.NORTHERN);
 
 		//sets up user interface elements

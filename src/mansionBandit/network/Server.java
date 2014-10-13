@@ -89,7 +89,7 @@ public final class Server {
 	 *
 	 */
 	public void serverSendGrid() {
-		broadcast(new UpdateGridMessage(this.player.getGrid()));
+		broadcast(new UpdateGridMessage(this.player.getBandit().getGrid()));
 	}
 
 	/**
@@ -149,7 +149,7 @@ public final class Server {
 				gameFrame.updatePlayerList(usernameList);
 
 				//Broadcasting grid to clients that connect
-				MansionArea[][] grid = player.getGrid();
+				MansionArea[][] grid = player.getBandit().getGrid();
 				output.writeObject(grid);
 
 				//Broadcasting username list to clients that connect

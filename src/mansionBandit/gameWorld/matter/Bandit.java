@@ -15,6 +15,9 @@ public class Bandit extends Character{
 	private Grabable[] inventory = new Grabable[7];
 	private StartSpace start;
 	private MansionArea[][] grid;
+
+	//TODO internal array reference to grid, storing current location
+
 	private MansionArea area;
 	private int[] adjacentGrid = new int[2];
 
@@ -91,6 +94,10 @@ public class Bandit extends Character{
 				return (Van) matter;
 		}
 		return null;
+	}
+
+	public MansionArea[][] getGrid(){
+		return grid;
 	}
 
 	public void setGrid(MansionArea[][] grid){

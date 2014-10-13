@@ -72,7 +72,7 @@ public final class Client {
 	 */
 	public void clientSendGrid() {
 		try {
-			output.writeObject(new UpdateGridMessage(player.getGrid()));
+			output.writeObject(new UpdateGridMessage(player.getBandit().getGrid()));
 		} catch (IOException e) {
 			System.out.println("Exception sending grid update " + e);
 		}
