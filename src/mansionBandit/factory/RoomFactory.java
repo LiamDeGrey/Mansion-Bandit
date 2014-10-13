@@ -17,7 +17,7 @@ import mansionBandit.gameWorld.matter.GameMatter;
  *
  */
 public class RoomFactory {
-	private final int roomFloorObjects = 2, roomWallObjects = 2, chanceToLock = 7, chanceToHallwayItem = 5, chanceToHallWallItem = 8;
+	private final int roomFloorObjects = 2, chanceToLock = 7, chanceToHallwayItem = 5, chanceToHallWallItem = 4;
 	private ItemFactory floorItems, ceilingItems, hallWallItems, wallItems;
 	private RoomPainter roomPainter;
 	private Random random;
@@ -123,38 +123,33 @@ public class RoomFactory {
 	 * @param isRoom true if room is a Room object (as opposed to hallway)
 	 */
 	private void popWall(MansionArea room, boolean isRoom){
-		Face face = Face.NORTHERN;
 		if (isRoom){
-			do {
-				int numbObjects = random.nextInt(roomWallObjects);
-				for (int i = 0; i < numbObjects; i++){
-					//add random object to room
-					room.addItem(wallItems.getItem(room, face));
-				}
-				face = face.getLeft(face);
-			} while (face != Face.NORTHERN);
-
+			if (room.getNorth() == null){
+				room.addItem(wallItems.getItem(room, Face.NORTHERN));
+			}
+			if (room.getEast() == null){
+				room.addItem(wallItems.getItem(room, Face.EASTERN));
+			}
+			if (room.getSouth() == null){
+				room.addItem(wallItems.getItem(room, Face.SOUTHERN));
+			}
+			if (room.getWest() == null){
+				room.addItem(wallItems.getItem(room, Face.WESTERN));
+			}
 		} else {
 			//check hall way for valid walls
-			if (room.getNorth() instanceof Room){
-				makeHallWallItem(room, Face.NORTHERN);
+			if (room.getNorth() == null){
+				room.addItem(hallWallItems.getItem(room, Face.NORTHERN));
 			}
-			if (room.getEast() instanceof Room){
-				makeHallWallItem(room, Face.EASTERN);
+			if (room.getEast() == null){
+				room.addItem(hallWallItems.getItem(room, Face.EASTERN));
 			}
-			if (room.getSouth() instanceof Room){
-				makeHallWallItem(room, Face.SOUTHERN);
+			if (room.getSouth() == null){
+				room.addItem(hallWallItems.getItem(room, Face.SOUTHERN));
 			}
-			if (room.getWest() instanceof Room){
-				makeHallWallItem(room, Face.WESTERN);
+			if (room.getWest() == null){
+				room.addItem(hallWallItems.getItem(room, Face.WESTERN));
 			}
-		}
-	}
-
-	private void makeHallWallItem(MansionArea room, Face face){
-		if (random.nextInt(chanceToHallWallItem) == 1){
-			//add random object to room
-			room.addItem(hallWallItems.getItem(face));
 		}
 	}
 }
