@@ -110,7 +110,7 @@ public class Bandit extends Character{
 	}
 
 	public MansionArea getArea(){
-		return grid[x][y];
+		return grid[y][x];
 	}
 
 	public void setArea(MansionArea area){
@@ -122,27 +122,30 @@ public class Bandit extends Character{
 	 * bandit moves forward
 	 */
 	public boolean moveForward() {
+		int moveY = 0, moveX = 0;
 		Face face = getFace();
 		MansionArea area = null;
 		if(face==Face.NORTHERN) {
-			y += 1;
+			moveY += 1;
 			area = getArea().getNorth();
 		}
 		else if(face==Face.EASTERN) {
-			x += 1;
+			moveX += 1;
 			area =getArea().getEast();
 		}
 		else if(face==Face.SOUTHERN) {
-			y -= 1;
+			moveY -= 1;
 			area =getArea().getSouth();
 		}
 		else if(face==Face.WESTERN) {
-			x -= 1;
+			moveX -= 1;
 			area =getArea().getWest();
 		}
 
 		if(area!=null) {
 			setArea(area);
+			x += moveX;
+			y += moveY;
 			return true;
 		}
 		return false;
