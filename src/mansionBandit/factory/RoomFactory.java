@@ -127,7 +127,7 @@ public class RoomFactory {
 				int numbObjects = random.nextInt(roomWallObjects);
 				for (int i = 0; i < numbObjects; i++){
 					//add random object to room
-					room.addItem(wallItems.getItem(face));
+					room.addItem(wallItems.getItem(room, face));
 				}
 				face = face.getLeft(face);
 			} while (face != Face.NORTHERN);

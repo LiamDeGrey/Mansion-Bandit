@@ -134,11 +134,11 @@ public class Bandit extends Character{
 			area =getArea().getEast();
 		}
 		else if(face==Face.SOUTHERN) {
-			moveY -= 1;
+			moveY = -1;
 			area =getArea().getSouth();
 		}
 		else if(face==Face.WESTERN) {
-			moveX -= 1;
+			moveX = -1;
 			area =getArea().getWest();
 		}
 

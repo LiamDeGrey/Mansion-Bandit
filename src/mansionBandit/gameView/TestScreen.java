@@ -79,7 +79,7 @@ public class TestScreen extends JFrame implements KeyListener{
         grid[1][3].setLinks(grid[0][3], grid[1][4], grid[2][3], grid[1][2]); //[1][3]
         grid[0][2].setLinks(null, grid[0][3], grid[1][2], grid[0][1]); //[0][2]
         grid[2][3].setLinks(grid[1][3], grid[2][4], null, grid[2][2]); //[2][3]
-        p.getBandit().setArea(grid[1][1]);
+        //p.getBandit().setArea(1,2);
 //        p.getBandit().setArea(demoRoom);
         
         RoomFactory factory = new RoomFactory();
