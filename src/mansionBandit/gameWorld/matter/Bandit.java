@@ -38,7 +38,7 @@ public class Bandit extends Character{
 		super(name, null, null, null, null);
 		this.player = player;
 		initialiseInventory();
-		
+
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class Bandit extends Character{
 		this.setDimensions(dimens);
 		RoomFactory rf = new RoomFactory();
 		rf.populateRoom(start);
-		
+
 		van = new Van(getName()+"van", Face.opposite(getFace()), player);
 		start.addItem(van);
 		Door exit = new Door(getName()+"startDoor", getFace(), new Dimensions(50, 100, 70), false);
@@ -125,7 +125,7 @@ public class Bandit extends Character{
 		this.grid = grid;
 		setStartSpace();
 	}
-	
+
 	public void setArea(int i, int j) {
 		this.i = i;
 		this.j = j;
@@ -146,20 +146,38 @@ public class Bandit extends Character{
 		Face face = getFace();
 		MansionArea next = null;
 		if(face==Face.NORTHERN) {
+			if(getArea().getNorth()==null){
+				System.out.println("YOU CAN'T GO THERE!");
+				return false;
+			}
 			next = getArea().getNorth();
 		}
 		else if(face==Face.EASTERN) {
+			if(getArea().getEast()==null){
+				System.out.println("YOU CAN'T GO THERE!");
+				return false;
+			}
 			next =getArea().getEast();
 		}
 		else if(face==Face.SOUTHERN) {
+			if(getArea().getSouth()==null){
+				System.out.println("YOU CAN'T GO THERE!");
+				return false;
+			}
 			next =getArea().getSouth();
 		}
 		else if(face==Face.WESTERN) {
+			if(getArea().getWest()==null){
+				System.out.println("YOU CAN'T GO THERE!");
+				return false;
+			}
 			next =getArea().getWest();
 		}
-		
+
 		newi = getRoomCoords(next)[0];
 		newj = getRoomCoords(next)[1];
+
+
 
 		if(next!=null) {
 			if(next.equals(start))
@@ -170,7 +188,7 @@ public class Bandit extends Character{
 		}
 		return false;
 	}
-	
+
 	public int[] getRoomCoords(MansionArea room) {
 		int[] coords = {-2, -2};
 		if(room.equals(start)) {
