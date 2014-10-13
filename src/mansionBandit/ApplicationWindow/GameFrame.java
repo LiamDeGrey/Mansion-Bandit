@@ -129,8 +129,6 @@ WindowListener, KeyListener {
 
 		//sets up main menu interface
 		enterMainMenu();
-
-
 	}
 
 	public Dimension getPreferredSize() {
@@ -236,10 +234,20 @@ WindowListener, KeyListener {
 	 * ends the current game by resetting values, disconnecting and removing GUI components
 	 */
 	private void endGame(){
+		
+		//removes old listeners from frame
+		removeMouseListener(controller);
+		removeKeyListener(controller);
+		
+		//resets fields
+		server = null;
+		client = null;
+		controller = null;
+		player =null;
 
 		this.remove(layeredPane);
 		closeIngameMenu();
-
+		
 		gameStarted = false;
 	}
 
@@ -306,6 +314,7 @@ WindowListener, KeyListener {
 		setupScreen();
 
 		controller= new Controller(player, gamePanel,this);
+		
 		addMouseListener(controller);
 		addKeyListener(controller);
 
@@ -324,9 +333,6 @@ WindowListener, KeyListener {
 		this.remove(mainMenu);
 
 		MansionArea[][] testGrid = getTestGrid();
-
-		//player.getBandit().setArea(p1][2]);
-		//player.getBandit().setFace(Face.NORTHERN);
 
 		setupScreen();
 
@@ -347,9 +353,6 @@ WindowListener, KeyListener {
 	public void startClientMultiplayerGame(){
 		//remove the main menu
 		this.remove(mainMenu);
-
-		//player.getBandit().setArea(player.getGrid()[1][2]);
-		//player.getBandit().setFace(Face.NORTHERN);
 
 		//sets up user interface elements
 		setupScreen();

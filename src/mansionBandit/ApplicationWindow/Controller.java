@@ -224,7 +224,7 @@ public class Controller implements MouseListener, KeyListener{
 			if (gamePanel.getObject(mouseX,mouseY) != null) {
 
 				// change the description text to the items description
-				String descriptionText =("<html><p><center>" +  gamePanel.getObject(mouseX, mouseY).getDescription() + "</center></p></html>");
+				String descriptionText =("<html><p><center>" +  gamePanel.getObject(mouseX, mouseY).getDescription() + "</center></p></html>" +gamePanel.getObject(mouseX,mouseY));
 				gameFrame.setDescriptionText(descriptionText);
 			}
 		}
