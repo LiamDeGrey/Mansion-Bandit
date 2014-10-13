@@ -173,9 +173,7 @@ public class Controller implements MouseListener, KeyListener{
 										Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 
 						//updates the money label in gameframe
-						//TODO
-						//gameFrame.setMoneyText(player.getTotal());
-						gameFrame.setMoneyText(10);
+						gameFrame.setMoneyText(player.getBandit().getVan().getTotal());
 					} else {
 
 						// if the interaction was invalid the item is returned
