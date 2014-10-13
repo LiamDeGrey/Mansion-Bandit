@@ -131,8 +131,6 @@ WindowListener, KeyListener {
 
 		//sets up main menu interface
 		enterMainMenu();
-
-
 	}
 
 	public Dimension getPreferredSize() {
@@ -215,13 +213,14 @@ WindowListener, KeyListener {
 		layeredPane.add(timeLabel, new Integer(1),0);
 
 		//adds MONEY LABEL
-		moneyLabel = new JLabel("<html><p><center></center></p></html>");
+		moneyLabel = new JLabel("$0");
 		moneyLabel.setBounds(0,inventoryBarPos.y+299,98,87);
 		moneyLabel.setBackground(Color.DARK_GRAY);
 		moneyLabel.setOpaque(true);
 		moneyLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		moneyLabel.setVerticalAlignment(SwingConstants.CENTER);
 		moneyLabel.setForeground(Color.yellow);
+		moneyLabel.setFont(new Font("Courier New", Font.BOLD, 30));
 		layeredPane.add(moneyLabel, new Integer(1),0);
 
 		//redisplay the screen
@@ -237,10 +236,20 @@ WindowListener, KeyListener {
 	 * ends the current game by resetting values, disconnecting and removing GUI components
 	 */
 	private void endGame(){
+		
+		//removes old listeners from frame
+		removeMouseListener(controller);
+		removeKeyListener(controller);
+		
+		//resets fields
+		server = null;
+		client = null;
+		controller = null;
+		player =null;
 
 		this.remove(layeredPane);
 		closeIngameMenu();
-
+		
 		gameStarted = false;
 	}
 
@@ -307,6 +316,7 @@ WindowListener, KeyListener {
 		setupScreen();
 
 		controller= new Controller(player, gamePanel,this);
+		
 		addMouseListener(controller);
 		addKeyListener(controller);
 
@@ -325,9 +335,6 @@ WindowListener, KeyListener {
 		this.remove(mainMenu);
 
 		MansionArea[][] testGrid = getTestGrid();
-
-		//player.getBandit().setArea(p1][2]);
-		//player.getBandit().setFace(Face.NORTHERN);
 
 		setupScreen();
 
@@ -348,9 +355,6 @@ WindowListener, KeyListener {
 	public void startClientMultiplayerGame(){
 		//remove the main menu
 		this.remove(mainMenu);
-
-		//player.getBandit().setArea(player.getGrid()[1][2]);
-		//player.getBandit().setFace(Face.NORTHERN);
 
 		//sets up user interface elements
 		setupScreen();
@@ -508,7 +512,7 @@ WindowListener, KeyListener {
 		if(time==0){
 			JOptionPane.showMessageDialog(
 					this,
-					"You stole $" +  "money worth of goods!","GAME OVER" , JOptionPane.INFORMATION_MESSAGE);
+					"Times up! You stole " +moneyLabel.getText() + " worth of goods!","GAME OVER" , JOptionPane.INFORMATION_MESSAGE);
 			endGame();
 			enterMainMenu();
 		}
@@ -550,7 +554,6 @@ WindowListener, KeyListener {
 
 	}
 
-	//TODO: this method requires a game world parameter
 	//TODO: need to create a ServerRunning thread which will call this method. (last line must be in a thread)
 	public void runServer(int port, int nclients, String userName) {
 		System.out.println("Creating server on port " + port + " with " + nclients + " limit");
