@@ -58,7 +58,7 @@ public class Map extends JPanel{
 
 	@Override
 	public void paintComponent(Graphics g){
-		g.setColor(Color.YELLOW);
+		g.setColor(Color.decode("#D6D6CC"));
 		g.fillRect(0, 0, widthMap, heightMap);
 		g.setColor(Color.BLACK);
 		g.drawRect(0, 0, widthMap-1, heightMap-1);
@@ -99,17 +99,17 @@ public class Map extends JPanel{
 		for(int i=0; i<grid.length; i++){
 			for(int j=0; j<grid[0].length; j++){
 				if(grid[i][j] instanceof Room){
-					g.setColor(Color.decode("#99FF33"));//Greenish
+					g.setColor(Color.decode("#818181"));//Greenish
 					g.fillRect(j*widthBlock+padding, i*heightBlock+padding, widthBlock, heightBlock);
 				}else if(grid[i][j] instanceof Hallway){
-					g.setColor(Color.decode("#CCFFFF"));//Light blue
+					g.setColor(Color.decode("#BDBDBD"));//Light blue
 					g.fillRect(j*widthBlock+padding, i*heightBlock+padding, widthBlock, heightBlock);
 				}
 				/*
 				 * Draw the start position(van) on the map
 				 */
 				if(adjacentGrid[0]==i&&adjacentGrid[1]==j) {
-					g.setColor(Color.decode("#FF66FF"));//Purple
+					g.setColor(Color.decode("#B2B2FF"));//Purple
 					if(i==0)
 						g.fillRect(j*widthBlock+padding, padding-heightBlock, widthBlock, heightBlock);
 					else if(i==grid.length-1)
