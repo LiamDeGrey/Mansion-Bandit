@@ -82,6 +82,7 @@ public class Bandit extends Character{
 		}
 
 		setArea(-1,-1);
+		start.addItem(this);
 		Dimensions dimens = new Dimensions(10, 10, 50);
 		this.setDimensions(dimens);
 		RoomFactory rf = new RoomFactory();
@@ -180,10 +181,15 @@ public class Bandit extends Character{
 
 
 		if(next!=null) {
-			if(next.equals(start))
+			if(next.equals(start)){
+				getArea().removeItem(this);
 				setArea(-1,-1);
-			else
+				start.addItem(this);
+			}else{
+				getArea().removeItem(this);
 				setArea(newi, newj);
+				getArea().addItem(this);
+			}
 			return true;
 		}
 		return false;
@@ -320,7 +326,7 @@ public class Bandit extends Character{
 
 	@Override
 	public String getImage(){
-		return "bandit";
+		return "player1";
 	}
 
 	/**

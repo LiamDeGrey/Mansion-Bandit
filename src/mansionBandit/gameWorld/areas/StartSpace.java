@@ -13,7 +13,7 @@ import mansionBandit.gameWorld.matter.GameMatter;
  * @author Liam De Grey
  *
  */
-public class StartSpace extends Room {
+public class StartSpace implements MansionArea {
 	private MansionArea north, south, east, west;
 	private List<GameMatter> items = new ArrayList<GameMatter>();
 	private String wallTexture, ceilingTexture, floorTexture;
@@ -96,11 +96,16 @@ public class StartSpace extends Room {
 	public void setEast(MansionArea area) {
 		this.east = area;
 	}
-	
+
 	public void setTextures(String wall, String ceiling, String floor){
 		this.wallTexture = wall;
 		this.ceilingTexture = ceiling;
 		this.floorTexture = floor;
+	}
+
+	@Override
+	public boolean removeItem(GameMatter itm) {
+		return false;
 	}
 
 }

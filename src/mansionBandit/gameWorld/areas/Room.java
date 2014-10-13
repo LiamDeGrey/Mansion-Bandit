@@ -29,13 +29,13 @@ public class Room implements MansionArea{
 
 
 	public Room(){
-
+		addGuard();
 	}
 
 	private void addGuard(){
 		int rand = (int)(Math.random()*15)+1;
-		if(rand==5){
-			Guard guard = new Guard("guard", Face.FLOOR, new Dimensions(50, 50, 50), this);
+		if(5==5){
+			Guard guard = new Guard("guard", Face.FLOOR, this);
 			addItem(guard);
 		}
 	}

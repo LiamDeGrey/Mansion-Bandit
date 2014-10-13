@@ -15,6 +15,7 @@ import mansionBandit.gameWorld.areas.Room;
 import mansionBandit.gameWorld.matter.Dimensions;
 import mansionBandit.gameWorld.matter.Face;
 import mansionBandit.gameWorld.matter.GameMatter;
+import mansionBandit.gameWorld.matter.Guard;
 
 public class TopBottomStrategy implements SurfaceStrategy {
 	private boolean ceiling;
@@ -67,18 +68,18 @@ public class TopBottomStrategy implements SurfaceStrategy {
 
 	@Override
 	public void setupSurface(Surface surface, Face direction) {
-		
+
 		//set bounds for the surface
 		surfaceX = surface.roomView.boundX;
 		surfaceWidth = surface.roomView.width;
-		
+
 		if (surface.roomView.sidePassage){
-			/* 
+			/*
 			 * override for sidepassages.
 			 * when using the skew feature of javaxt, we must only use coordinates
 			 * within the bounds of the original image file, so here we have to
 			 * scale the width up so that we can move one edge past the other
-			 * and maintain the correct ratio: 
+			 * and maintain the correct ratio:
 			 *  ___________________________
 			 *  |      /                  /
 			 *  |     /                  /|
@@ -88,21 +89,21 @@ public class TopBottomStrategy implements SurfaceStrategy {
 			 *  | /                  /    |
 			 *  |/__________________/_____|
 			 *      original image bounds
-			 * 
+			 *
 			 */
 			surfaceWidth = (int) (surface.roomView.width * 1.25);
 			if (!surface.roomView.sidePassageLeft){
 				surfaceX = (int) (surface.roomView.boundX - (surface.roomView.width * 0.25));
 			}
 		}
-		
+
 		surfaceHeight = surface.roomView.height/4;
 		if (ceiling){
 			surfaceY = surface.roomView.boundY;
 		} else {
 			surfaceY = surface.roomView.boundY + ((surface.roomView.height * 3) / 4);
 		}
-		
+
 		//load and warp the image
 		this.surface = surface;
 		if (ceiling){
@@ -110,7 +111,7 @@ public class TopBottomStrategy implements SurfaceStrategy {
 		} else {
 			surfaceTexture = warpImage("/texture/" + surface.roomView.room.getFloorTexture() + ".png");
 		}
-		
+
 		//create object list for surface
 		createGameObjects(surface.roomView.room, direction);
 
@@ -124,12 +125,12 @@ public class TopBottomStrategy implements SurfaceStrategy {
 			}
 		}
 	}
-	
+
 	/**
 	 * gets the objects in the room, filters them for this wall
 	 * only, and wraps them into a drawn object, complete with
 	 * resized bounds
-	 * 
+	 *
 	 * @param room the room this surface belongs to
 	 * @param direction the direction this surface is on
 	 */
@@ -138,10 +139,13 @@ public class TopBottomStrategy implements SurfaceStrategy {
 
 		//loop through objects on floor, and resize them
 		for (GameMatter item : room.getItems()){
+			if(item instanceof Guard)
+				((Guard) item).wakeUp();
+
 			if (item.getFace() != direction){
 				continue;
 			}
-			
+
 			//determine x and y based on direction facing in room
 			int x = getX(item.getDimensions());
 			int y = getY(item.getDimensions());
@@ -196,7 +200,7 @@ public class TopBottomStrategy implements SurfaceStrategy {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 			DrawnObject dob = new DrawnObject(item, image, objectCenterX, top, scale, scale);
 			obs.add(dob);
 		}
@@ -214,7 +218,7 @@ public class TopBottomStrategy implements SurfaceStrategy {
 	 * objects dimensions are given as if 0,0 is the North West corner,
 	 * this method returns the x value depending on which direction
 	 * the viewer is actually facing (basically rotates coordinates)
-	 * 
+	 *
 	 * @param dim dimensions of the object
 	 * @return the correct x value
 	 */
@@ -243,7 +247,7 @@ public class TopBottomStrategy implements SurfaceStrategy {
 	 * objects dimensions are given as if 0,0 is the North West corner,
 	 * this method returns the y value depending on which direction
 	 * the viewer is actually facing. (basically rotates coordinates)
-	 * 
+	 *
 	 * @param dim dimensions of the object
 	 * @return the correct y value
 	 */
@@ -267,13 +271,13 @@ public class TopBottomStrategy implements SurfaceStrategy {
 		//must be facing north
 		return dim.getY();
 	}
-	
+
 	/**
 	 * applies perspective transformations on passed images depending on whether this is a right
 	 * or left wall and returns the result
 	 * uses the javaxt library
-	 * Note: does not change height or width, thats currently done by the parameters passed to the DrawnObject 
-	 * 
+	 * Note: does not change height or width, thats currently done by the parameters passed to the DrawnObject
+	 *
 	 * @param imagePath string path to image
 	 * @return the transformed Image object
 	 */
