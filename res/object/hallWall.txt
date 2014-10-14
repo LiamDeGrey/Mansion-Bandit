@@ -1,1 +1,6 @@
-bookshelf Bookshelf Reading_is_for_squares. static 60 0 0 0
+picture1 Sexy_Painting Seductive_painting_of_the_Bill_Gates sell 50 10 50 20 300 200
+bookshelf Bookshelf Reading_is_for_squares. static 60 0 100 0 0 0
+picture2 Portrait Liam_likes_this_bike sell 50 10 50 20 200 200
+picture3 Painting_of_a_Cool_Dude Maybe_he_responds_well_to_complements? sell 50 10 50 20 500 100
+picture4 Painting_of_Batman Not_the_painting_that_Gotham_deserves... sell 50 10 50 20 400 100
+fireplace Fireplace Flames_aren't_moving..._Must_be_a_fake_one. static 60 0 100 0 0 0
