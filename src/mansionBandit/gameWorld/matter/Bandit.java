@@ -22,7 +22,6 @@ public class Bandit extends Character{
 	private int i, j;
 	private Van van;
 
-	private MansionArea area;
 	private int[] adjacentGrid = new int[2];
 
 	public Bandit(String name, MansionArea[][] grid, Player player) {
@@ -74,36 +73,6 @@ public class Bandit extends Character{
 			adjacentGrid[1]=grid[0].length/2;
 		}
 
-
-		/*if(leftMid.getWest()==null){
-			start.setLinks(null, leftMid, null, null);
-			//leftMid.setWest(start);
-			this.setFace(Face.EASTERN);
-			adjacentGrid[0]=grid.length/2;
-			adjacentGrid[1]=0;
-		}else if(topMid.getNorth()==null){
-			start.setLinks(null, null, topMid, null);
-			//topMid.setNorth(start);
-			this.setFace(Face.SOUTHERN);
-			adjacentGrid[0]=0;
-			adjacentGrid[1]=grid.length/2;
-		}else if(rightMid.getEast()==null){
-			start.setLinks(null, null, null, rightMid);
-			//rightMid.setEast(start);
-			this.setFace(Face.WESTERN);
-			adjacentGrid[0]=grid.length/2;
-			adjacentGrid[1]=grid[0].length-1;
-		}else if(botMid.getSouth()==null){
-			start.setLinks(botMid, null, null, null);
-			//botMid.setSouth(start);
-			this.setFace(Face.NORTHERN);
-			adjacentGrid[0]=grid.length-1;
-			adjacentGrid[1]=grid[0].length/2;
-		}else {
-			System.out.println("Cannot add more than 4 players!!");
-			return;
-		}*/
-
 		setArea(-1,-1);
 		start.addItem(this);
 		Dimensions dimens = new Dimensions(10, 10, 50);
@@ -153,11 +122,6 @@ public class Bandit extends Character{
 	public void setArea(int i, int j) {
 		this.i = i;
 		this.j = j;
-		if(i==-1||j==-1){
-			area = start;
-		}else{
-			area = grid[i][j];
-		}
 	}
 
 	public MansionArea getArea(){
@@ -362,7 +326,8 @@ public class Bandit extends Character{
 	public void kill(){
 		for(int i=0; i<inventory.length; i++){
 			if(inventory[i]!=null){
-				area.addItem(inventory[i]);
+				getArea().addItem(inventory[i]);
+				inventory[i]=null;
 			}
 		}
 		System.out.println("DEAD. Get out of here filthy Bandit!!");
@@ -392,6 +357,15 @@ public class Bandit extends Character{
 		for(int i=0; i<inventory.length; i++){
 			inventory[i] = null;
 		}
+	}
+
+	@Override
+	public boolean equals(Object o){
+		if(o instanceof Bandit){
+			if(((Bandit) o).getName().equals(getName()))
+				return true;
+		}
+		return false;
 	}
 
 	@Override
