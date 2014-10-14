@@ -5,7 +5,7 @@ phone Antique_Smarphone It's_a_smartphone,_but_without_Snapchat._WHAAAAT? sell 1
 goblet1 Gold_Goblet Ooooh_a_gold_cup._Imagine_how_wasted_you_could_get_off_of_this_bad_boy. sell 10 25 100 200
 goblet2 Silver_Goblet I_saw_a_much_more_awesomerer_cup_somewhere_else..._This_one_is_OK_I_guess. sell 10 25 50 150
 toaster Toaster_(+_Bonus_Toast!) It's_a_toaster_complete_with_pre-toasted_bread! sell 15 10 25 50
-washMachine Washing_Machine Maybe_you_can..._LAUNDER_your_dirty_cash?_Ahaha_good_times. sell 30 30 150 200
+washMachine Washing_Machine Maybe_you_can..._LAUNDER_your_dirty_cash?_Ahaha_good_times. sell 30 15 150 200
 computer Computer Be_the_envy_of_your_friends_with_this_mean_machine! sell 30 10 300 100
 boombox Plus_sized_iPod This_Boombox_will_change_the_world._Know_your_limits_with_the_Boombox. sell 20 15 60 40
 fridge Retro_fridge Will_keep_your_roast_beef_cool. sell 60 10 0 40
