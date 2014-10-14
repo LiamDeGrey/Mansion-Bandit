@@ -146,7 +146,7 @@ public class Controller implements MouseListener, KeyListener{
 			else if(gameFrame.getInventorySlot(mouseX,mouseY)>=0 && player.getItem(gameFrame.getInventorySlot(mouseX,mouseY))!=null){
 				//sets description of item in inventory
 				String descriptionText =("<html><p><center>" +  player.getItem(gameFrame.getInventorySlot(mouseX,mouseY)).getDescription() + "</center></p></html>");
-				gameFrame.setDescriptionText(descriptionText,mouseX,mouseY);
+				gameFrame.setDescriptionText(descriptionText,mouseX,mouseY-100);
 			}
 			
 		}
