@@ -355,7 +355,7 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		//add the textbox
 		hostGamePanel.add(hostNameTextField);
 
-		
+
 		//sets up addressLabel
 		JLabel numRoomsLabel = new JLabel("Number of rooms in the mansion: ");
 
@@ -368,8 +368,8 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 
 		//set the size of the textbox
 		addressTextField.setPreferredSize(textBoxDimension);
-		
-		
+
+
 		//set the position of the menu
 		hostGamePanel.setBounds(menuX,menuY,menuH,menuW);
 
@@ -666,9 +666,10 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 	private void beginHostingGame(){
 		//calls to methods that create the host object, give it a game object and a player as well as give the gameFrame a game object and player
 		String userName = hostNameTextField.getText();
+		int numRooms = Integer.parseInt(numRoomsMultiplayerTextField.getText());
 		player1NameLabel.setText(userName);
 		this.repaint();
-		gameFrame.runServer(32768,4,userName);
+		gameFrame.runServer(32768,4,userName, numRooms);
 
 	}
 
