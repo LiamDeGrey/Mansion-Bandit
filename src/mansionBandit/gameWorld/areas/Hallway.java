@@ -48,6 +48,10 @@ public class Hallway implements MansionArea{
 	public List<GameMatter> getItems(){
 		return items;
 	}
+	
+	public void setItems(List<GameMatter> newItems) {
+		items = newItems;
+	}
 
 	public void setLinks(MansionArea north, MansionArea east, MansionArea south, MansionArea west){
 		this.north = north;

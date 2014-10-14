@@ -35,5 +35,11 @@ public class Host extends Player{
 			server.serverSendRoom();
 		}
 	}
+	
+	protected void updateItems() {
+		if (server != null) {
+			server.serverSendItems();
+		}
+	}
 
 }

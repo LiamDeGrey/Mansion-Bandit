@@ -75,6 +75,10 @@ public class Room implements MansionArea{
 	public List<GameMatter> getItems(){
 		return items;
 	}
+	
+	public void setItems(List<GameMatter> newItems) {
+		items = newItems;
+	}
 
 	public MansionArea getNorth(){
 		return north;

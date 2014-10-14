@@ -12,6 +12,12 @@ import java.util.ArrayList;
 
 
 
+
+
+
+
+
+
 //import Server.ClientThread;
 import mansionBandit.ApplicationWindow.GameFrame;
 import mansionBandit.gameWorld.areas.MansionArea;
@@ -100,6 +106,12 @@ public final class Server {
 	public synchronized void serverSendRoom() {
 		broadcast(new RoomUpdateMessage(player.getBandit().getArea()));
 	}
+	
+	public void serverSendItems() {
+		int[] coords = player.getBandit().getRoomCoords(player.getBandit().getArea());
+		System.out.println("SERVER TX - SENDING ITEMS: " + player.getBandit().getArea().getItems());
+		broadcast(new ItemUpdateMessage(player.getBandit().getArea().getItems(), coords[0], coords[1]));
+	}
 
 	/**
 	 * Used for iterating the list of clients and sending them each a message.
@@ -109,7 +121,9 @@ public final class Server {
 	public synchronized void broadcast(Message msg) {
 		for(int i = clientList.size(); --i >= 0;) {
 			ClientThread ct = clientList.get(i);
-
+			if (msg instanceof ItemUpdateMessage) {
+				System.out.println("BROADCAST METHOD ITEMS : " + ((ItemUpdateMessage) msg).getItems());
+			}
 			ct.sendMessage(msg);
 		}
 	}
@@ -194,7 +208,12 @@ public final class Server {
 
 			//Send the message out on its stream
 			try {
+				if (msg instanceof ItemUpdateMessage) {
+					System.out.println("SENDMESSAGE METHOD ITEMS : " + ((ItemUpdateMessage) msg).getItems());
+				}
 				output.writeObject(msg);
+				//output.flush();
+				output.reset();
 			}
 			//Inform that an error occurred with sending the message, do not close anything
 			catch(IOException e) {
@@ -259,6 +278,21 @@ public final class Server {
 							System.out.println("SERVER RECEIVED COORDS: i: " + coords[0] + " j: " + coords[1]);
 							player.getBandit().setAreaInGrid(((RoomUpdateMessage) obj).getRoom(), coords[0], coords[1]); //update locally
 							broadcast(new RoomUpdateMessage((MansionArea) obj));
+						}
+					}
+					if (obj instanceof ItemUpdateMessage) {
+						System.out.println("Received item update message");
+						ItemUpdateMessage ium = (ItemUpdateMessage) obj;
+						int i = ium.getI();
+						int j = ium.getJ();
+						if (!(i == -2 || j == -2)) {
+							System.out.println("SERVER RX - RECEIVED COORDS: i: " + i + " j: " + j);
+							System.out.println("SERVER RX - RECEIVED ITEMS:       " + ium.getItems());
+							System.out.println("SERVER RX - ROOM USED TO CONTAIN: " + player.getBandit().grid[i][j].getItems());
+							player.getBandit().grid[i][j].setItems(ium.getItems());
+							System.out.println("SERVER RX - ROOM NOW CONTAINS:    " + player.getBandit().grid[i][j].getItems());
+							gameFrame.getGamePanel().update();
+							broadcast(ium);
 						}
 					}
 				}

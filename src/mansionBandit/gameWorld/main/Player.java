@@ -54,7 +54,7 @@ public abstract class Player {
 
 	public boolean moveForward(){
 		if(bandit.moveForward()){
-			updateRoom();
+			updateItems();
 			return true;
 		}
 		return false;
@@ -63,7 +63,7 @@ public abstract class Player {
 	public boolean addItem(Grabable itm, int slot){
 
 		if(bandit.addItem(itm,slot)){
-			updateRoom();
+			updateItems();
 			return true;
 		}
 		return false;
@@ -71,7 +71,7 @@ public abstract class Player {
 
 	public boolean addItem(Grabable itm){
 		if(bandit.addItem(itm)){
-			updateRoom();
+			updateItems();
 			return true;
 		}
 		return false;
@@ -88,7 +88,7 @@ public abstract class Player {
 	public boolean removeItemFromRoom(Grabable itm) {
 
 		if(bandit.getArea().getItems().remove(itm)){
-			updateRoom();
+			updateItems();
 			return true;
 		}
 		return false;
@@ -96,7 +96,7 @@ public abstract class Player {
 
 	public boolean dropItem(Grabable itm) {
 		if(bandit.getArea().getItems().add(itm)){
-			updateRoom();
+			updateItems();
 			return true;
 		}
 		return false;
@@ -113,5 +113,7 @@ public abstract class Player {
 	protected abstract void updateGrid();
 
 	protected abstract void updateRoom();
+	
+	protected abstract void updateItems();
 }
 

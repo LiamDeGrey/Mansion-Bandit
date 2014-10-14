@@ -78,6 +78,12 @@ public interface MansionArea extends Serializable {
 	 * @return the list of items
 	 */
 	public List<GameMatter> getItems();
+	
+	/**
+	 * replaces all items in the area with a new list
+	 * @param newItems the new list of items for the area
+	 */
+	public void setItems(List<GameMatter> newItems);
 
 	/**
 	 * gets the texture of the walls in this area

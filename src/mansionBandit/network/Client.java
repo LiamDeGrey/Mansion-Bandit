@@ -87,6 +87,19 @@ public final class Client {
 			System.out.println("Exception sending room update " + e);
 		}
 	}
+	
+	public void clientSendItems() {
+		try {
+			System.out.println("Creating item update message to write");
+			int[] coords = player.getBandit().getRoomCoords(player.getBandit().getArea());
+			System.out.println("CLIENT SENDING ITEMS: " + player.getBandit().getArea().getItems());
+			output.writeObject(new ItemUpdateMessage(player.getBandit().getArea().getItems(), coords[0], coords[1]));
+			//output.flush();
+			//output.reset();
+		} catch (IOException e) {
+			System.out.println("Exception sending item update " + e);
+		}
+	}
 
 	/**
 	 * The disconnect method closes all I/O streams and closes the socket.
@@ -151,8 +164,22 @@ public final class Client {
 						System.out.println("Received room update message");
 						int[] coords = player.getBandit().getRoomCoords(((RoomUpdateMessage) o).getRoom());
 						if (!(coords[0] == -2 || coords[1] == -2)) {
-							System.out.println("CLIENT RECEIVED COORDS: i: " + coords[0] + " j: " + coords[1]);
+							//System.out.println("CLIENT RECEIVED COORDS: i: " + coords[0] + " j: " + coords[1]);
 							player.getBandit().setAreaInGrid(((RoomUpdateMessage) o).getRoom(), coords[0], coords[1]); //update locally
+						}
+					}
+					if (o instanceof ItemUpdateMessage) {
+						System.out.println("Received item update message");
+						ItemUpdateMessage ium = (ItemUpdateMessage) o;
+						int i = ium.getI();
+						int j = ium.getJ();
+						if (!(i == -2 || j == -2)) {
+							//System.out.println("CLIENT RX - RECEIVED COORDS: i: " + i + " j: " + j);
+							//System.out.println("CLIENT RX - RECEIVED ITEMS:       " + ium.getItems());
+							//System.out.println("CLIENT RX - ROOM USED TO CONTAIN: " + player.getBandit().grid[i][j].getItems());
+							player.getBandit().grid[i][j].setItems(ium.getItems());
+							//System.out.println("CLIENT RX - ROOM NOW CONTAINS:    " + player.getBandit().grid[i][j].getItems());
+							gameFrame.getGamePanel().update();
 						}
 					}
 				}

@@ -18,7 +18,7 @@ import mansionBandit.gameWorld.main.Player;
 public class Bandit extends Character{
 	private Grabable[] inventory = new Grabable[7];
 	private StartSpace start;
-	private MansionArea[][] grid;
+	public MansionArea[][] grid;
 	private int i, j;
 	private Van van;
 

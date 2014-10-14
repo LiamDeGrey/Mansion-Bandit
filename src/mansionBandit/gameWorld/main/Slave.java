@@ -31,4 +31,8 @@ public class Slave extends Player{
 	protected void updateRoom() {
 		client.clientSendRoom();
 	}
+	
+	protected void updateItems() {
+		client.clientSendItems();
+	}
 }

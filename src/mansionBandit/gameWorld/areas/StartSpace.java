@@ -68,6 +68,11 @@ public class StartSpace implements MansionArea {
 	public List<GameMatter> getItems() {
 		return items;
 	}
+	
+	@Override
+	public void setItems(List<GameMatter> newItems) {
+		items = newItems;
+	}
 
 	public String getWallTexture(){
 		return wallTexture;
