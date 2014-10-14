@@ -33,6 +33,7 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 	JPanel multiplayerMenuPanel = new JPanel(gridLayout);
 	JPanel hostGamePanel = new JPanel(gridLayout);
 	JPanel connectToGamePanel = new JPanel(gridLayout);
+	JPanel roomChoicePanel = new JPanel(gridLayout);
 
 	JPanel currentPanel;//the current panel displayed
 
@@ -59,6 +60,10 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 
 	//the dimension/width and height of the textboxes in the menu
 	private final Dimension textBoxDimension = new Dimension(150,25);
+
+	//the textfields for entering the number of rooms to start a game into
+	private JTextField numRoomsTextField = new JTextField();
+	private JTextField numRoomsMultiplayerTextField = new JTextField();
 
 	//the set location and dimensions of the menu
 	private final int menuX = 275;
@@ -87,6 +92,7 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		setupMultiplayerMenu();
 		setupHostGameMenu();
 		setupConnectToGameMenu();
+		setupRoomChoiceMenu();
 
 		//Sets the menu to the main menu initially
 		setMenu(startMenuPanel);
@@ -126,7 +132,7 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		// creates the exit button
 		JButton playButton = new JButton("PLAY");
 		playButton.addActionListener(this);
-		playButton.setActionCommand("startGame");
+		playButton.setActionCommand("setMenuRoomChoice");
 		//makes sure that focus is kept on the main window
 		playButton.setFocusable(false);
 		playButton.setBackground(Color.black);
@@ -335,7 +341,6 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		//set the size of the textbox
 		addressTextField.setPreferredSize(textBoxDimension);
 
-
 		//sets up addressLabel
 		JLabel nameLabel = new JLabel("Name");
 
@@ -442,8 +447,57 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 	}
 
 
+	/**
+	 * sets up the interface for allowing players to select number of rooms
+	 */
+	private void setupRoomChoiceMenu(){
 
 
+		//sets up addressLabel
+		JLabel addressLabel = new JLabel("Number of rooms in the mansion: ");
+
+		roomChoicePanel.add(addressLabel);
+
+		//add the name textbox to the panel
+		roomChoicePanel.add(numRoomsTextField);
+
+		//set the size of the textbox
+		numRoomsTextField.setPreferredSize(textBoxDimension);
+
+
+		//creates back button which navigates back
+		JButton startButton = new JButton("START");
+		startButton.addActionListener(this);
+		startButton.setActionCommand("startGame");
+
+		//makes sure that focus is kept on the main window
+		startButton.setFocusable(false);
+		startButton.setBackground(Color.black);
+		startButton.setForeground(Color.white);
+		startButton.setFont(new Font("Courier New", 20, 20));
+
+		roomChoicePanel.add(startButton);
+
+
+
+		//creates back button which navigates back
+		JButton backButton = new JButton("BACK");
+		backButton.addActionListener(this);
+		backButton.setActionCommand("backButton");
+
+		//makes sure that focus is kept on the main window
+		backButton.setFocusable(false);
+		backButton.setBackground(Color.black);
+		backButton.setForeground(Color.white);
+		backButton.setFont(new Font("Courier New", 20, 20));
+
+		roomChoicePanel.add(backButton);
+
+		//set the position of the menu
+		roomChoicePanel.setBounds(menuX,menuY,menuH,menuW);
+
+		roomChoicePanel.setBackground(Color.black);
+	}
 
 	/**
 	 * Changes/sets the menu. Only one sub-menu will be displayed at a time.
@@ -452,7 +506,6 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 	private void setMenu(JPanel submenu){
 
 		//removes all current menus/panels that are displayed
-		//this.removeAll();
 		if(currentPanel!=null){
 			this.remove(currentPanel);
 		}
@@ -472,9 +525,9 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 	/**
 	 * quits out of the main menu and starts the game
 	 */
-	private void startGame(){
+	private void startGame(int numRooms){
 		this.setVisible(false);
-		gameFrame.startGame();
+		gameFrame.startGame(numRooms);
 	}
 
 
@@ -491,7 +544,7 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 
 		if(e.getActionCommand().equals("startGame")){
-			startGame();
+			startGame(Integer.parseInt(numRoomsTextField.getText()));
 		}
 		else if(e.getActionCommand().equals("setMenuMultiplayer")){
 			//set the menu to the multiplayer menu
@@ -551,8 +604,10 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 					"Help ", JOptionPane.INFORMATION_MESSAGE);
 
 		}
-
-
+		else if(e.getActionCommand().equals("setMenuRoomChoice")){
+			System.out.println("room choice");
+			setMenu(roomChoicePanel);
+		}
 
 	}
 

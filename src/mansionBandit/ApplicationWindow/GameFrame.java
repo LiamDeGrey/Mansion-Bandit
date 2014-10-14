@@ -304,13 +304,13 @@ WindowListener, KeyListener {
 	/**
 	 * Exits the main menu and begins gameplay. Adds all panels that are relevant to gameplay to the frame.
 	 */
-	public void startGame(){
+	public void startGame(int numRooms){
 
 		//remove the main menu
 		this.remove(mainMenu);
 
 		//make the player
-		player = new Host(playerName+"", 80);
+		player = new Host(playerName+"", numRooms);
 		playerName++;
 
 		//TODO PLACE HOLDER unnecessary -Liam
