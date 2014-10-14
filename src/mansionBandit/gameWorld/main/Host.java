@@ -21,21 +21,6 @@ public class Host extends Player{
 		this.server = s;
 	}
 
-	protected void updateGrid(){
-		//checks if it is in a multiplayer game
-		System.out.println("============= HOST SENT MESSAGE ================");
-
-		if(server !=null){
-			server.serverSendGrid();
-		}
-	}
-
-	protected void updateRoom() {
-		if (server != null) {
-			server.serverSendRoom();
-		}
-	}
-	
 	protected void updateItems() {
 		if (server != null) {
 			server.serverSendItems();

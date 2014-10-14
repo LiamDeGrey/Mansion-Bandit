@@ -312,7 +312,7 @@ WindowListener, KeyListener {
 		this.remove(mainMenu);
 
 		//make the player
-		player = new Host(playerName+"", numRooms);
+		player = new Host("", numRooms);
 		playerName++;
 
 

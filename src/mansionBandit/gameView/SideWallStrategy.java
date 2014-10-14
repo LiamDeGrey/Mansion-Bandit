@@ -61,7 +61,9 @@ public class SideWallStrategy implements SurfaceStrategy {
 	public GameMatter click(int x, int y) {
 		if (clickableArea.contains( new Point(x, y))){
 			//if click was within the polygon, return the topmost item on the surface
-			return surface.objects.get(surface.objects.size() -1).getGameObject();
+			if (!surface.objects.isEmpty()){
+				return surface.objects.get(surface.objects.size() -1).getGameObject();
+			}
 		}
 		return null;
 	}

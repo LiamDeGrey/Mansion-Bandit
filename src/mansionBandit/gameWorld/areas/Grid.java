@@ -40,9 +40,13 @@ public class Grid {
 	 * the rooms
 	 */
 	public void setLinks(){
-		int rand, range, extra;
+		int rand, range=2, extra=1;
 
-		if(rooms.size()<=20)
+		for(int i=1; i<rooms.size(); i+=20){
+			extra++;
+		}
+
+		/*if(rooms.size()<=20)
 			extra = 2;
 		else if(rooms.size()<=40)
 			extra = 3;
@@ -51,7 +55,7 @@ public class Grid {
 		else if(rooms.size()<=80)
 			extra = 8;
 		else
-			extra = 9;
+			extra = 9;*/
 
 		int rows = (int)Math.sqrt(rooms.size())+extra;//(rooms.size()/10);
 		int cols = rows;
@@ -61,14 +65,18 @@ public class Grid {
 		int extraSpace = (rows * cols) - rooms.size();//find out how many free spaces there are in the grid
 
 
+		for(int i=1; extraSpace>i; i+=60){
+			range += 1;
+		}
 
-		if(extraSpace<20){
+
+		/*if(extraSpace<20){
 			range = 4;
 		}else if(extraSpace<80){
 			range = 6;
-		}else{
+		}else if(extraSpace<140){
 			range = 8;
-		}
+		}*/
 
 		int roomNum = 0;
 		for(int i=0; i<grid.length; i++){
