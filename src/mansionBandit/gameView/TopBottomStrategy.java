@@ -157,7 +157,7 @@ public class TopBottomStrategy implements SurfaceStrategy {
 		//loop through objects on floor, and resize them
 		for (GameMatter item : room.getItems()){
 			if(item instanceof Guard){
-				((Guard) item).wakeUp();
+				((Guard) item).wakeUp((Guard)item);
 				//for(GameMatter itm: room.getItems()){
 					//if(itm instanceof Bandit){
 						//updateRoom(room, item, direction);

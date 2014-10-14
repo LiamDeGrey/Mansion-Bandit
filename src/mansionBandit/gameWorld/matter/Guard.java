@@ -16,7 +16,7 @@ public class Guard extends Character {
 		this.area = area;
 	}
 
-	public void wakeUp(){
+	public void wakeUp(final Guard guard){
 		Thread clockTick = new Thread(){
 			private Bandit prey = null;
 
@@ -34,7 +34,7 @@ public class Guard extends Character {
 					e.printStackTrace();
 				}
 				if(area.getItems().contains(prey)
-						&&area.getItems().contains(this)){
+						&&area.getItems().contains(guard)){
 					prey.kill();
 				}
 			}
