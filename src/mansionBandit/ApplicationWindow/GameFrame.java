@@ -53,10 +53,12 @@ import mansionBandit.network.StringMessage;
 public class GameFrame extends JFrame implements ActionListener,
 WindowListener, KeyListener {
 
+	private static int playerName = 1;
+
 	// window dimensions
 	private final int windowDimensionX = 800;
 	private final int windowDimensionY = 717;
-	
+
 	private Map map;
 
 	private Grabable draggingItem; //the item being dragged by the player
@@ -234,11 +236,11 @@ WindowListener, KeyListener {
 	 * ends the current game by resetting values, disconnecting and removing GUI components
 	 */
 	private void endGame(){
-		
+
 		//removes old listeners from frame
 		removeMouseListener(controller);
 		removeKeyListener(controller);
-		
+
 		//resets fields
 		server = null;
 		client = null;
@@ -247,7 +249,7 @@ WindowListener, KeyListener {
 
 		this.remove(layeredPane);
 		closeIngameMenu();
-		
+
 		gameStarted = false;
 	}
 
@@ -302,7 +304,8 @@ WindowListener, KeyListener {
 		this.remove(mainMenu);
 
 		//make the player
-		player = new Host("", 20);
+		player = new Host(playerName+"", 20);
+		playerName++;
 
 		//TODO PLACE HOLDER unnecessary -Liam
 		//player.getBandit().setArea(getTestGrid()[1][1]);
@@ -313,7 +316,7 @@ WindowListener, KeyListener {
 		setupScreen();
 
 		controller= new Controller(player, gamePanel,this);
-		
+
 		addMouseListener(controller);
 		addKeyListener(controller);
 
@@ -364,7 +367,7 @@ WindowListener, KeyListener {
 		controller= new Controller(player, gamePanel,this);
 		addMouseListener(controller);
 		addKeyListener(controller);
-		
+
 		//indicate that gameplay has started
 		gameStarted = true;
 	}
@@ -542,7 +545,8 @@ WindowListener, KeyListener {
 		Socket s = new Socket(address, port);
 		System.out.println("Client connecting to: " + address + " on port: " + port);
 
-		player = new Slave(username);
+		player = new Slave(playerName+"");
+		playerName++;
 
 		client = new Client(s, username,(Slave)player,this);
 		((Slave) player).setClient(client);
@@ -556,7 +560,8 @@ WindowListener, KeyListener {
 		System.out.println("Creating server on port " + port + " with " + nclients + " limit");
 
 		//creates a game object that the server hosts
-		player = new Host(userName, 20);
+		player = new Host(playerName+"", 20);
+		playerName++;
 
 		//creates a new server
 		this.server = new Server(port, nclients, userName,(Host)player,this);

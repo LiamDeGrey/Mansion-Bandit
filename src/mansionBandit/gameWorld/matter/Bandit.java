@@ -48,8 +48,34 @@ public class Bandit extends Character{
 		MansionArea rightMid = grid[grid.length/2][grid[0].length-1];
 		MansionArea botMid = grid[grid.length-1][grid[0].length/2];
 
+		if(getName().equals("1")){
+			start.setLinks(null, leftMid, null, null);
+			//leftMid.setWest(start);
+			this.setFace(Face.EASTERN);
+			adjacentGrid[0]=grid.length/2;
+			adjacentGrid[1]=0;
+		}else if(getName().equals("2")){
+			start.setLinks(null, null, topMid, null);
+			//topMid.setNorth(start);
+			this.setFace(Face.SOUTHERN);
+			adjacentGrid[0]=0;
+			adjacentGrid[1]=grid.length/2;
+		}else if(getName().equals("3")){
+			start.setLinks(null, null, null, rightMid);
+			//rightMid.setEast(start);
+			this.setFace(Face.WESTERN);
+			adjacentGrid[0]=grid.length/2;
+			adjacentGrid[1]=grid[0].length-1;
+		}else if(getName().equals("4")){
+			start.setLinks(botMid, null, null, null);
+			//botMid.setSouth(start);
+			this.setFace(Face.NORTHERN);
+			adjacentGrid[0]=grid.length-1;
+			adjacentGrid[1]=grid[0].length/2;
+		}
 
-		if(leftMid.getWest()==null){
+
+		/*if(leftMid.getWest()==null){
 			start.setLinks(null, leftMid, null, null);
 			//leftMid.setWest(start);
 			this.setFace(Face.EASTERN);
@@ -76,7 +102,7 @@ public class Bandit extends Character{
 		}else {
 			System.out.println("Cannot add more than 4 players!!");
 			return;
-		}
+		}*/
 
 		setArea(-1,-1);
 		start.addItem(this);
