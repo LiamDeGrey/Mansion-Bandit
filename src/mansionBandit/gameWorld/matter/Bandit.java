@@ -84,10 +84,10 @@ public class Bandit extends Character{
 		RoomFactory rf = new RoomFactory();
 		rf.populateRoom(start);
 
-		van = new Van(getName()+"van", Face.opposite(getFace()), this);
+		van = new Van(getId()+"van", Face.opposite(getFace()), this);
 		start.addItem(van);
-		Door exit = new Door(getName()+"startDoor", getFace(), new Dimensions(50, 100, 70), false);
-		Door entry = new Door(getName()+"toStart", Face.opposite(getFace()), new Dimensions(50, 100, 70), false);
+		Door exit = new Door(getId()+"startDoor", getFace(), new Dimensions(50, 100, 70), false);
+		Door entry = new Door(getId()+"toStart", Face.opposite(getFace()), new Dimensions(50, 100, 70), false);
 		start.addItem(exit);
 		grid[adjacentGrid[0]][adjacentGrid[1]].addItem(entry);
 	}
@@ -366,7 +366,7 @@ public class Bandit extends Character{
 
 	@Override
 	public String getImage(){
-		return "player"+getName();
+		return "player"+getId();
 	}
 
 	/**
