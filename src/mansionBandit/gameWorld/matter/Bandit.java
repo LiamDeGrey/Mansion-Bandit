@@ -327,6 +327,7 @@ public class Bandit extends Character{
 		for(int i=0; i<inventory.length; i++){
 			if(inventory[i]!=null){
 				getArea().addItem(inventory[i]);
+				inventory[i]=null;
 			}
 		}
 		System.out.println("DEAD. Get out of here filthy Bandit!!");
