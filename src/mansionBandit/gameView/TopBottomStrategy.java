@@ -138,21 +138,18 @@ public class TopBottomStrategy implements SurfaceStrategy {
 
 		//loop through objects on floor, and resize them
 		for (GameMatter item : room.getItems()){
-			if(item instanceof Guard){
-				((Guard) item).wakeUp((Guard)item);
-				//for(GameMatter itm: room.getItems()){
-					//if(itm instanceof Bandit){
-						//updateRoom(room, item, direction);
-					//}
-				//}
-			}
-
+			
 			if (item.getFace() != direction ){
 				//have to catch bandits though
 				if (item instanceof Bandit && !ceiling){
 					//TODO compare bandit to the players bandit
-					continue;
+					if (item.getName().equals(surface.roomView.bandit)){
+						//dont draw the current bandit
+						continue;
+					}
+					//but do draw other bandits
 				} else {
+					//dont draw items that are not in this direction
 					continue;
 				}
 			}

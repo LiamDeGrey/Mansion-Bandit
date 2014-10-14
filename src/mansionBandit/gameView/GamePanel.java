@@ -53,7 +53,7 @@ public class GamePanel extends JPanel{
 	public GamePanel(Player p){
 		player = p;
 		//create the initial RoomView
-		room = new RoomView(player.getBandit().getArea(), player.getBandit().getFace(), 0, 0, width, height, 0);
+		room = new RoomView(p.getBandit().getName(), player.getBandit().getArea(), player.getBandit().getFace(), 0, 0, width, height, 0);
 	}
 
 	/**
@@ -63,8 +63,7 @@ public class GamePanel extends JPanel{
 	 */
 	public void update(){
 		MansionArea previousRoom = room.room;
-		room = new RoomView(player.getBandit().getArea(), player.getBandit().getFace(), 0, 0, width, height, 0);
-
+		room = new RoomView(player.getBandit().getName(), player.getBandit().getArea(), player.getBandit().getFace(), 0, 0, width, height, 0);
 		if (!previousRoom.equals(player.getBandit().getArea())){
 			//in a new room, check for a Guard
 			for (GameMatter item : room.room.getItems()){

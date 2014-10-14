@@ -361,14 +361,17 @@ WindowListener, KeyListener {
 		//sets up user interface elements
 		setupScreen();
 
+		controller= new Controller(player, gamePanel,this);
+		addMouseListener(controller);
+		addKeyListener(controller);
+
+
 		//starts the game timer
 		TimerTask gameTimerTask = new GameTimer();
 		Timer gameTimer = new Timer(true);
 		gameTimer.scheduleAtFixedRate(gameTimerTask, 0, 10*100);
 
-		controller= new Controller(player, gamePanel,this);
-		addMouseListener(controller);
-		addKeyListener(controller);
+
 
 		//indicate that gameplay has started
 		gameStarted = true;

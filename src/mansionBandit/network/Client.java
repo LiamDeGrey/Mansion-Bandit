@@ -68,26 +68,8 @@ public final class Client {
 	}
 
 	/**
-	 * This method writes the updated grid out to the stream for the Server to eventually
-	 * broadcast.
+	 * This method sends out an ItemUpdateMessage out on the stream to the server.
 	 */
-	public synchronized void clientSendGrid() {
-		try {
-			output.writeObject(player.getGrid());
-		} catch (IOException e) {
-			System.out.println("Exception sending grid update " + e);
-		}
-	}
-
-	public synchronized void clientSendRoom() {
-		try {
-			System.out.println("Creating room update message to write");
-			output.writeObject(new RoomUpdateMessage(player.getBandit().getArea()));
-		} catch (IOException e) {
-			System.out.println("Exception sending room update " + e);
-		}
-	}
-	
 	public void clientSendItems() {
 		try {
 			System.out.println("Creating item update message to write");
@@ -154,18 +136,6 @@ public final class Client {
 						if (((StringMessage) o).getString().equals("START")) {
 							System.out.println("Starting game");
 							gameFrame.startClientMultiplayerGame();
-						}
-					}
-					//if (o instanceof UpdateGridMessage) {
-					//	System.out.println("Received grid message");
-					//	player.setGrid(((UpdateGridMessage) o).getGrid());
-					//}
-					if (o instanceof RoomUpdateMessage) {
-						System.out.println("Received room update message");
-						int[] coords = player.getBandit().getRoomCoords(((RoomUpdateMessage) o).getRoom());
-						if (!(coords[0] == -2 || coords[1] == -2)) {
-							//System.out.println("CLIENT RECEIVED COORDS: i: " + coords[0] + " j: " + coords[1]);
-							player.getBandit().setAreaInGrid(((RoomUpdateMessage) o).getRoom(), coords[0], coords[1]); //update locally
 						}
 					}
 					if (o instanceof ItemUpdateMessage) {

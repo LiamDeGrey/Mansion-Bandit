@@ -20,6 +20,7 @@ public class RoomView {
 	private Surface ceiling, floor, left, right, back, behind;
 	protected int boundX, boundY, width, height, depth;
 	protected boolean sidePassage, sidePassageLeft = false;
+	protected String bandit;
 	
 	//number of rooms to draw into the distance
 	public static int viewDepthMAX = 5;
@@ -38,8 +39,9 @@ public class RoomView {
 	 * @param height the height of the rendered view
 	 * @param depth the depth of the room (eg the n'th room behind the first one being drawn)
 	 */
-	public RoomView(MansionArea room, Face direction, int boundX, int boundY, int width, int height, int depth){
+	public RoomView(String bandit, MansionArea room, Face direction, int boundX, int boundY, int width, int height, int depth){
 
+		this.bandit = bandit;
 		this.boundX = boundX;
 		this.boundY = boundY;
 		this.width = width;

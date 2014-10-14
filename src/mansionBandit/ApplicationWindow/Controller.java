@@ -130,7 +130,7 @@ public class Controller implements MouseListener, KeyListener{
 				//refreshes display
 				gameFrame.getGUICanvas().repaint();
 				gameFrame.getGamePanel().update();
-				
+
 			}
 		}
 		if (e.getButton() == MouseEvent.BUTTON3) {
@@ -140,7 +140,8 @@ public class Controller implements MouseListener, KeyListener{
 			if (gamePanel.getObject(mouseX,mouseY) != null) {
 
 				// change the description text to the items description
-				String descriptionText =("<html><p><center>" +  gamePanel.getObject(mouseX, mouseY).getDescription() + "</center></p></html>" +gamePanel.getObject(mouseX,mouseY));
+				String descriptionText =("<html><p><center>"+ gamePanel.getObject(mouseX, mouseY).getName() +":<br></br>"+  gamePanel.getObject(mouseX, mouseY).getDescription() + "</center></p></html>" +gamePanel.getObject(mouseX,mouseY));
+				//if(mouseX>gameFram)
 				gameFrame.setDescriptionText(descriptionText,mouseX,mouseY);
 			}
 			else if(gameFrame.getInventorySlot(mouseX,mouseY)>=0 && player.getItem(gameFrame.getInventorySlot(mouseX,mouseY))!=null){
@@ -148,7 +149,7 @@ public class Controller implements MouseListener, KeyListener{
 				String descriptionText =("<html><p><center>" +  player.getItem(gameFrame.getInventorySlot(mouseX,mouseY)).getDescription() + "</center></p></html>");
 				gameFrame.setDescriptionText(descriptionText,mouseX,mouseY-100);
 			}
-			
+
 		}
 
 	}

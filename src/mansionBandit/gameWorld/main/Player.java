@@ -110,10 +110,6 @@ public abstract class Player {
 		return 7;
 	}
 
-	protected abstract void updateGrid();
-
-	protected abstract void updateRoom();
-	
 	protected abstract void updateItems();
 }
 
