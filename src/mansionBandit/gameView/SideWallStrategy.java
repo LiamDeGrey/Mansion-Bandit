@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Point;
+import java.awt.Polygon;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,6 +36,7 @@ public class SideWallStrategy implements SurfaceStrategy {
 	private RoomView sideRoom = null;
 	private Image surfaceTexture;
 	private int surfaceX, surfaceY, surfaceWidth, surfaceHeight;
+	private Polygon clickableArea;
 
 	public SideWallStrategy(boolean left) {
 		this.left = left;
@@ -56,7 +59,10 @@ public class SideWallStrategy implements SurfaceStrategy {
 
 	@Override
 	public GameMatter click(int x, int y) {
-		
+		if (clickableArea.contains( new Point(x, y))){
+			//if click was within the polygon, return the topmost item on the surface
+			return surface.objects.get(surface.objects.size() -1).getGameObject();
+		}
 		return null;
 	}
 
@@ -107,6 +113,40 @@ public class SideWallStrategy implements SurfaceStrategy {
 
 		//create object list for surface
 		createGameObjects(surface.roomView.room, direction);
+		
+		//setup polygon
+		int[] xs = new int[4];
+		int[] ys = new int[4];
+		
+		if (left){
+			//left polygon
+			xs[0] = surfaceX;
+			ys[0] = surfaceY;
+			
+			xs[1] = surfaceX + surfaceWidth;
+			ys[1] = surfaceY + (surfaceHeight / 4);
+			
+			xs[2] = xs[1];
+			ys[2] = ys[1] + (surfaceHeight / 2);
+			
+			xs[3] = xs[0];
+			ys[3] = ys[0] + surfaceHeight;
+		} else {
+			//right poly
+			xs[0] = surfaceX;
+			ys[0] = surfaceY + (surfaceHeight / 4);
+			
+			xs[1] = surfaceX + surfaceWidth;
+			ys[1] = surfaceY;
+			
+			xs[2] = xs[1];
+			ys[2] = ys[1] + surfaceHeight;
+			
+			xs[3] = xs[0];
+			ys[3] = ys[0] + (surfaceHeight / 2);
+		}
+		clickableArea = new Polygon(xs, ys, 4);
+		
 	}
 
 	/**
