@@ -230,7 +230,7 @@ WindowListener, KeyListener {
 		layeredPane.add(moneyLabel, new Integer(1),0);
 
 		this.requestFocusInWindow(true);//sets focus to this window
-		
+
 		//redisplay the screen
 		this.revalidate();
 		this.repaint();
@@ -312,10 +312,10 @@ WindowListener, KeyListener {
 		this.remove(mainMenu);
 
 		//make the player
-		player = new Host(playerName+"", numRooms);
+		player = new Host("", numRooms);
 		playerName++;
 
-		
+
 		//sets up user interface elements
 		setupScreen();
 

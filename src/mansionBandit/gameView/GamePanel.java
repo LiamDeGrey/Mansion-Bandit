@@ -21,7 +21,7 @@ import mansionBandit.gameWorld.matter.Guard;
  * This panel is responsible for displaying the game world
  * It takes a Player as an argument, and renders the room that player is in.
  * Also handles mouse clicks, so that if the user clicks an object in the game,
- * the GamePanel will return that object 
+ * the GamePanel will return that object
  * @author Andy
  *
  */
@@ -37,7 +37,7 @@ public class GamePanel extends JPanel{
 	 * x and y should be given as relative to this panel, not the frame it is contained in
 	 * NOTE: only works in the room the player is in
 	 * and currently only working for the floor and back wall
-	 * 
+	 *
 	 * @param x position to check
 	 * @param y position to check
 	 * @return the GameMatter object, whatever that may be, or null if non found
@@ -55,7 +55,7 @@ public class GamePanel extends JPanel{
 		//create the initial RoomView
 		room = new RoomView(player.getBandit().getArea(), player.getBandit().getFace(), 0, 0, width, height, 0);
 	}
-	
+
 	/**
 	 * calls upon the GamePanel to redraw the scene (should be called when something
 	 * in the players view has changed (object added/removed from room, player turned or moved)
@@ -64,7 +64,7 @@ public class GamePanel extends JPanel{
 	public void update(){
 		MansionArea previousRoom = room.room;
 		room = new RoomView(player.getBandit().getArea(), player.getBandit().getFace(), 0, 0, width, height, 0);
-		
+
 		if (!previousRoom.equals(player.getBandit().getArea())){
 			//in a new room, check for a Guard
 			for (GameMatter item : room.room.getItems()){
@@ -74,19 +74,19 @@ public class GamePanel extends JPanel{
 						@Override
 						public void run(){
 							try {
-								this.sleep(6000);
+								this.sleep(5000);
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							}
 							update();
-								
+
 						}
 					};
 					check.start();
 				}
 			}
 		}
-		
+
 		this.repaint();
 	}
 
