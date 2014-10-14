@@ -96,17 +96,8 @@ public final class Server {
 	}
 
 	/**
-	 * This method will broadcast the Server's movements out to the Clients.
-	 *
+	 * Locally updates the server's Item lists and then broadcasts the changes out to all the clients.
 	 */
-	public synchronized void serverSendGrid() {
-		broadcastGrid(player.getGrid());
-	}
-
-	public synchronized void serverSendRoom() {
-		broadcast(new RoomUpdateMessage(player.getBandit().getArea()));
-	}
-	
 	public void serverSendItems() {
 		int[] coords = player.getBandit().getRoomCoords(player.getBandit().getArea());
 		System.out.println("SERVER TX - SENDING ITEMS: " + player.getBandit().getArea().getItems());
@@ -128,14 +119,6 @@ public final class Server {
 		}
 	}
 
-	public synchronized void broadcastGrid(MansionArea[][] grid) {
-		for(int i = clientList.size(); --i >= 0;) {
-			ClientThread ct = clientList.get(i);
-
-			ct.sendGridObject(grid);
-		}
-	}
-
 	/**
 	 * Removes a specific ClientThread from the list.
 	 * @param ct The ClientThread to be removed.
@@ -152,13 +135,13 @@ public final class Server {
 		Socket socket;
 		ObjectInputStream input;
 		ObjectOutputStream output;
-		int uid;
+		int uid = 2;
 		int testid;
 		String username;
 		//types of messages
 
 		ClientThread(Socket socket) {
-			uid = ++uniqueID;
+			uid = uniqueID++;
 			this.socket = socket;
 			System.out.println("New client thread created");
 
@@ -261,21 +244,11 @@ public final class Server {
 						System.out.println("updating server client list view");
 						gameFrame.updatePlayerList(usernameList);
 					}
-					//if (obj instanceof UpdateGridMessage) {
-					//	System.out.println("got update grid message");
-					//	player.setGrid(((UpdateGridMessage) obj).getGrid());
-					//	broadcast((Message) obj);
-					//}
-					if (obj instanceof MansionArea[][]) {
-						System.out.println("got grid object message");
-						player.setGrid((MansionArea[][]) obj);
-						broadcastGrid((MansionArea[][]) obj);
-					}
 					if (obj instanceof RoomUpdateMessage) {
 						System.out.println("got room update message");
 						int[] coords = player.getBandit().getRoomCoords(((RoomUpdateMessage) obj).getRoom());
 						if (!(coords[0] == -2 || coords[1] == -2)) {
-							System.out.println("SERVER RECEIVED COORDS: i: " + coords[0] + " j: " + coords[1]);
+							//System.out.println("SERVER RECEIVED COORDS: i: " + coords[0] + " j: " + coords[1]);
 							player.getBandit().setAreaInGrid(((RoomUpdateMessage) obj).getRoom(), coords[0], coords[1]); //update locally
 							broadcast(new RoomUpdateMessage((MansionArea) obj));
 						}
@@ -286,11 +259,11 @@ public final class Server {
 						int i = ium.getI();
 						int j = ium.getJ();
 						if (!(i == -2 || j == -2)) {
-							System.out.println("SERVER RX - RECEIVED COORDS: i: " + i + " j: " + j);
-							System.out.println("SERVER RX - RECEIVED ITEMS:       " + ium.getItems());
-							System.out.println("SERVER RX - ROOM USED TO CONTAIN: " + player.getBandit().grid[i][j].getItems());
+							//System.out.println("SERVER RX - RECEIVED COORDS: i: " + i + " j: " + j);
+							//System.out.println("SERVER RX - RECEIVED ITEMS:       " + ium.getItems());
+							//System.out.println("SERVER RX - ROOM USED TO CONTAIN: " + player.getBandit().grid[i][j].getItems());
 							player.getBandit().grid[i][j].setItems(ium.getItems());
-							System.out.println("SERVER RX - ROOM NOW CONTAINS:    " + player.getBandit().grid[i][j].getItems());
+							//System.out.println("SERVER RX - ROOM NOW CONTAINS:    " + player.getBandit().grid[i][j].getItems());
 							gameFrame.getGamePanel().update();
 							broadcast(ium);
 						}
