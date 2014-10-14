@@ -53,8 +53,8 @@ public class Grid {
 			for(int j=0; j<grid[0].length; j++){
 
 				if(extraSpace>0) {
-					rand = (int)(Math.random() * 3 + 1);//either 1 , 2 or 3
-					if(rand==1&&roomNum<rooms.size()) {
+					rand = (int)(Math.random() * 4)+1;//either 1 , 2 or 3
+					if((rand==2||rand==3)&&roomNum<rooms.size()) {
 						grid[i][j] = rooms.get(roomNum);//put room in grid
 						roomNum++;
 					}else {
@@ -93,12 +93,12 @@ public class Grid {
 						if(hallwayWS) {//If current needs to snake down
 							if(i<(grid.length-1)&&s==null)
 								s = grid[i+1][j];
-						}else if(i>0&&n==null) 
+						}else if(i>0&&n==null)
 							n = grid[i-1][j];
 						hallwayWS = (hallwayWS)? false:true;
 					}
-					
-					
+
+
 				}
 				if(j!=0)
 					w = grid[i][j-1];
