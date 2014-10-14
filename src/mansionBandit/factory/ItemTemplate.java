@@ -63,11 +63,6 @@ public class ItemTemplate {
 			y = random.nextInt(yRange + 1) + yMin - 1;
 		}
 		
-//		//hack solution for bookshelf
-//		if (image.equals("bookshelf")){
-//			y = 100;
-//		}
-		
 		Dimensions position = new Dimensions(x, y, scale);
 		
 		if (type.equals("sell")){
@@ -77,6 +72,8 @@ public class ItemTemplate {
 			return new FurnitureStatic(name + GameMatter.getItemCounter(), description, image, face, position);
 		} else if (type.equals("key")){
 			return new Key(name, face, position);
+		} else if (type.equals("knife")){
+			return new Knife(name + GameMatter.getItemCounter(), description, image, face, position);
 		} else {
 			return null;
 		}
@@ -95,12 +92,7 @@ public class ItemTemplate {
 			y = random.nextInt(100 - scale) + (scale / 2);
 		} else {
 			x = random.nextInt(100 - scale) + (scale / 2);
-			y = random.nextInt(100 - scale) + scale;
-		}
-		
-		//hack solution for bookshelf
-		if (image.equals("bookshelf")){
-			y = 100;
+			y = random.nextInt(yRange + 1) + yMin - 1;
 		}
 		
 		if (x > door.getDimensions().getX() - (door.getDimensions().getScale() / 2)
@@ -114,7 +106,7 @@ public class ItemTemplate {
 		}
 		
 		Dimensions position = new Dimensions(x, y, scale);
-		
+
 		if (type.equals("sell")){
 			return new Sellable(name + GameMatter.getItemCounter(), description, image, face, position, value);
 		} else if (type.equals("static")){
@@ -123,7 +115,7 @@ public class ItemTemplate {
 		} else if (type.equals("key")){
 			return new Key(name, face, position);
 		} else if (type.equals("knife")){
-			return new Knife(name, face, position);
+			return new Knife(name + GameMatter.getItemCounter(), description, image, face, position);
 		} else {
 			return null;
 		}
