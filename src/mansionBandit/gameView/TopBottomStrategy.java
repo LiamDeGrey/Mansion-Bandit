@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 
 import mansionBandit.gameWorld.areas.MansionArea;
 import mansionBandit.gameWorld.areas.Room;
+import mansionBandit.gameWorld.matter.Bandit;
 import mansionBandit.gameWorld.matter.Dimensions;
 import mansionBandit.gameWorld.matter.Face;
 import mansionBandit.gameWorld.matter.GameMatter;
@@ -139,11 +140,17 @@ public class TopBottomStrategy implements SurfaceStrategy {
 
 		//loop through objects on floor, and resize them
 		for (GameMatter item : room.getItems()){
-			if(item instanceof Guard)
+			if(item instanceof Guard){
 				((Guard) item).wakeUp();
+			}
 
-			if (item.getFace() != direction){
-				continue;
+			if (item.getFace() != direction ){
+				//have to catch bandits though
+				if (item instanceof Bandit && !ceiling){
+					//TODO compare bandit to the players bandit
+				} else {
+					continue;
+				}
 			}
 
 			//determine x and y based on direction facing in room

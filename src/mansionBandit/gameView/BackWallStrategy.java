@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 import mansionBandit.gameWorld.areas.Hallway;
 import mansionBandit.gameWorld.areas.MansionArea;
 import mansionBandit.gameWorld.areas.Room;
+import mansionBandit.gameWorld.matter.Bandit;
 import mansionBandit.gameWorld.matter.Face;
 import mansionBandit.gameWorld.matter.GameMatter;
 
@@ -161,6 +162,11 @@ public class BackWallStrategy implements SurfaceStrategy {
 		
 		//loop through objects on wall, and resize them
 		for (GameMatter item : room.getItems()){
+			if (item instanceof Bandit){
+				//bandits dont get drawn on walls
+				continue;
+			}
+			
 			if (item.getFace() != direction){
 				//item not on this wall, move on
 				continue;
