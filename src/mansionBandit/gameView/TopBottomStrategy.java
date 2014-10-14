@@ -169,6 +169,7 @@ public class TopBottomStrategy implements SurfaceStrategy {
 				//have to catch bandits though
 				if (item instanceof Bandit && !ceiling){
 					//TODO compare bandit to the players bandit
+					continue;
 				} else {
 					continue;
 				}
