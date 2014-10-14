@@ -120,211 +120,19 @@ public class SideWallStrategy implements SurfaceStrategy {
 				//item does not belong to this surface
 				continue;
 			}
-
-			int x = item.getDimensions().getX();
-			int y = item.getDimensions().getY();
-
-			//determine scale
-			int scale = (int) ((((double) item.getDimensions().getScale()) / 100) * surfaceHeight);
-
-			/* determine where the vertical center of the image should be
-			 * it will be closer to the center, the further away it is,
-			 * same as for TopBottomStrategy, although the problem is
-			 * flipped onto its side
-			 *    ______________________
-			 *    \  o      :<---->o   /
-			 *     \  o     :<--->o   /
-			 *      \  o    :<-->o   /
-			 *       \__o___:<->o___/
-			 */
-			double distanceScale = 0.5 + (0.5 * (((double) x) / 100));
-			if (this.left){
-				//invert scale if this object is on the left
-				distanceScale = 0.5 + (1 - distanceScale);
-			}
-			//apply scale
-			scale = (int) (scale * distanceScale);
-
-			//determine where the vertical center of the image should be
-			int objectCenterY = (int) (surfaceY + (y * ((double) surfaceHeight / 100)));
-			//have to alter vertical position to be closer to the center when further back
-			int surfaceCenterY = surfaceY + (surfaceHeight / 2);
-			int diff = Math.abs(surfaceCenterY - objectCenterY);
-			//apply scaling to the diff
-			diff = (int) (diff * distanceScale);
-
-			//apply the new y position, and account for having to draw from top left corner
-			if (objectCenterY < surfaceCenterY){
-				objectCenterY = surfaceCenterY - diff - scale;
-			} else if (surfaceCenterY < objectCenterY){
-				objectCenterY = surfaceCenterY + diff - scale;
-			}
-
-			int left = (int) (surfaceX + (x * ((double) surfaceWidth / 100))) - (scale / 4);
-
+			
+			
+			
 			//create the wrapped object and add to list (with warped image)
-			DrawnObject dob = new DrawnObject(item, warpImage("/object/" + item.getImage() + ".png"), left, objectCenterY, scale / 2, scale);
-			dob = computeCorners(item);
+			DrawnObject dob = new DrawnObject(item, warpImage("/object/" + item.getImage() + ".png"), surfaceX, surfaceY, surfaceWidth, surfaceHeight);
+			
+			//dob = computeCorners(item);
 			obs.add(dob);
 		}
 		surface.objects = obs;
 	}
-
-	private DrawnObject computeCorners(GameMatter item){
-		int LLx ,LLy, LRx, LRy, ULx, ULy, URx, URy;
-		int scale = item.getDimensions().getScale();
-
-		/*
-		 * objects are defined as a position and a size relative to a 100x100 wall
-		 * the x and y position specify the the bottom center of the object
-		 *
-		 * 0,0 ___________
-		 *    |   ___ ____|____
-		 *    |  |\ /|    |    | scale
-		 *    |  |/_\|____|____|
-		 *    |    ^(x,y) |
-		 *    |___________|
-		 *                 100,100
-		 */
-
-		//get unscaled corners
-		//LL
-		LLx = item.getDimensions().getX() - (scale / 2);
-		LLy = item.getDimensions().getY();
-		//LR
-		LRx = LLx + scale;
-		LRy = LLy;
-		//UL
-		ULx = LLx;
-		ULy = LLy - scale;
-		//UR
-		URx = LRx;
-		URy = ULy;
-		//scale the corners
-		LLy = scaleY(LLx, LLy);
-		LRy = scaleY(LRx, LRy);
-		ULy = scaleY(ULx, ULy);
-		URy = scaleY(URx, URy);
-
-//		System.out.println("LLx: " + LLx
-//				+ " LLy: " + LLy
-//				+ " LRx: " + LRx
-//				+ " LRy: " + LRy
-//				+ " ULx: " + ULx
-//				+ " ULy: " + ULy
-//				+ " URx: " + URx
-//				+ " URy: " + URy);
-
-		Image image = warpImage("/object/" + item.getImage() + ".png", ULy, URy, LRy, LLy);
-		//Image image = warpImage("/object/" + item.getImage() + ".png");
-
-		//find points to draw image with
-		int drawnY, height;
-		if (ULy <= URy){
-			//top left corner is higher
-			drawnY = ULy;
-			height = scale;
-		} else {
-			drawnY = URy;
-			height = scale + (URy - ULy);
-		}
-
-		//scale all points to fit surface
-		scale = (int) ((((double) scale) / 100) * surfaceHeight);
-		height = (int) ((((double) height) / 100) * surfaceHeight);
-		int left = (int) (surfaceX + (item.getDimensions().getX() * ((double) surfaceWidth / 100))) - (scale / 4);
-		int top = surfaceY + (drawnY * surfaceHeight / 100);
-
-		return new DrawnObject(item, image, left, top, scale / 2, height);
-	}
-
-	private int scaleY(int x, int y){
-		/* determine where the vertical position of the given point should be
-		 * it will be closer to the center the further away it is,
-		 * same as for TopBottomStrategy, although the diagram should be
-		 * flipped onto its side
-		 *    ______________________
-		 *    \  o      :<---->o   /
-		 *     \  o     :<--->o   /
-		 *      \  o    :<-->o   /
-		 *       \__o___:<->o___/
-		 */
-
-		double distanceScale = 0.3 + (0.7 * (((double) x) / 100));
-
-		if (left){
-			//invert scale if this object is on the left
-			distanceScale = 0.3 + (1 - distanceScale);
-		}
-
-		int surfaceCenterY = 50;
-		int diff = y - surfaceCenterY;
-		//apply scaling to the diff
-		diff = (int) (diff * distanceScale);
-
-		//apply the new y position
-		return surfaceCenterY + diff;
-	}
-
-	/**
-	 * warps the image according to the given points
-	 *
-	 * @param imagePath
-	 * @param ULy
-	 * @param URy
-	 * @param LRy
-	 * @param LLy
-	 * @return
-	 */
-	private Image warpImage(String imagePath, double ULy, double URy, double LRy, double LLy){
-		BufferedImage image = null;
-		try {
-			image = ImageIO.read(this.getClass().getResource(imagePath));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//wrap in transformer object
-		javaxt.io.Image warped = new javaxt.io.Image(image);
-		int width = warped.getWidth();
-		int imageHeight = warped.getHeight();
-
-		double origTop = Math.min(ULy, URy);
-
-		//scale points to image
-//		float UL = (float) (((ULy - origTop) / origHeight) * height);
-//		float UR = (float) (((URy - origTop) / origHeight) * height);
-//		float LR = (float) (((LRy - origTop) / origHeight) * height);
-//		float LL = (float) (((LLy - origTop) / origHeight) * height);
-
-		//get corners as distance from the top
-		float UL = (float) (ULy - origTop);
-		float UR = (float) (URy - origTop);
-		float LR = (float) (LRy - origTop);
-		float LL = (float) (LLy - origTop);
-
-		double origHeight = Math.max(LL, LR);
-
-		//scale to image size
-		UL = (float) ((UL / origHeight) * imageHeight);
-		UR = (float) ((UR / origHeight) * imageHeight);
-		LR = (float) ((LR / origHeight) * imageHeight);
-		LL = (float) ((LL / origHeight) * imageHeight);
-
-
-//		System.out.print("float values: top left = (" + 0 + "," + UL + ")"
-//				+ " top right = (" + width + "," + UR + ")"
-//				+ " bottom right = (" + width + "," + LR + ")"
-//				+ " bottom left = (" + 0 + "," + LL + ")");
-
-		warped.setCorners(0, UL, //UL
-				width, UR, //UR
-				width, LR, //LR
-				0, LL);//LL
-
-		return warped.getImage();
-	}
-
+	
+	
 	/**
 	 * applies perspective transformations on passed images depending on whether this is a right
 	 * or left wall and returns the result
@@ -364,4 +172,135 @@ public class SideWallStrategy implements SurfaceStrategy {
 		}
 		return warped.getImage();
 	}
+	
+	
+	//=========================The following methods are functional, but were ditched in favour of a speedier/less awesome rendering method.=================================
+
+//	private DrawnObject computeCorners(GameMatter item){
+//		int LLx ,LLy, LRx, LRy, ULx, ULy, URx, URy;
+//		int scale = item.getDimensions().getScale();
+//
+//		/*
+//		 * objects are defined as a position and a size relative to a 100x100 wall
+//		 * the x and y position specify the the bottom center of the object
+//		 *
+//		 * 0,0 ___________
+//		 *    |   ___ ____|____
+//		 *    |  |\ /|    |    | scale
+//		 *    |  |/_\|____|____|
+//		 *    |    ^(x,y) |
+//		 *    |___________|
+//		 *                 100,100
+//		 */
+//
+//		//get unscaled corners
+//		//LL
+//		LLx = item.getDimensions().getX() - (scale / 2);
+//		LLy = item.getDimensions().getY();
+//		//LR
+//		LRx = LLx + scale;
+//		LRy = LLy;
+//		//UL
+//		ULx = LLx;
+//		ULy = LLy - scale;
+//		//UR
+//		URx = LRx;
+//		URy = ULy;
+//		//scale the corners
+//		LLy = scaleY(LLx, LLy);
+//		LRy = scaleY(LRx, LRy);
+//		ULy = scaleY(ULx, ULy);
+//		URy = scaleY(URx, URy);
+//
+//		Image image = warpImage("/object/" + item.getImage() + ".png", ULy, URy, LRy, LLy);
+//		//Image image = warpImage("/object/" + item.getImage() + ".png");
+//
+//		//find points to draw image with
+//		int drawnY, height;
+//		if (ULy <= URy){
+//			//top left corner is higher
+//			drawnY = ULy;
+//			height = scale;
+//		} else {
+//			drawnY = URy;
+//			height = scale + (URy - ULy);
+//		}
+//
+//		//scale all points to fit surface
+//		scale = (int) ((((double) scale) / 100) * surfaceHeight);
+//		height = (int) ((((double) height) / 100) * surfaceHeight);
+//		int left = (int) (surfaceX + (item.getDimensions().getX() * ((double) surfaceWidth / 100))) - (scale / 4);
+//		int top = surfaceY + (drawnY * surfaceHeight / 100);
+//
+//		return new DrawnObject(item, image, left, top, scale / 2, height);
+//	}
+
+//	private int scaleY(int x, int y){
+//		/* determine where the vertical position of the given point should be
+//		 * it will be closer to the center the further away it is,
+//		 * same as for TopBottomStrategy, although the diagram should be
+//		 * flipped onto its side
+//		 *    ______________________
+//		 *    \  o      :<---->o   /
+//		 *     \  o     :<--->o   /
+//		 *      \  o    :<-->o   /
+//		 *       \__o___:<->o___/
+//		 */
+//
+//		double distanceScale = 0.3 + (0.7 * (((double) x) / 100));
+//
+//		if (left){
+//			//invert scale if this object is on the left
+//			distanceScale = 0.3 + (1 - distanceScale);
+//		}
+//
+//		int surfaceCenterY = 50;
+//		int diff = y - surfaceCenterY;
+//		//apply scaling to the diff
+//		diff = (int) (diff * distanceScale);
+//
+//		//apply the new y position
+//		return surfaceCenterY + diff;
+//	}
+
+//	/**
+//	 * warps the image according to the given points
+//	 */
+//	private Image warpImage(String imagePath, double ULy, double URy, double LRy, double LLy){
+//		BufferedImage image = null;
+//		try {
+//			image = ImageIO.read(this.getClass().getResource(imagePath));
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		//wrap in transformer object
+//		javaxt.io.Image warped = new javaxt.io.Image(image);
+//		int width = warped.getWidth();
+//		int imageHeight = warped.getHeight();
+//
+//		double origTop = Math.min(ULy, URy);
+//
+//		//get corners as distance from the top
+//		float UL = (float) (ULy - origTop);
+//		float UR = (float) (URy - origTop);
+//		float LR = (float) (LRy - origTop);
+//		float LL = (float) (LLy - origTop);
+//
+//		double origHeight = Math.max(LL, LR);
+//
+//		//scale to image size
+//		UL = (float) ((UL / origHeight) * imageHeight);
+//		UR = (float) ((UR / origHeight) * imageHeight);
+//		LR = (float) ((LR / origHeight) * imageHeight);
+//		LL = (float) ((LL / origHeight) * imageHeight);
+//
+//		warped.setCorners(0, UL, //UL
+//				width, UR, //UR
+//				width, LR, //LR
+//				0, LL);//LL
+//
+//		return warped.getImage();
+//	}
+	
 }

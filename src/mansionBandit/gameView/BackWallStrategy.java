@@ -172,11 +172,6 @@ public class BackWallStrategy implements SurfaceStrategy {
 				continue;
 			}
 			
-			//scale and position the object appropriately
-			int scale = (int) ((((double) item.getDimensions().getScale()) / 100) * surfaceHeight);
-			int left = (int) (surfaceX + (item.getDimensions().getX() * ((double) surfaceWidth / 100)) - (scale / 2));
-			int top = (int) (surfaceY + (item.getDimensions().getY() * ((double) surfaceHeight / 100)) - scale);
-			
 			BufferedImage image = null;
 			try {
 				image = ImageIO.read(this.getClass().getResource("/object/" + item.getImage() + ".png"));
@@ -186,7 +181,7 @@ public class BackWallStrategy implements SurfaceStrategy {
 			}
 			
 			//create the DrawnObject with the computed bounds
-			DrawnObject dob = new DrawnObject(item, image, left, top, scale, scale);
+			DrawnObject dob = new DrawnObject(item, image, surfaceX, surfaceY, surfaceWidth, surfaceHeight);
 			obs.add(dob);
 		}
 		surface.objects = obs;

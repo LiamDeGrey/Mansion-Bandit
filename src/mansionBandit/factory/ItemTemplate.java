@@ -56,10 +56,10 @@ public class ItemTemplate {
 		
 		//get x and y
 		if (face == Face.CEILING || face == Face.FLOOR){
-			x = random.nextInt(100 - scale) + (scale / 2);
-			y = random.nextInt(100 - scale) + (scale / 2);
+			x = random.nextInt(100 - scale + 1) + (scale / 2) - 1;
+			y = random.nextInt(100 - scale + 1) + (scale / 2) - 1;
 		} else {
-			x = random.nextInt(100 - scale) + (scale / 2);
+			x = random.nextInt(100 - scale + 1) + (scale / 2) - 1;
 			y = random.nextInt(yRange + 1) + yMin - 1;
 		}
 		
@@ -88,10 +88,10 @@ public class ItemTemplate {
 		
 		//get x and y
 		if (face == Face.CEILING || face == Face.FLOOR){
-			x = random.nextInt(100 - scale) + (scale / 2);
-			y = random.nextInt(100 - scale) + (scale / 2);
+			x = random.nextInt(100 - scale + 1) + (scale / 2) - 1;
+			y = random.nextInt(100 - scale + 1) + (scale / 2) - 1;
 		} else {
-			x = random.nextInt(100 - scale) + (scale / 2);
+			x = random.nextInt(100 - scale + 1) + (scale / 2) - 1;
 			y = random.nextInt(yRange + 1) + yMin - 1;
 		}
 		
