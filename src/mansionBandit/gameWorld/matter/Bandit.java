@@ -1,5 +1,7 @@
 package mansionBandit.gameWorld.matter;
 
+import javax.swing.JOptionPane;
+
 import mansionBandit.factory.RoomFactory;
 import mansionBandit.factory.RoomPainter;
 import mansionBandit.gameWorld.areas.MansionArea;
@@ -336,6 +338,10 @@ public class Bandit extends Character{
 		start.addItem(this);
 		getArea().removeItem(this);
 		setArea(-1, -1);
+
+		JOptionPane.showMessageDialog(
+				null,
+				"DEAD. Get out of here filthy Bandit!!","DEAD" , JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	@Override
