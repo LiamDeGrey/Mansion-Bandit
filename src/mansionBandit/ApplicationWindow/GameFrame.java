@@ -197,7 +197,7 @@ WindowListener, KeyListener {
 
 		//adds description LABEL
 		descriptionLabel = new JLabel("<html><p><center></center></p></html>");
-		descriptionLabel.setBounds(10000,inventoryBarPos.y,137,87);
+		descriptionLabel.setBounds(10000,inventoryBarPos.y,137,95);
 		descriptionLabel.setBackground(Color.DARK_GRAY);
 		descriptionLabel.setOpaque(true);
 		descriptionLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -561,7 +561,7 @@ WindowListener, KeyListener {
 	}
 
 	//TODO: need to create a ServerRunning thread which will call this method. (last line must be in a thread)
-	public void runServer(int port, int nclients, String userName) {
+	public void runServer(int port, int nclients, String userName, int numRooms) {
 		System.out.println("Creating server on port " + port + " with " + nclients + " limit");
 
 		//creates a game object that the server hosts
@@ -703,6 +703,10 @@ WindowListener, KeyListener {
 	public GamePanel getGamePanel() {
 		return gamePanel;
 
+	}
+
+	public Dimension getWindowDimension(){
+		return new Dimension(windowDimensionX, windowDimensionY) ;
 	}
 
 

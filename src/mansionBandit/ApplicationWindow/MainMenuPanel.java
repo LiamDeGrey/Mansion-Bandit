@@ -668,9 +668,10 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 	private void beginHostingGame(){
 		//calls to methods that create the host object, give it a game object and a player as well as give the gameFrame a game object and player
 		String userName = hostNameTextField.getText();
+		int numRooms = Integer.parseInt(numRoomsMultiplayerTextField.getText());
 		player1NameLabel.setText(userName);
 		this.repaint();
-		gameFrame.runServer(32768,4,userName);
+		gameFrame.runServer(32768,4,userName, numRooms);
 
 	}
 
