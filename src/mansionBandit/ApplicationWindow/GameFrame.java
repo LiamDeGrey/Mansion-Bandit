@@ -193,7 +193,7 @@ WindowListener, KeyListener {
 
 		//adds description LABEL
 		descriptionLabel = new JLabel("<html><p><center></center></p></html>");
-		descriptionLabel.setBounds(662,inventoryBarPos.y+299,137,87);
+		descriptionLabel.setBounds(10000,inventoryBarPos.y,137,87);
 		descriptionLabel.setBackground(Color.DARK_GRAY);
 		descriptionLabel.setOpaque(true);
 		descriptionLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -205,10 +205,12 @@ WindowListener, KeyListener {
 
 		//adds TIME LABEL
 		timeLabel = new JLabel("<html><p><center></center></p></html>");
-		timeLabel.setBounds(350,inventoryBarPos.y-300,98,87);
+		timeLabel.setBounds(662,inventoryBarPos.y+299,137,87);
 		timeLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		timeLabel.setVerticalAlignment(SwingConstants.CENTER);
 		timeLabel.setForeground(Color.red);
+		timeLabel.setBackground(Color.DARK_GRAY);
+		timeLabel.setOpaque(true);
 		timeLabel.setFont(new Font("Courier New", Font.BOLD, 40));
 		layeredPane.add(timeLabel, new Integer(1),0);
 
@@ -524,8 +526,9 @@ WindowListener, KeyListener {
 	 * sets the description text displayed onscreen
 	 * @param text to display
 	 */
-	public void setDescriptionText(String text){
+	public void setDescriptionText(String text,int x,int y){
 		descriptionLabel.setText(text);
+		descriptionLabel.setBounds(x, y, 140,90);
 	}
 
 	public void setMoneyText(int money){
