@@ -316,7 +316,8 @@ public class Bandit extends Character{
 		}
 		System.out.println("DEAD. Get out of here filthy Bandit!!");
 		start.addItem(this);
-		area = start;
+		getArea().removeItem(this);
+		setArea(-1, -1);
 	}
 
 	@Override
@@ -336,6 +337,11 @@ public class Bandit extends Character{
 		for(int i=0; i<inventory.length; i++){
 			inventory[i] = null;
 		}
+	}
+
+	@Override
+	public Dimensions getDimensions(){
+		return new Dimensions(40, 40, 70);
 	}
 
 }
