@@ -38,22 +38,42 @@ public class Grid {
 	 * the rooms
 	 */
 	public void setLinks(){
-		int rows = (int)Math.sqrt(rooms.size())+2;
+		int rand, range, extra;
+
+		if(rooms.size()<=20)
+			extra = 2;
+		else if(rooms.size()<=40)
+			extra = 3;
+		else if(rooms.size()<=60)
+			extra = 6;
+		else if(rooms.size()<=80)
+			extra = 8;
+		else
+			extra = 9;
+
+		int rows = (int)Math.sqrt(rooms.size())+extra;//(rooms.size()/10);
 		int cols = rows;
 
 		grid = new MansionArea[rows][cols];//A grid showing [rows][columns] of all the rooms
 
 		int extraSpace = (rows * cols) - rooms.size();//find out how many free spaces there are in the grid
 
-		int rand;
 
+
+		if(extraSpace<20){
+			range = 4;
+		}else if(extraSpace<80){
+			range = 6;
+		}else{
+			range = 8;
+		}
 
 		int roomNum = 0;
 		for(int i=0; i<grid.length; i++){
 			for(int j=0; j<grid[0].length; j++){
 
 				if(extraSpace>0) {
-					rand = (int)(Math.random() * 4)+1;//either 1 , 2 or 3
+					rand = (int)(Math.random() * range)+1;
 					if((rand==2||rand==3)&&roomNum<rooms.size()) {
 						grid[i][j] = rooms.get(roomNum);//put room in grid
 						roomNum++;

@@ -185,8 +185,12 @@ WindowListener, KeyListener {
 		map = new Map(player);
 		//sets position of map
 
-		map.setLocation(690,10);
 		map.setSize(map.getPreferredSize());
+
+		//map.setLocation(690,10);
+		map.setLocation(windowDimensionX-map.getWidth()-5, 5);
+
+
 
 		//adds the map to the game screen
 		layeredPane.add(map, new Integer(1),0);
@@ -304,7 +308,7 @@ WindowListener, KeyListener {
 		this.remove(mainMenu);
 
 		//make the player
-		player = new Host(playerName+"", 20);
+		player = new Host(playerName+"", 80);
 		playerName++;
 
 		//TODO PLACE HOLDER unnecessary -Liam
