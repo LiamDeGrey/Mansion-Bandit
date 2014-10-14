@@ -2,6 +2,7 @@ package mansionBandit.network;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -70,9 +71,9 @@ public final class Client {
 	 * This method writes the updated grid out to the stream for the Server to eventually
 	 * broadcast.
 	 */
-	public void clientSendGrid() {
+	public synchronized void clientSendGrid() {
 		try {
-			output.writeObject(new UpdateGridMessage(player.getBandit().getGrid()));
+			output.writeObject(player.getGrid());
 		} catch (IOException e) {
 			System.out.println("Exception sending grid update " + e);
 		}
@@ -117,9 +118,8 @@ public final class Client {
 					//Read server updates here
 					Object o = input.readObject();
 					if (o instanceof MansionArea[][]) {
-						System.out.println("Received grid");
-						player.setGridStart((MansionArea[][]) o);
-						//player.getBandit().setArea(1,2);
+						System.out.println("Received grid object");
+						player.setGrid((MansionArea[][]) o);
 					}
 					if (o instanceof ArrayList) {
 						System.out.println("Received username list");
@@ -134,10 +134,10 @@ public final class Client {
 							gameFrame.startClientMultiplayerGame();
 						}
 					}
-					if (o instanceof UpdateGridMessage) {
-						System.out.println("Received grid message");
-						player.setGrid(((UpdateGridMessage) o).getGrid());
-					}
+					//if (o instanceof UpdateGridMessage) {
+					//	System.out.println("Received grid message");
+					//	player.setGrid(((UpdateGridMessage) o).getGrid());
+					//}
 				}
 				catch(IOException e) {
 					System.out.println("Connection has been ended by server: " + e);
