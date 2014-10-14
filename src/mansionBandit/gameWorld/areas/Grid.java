@@ -13,6 +13,7 @@ import mansionBandit.gameWorld.matter.GameMatter;
  *
  */
 public class Grid {
+	private int roomName = 1;
 	private List<Room> rooms = new ArrayList<Room>();
 	private List<GameMatter> allItems = new ArrayList<GameMatter>();
 	private MansionArea[][] grid;
@@ -28,7 +29,7 @@ public class Grid {
 
 	public void makeRooms(int numRooms){
 		for(int i=0; i<numRooms; i++){
-			rooms.add(new Room());
+			rooms.add(new Room(roomName+""));
 		}
 	}
 

@@ -19,17 +19,12 @@ public class Room implements MansionArea{
 	private MansionArea north, east, south, west;
 	private List<GameMatter> items = new ArrayList<GameMatter>();
 	private String wallTexture, ceilingTexture, floorTexture;
+	private String name;
 
-	public Room(String wall, String ceiling, String floor){
-		this.wallTexture = wall;
-		this.ceilingTexture = ceiling;
-		this.floorTexture = floor;
+
+	public Room(String name){
 		addGuard();
-	}
-
-
-	public Room(){
-		addGuard();
+		this.name = name;
 	}
 
 	private void addGuard(){
