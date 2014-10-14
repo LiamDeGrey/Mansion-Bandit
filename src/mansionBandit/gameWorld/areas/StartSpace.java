@@ -97,6 +97,15 @@ public class StartSpace implements MansionArea {
 		this.east = area;
 	}
 
+	@Override
+	public boolean equals(Object o){
+		if(o instanceof StartSpace){
+			if (o==this)
+				return true;//if(((Room)o).getName()
+		}
+		return false;
+	}
+
 	public void setTextures(String wall, String ceiling, String floor){
 		this.wallTexture = wall;
 		this.ceilingTexture = ceiling;

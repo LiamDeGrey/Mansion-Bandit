@@ -124,6 +124,10 @@ public class Bandit extends Character{
 		this.j = j;
 	}
 
+	public void setAreaInGrid(MansionArea area, int i, int j) {
+		this.grid[i][j] = area;
+	}
+
 	public MansionArea getArea(){
 		if(i==-1||j==-1)
 			return start;

@@ -30,4 +30,10 @@ public class Host extends Player{
 		}
 	}
 
+	protected void updateRoom() {
+		if (server != null) {
+			server.serverSendRoom();
+		}
+	}
+
 }

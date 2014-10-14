@@ -72,12 +72,16 @@ public class Hallway implements MansionArea{
 
 	@Override
 	public boolean equals(Object o){
-		MansionArea compared = (MansionArea)o;
+		/*MansionArea compared = (MansionArea)o;
 		if(compared.getNorth()==getNorth()
 				&&compared.getEast()==getEast()
 				&&compared.getSouth()==getSouth()
 				&&compared.getWest()==getWest())
-			return true;
+			return true;*/
+		if(o instanceof Hallway){
+			if (o==this)
+				return true;//if(((Room)o).getName()
+		}
 		return false;
 	}
 

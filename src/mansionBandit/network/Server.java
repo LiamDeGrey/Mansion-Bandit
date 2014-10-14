@@ -9,6 +9,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 
+
+
 //import Server.ClientThread;
 import mansionBandit.ApplicationWindow.GameFrame;
 import mansionBandit.gameWorld.areas.MansionArea;
@@ -92,6 +94,10 @@ public final class Server {
 	 */
 	public synchronized void serverSendGrid() {
 		broadcastGrid(player.getGrid());
+	}
+
+	public synchronized void serverSendRoom() {
+		broadcast(new RoomUpdateMessage(player.getBandit().getArea()));
 	}
 
 	/**
@@ -240,10 +246,20 @@ public final class Server {
 					//	player.setGrid(((UpdateGridMessage) obj).getGrid());
 					//	broadcast((Message) obj);
 					//}
-					else if (obj instanceof MansionArea[][]) {
+					if (obj instanceof MansionArea[][]) {
 						System.out.println("got grid object message");
 						player.setGrid((MansionArea[][]) obj);
 						broadcastGrid((MansionArea[][]) obj);
+					}
+					if (obj instanceof RoomUpdateMessage) {
+						System.out.println("got room update message");
+						int[] coords = player.getBandit().getRoomCoords(((RoomUpdateMessage) obj).getRoom());
+						System.out.println("ROOM COORDS: i: " + coords[0] + " j: " + coords[1]);
+						if (!(coords[0] == -2 || coords[1] == -2)) {
+							System.out.println("SERVER RECEIVED COORDS: i: " + coords[0] + " j: " + coords[1]);
+							player.getBandit().setAreaInGrid(((RoomUpdateMessage) obj).getRoom(), coords[0], coords[1]); //update locally
+							broadcast(new RoomUpdateMessage((MansionArea) obj));
+						}
 					}
 				}
 				catch (Exception e) {

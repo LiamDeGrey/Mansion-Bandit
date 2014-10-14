@@ -27,4 +27,8 @@ public class Slave extends Player{
 		System.out.println("====== CLIENT SENT MESSAGE ========");
 		client.clientSendGrid();
 	}
+
+	protected void updateRoom() {
+		client.clientSendRoom();
+	}
 }
