@@ -17,6 +17,7 @@ public class StartSpace implements MansionArea {
 	private MansionArea north, south, east, west;
 	private List<GameMatter> items = new ArrayList<GameMatter>();
 	private String wallTexture, ceilingTexture, floorTexture;
+	private String name;
 
 	@Override
 	public void setLinks(MansionArea north, MansionArea east, MansionArea south, MansionArea west) {
@@ -24,6 +25,18 @@ public class StartSpace implements MansionArea {
 		this.south = south;
 		this.east = east;
 		this.west = west;
+		setName();
+	}
+
+	public void setName(){
+		if(getNorth()!=null)
+			name = -1+"";
+		else if(getEast()!=null)
+			name = -2+"";
+		else if(getSouth()!=null)
+			name = -3+"";
+		else if(getWest()!=null)
+			name = -4+"";
 	}
 
 	@Override
@@ -97,6 +110,14 @@ public class StartSpace implements MansionArea {
 		this.east = area;
 	}
 
+	@Override
+	public boolean equals(Object o){
+		if(o instanceof StartSpace){
+			return ((StartSpace)o).getName().equals(getName());
+		}
+		return false;
+	}
+
 	public void setTextures(String wall, String ceiling, String floor){
 		this.wallTexture = wall;
 		this.ceilingTexture = ceiling;
@@ -106,6 +127,11 @@ public class StartSpace implements MansionArea {
 	@Override
 	public boolean removeItem(GameMatter itm) {
 		return false;
+	}
+
+	@Override
+	public String getName() {
+		return name;
 	}
 
 }

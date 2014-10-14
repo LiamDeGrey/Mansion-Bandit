@@ -20,11 +20,13 @@ public class Hallway implements MansionArea{
 	private MansionArea north, east, south, west;
 	private List<GameMatter> items = new ArrayList<GameMatter>(); //need for chandaliers and stuff like that?
 	private String wallTexture, ceilingTexture, floorTexture;
+	private String name;
 
-	public Hallway(){
+	public Hallway(String name){
 		this.wallTexture = "hallway";
 		this.ceilingTexture = "hallwayC";
 		this.floorTexture = "hallwayF";
+		this.name = name;
 	}
 
 	public String getWallTexture(){
@@ -72,12 +74,9 @@ public class Hallway implements MansionArea{
 
 	@Override
 	public boolean equals(Object o){
-		MansionArea compared = (MansionArea)o;
-		if(compared.getNorth()==getNorth()
-				&&compared.getEast()==getEast()
-				&&compared.getSouth()==getSouth()
-				&&compared.getWest()==getWest())
-			return true;
+		if(o instanceof Hallway){
+			return ((Hallway)o).getName().equals(getName());
+		}
 		return false;
 	}
 
@@ -109,6 +108,11 @@ public class Hallway implements MansionArea{
 	@Override
 	public boolean removeItem(GameMatter itm) {
 		return items.remove(itm);
+	}
+
+	@Override
+	public String getName() {
+		return name;
 	}
 
 }
