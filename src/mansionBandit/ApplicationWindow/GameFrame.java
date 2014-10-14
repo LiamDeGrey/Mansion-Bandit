@@ -608,7 +608,7 @@ WindowListener, KeyListener {
 			img = ImageIO.read(this.getClass().getResource("/object/" + itemName));
 
 			//create a cursor with item as image
-			itemImageCursor = Toolkit.getDefaultToolkit().createCustomCursor(img,new Point(1,1), "itemCursor");
+			itemImageCursor = Toolkit.getDefaultToolkit().createCustomCursor(img,new Point(25,25), "itemCursor");
 
 			//set the cursor to be this custom cursor
 			e.getComponent().setCursor(itemImageCursor);

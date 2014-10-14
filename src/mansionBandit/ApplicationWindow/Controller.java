@@ -205,6 +205,14 @@ public class Controller implements MouseListener, KeyListener{
 
 					e.getComponent().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));// set the cursor back to default
 				}
+				else if(gameFrame.getInventorySlot(mouseX,mouseY)>=0 && player.getItem(gameFrame.getInventorySlot(mouseX,mouseY)) != null){
+
+					Grabable tempItem = draggingItem;
+					draggingItem = player.getItem(gameFrame.getInventorySlot(mouseX,mouseY));
+					player.addItem(tempItem, gameFrame.getInventorySlot(mouseX,mouseY));
+					gameFrame.setCursorImage(e, draggingItem.getImage() + ".png");
+
+				}
 				 else {
 					// otherwise just drop the object at this position in the room
 					player.dropItem(draggingItem);
