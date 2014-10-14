@@ -170,12 +170,14 @@ public class RoomView {
 	public GameMatter findObjectByMouse(int x, int y){
 
 		//TODO make work on side walls??? (or Ceiling (eg light fixtures?))
-
-		//search floor Surface for object
 		GameMatter found = floor.findObject(x,y);
+		//search floor Surface for object
 		if (found == null){
-			//if no object found we will try the back wall
-			found = back.findObject(x,y);
+			found = ceiling.findObject(x,y);
+			if (found == null){
+				//if no object found we will try the back wall
+				found = back.findObject(x,y);
+			}
 		}
 		return found;
 	}

@@ -12,9 +12,18 @@ import org.junit.*;
 
 import static org.junit.Assert.*;
 
-public class factoryTests {
+/**
+ * tests the public method of the room factory class.
+ * mostly the tests are checks to ensure the correct policies
+ * are being applied (eg only one item per wall)
+ * 
+ * @author Andy
+ *
+ */
+public class RoomFactoryTests {
 	/*
-	 * as the factory is random, a lot of tests use many iterations
+	 * tests iterate many times in an effort to catch any anomalies that might occur due to the random nature
+	 * of the factory
 	 */
 	
 	@Test

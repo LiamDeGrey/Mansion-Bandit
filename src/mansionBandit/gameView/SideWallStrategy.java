@@ -19,6 +19,16 @@ import mansionBandit.gameWorld.matter.Face;
 import mansionBandit.gameWorld.matter.GameMatter;
 
 public class SideWallStrategy implements SurfaceStrategy {
+	/*
+	 * NOTE: Side wall initially handled items on the walls in a similar manner to TopBottom. It would resize, and 
+	 * position them, and apply a complicated perspective transform. It never quite looked right, but it worked 
+	 * well enough. After the decision was made to initially only have one object per wall, the complicated code
+	 * required to position, size, and transform became kind of uneccessary. After modifying the image files for objects 
+	 * that draw on the walls, the code to draw them was drastically reduced. It improved the look of the objects, but at
+	 * the expense of each objects bounding box being equal to that of the wall it is on, meaning clicking anywhere on the
+	 * wall will actually be clicking on the top object on that wall. The methods that were removed out are commented 
+	 * out at the bottom of this file.
+	 */
 	private boolean left;
 	private Surface surface;
 	private RoomView sideRoom = null;
@@ -46,7 +56,7 @@ public class SideWallStrategy implements SurfaceStrategy {
 
 	@Override
 	public GameMatter click(int x, int y) {
-		//TODO implement clicking on side walls??
+		
 		return null;
 	}
 

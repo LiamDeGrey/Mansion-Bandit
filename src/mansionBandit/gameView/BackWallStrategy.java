@@ -17,11 +17,21 @@ import mansionBandit.gameWorld.matter.Face;
 import mansionBandit.gameWorld.matter.GameMatter;
 
 /**
- * strategy for drawing items on back wall
+ * strategy for drawing the back wall and its items
+ * 
  * @author Andy
  *
  */
 public class BackWallStrategy implements SurfaceStrategy {
+	/*
+	 * NOTE: originally this strategy handled items in the room in a similar manner to TopBottom. Every item in the room was 
+	 * wrapped into its own DrawnObject and resized and positioned on the screen appropriately. Later in development we made
+	 * the call to have only one item on each wall. And as the SideWall strategy was having difficuilty applying realistic
+	 * looking transformations to its items, I decided to reduce the complexity of items on the wall, by setting their images
+	 * so that they can be applied directly over each surface at the same dimensions as the surface itself. In this way the
+	 * SideWall gained better looking transforms, but at the expense of loosing a tight bounding box around each object on the 
+	 * wall. Now each objects bounding box covers the entire wall.
+	 */
 	private Surface surface;
 	private Image surfaceTexture;
 	private int surfaceX, surfaceY, surfaceWidth, surfaceHeight;
@@ -141,13 +151,6 @@ public class BackWallStrategy implements SurfaceStrategy {
 		//create object list for surface
 		createGameObjects(surface.roomView.room, direction);
 	}
-	
-	/**
-	 * wraps objects to be drawn into DrawnObjects
-	 * with appropriate size distortion
-	 * 
-	 * @param wall
-	 */
 	
 	/**
 	 * gets the objects in the room, filters them for this wall

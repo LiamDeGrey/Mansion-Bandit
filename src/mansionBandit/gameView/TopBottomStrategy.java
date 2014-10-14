@@ -52,9 +52,7 @@ public class TopBottomStrategy implements SurfaceStrategy {
 
 	@Override
 	public GameMatter click(int x, int y) {
-		if (ceiling){
-			return null;
-		}
+		//safe to use on ceiling too, as there should only ever be on object on it
 		List<DrawnObject> objects = new ArrayList<DrawnObject>();
 		objects.addAll(surface.objects);
 		Collections.reverse(objects);
@@ -127,6 +125,13 @@ public class TopBottomStrategy implements SurfaceStrategy {
 		}
 	}
 
+	/**
+	 * 
+	 * @author Liam
+	 * @param room
+	 * @param item
+	 * @param dir
+	 */
 	public void updateRoom(final MansionArea room, GameMatter item, final Face dir){
 
 		Thread check = new Thread(){

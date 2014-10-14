@@ -35,8 +35,6 @@ public class ItemTemplate {
 		type = scan.next(); 
 		sizeMin = scan.nextInt();
 		sizeRange = scan.nextInt();
-		yMin = scan.nextInt();
-		yRange = scan.nextInt();
 		valueMin = scan.nextInt();
 		valueRange = scan.nextInt();
 		scan.close();
