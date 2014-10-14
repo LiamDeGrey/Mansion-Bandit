@@ -69,21 +69,20 @@ public class GamePanel extends JPanel{
 			//in a new room, check for a Guard
 			for (GameMatter item : room.room.getItems()){
 				if (item instanceof Guard){
-					//TODO LIAM I moved your thread thingy into here:
 					//found a guard in the room, set timer
-//					Thread check = new Thread(){
-//						@Override
-//						public void run(){
-//							try {
-//								this.sleep(6000);
-//							} catch (InterruptedException e) {
-//								e.printStackTrace();
-//							}
-//							//if(bandit.getArea()==room)
-//							createGameObjects(room, dir);
-//						}
-//					};
-					break;
+					Thread check = new Thread(){
+						@Override
+						public void run(){
+							try {
+								this.sleep(6000);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+							update();
+								
+						}
+					};
+					check.start();
 				}
 			}
 		}

@@ -29,7 +29,7 @@ public class Guard extends Character {
 					}
 				}
 				try {
-					this.sleep(5000);
+					this.sleep(4000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
