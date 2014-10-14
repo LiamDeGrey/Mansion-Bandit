@@ -21,7 +21,7 @@ import mansionBandit.gameWorld.matter.Sellable;
  */
 public class ItemTemplate {
 
-	private int valueMin, valueRange, sizeMin, sizeRange;
+	private int valueMin, valueRange, sizeMin, sizeRange, yMin, yRange;
 	private String name, description, image, type;
 	private Random random;
 	
@@ -34,6 +34,8 @@ public class ItemTemplate {
 		type = scan.next(); 
 		sizeMin = scan.nextInt();
 		sizeRange = scan.nextInt();
+		yMin = scan.nextInt();
+		yRange = scan.nextInt();
 		valueMin = scan.nextInt();
 		valueRange = scan.nextInt();
 		scan.close();
@@ -57,13 +59,13 @@ public class ItemTemplate {
 			y = random.nextInt(100 - scale) + (scale / 2);
 		} else {
 			x = random.nextInt(100 - scale) + (scale / 2);
-			y = random.nextInt(100 - scale) + scale;
+			y = random.nextInt(yRange + 1) + yMin - 1;
 		}
 		
-		//hack solution for bookshelf
-		if (image.equals("bookshelf")){
-			y = 100;
-		}
+//		//hack solution for bookshelf
+//		if (image.equals("bookshelf")){
+//			y = 100;
+//		}
 		
 		Dimensions position = new Dimensions(x, y, scale);
 		

@@ -1,3 +1,3 @@
-TV Flatscreen_TV This_should_fit_in_my_bag... sell 30 20 100 200
-bookshelf A_Shelf_Of_Books It's_kinda_funny_how_all_the_bookshelves_contain_the_same_books._These_people_must_be_OCD_or_something. static 60 0 0 0
-bookshelf Small_Bookshelf I_don't_even_read,_but_I_would_absolutely_steal_this. sell 30 10 50 50
+TV Flatscreen_TV This_should_fit_in_my_bag... sell 30 20 40 20 100 200
+bookshelf A_Shelf_Of_Books It's_kinda_funny_how_all_the_bookshelves_contain_the_same_books._These_people_must_be_OCD_or_something. static 60 0 100 0 0 0
+bookshelf Small_Bookshelf I_don't_even_read,_but_I_would_absolutely_steal_this. sell 30 10 100 0 50 50
