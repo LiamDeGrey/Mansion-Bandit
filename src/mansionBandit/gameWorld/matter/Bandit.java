@@ -19,7 +19,6 @@ public class Bandit extends Character{
 	private MansionArea[][] grid;
 	private int i, j;
 	private Van van;
-	private Player player;
 
 	private MansionArea area;
 	private int[] adjacentGrid = new int[2];
@@ -27,14 +26,12 @@ public class Bandit extends Character{
 	public Bandit(String name, MansionArea[][] grid, Player player) {
 		super(name, null, null, null, null);
 		this.grid = grid;
-		this.player = player;
 		setStartSpace();
 		initialiseInventory();
 	}
 
 	public Bandit(String name, Player player){
 		super(name, null, null, null, null);
-		this.player = player;
 		initialiseInventory();
 
 	}
@@ -86,7 +83,7 @@ public class Bandit extends Character{
 		RoomFactory rf = new RoomFactory();
 		rf.populateRoom(start);
 
-		van = new Van(getName()+"van", Face.opposite(getFace()), player);
+		van = new Van(getName()+"van", Face.opposite(getFace()), this);
 		start.addItem(van);
 		Door exit = new Door(getName()+"startDoor", getFace(), new Dimensions(50, 100, 70), false);
 		Door entry = new Door(getName()+"toStart", Face.opposite(getFace()), new Dimensions(50, 100, 70), false);

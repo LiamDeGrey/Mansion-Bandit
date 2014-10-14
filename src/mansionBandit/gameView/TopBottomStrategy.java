@@ -127,6 +127,22 @@ public class TopBottomStrategy implements SurfaceStrategy {
 		}
 	}
 
+	public void updateRoom(final MansionArea room, GameMatter item, final Face dir){
+
+		Thread check = new Thread(){
+			@Override
+			public void run(){
+				try {
+					this.sleep(6000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				//if(bandit.getArea()==room)
+				createGameObjects(room, dir);
+			}
+		};
+	}
+
 	/**
 	 * gets the objects in the room, filters them for this wall
 	 * only, and wraps them into a drawn object, complete with
@@ -142,6 +158,11 @@ public class TopBottomStrategy implements SurfaceStrategy {
 		for (GameMatter item : room.getItems()){
 			if(item instanceof Guard){
 				((Guard) item).wakeUp();
+				//for(GameMatter itm: room.getItems()){
+					//if(itm instanceof Bandit){
+						//updateRoom(room, item, direction);
+					//}
+				//}
 			}
 
 			if (item.getFace() != direction ){

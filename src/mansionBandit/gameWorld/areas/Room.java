@@ -33,8 +33,8 @@ public class Room implements MansionArea{
 	}
 
 	private void addGuard(){
-		int rand = (int)(Math.random()*15)+1;
-		if(rand==5){
+		int rand = (int)(Math.random()*10)+1;
+		if(5==5){
 			Guard guard = new Guard("guard", Face.FLOOR, this);
 			addItem(guard);
 		}
