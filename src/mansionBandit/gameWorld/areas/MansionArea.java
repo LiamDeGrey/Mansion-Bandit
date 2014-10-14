@@ -59,6 +59,8 @@ public interface MansionArea extends Serializable {
 
 	public void setEast(MansionArea area);
 
+	public String getName();
+
 
 	/**
 	 * adds an item to the area

@@ -95,8 +95,7 @@ public class Room implements MansionArea{
 	@Override
 	public boolean equals(Object o){
 		if(o instanceof Room){
-			if (o==this)
-				return true;//if(((Room)o).getName()
+			return ((Room)o).getName().equals(getName());
 		}
 		return false;
 	}
@@ -119,6 +118,11 @@ public class Room implements MansionArea{
 	@Override
 	public void setEast(MansionArea area) {
 		this.east = area;
+	}
+
+	@Override
+	public String getName() {
+		return name;
 	}
 
 }

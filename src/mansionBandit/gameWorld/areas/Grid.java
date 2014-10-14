@@ -30,6 +30,7 @@ public class Grid {
 	public void makeRooms(int numRooms){
 		for(int i=0; i<numRooms; i++){
 			rooms.add(new Room(roomName+""));
+			roomName++;
 		}
 	}
 
@@ -79,7 +80,8 @@ public class Grid {
 						grid[i][j] = rooms.get(roomNum);//put room in grid
 						roomNum++;
 					}else {
-						grid[i][j] = new Hallway();
+						grid[i][j] = new Hallway(roomName+"");
+						roomName++;
 						extraSpace--;
 					}
 				}else {
