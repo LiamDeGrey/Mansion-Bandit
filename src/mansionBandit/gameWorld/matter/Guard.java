@@ -43,7 +43,7 @@ public class Guard extends Character {
 
 	@Override
 	public void kill(){
-		area.addItem(new Knife("dropped Knife" + GameMatter.getItemCounter(), "The Guard dropped this", "knife", Face.FLOOR, new Dimensions(50, 50, 2)));
+		area.addItem(new Knife("dropped Knife" + GameMatter.getItemCounter(), "The Guard dropped this", "knife", Face.FLOOR, new Dimensions(50, 50, 10)));
 		area.getItems().remove(this);
 	}
 
