@@ -94,13 +94,9 @@ public class Room implements MansionArea{
 
 	@Override
 	public boolean equals(Object o){
-		if(o!=null){
-			MansionArea compared = (MansionArea)o;
-			if(compared.getNorth()==getNorth()
-					&&compared.getEast()==getEast()
-					&&compared.getSouth()==getSouth()
-					&&compared.getWest()==getWest())
-				return true;
+		if(o instanceof Room){
+			if (o==this)
+				return true;//if(((Room)o).getName()
 		}
 		return false;
 	}

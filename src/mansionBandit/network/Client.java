@@ -79,6 +79,15 @@ public final class Client {
 		}
 	}
 
+	public synchronized void clientSendRoom() {
+		try {
+			System.out.println("Creating room update message to write");
+			output.writeObject(new RoomUpdateMessage(player.getBandit().getArea()));
+		} catch (IOException e) {
+			System.out.println("Exception sending room update " + e);
+		}
+	}
+
 	/**
 	 * The disconnect method closes all I/O streams and closes the socket.
 	 *
@@ -138,6 +147,14 @@ public final class Client {
 					//	System.out.println("Received grid message");
 					//	player.setGrid(((UpdateGridMessage) o).getGrid());
 					//}
+					if (o instanceof RoomUpdateMessage) {
+						System.out.println("Received room update message");
+						int[] coords = player.getBandit().getRoomCoords(((RoomUpdateMessage) o).getRoom());
+						if (!(coords[0] == -2 || coords[1] == -2)) {
+							System.out.println("CLIENT RECEIVED COORDS: i: " + coords[0] + " j: " + coords[1]);
+							player.getBandit().setAreaInGrid(((RoomUpdateMessage) o).getRoom(), coords[0], coords[1]); //update locally
+						}
+					}
 				}
 				catch(IOException e) {
 					System.out.println("Connection has been ended by server: " + e);

@@ -66,6 +66,9 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 	private final int menuH = 250;
 	private final int menuW = 250;
 
+	//the number of rooms to start the game with
+	private int numRooms = 0;
+
 	public MainMenuPanel(GameFrame frame){
 		this.setLayout(null);
 		//sets the location and dimensions of the menu
