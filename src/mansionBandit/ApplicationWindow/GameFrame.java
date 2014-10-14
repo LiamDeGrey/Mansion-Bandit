@@ -229,6 +229,8 @@ WindowListener, KeyListener {
 		moneyLabel.setFont(new Font("Courier New", Font.BOLD, 30));
 		layeredPane.add(moneyLabel, new Integer(1),0);
 
+		this.requestFocusInWindow(true);//sets focus to this window
+		
 		//redisplay the screen
 		this.revalidate();
 		this.repaint();
@@ -313,11 +315,7 @@ WindowListener, KeyListener {
 		player = new Host(playerName+"", numRooms);
 		playerName++;
 
-		//TODO PLACE HOLDER unnecessary -Liam
-		//player.getBandit().setArea(getTestGrid()[1][1]);
-		//player.getBandit().setArea(makeRoom());
-		//player.getBandit().setFace(Face.NORTHERN);
-
+		
 		//sets up user interface elements
 		setupScreen();
 
