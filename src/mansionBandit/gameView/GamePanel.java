@@ -7,7 +7,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-import sun.net.www.content.text.plain;
+import mansionBandit.gameWorld.areas.MansionArea;
 import mansionBandit.gameWorld.areas.Room;
 import mansionBandit.gameWorld.main.Player;
 import mansionBandit.gameWorld.matter.FurnitureStatic;
@@ -15,6 +15,7 @@ import mansionBandit.gameWorld.matter.Decoration;
 import mansionBandit.gameWorld.matter.Face;
 import mansionBandit.gameWorld.matter.Dimensions;
 import mansionBandit.gameWorld.matter.GameMatter;
+import mansionBandit.gameWorld.matter.Guard;
 
 /**
  * This panel is responsible for displaying the game world
@@ -61,7 +62,32 @@ public class GamePanel extends JPanel{
 	 * NOTE: currently is unoptimised. This will redraw the entire scene from scratch
 	 */
 	public void update(){
+		MansionArea previousRoom = room.room;
 		room = new RoomView(player.getBandit().getArea(), player.getBandit().getFace(), 0, 0, width, height, 0);
+		
+		if (!previousRoom.equals(player.getBandit().getArea())){
+			//in a new room, check for a Guard
+			for (GameMatter item : room.room.getItems()){
+				if (item instanceof Guard){
+					//TODO LIAM I moved your thread thingy into here:
+					//found a guard in the room, set timer
+//					Thread check = new Thread(){
+//						@Override
+//						public void run(){
+//							try {
+//								this.sleep(6000);
+//							} catch (InterruptedException e) {
+//								e.printStackTrace();
+//							}
+//							//if(bandit.getArea()==room)
+//							createGameObjects(room, dir);
+//						}
+//					};
+					break;
+				}
+			}
+		}
+		
 		this.repaint();
 	}
 

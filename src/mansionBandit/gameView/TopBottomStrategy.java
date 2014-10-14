@@ -126,29 +126,6 @@ public class TopBottomStrategy implements SurfaceStrategy {
 	}
 
 	/**
-	 * 
-	 * @author Liam
-	 * @param room
-	 * @param item
-	 * @param dir
-	 */
-	public void updateRoom(final MansionArea room, GameMatter item, final Face dir){
-
-		Thread check = new Thread(){
-			@Override
-			public void run(){
-				try {
-					this.sleep(6000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				//if(bandit.getArea()==room)
-				createGameObjects(room, dir);
-			}
-		};
-	}
-
-	/**
 	 * gets the objects in the room, filters them for this wall
 	 * only, and wraps them into a drawn object, complete with
 	 * resized bounds

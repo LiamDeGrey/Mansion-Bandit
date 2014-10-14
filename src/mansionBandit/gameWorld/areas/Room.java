@@ -94,7 +94,7 @@ public class Room implements MansionArea{
 
 	@Override
 	public boolean equals(Object o){
-		if(o instanceof Room){
+		if(o != null && o instanceof Room){
 			return ((Room)o).getName().equals(getName());
 		}
 		return false;
