@@ -218,7 +218,7 @@ public class Bandit extends Character{
 		}
 		return false;
 	}
-	
+
 	public boolean[][] getVisited(){
 		return visited;
 	}
@@ -360,7 +360,7 @@ public class Bandit extends Character{
 
 	@Override
 	public String getImage(){
-		return "player1";
+		return "player"+getName();
 	}
 
 	/**
@@ -371,7 +371,7 @@ public class Bandit extends Character{
 			inventory[i] = null;
 		}
 	}
-	
+
 	private void initialiseVisited() {
 		visited = new boolean[grid.length][grid[0].length];
 		for(int i=0; i<visited.length; i++) {
@@ -392,7 +392,16 @@ public class Bandit extends Character{
 
 	@Override
 	public Dimensions getDimensions(){
-		return new Dimensions(40, 40, 70);
+		if(getName().equals("1")){
+			return new Dimensions(30, 30, 70);
+		}else if(getName().equals("2")){
+			return new Dimensions(30, 70, 70);
+		}else if(getName().equals("3")){
+			return new Dimensions(70, 70, 70);
+		}else if(getName().equals("4")){
+			return new Dimensions(70, 30, 70);
+		}
+		return null;
 	}
 
 }
