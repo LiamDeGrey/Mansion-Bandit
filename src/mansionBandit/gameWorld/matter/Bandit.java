@@ -153,6 +153,11 @@ public class Bandit extends Character{
 	public void setArea(int i, int j) {
 		this.i = i;
 		this.j = j;
+		if(i==-1||j==-1){
+			area = start;
+		}else{
+			area = grid[i][j];
+		}
 	}
 
 	public MansionArea getArea(){

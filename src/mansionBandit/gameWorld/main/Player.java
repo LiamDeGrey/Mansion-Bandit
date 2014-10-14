@@ -1,5 +1,7 @@
 package mansionBandit.gameWorld.main;
 
+import java.io.Serializable;
+
 import mansionBandit.gameWorld.areas.MansionArea;
 import mansionBandit.gameWorld.areas.Grid;
 import mansionBandit.gameWorld.matter.Bandit;

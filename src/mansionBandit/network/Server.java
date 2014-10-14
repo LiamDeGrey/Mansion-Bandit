@@ -3,9 +3,11 @@ package mansionBandit.network;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+
 
 //import Server.ClientThread;
 import mansionBandit.ApplicationWindow.GameFrame;
@@ -88,8 +90,8 @@ public final class Server {
 	 * This method will broadcast the Server's movements out to the Clients.
 	 *
 	 */
-	public void serverSendGrid() {
-		broadcast(new UpdateGridMessage(this.player.getBandit().getGrid()));
+	public synchronized void serverSendGrid() {
+		broadcastGrid(player.getGrid());
 	}
 
 	/**
@@ -105,11 +107,19 @@ public final class Server {
 		}
 	}
 
+	public synchronized void broadcastGrid(MansionArea[][] grid) {
+		for(int i = clientList.size(); --i >= 0;) {
+			ClientThread ct = clientList.get(i);
+
+			ct.sendGridObject(grid);
+		}
+	}
+
 	/**
 	 * Removes a specific ClientThread from the list.
 	 * @param ct The ClientThread to be removed.
 	 */
-	synchronized void remove(ClientThread ct) {
+	public synchronized void remove(ClientThread ct) {
 		clientList.remove(ct);
 	}
 
@@ -186,12 +196,30 @@ public final class Server {
 			}
 		}
 
+		public synchronized void sendGridObject(MansionArea[][] grid) {
+			//Check if Client is still connected
+			if(!socket.isConnected()) {
+				System.out.println(username + " is not connected, closing socket.");
+				close();
+			}
+
+			//Send the message out on its stream
+			try {
+				output.writeObject(grid);
+			}
+			//Inform that an error occurred with sending the message, do not close anything
+			catch(IOException e) {
+				System.out.println("Error sending message to " + username);
+				System.out.println(e.toString());
+			}
+		}
+
 		public void run() {
 			boolean end = false;
 			while(!end) {
 				try {
 					//Read input and act accordingly
-					Object obj = (Message) input.readObject();
+					Object obj = input.readObject();
 					if (obj instanceof ClientDisconnectMessage) {
 						System.out.println("got clientdisconnect message");
 						ClientThread toDisconnect = getClient(((ClientDisconnectMessage) obj).getUsername());
@@ -207,10 +235,15 @@ public final class Server {
 						System.out.println("updating server client list view");
 						gameFrame.updatePlayerList(usernameList);
 					}
-					if (obj instanceof UpdateGridMessage) {
-						System.out.println("got update grid message");
-						player.setGrid(((UpdateGridMessage) obj).getGrid());
-						broadcast((Message) obj);
+					//if (obj instanceof UpdateGridMessage) {
+					//	System.out.println("got update grid message");
+					//	player.setGrid(((UpdateGridMessage) obj).getGrid());
+					//	broadcast((Message) obj);
+					//}
+					else if (obj instanceof MansionArea[][]) {
+						System.out.println("got grid object message");
+						player.setGrid((MansionArea[][]) obj);
+						broadcastGrid((MansionArea[][]) obj);
 					}
 				}
 				catch (Exception e) {
