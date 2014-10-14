@@ -355,6 +355,21 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		//add the textbox
 		hostGamePanel.add(hostNameTextField);
 
+		
+		//sets up addressLabel
+		JLabel numRoomsLabel = new JLabel("Number of rooms in the mansion: ");
+
+		hostGamePanel.add(numRoomsLabel);
+
+		//sets up text box for user to input host address
+		numRoomsMultiplayerTextField = new JTextField();
+		//add the name textbox to the panel
+		hostGamePanel.add(numRoomsMultiplayerTextField);
+
+		//set the size of the textbox
+		addressTextField.setPreferredSize(textBoxDimension);
+		
+		
 		//set the position of the menu
 		hostGamePanel.setBounds(menuX,menuY,menuH,menuW);
 
@@ -534,9 +549,9 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 	/**
 	 * quits out of the main menu and starts the game
 	 */
-	private void startMultiplayerGame(){
+	private void startMultiplayerGame(int numRooms){
 		this.setVisible(false);
-		gameFrame.startMultiplayerGame();
+		gameFrame.startMultiplayerGame(numRooms);
 	}
 
 
@@ -576,7 +591,7 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		}
 		else if(e.getActionCommand().equals("startMultiplayerGame")){
 			//starts the multiplayer game. Used only be host.
-			startMultiplayerGame();
+			startMultiplayerGame(Integer.parseInt(numRoomsTextField.getText()));
 		}
 		else if(e.getActionCommand().equals("backButton")){
 
@@ -590,8 +605,6 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 			setMenu(multiplayerMenuPanel);
 		}
 		else if(e.getActionCommand().equals("disconnectButtonClient")){
-			//TODO gameFrame.getClient.disconnect()
-			//go back to the main menu
 			gameFrame.getClient().disconnect();
 			setMenu(multiplayerMenuPanel);
 		}
@@ -600,7 +613,7 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 					this,
 					"Steal as much as you can before the time runs out. Take stolen items to the van"
 					+ " to cash them in.\n Drag items to the inventory bar to store them. "
-					+ "Drag items to other items to use them.\n Right click an item to get its description.",
+					+ "Drag items to other items to use them.\n Hold Right click on an item to get its description.",
 					"Help ", JOptionPane.INFORMATION_MESSAGE);
 
 		}

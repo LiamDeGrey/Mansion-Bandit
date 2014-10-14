@@ -13,9 +13,7 @@ import javax.swing.JPanel;
 import mansionBandit.gameWorld.main.Player;
 
 /**
- *  * The JPanel responsible for drawing GUI elements such as the inventory
- * It is given the applicationFrame using it and from that it can identify the player it is used for.
- * It draw inventory items and other GUI elements automatically as it simply looks to the player object.
+ *  * The JPanel responsible for drawing GUI element images such as the inventory and the items contained in it
  * @author carrtheo
  *
  */
@@ -27,6 +25,12 @@ public class GUICanvas extends JPanel{
 
 	//the image of the inventory bar
 	BufferedImage inventoryBarImage;
+	
+	//the image right of the inventory bar
+	BufferedImage inventorySideImage;
+	
+	//the image left of the inventory bar
+	BufferedImage inventorySideImage2;
 
 
 	public GUICanvas(GameFrame gFrame){
@@ -36,7 +40,21 @@ public class GUICanvas extends JPanel{
 	try {
 		inventoryBarImage = ImageIO.read(this.getClass().getResource("/GUIgraphics/inventoryBar2.png"));
 	} catch (IOException e) {
-		// TODO Auto-generated catch block
+
+		e.printStackTrace();
+	}
+	
+	try {
+		inventorySideImage = ImageIO.read(this.getClass().getResource("/GUIgraphics/barSideBox.png"));
+	} catch (IOException e) {
+	
+		e.printStackTrace();
+	}
+	
+	try {
+		inventorySideImage2 = ImageIO.read(this.getClass().getResource("/GUIgraphics/barSideBox2.png"));
+	} catch (IOException e) {
+	
 		e.printStackTrace();
 	}
 	}
@@ -44,7 +62,7 @@ public class GUICanvas extends JPanel{
 
 	 public void paintComponent(Graphics g){
 	        
-		 	int invImageOffSetX =10;
+		 	int invImageOffSetX =111;
 		 	int invImageOffSetY =20;
 			 
 		 
@@ -52,7 +70,9 @@ public class GUICanvas extends JPanel{
 
 	        //draws the inventory slot bar
 
-	        g.drawImage(inventoryBarImage, frame.getInventoryBarPos().x, frame.getInventoryBarPos().y, null);
+	        g.drawImage(inventoryBarImage, frame.getInventoryBarPos().x+100, frame.getInventoryBarPos().y, null);
+	        g.drawImage(inventorySideImage, frame.getInventoryBarPos().x+558+100, frame.getInventoryBarPos().y, null);
+	        g.drawImage(inventorySideImage2, frame.getInventoryBarPos().x-80+82, frame.getInventoryBarPos().y, null);
 
 	        //draws each of the items in a players inventory
 

@@ -176,10 +176,10 @@ WindowListener, KeyListener {
 
 		//add the GUI rendering panel
 		guiCanvas = new GUICanvas(this);
-		guiCanvas.setBounds(inventoryBarPos.x,inventoryBarPos.y,windowDimensionX,windowDimensionY);
+		guiCanvas.setBounds(inventoryBarPos.x-100,inventoryBarPos.y,windowDimensionX+100,windowDimensionY);
 		guiCanvas.setOpaque(false);
 		//adds it at 2nd layer of the pane
-		layeredPane.add(guiCanvas,new Integer(1),0);
+		layeredPane.add(guiCanvas,new Integer(2),0);
 
 
 		map = new Map(player);
@@ -204,7 +204,7 @@ WindowListener, KeyListener {
 		descriptionLabel.setVerticalAlignment(SwingConstants.CENTER);
 		descriptionLabel.setForeground(Color.white);
 		descriptionLabel.setFont(new Font("Courier New", Font.BOLD, 11));
-		layeredPane.add(descriptionLabel, new Integer(1),0);
+		layeredPane.add(descriptionLabel, new Integer(3),0);
 
 
 		//adds TIME LABEL
@@ -213,7 +213,7 @@ WindowListener, KeyListener {
 		timeLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		timeLabel.setVerticalAlignment(SwingConstants.CENTER);
 		timeLabel.setForeground(Color.red);
-		timeLabel.setBackground(Color.DARK_GRAY);
+		timeLabel.setBackground(new Color(40,40,40));
 		timeLabel.setOpaque(true);
 		timeLabel.setFont(new Font("Courier New", Font.BOLD, 40));
 		layeredPane.add(timeLabel, new Integer(1),0);
@@ -221,7 +221,7 @@ WindowListener, KeyListener {
 		//adds MONEY LABEL
 		moneyLabel = new JLabel("$0");
 		moneyLabel.setBounds(0,inventoryBarPos.y+299,98,87);
-		moneyLabel.setBackground(Color.DARK_GRAY);
+		moneyLabel.setBackground(new Color(40,40,40));
 		moneyLabel.setOpaque(true);
 		moneyLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		moneyLabel.setVerticalAlignment(SwingConstants.CENTER);
@@ -334,7 +334,7 @@ WindowListener, KeyListener {
 
 	}
 
-	public void startMultiplayerGame(){
+	public void startMultiplayerGame(int numRooms){
 
 		this.remove(mainMenu);
 
