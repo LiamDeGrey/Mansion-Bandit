@@ -134,7 +134,7 @@ public class BackWallStrategy implements SurfaceStrategy {
 					//TODO fix perspective in back wall for this??
 					nextRoom = null;
 				} else {
-					nextRoom = new RoomView(next, direction, surfaceX, surfaceY, surfaceWidth, surfaceHeight, depth + 1);
+					nextRoom = new RoomView(surface.roomView.bandit, next, direction, surfaceX, surfaceY, surfaceWidth, surfaceHeight, depth + 1);
 				}
 				
 			} else {
