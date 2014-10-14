@@ -113,7 +113,7 @@ public final class Server {
 		for(int i = clientList.size(); --i >= 0;) {
 			ClientThread ct = clientList.get(i);
 			if (msg instanceof ItemUpdateMessage) {
-				System.out.println("BROADCAST METHOD ITEMS : " + ((ItemUpdateMessage) msg).getItems());
+				//System.out.println("BROADCAST METHOD ITEMS : " + ((ItemUpdateMessage) msg).getItems());
 			}
 			ct.sendMessage(msg);
 		}
@@ -192,7 +192,7 @@ public final class Server {
 			//Send the message out on its stream
 			try {
 				if (msg instanceof ItemUpdateMessage) {
-					System.out.println("SENDMESSAGE METHOD ITEMS : " + ((ItemUpdateMessage) msg).getItems());
+					//System.out.println("SENDMESSAGE METHOD ITEMS : " + ((ItemUpdateMessage) msg).getItems());
 				}
 				output.writeObject(msg);
 				//output.flush();
