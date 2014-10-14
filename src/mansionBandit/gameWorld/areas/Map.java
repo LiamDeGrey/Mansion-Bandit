@@ -23,6 +23,7 @@ import mansionBandit.gameWorld.matter.GameMatter;
  */
 public class Map extends JPanel{
 	private MansionArea[][] grid;
+	private boolean[][] visited;
 	private int[] adjacentGrid;
 	private Player player;
 	private static final int widthBlock = 10;
@@ -43,6 +44,7 @@ public class Map extends JPanel{
 	public Map(Player player){
 		this.player = player;
 		grid = player.getGrid();
+		initialiseVisited();
 		adjacentGrid = player.getBandit().getAdjacentGrid();
 		widthMap = (grid[0].length*widthBlock)+(padding*2);
 		heightMap = (grid.length*heightBlock)+(padding*2);
@@ -50,6 +52,20 @@ public class Map extends JPanel{
 		setLayout(null);
 		setPointer();
 	}
+	
+	private void initialiseVisited() {
+		visited = new boolean[grid.length][grid[0].length];
+		for(int i=0; i<visited.length; i++) {
+			for(int j=0; j<visited[0].length; j++) {
+				visited[i][j] = false;
+			}
+		}
+	}
+	
+	public void updateVisited() {
+		visited = player.getBandit().getVisited();
+	}
+	
 	
 	@Override
 	public Dimension getPreferredSize() {
@@ -96,13 +112,19 @@ public class Map extends JPanel{
 	 * @param graphics
 	 */
 	private void drawGrid(Graphics g) {
+		updateVisited();
 		for(int i=0; i<grid.length; i++){
 			for(int j=0; j<grid[0].length; j++){
-				if(grid[i][j] instanceof Room){
-					g.setColor(Color.decode("#818181"));//Greenish
-					g.fillRect(j*widthBlock+padding, i*heightBlock+padding, widthBlock, heightBlock);
-				}else if(grid[i][j] instanceof Hallway){
-					g.setColor(Color.decode("#BDBDBD"));//Light blue
+				if(visited[i][j]) {
+					if(grid[i][j] instanceof Room){
+						g.setColor(Color.decode("#818181"));
+						g.fillRect(j*widthBlock+padding, i*heightBlock+padding, widthBlock, heightBlock);
+					}else if(grid[i][j] instanceof Hallway){
+						g.setColor(Color.decode("#BDBDBD"));
+						g.fillRect(j*widthBlock+padding, i*heightBlock+padding, widthBlock, heightBlock);
+					}
+				}else {
+					g.setColor(Color.BLACK);
 					g.fillRect(j*widthBlock+padding, i*heightBlock+padding, widthBlock, heightBlock);
 				}
 				/*

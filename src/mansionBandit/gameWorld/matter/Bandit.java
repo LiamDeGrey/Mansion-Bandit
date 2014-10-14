@@ -19,6 +19,7 @@ public class Bandit extends Character{
 	private Grabable[] inventory = new Grabable[7];
 	private StartSpace start;
 	public MansionArea[][] grid;
+	private boolean[][] visited;
 	private int i, j;
 	private Van van;
 
@@ -27,6 +28,7 @@ public class Bandit extends Character{
 	public Bandit(String name, MansionArea[][] grid, Player player) {
 		super(name, null, null, null, null);
 		this.grid = grid;
+		initialiseVisited();
 		setStartSpace();
 		initialiseInventory();
 	}
@@ -111,11 +113,13 @@ public class Bandit extends Character{
 
 	public void setGrid(MansionArea[][] grid){
 		this.grid = grid;
+		initialiseVisited();
 		setStartSpace();
 	}
 
 	public void setGridStart(MansionArea[][] grid){
 		this.grid = grid;
+		initialiseVisited();
 		setStartSpace();
 	}
 
@@ -205,6 +209,7 @@ public class Bandit extends Character{
 				setArea(-1,-1);
 				start.addItem(this);
 			}else{
+				visited[newi][newj] = true;
 				getArea().removeItem(this);
 				setArea(newi, newj);
 				getArea().addItem(this);
@@ -212,6 +217,10 @@ public class Bandit extends Character{
 			return true;
 		}
 		return false;
+	}
+	
+	public boolean[][] getVisited(){
+		return visited;
 	}
 
 	public int[] getRoomCoords(MansionArea room) {
@@ -360,6 +369,15 @@ public class Bandit extends Character{
 	public void initialiseInventory(){
 		for(int i=0; i<inventory.length; i++){
 			inventory[i] = null;
+		}
+	}
+	
+	private void initialiseVisited() {
+		visited = new boolean[grid.length][grid[0].length];
+		for(int i=0; i<visited.length; i++) {
+			for(int j=0; j<visited[0].length; j++) {
+				visited[i][j] = false;
+			}
 		}
 	}
 
