@@ -312,8 +312,7 @@ WindowListener, KeyListener {
 		this.remove(mainMenu);
 
 		//make the player
-		player = new Host("", numRooms);
-		playerName++;
+		player = new Host("host", 1, numRooms);
 
 
 		//sets up user interface elements
@@ -547,11 +546,11 @@ WindowListener, KeyListener {
 	 * @param username Identifier for the client attempting to connect
 	 * @throws IOException
 	 */
-	public void runClient(String address, int port, String username) throws IOException {
+	public void runClient(String address, int port, String username, int id) throws IOException {
 		Socket s = new Socket(address, port);
 		System.out.println("Client connecting to: " + address + " on port: " + port);
 
-		player = new Slave("2");
+		player = new Slave(username, id);
 		playerName++;
 
 		client = new Client(s, username,(Slave)player,this);
@@ -566,8 +565,7 @@ WindowListener, KeyListener {
 		System.out.println("Creating server on port " + port + " with " + nclients + " limit");
 
 		//creates a game object that the server hosts
-		player = new Host(playerName+"", 20);
-		playerName++;
+		player = new Host(userName, 1, 20);
 
 		//creates a new server
 		this.server = new Server(port, nclients, userName,(Host)player,this);

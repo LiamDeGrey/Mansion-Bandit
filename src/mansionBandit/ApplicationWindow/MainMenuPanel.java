@@ -24,6 +24,8 @@ import javax.swing.JTextField;
  */
 public class MainMenuPanel extends JPanel implements ActionListener{
 
+	private static int id = 2;
+
 
 	GridLayout gridLayout = new GridLayout(0,1,10,10);
 	//initialize panels for the menus
@@ -355,7 +357,7 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		//add the textbox
 		hostGamePanel.add(hostNameTextField);
 
-		
+
 		//sets up addressLabel
 		JLabel numRoomsLabel = new JLabel("Number of rooms in the mansion: ");
 
@@ -368,8 +370,8 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 
 		//set the size of the textbox
 		addressTextField.setPreferredSize(textBoxDimension);
-		
-		
+
+
 		//set the position of the menu
 		hostGamePanel.setBounds(menuX,menuY,menuH,menuW);
 
@@ -680,7 +682,8 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		String address = addressTextField.getText();
 
 		try {
-			gameFrame.runClient(address,32768, userName);
+			gameFrame.runClient(address,32768, userName, id);
+			id++;
 		} catch (IOException e) {
 
 			e.printStackTrace();

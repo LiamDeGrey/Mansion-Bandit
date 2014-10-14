@@ -18,13 +18,13 @@ public abstract class Player {
 	private MansionArea[][] grid;
 	private Bandit bandit;
 
-	public Player(String name, int rooms){
+	public Player(String name, int id, int rooms){
 		this.grid = new Grid(rooms).getGrid();
-		this.bandit = new Bandit(name, grid, this);
+		this.bandit = new Bandit(name, id, grid, this);
 	}
 
-	public Player(String name){
-		this.bandit = new Bandit(name, this);
+	public Player(String name, int id){
+		this.bandit = new Bandit(name, id, this);
 	}
 
 	public Bandit getBandit(){

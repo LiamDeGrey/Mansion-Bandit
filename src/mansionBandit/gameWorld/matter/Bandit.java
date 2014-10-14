@@ -22,21 +22,23 @@ public class Bandit extends Character{
 	private boolean[][] visited;
 	private int i, j;
 	private Van van;
+	private int id;
 
 	private int[] adjacentGrid = new int[2];
 
-	public Bandit(String name, MansionArea[][] grid, Player player) {
+	public Bandit(String name, int id, MansionArea[][] grid, Player player) {
 		super(name, null, null, null, null);
 		this.grid = grid;
+		this.id = id;
 		initialiseVisited();
 		setStartSpace();
 		initialiseInventory();
 	}
 
-	public Bandit(String name, Player player){
+	public Bandit(String name, int id, Player player){
 		super(name, null, null, null, null);
+		this.id = id;
 		initialiseInventory();
-
 	}
 
 	/**
@@ -49,25 +51,25 @@ public class Bandit extends Character{
 		MansionArea rightMid = grid[grid.length/2][grid[0].length-1];
 		MansionArea botMid = grid[grid.length-1][grid[0].length/2];
 
-		if(getName().equals("1")){
+		if(getId()==1){
 			start.setLinks(null, leftMid, null, null);
 			//leftMid.setWest(start);
 			this.setFace(Face.EASTERN);
 			adjacentGrid[0]=grid.length/2;
 			adjacentGrid[1]=0;
-		}else if(getName().equals("2")){
+		}else if(getId()==2){
 			start.setLinks(null, null, topMid, null);
 			//topMid.setNorth(start);
 			this.setFace(Face.SOUTHERN);
 			adjacentGrid[0]=0;
 			adjacentGrid[1]=grid.length/2;
-		}else if(getName().equals("3")){
+		}else if(getId()==3){
 			start.setLinks(null, null, null, rightMid);
 			//rightMid.setEast(start);
 			this.setFace(Face.WESTERN);
 			adjacentGrid[0]=grid.length/2;
 			adjacentGrid[1]=grid[0].length-1;
-		}else if(getName().equals("4")){
+		}else if(getId()==4){
 			start.setLinks(botMid, null, null, null);
 			//botMid.setSouth(start);
 			this.setFace(Face.NORTHERN);
@@ -126,6 +128,10 @@ public class Bandit extends Character{
 	public void setArea(int i, int j) {
 		this.i = i;
 		this.j = j;
+	}
+
+	public int getId(){
+		return id;
 	}
 
 	public void setAreaInGrid(MansionArea area, int i, int j) {
@@ -384,21 +390,20 @@ public class Bandit extends Character{
 	@Override
 	public boolean equals(Object o){
 		if(o instanceof Bandit){
-			if(((Bandit) o).getName().equals(getName()))
-				return true;
+			return((Bandit) o).getId()==getId();
 		}
 		return false;
 	}
 
 	@Override
 	public Dimensions getDimensions(){
-		if(getName().equals("1")){
+		if(getId()==1){
 			return new Dimensions(30, 30, 70);
-		}else if(getName().equals("2")){
+		}else if(getId()==2){
 			return new Dimensions(30, 70, 70);
-		}else if(getName().equals("3")){
+		}else if(getId()==3){
 			return new Dimensions(70, 70, 70);
-		}else if(getName().equals("4")){
+		}else if(getId()==4){
 			return new Dimensions(70, 30, 70);
 		}
 		return null;

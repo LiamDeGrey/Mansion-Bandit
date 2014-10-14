@@ -13,8 +13,8 @@ public class Host extends Player{
 
 	//TODO: Create a reference to a server. Host needs Server to broadcast out,
 	//it doesn't need to send messages anywhere else.
-	public Host (String name, int rooms){
-		super(name, rooms);
+	public Host (String name, int id, int rooms){
+		super(name, id, rooms);
 	}
 
 	public void setServer(Server s) {
