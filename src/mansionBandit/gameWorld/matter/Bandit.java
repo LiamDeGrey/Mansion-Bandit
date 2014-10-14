@@ -1,5 +1,7 @@
 package mansionBandit.gameWorld.matter;
 
+import javax.swing.JOptionPane;
+
 import mansionBandit.factory.RoomFactory;
 import mansionBandit.factory.RoomPainter;
 import mansionBandit.gameWorld.areas.MansionArea;
@@ -20,8 +22,6 @@ public class Bandit extends Character{
 	private int i, j;
 	private Van van;
 	private Player player;
-
-	//TODO internal array reference to grid, storing current location
 
 	private MansionArea area;
 	private int[] adjacentGrid = new int[2];
@@ -54,25 +54,25 @@ public class Bandit extends Character{
 
 		if(leftMid.getWest()==null){
 			start.setLinks(null, leftMid, null, null);
-			leftMid.setWest(start);
+			//leftMid.setWest(start);
 			this.setFace(Face.EASTERN);
 			adjacentGrid[0]=grid.length/2;
 			adjacentGrid[1]=0;
 		}else if(topMid.getNorth()==null){
 			start.setLinks(null, null, topMid, null);
-			topMid.setNorth(start);
+			//topMid.setNorth(start);
 			this.setFace(Face.SOUTHERN);
 			adjacentGrid[0]=0;
 			adjacentGrid[1]=grid.length/2;
 		}else if(rightMid.getEast()==null){
 			start.setLinks(null, null, null, rightMid);
-			rightMid.setEast(start);
+			//rightMid.setEast(start);
 			this.setFace(Face.WESTERN);
 			adjacentGrid[0]=grid.length/2;
 			adjacentGrid[1]=grid[0].length-1;
 		}else if(botMid.getSouth()==null){
 			start.setLinks(botMid, null, null, null);
-			botMid.setSouth(start);
+			//botMid.setSouth(start);
 			this.setFace(Face.NORTHERN);
 			adjacentGrid[0]=grid.length-1;
 			adjacentGrid[1]=grid[0].length/2;
@@ -138,6 +138,19 @@ public class Bandit extends Character{
 		return grid[i][j];
 	}
 
+	public Face getDirectionToStart(){
+		if(start.getNorth()!=null){
+			return Face.SOUTHERN;
+		}else if(start.getWest()!=null){
+			return Face.EASTERN;
+		}else if(start.getSouth()!=null){
+			return Face.NORTHERN;
+		}else if(start.getEast()!=null){
+			return Face.WESTERN;
+		}
+		return null;
+	}
+
 
 	/**
 	 * bandit moves forward
@@ -146,6 +159,16 @@ public class Bandit extends Character{
 		int newi = 0, newj= 0;
 		Face face = getFace();
 		MansionArea next = null;
+
+		if(getRoomCoords(getArea())[0]==getAdjacentGrid()[0]
+				&&getRoomCoords(getArea())[1]==getAdjacentGrid()[1]){
+			if(getDirectionToStart()==face){
+				getArea().removeItem(this);
+				setArea(-1,-1);
+				start.addItem(this);
+			}
+		}
+
 		if(face==Face.NORTHERN) {
 			if(getArea().getNorth()==null){
 				System.out.println("YOU CAN'T GO THERE!");
@@ -318,6 +341,10 @@ public class Bandit extends Character{
 		start.addItem(this);
 		getArea().removeItem(this);
 		setArea(-1, -1);
+
+		JOptionPane.showMessageDialog(
+				null,
+				"DEAD. Get out of here filthy Bandit!!","DEAD" , JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	@Override

@@ -81,7 +81,7 @@ public class Controller implements MouseListener, KeyListener{
 	public void mouseEntered(MouseEvent arg0) {}
 	@Override
 	public void mouseExited(MouseEvent arg0) {}
-	
+
 	@Override
 	public void mousePressed(MouseEvent e) {
 
@@ -128,7 +128,7 @@ public class Controller implements MouseListener, KeyListener{
 				}
 
 				gameFrame.getGUICanvas().repaint();
-				
+
 				gameFrame.getGamePanel().update();
 				}
 		}
@@ -225,6 +225,11 @@ public class Controller implements MouseListener, KeyListener{
 
 				// change the description text to the items description
 				String descriptionText =("<html><p><center>" +  gamePanel.getObject(mouseX, mouseY).getDescription() + "</center></p></html>" +gamePanel.getObject(mouseX,mouseY));
+				gameFrame.setDescriptionText(descriptionText);
+			}
+			else if(gameFrame.getInventorySlot(mouseX,mouseY)>=0 && player.getItem(gameFrame.getInventorySlot(mouseX,mouseY))!=null){
+				//sets description of item in inventory
+				String descriptionText =("<html><p><center>" +  player.getItem(gameFrame.getInventorySlot(mouseX,mouseY)).getDescription() + "</center></p></html>");
 				gameFrame.setDescriptionText(descriptionText);
 			}
 		}
