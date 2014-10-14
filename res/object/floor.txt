@@ -10,3 +10,4 @@ computer Computer Be_the_envy_of_your_friends_with_this_mean_machine! sell 30 10
 boombox Plus_sized_iPod This_Boombox_will_change_the_world._Know_your_limits_with_the_Boombox. sell 20 15 0 100 60 40
 fridge Retro_fridge Will_keep_your_roast_beef_cool sell 60 10 0 0 100 40
 fruit Bowl_of_Fruit Awww_yeah_kids_love_fruit! sell 20 15 0 0 20 40
+knife Murder_Knife Stabby_Stabby!_If_you_see_a_guard,_you_know_what_to_do. knife 20 0 0 0 10 0
