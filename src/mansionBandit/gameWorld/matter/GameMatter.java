@@ -16,6 +16,7 @@ public abstract class  GameMatter implements Serializable {
 	private String name;
 	private String image;
 	private String description;
+	private int itemID;
 
 	public GameMatter(String name, String description, String image, Face face, Dimensions position){
 		this.name = name;
@@ -23,6 +24,7 @@ public abstract class  GameMatter implements Serializable {
 		this.face = face;
 		this.dimens = position;
 		this.description = description;
+		itemID = getItemCounter();
 	}
 
 	/**
@@ -84,14 +86,16 @@ public abstract class  GameMatter implements Serializable {
 	public static int getItemCounter(){
 		return itemCounter++;
 	}
+	
+	public int getID(){
+		return itemID;
+	}
 
 
 	@Override
 	public boolean equals(Object o){
-		if(o!=null){
-			if(this.getName().equals(((GameMatter) o).getName())){
-				return true;
-			}
+		if(o!=null && o instanceof GameMatter){
+			return itemID == ((GameMatter) o).getID();
 		}
 		return false;
 	}
