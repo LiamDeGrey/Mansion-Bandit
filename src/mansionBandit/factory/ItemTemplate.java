@@ -12,6 +12,7 @@ import mansionBandit.gameWorld.matter.Face;
 import mansionBandit.gameWorld.matter.FurnitureStatic;
 import mansionBandit.gameWorld.matter.GameMatter;
 import mansionBandit.gameWorld.matter.Key;
+import mansionBandit.gameWorld.matter.Knife;
 import mansionBandit.gameWorld.matter.Sellable;
 
 /**
@@ -121,6 +122,8 @@ public class ItemTemplate {
 			return new FurnitureStatic(name + GameMatter.getItemCounter(), description, image, face, position);
 		} else if (type.equals("key")){
 			return new Key(name, face, position);
+		} else if (type.equals("knife")){
+			return new Knife(name, face, position);
 		} else {
 			return null;
 		}
