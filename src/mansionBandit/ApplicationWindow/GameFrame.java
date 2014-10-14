@@ -545,7 +545,7 @@ WindowListener, KeyListener {
 		Socket s = new Socket(address, port);
 		System.out.println("Client connecting to: " + address + " on port: " + port);
 
-		player = new Slave(playerName+"");
+		player = new Slave("2");
 		playerName++;
 
 		client = new Client(s, username,(Slave)player,this);

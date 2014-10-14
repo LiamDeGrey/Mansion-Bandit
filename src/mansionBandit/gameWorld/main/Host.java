@@ -22,11 +22,11 @@ public class Host extends Player{
 	}
 
 	protected void updateGrid(){
+		//checks if it is in a multiplayer game
 		System.out.println("============= HOST SENT MESSAGE ================");
 
-		//checks if it is in a multiplayer game
 		if(server !=null){
-		server.serverSendGrid();
+			server.serverSendGrid();
 		}
 	}
 
