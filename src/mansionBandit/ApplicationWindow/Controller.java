@@ -65,7 +65,7 @@ public class Controller implements MouseListener, KeyListener{
 		}
 
 		//resets descriptiontext
-		gameFrame.setDescriptionText("");
+		gameFrame.setDescriptionText("",1000,1000);
 
 		gamePanel.update();
 
@@ -127,14 +127,28 @@ public class Controller implements MouseListener, KeyListener{
 					}
 				}
 
-				gameFrame.getGUICanvas().repaint();
+			}
+		}
+		if (e.getButton() == MouseEvent.BUTTON3) {
+			int mouseX = e.getPoint().x;
+			int mouseY = e.getPoint().y - mouseOffSetY;
+			// check if there is an object/creature/item at mouse position
+			if (gamePanel.getObject(mouseX,mouseY) != null) {
 
-				gameFrame.getGamePanel().update();
-				}
+				// change the description text to the items description
+				String descriptionText =("<html><p><center>" +  gamePanel.getObject(mouseX, mouseY).getDescription() + "</center></p></html>" +gamePanel.getObject(mouseX,mouseY));
+				gameFrame.setDescriptionText(descriptionText,mouseX,mouseY);
+			}
+			else if(gameFrame.getInventorySlot(mouseX,mouseY)>=0 && player.getItem(gameFrame.getInventorySlot(mouseX,mouseY))!=null){
+				//sets description of item in inventory
+				String descriptionText =("<html><p><center>" +  player.getItem(gameFrame.getInventorySlot(mouseX,mouseY)).getDescription() + "</center></p></html>");
+				gameFrame.setDescriptionText(descriptionText,mouseX,mouseY);
+			}
+			gameFrame.getGUICanvas().repaint();
+
+			gameFrame.getGamePanel().update();
 		}
 
-		//resets descriptiontext
-		gameFrame.setDescriptionText("");
 	}
 
 	@Override
@@ -226,27 +240,12 @@ public class Controller implements MouseListener, KeyListener{
 			}
 
 		}
-		if (e.getButton() == MouseEvent.BUTTON3) {
-
-			// check if there is an object/creature/item at mouse position
-			if (gamePanel.getObject(mouseX,mouseY) != null) {
-
-				// change the description text to the items description
-				String descriptionText =("<html><p><center>" +  gamePanel.getObject(mouseX, mouseY).getDescription() + "</center></p></html>" +gamePanel.getObject(mouseX,mouseY));
-				gameFrame.setDescriptionText(descriptionText);
-			}
-			else if(gameFrame.getInventorySlot(mouseX,mouseY)>=0 && player.getItem(gameFrame.getInventorySlot(mouseX,mouseY))!=null){
-				//sets description of item in inventory
-				String descriptionText =("<html><p><center>" +  player.getItem(gameFrame.getInventorySlot(mouseX,mouseY)).getDescription() + "</center></p></html>");
-				gameFrame.setDescriptionText(descriptionText);
-			}
-		}
 
 		gameFrame.getGamePanel().update();
 
 		//repaint the canvas so that changes show up
 		gameFrame.getGUICanvas().repaint();
-
+		gameFrame.setDescriptionText("",1000,1000);
 
 	}
 
