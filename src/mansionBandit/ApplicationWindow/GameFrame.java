@@ -230,7 +230,7 @@ WindowListener, KeyListener {
 		layeredPane.add(moneyLabel, new Integer(1),0);
 
 		this.requestFocusInWindow(true);//sets focus to this window
-		
+
 		//redisplay the screen
 		this.revalidate();
 		this.repaint();
@@ -315,7 +315,7 @@ WindowListener, KeyListener {
 		player = new Host(playerName+"", numRooms);
 		playerName++;
 
-		
+
 		//sets up user interface elements
 		setupScreen();
 
@@ -361,14 +361,17 @@ WindowListener, KeyListener {
 		//sets up user interface elements
 		setupScreen();
 
+		controller= new Controller(player, gamePanel,this);
+		addMouseListener(controller);
+		addKeyListener(controller);
+
+
 		//starts the game timer
 		TimerTask gameTimerTask = new GameTimer();
 		Timer gameTimer = new Timer(true);
 		gameTimer.scheduleAtFixedRate(gameTimerTask, 0, 10*100);
 
-		controller= new Controller(player, gamePanel,this);
-		addMouseListener(controller);
-		addKeyListener(controller);
+
 
 		//indicate that gameplay has started
 		gameStarted = true;
