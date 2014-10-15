@@ -237,6 +237,7 @@ public class Bandit extends Character{
 					return false;
 				visited[newi][newj] = true;
 				getArea().removeItem(this);
+				unlockBothSides();
 				setArea(newi, newj);
 				checkForGuard();
 				getArea().addItem(this);
@@ -254,6 +255,28 @@ public class Bandit extends Character{
 		}
 	}
 
+
+	/**
+	 * unlocks the opposite side of the door that
+	 * has been unlocked
+	 */
+	public void unlockBothSides(){
+		int i = getRoomCoords(getArea())[0];
+		int j = getRoomCoords(getArea())[1];
+
+		if(getFace()==Face.NORTHERN)i--;
+		else if(getFace()==Face.EASTERN)j++;
+		else if(getFace()==Face.SOUTHERN)i++;
+		else if(getFace()==Face.WESTERN)j--;
+
+		for(GameMatter itm : grid[i][j].getItems()){
+			if(itm.getFace()==Face.opposite(getFace())
+					&&itm instanceof Door){
+				((Door)itm).unlock();
+			}
+		}
+
+	}
 
 	/**
 	 * Checks if the door the bandit is trying to go through is locked

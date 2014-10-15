@@ -8,6 +8,7 @@ import java.awt.event.MouseListener;
 
 import mansionBandit.gameView.GamePanel;
 import mansionBandit.gameWorld.main.Player;
+import mansionBandit.gameWorld.matter.Door;
 import mansionBandit.gameWorld.matter.Grabable;
 
 /**
@@ -185,6 +186,8 @@ public class Controller implements MouseListener, KeyListener{
 					// check if the item being dragged can be used on the
 					// targeted item
 					if (draggingItem.useItemOn(gamePanel.getObject(mouseX,mouseY))) {
+						if(gamePanel.getObject(mouseX, mouseY) instanceof Door)
+							player.getBandit().unlockBothSides();
 						player.updateItems();
 
 						// if it was used successfully, the item will have been
