@@ -149,9 +149,8 @@ public class TopBottomStrategy implements SurfaceStrategy {
 			if (item.getFace() != direction ){
 				//have to catch bandits though
 				if (item instanceof Bandit && !ceiling){
-					//TODO compare bandit to the players bandit
 					if (item.getName().equals(surface.roomView.bandit)){
-						//dont draw the current bandit
+						//dont draw the players bandit bandit
 						continue;
 					}
 					//but do draw other bandits
@@ -223,7 +222,6 @@ public class TopBottomStrategy implements SurfaceStrategy {
 		//sort objects to ensure drawing order is correct (back first)
 		Collections.sort(obs);
 		if (ceiling){
-			//TODO wont work on ceiling objects! need custom comparator as ceiling objects are anchored on top!
 			Collections.reverse(obs);
 		}
 		surface.objects = obs;
@@ -297,7 +295,6 @@ public class TopBottomStrategy implements SurfaceStrategy {
 	 * @return the transformed Image object
 	 */
 	private Image warpImage(String imagePath){
-		//TODO seems to be an issue with images not tiling correctly rotation???
 		BufferedImage image = null;
 		//load image
 		try {
@@ -311,13 +308,13 @@ public class TopBottomStrategy implements SurfaceStrategy {
 		int width = warped.getWidth();
 		int height = warped.getHeight();
 
-		//TODO condense?
 		//apply the transform
 		if (surface.roomView.sidePassage){
 			//here we use skew to slide the far away edge towards the center (side passages only)
 			int closeWidth = (int) (width * 0.8);
 			int farWidth = (int) (width * 0.4);
 			if (surface.roomView.sidePassageLeft){
+				//we are in a side passage, so have to skew to one side
 				//left side
 				if (ceiling){
 					warped.setCorners(0, 0, //UL
