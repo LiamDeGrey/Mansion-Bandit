@@ -31,7 +31,7 @@ import mansionBandit.gameWorld.main.Host;
  *
  */
 public final class Server {
-	private static int uniqueID;
+	private static Integer uniqueID = new Integer(2);
 	private String username;
 	private ArrayList<String> usernameList;
 	private int port, playerLimit;
@@ -135,7 +135,7 @@ public final class Server {
 		Socket socket;
 		ObjectInputStream input;
 		ObjectOutputStream output;
-		int uid = 2;
+		Integer uid;
 		int testid;
 		String username;
 		//types of messages
@@ -161,6 +161,9 @@ public final class Server {
 				}
 				gameFrame.repaint();
 				gameFrame.updatePlayerList(usernameList);
+
+				//Give Client a unique ID
+				output.writeObject(uid);
 
 				//Broadcasting grid to clients that connect
 				MansionArea[][] grid = player.getBandit().getGrid();
