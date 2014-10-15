@@ -170,7 +170,6 @@ public final class Server {
 		ClientThread(Socket socket) {
 			uid = uniqueID++;
 			this.socket = socket;
-			System.out.println("New client thread created");
 
 			try {
 				//Creating I/O streams for a Client
@@ -179,7 +178,6 @@ public final class Server {
 
 				//Read username that Client broadcasts to us
 				username = (String) input.readObject();
-				System.out.println(username + " has connected.");
 				for (int i = 0; i < usernameList.size(); i++) {
 					if(usernameList.get(i) == "Empty slot") {
 						usernameList.set(i, username);

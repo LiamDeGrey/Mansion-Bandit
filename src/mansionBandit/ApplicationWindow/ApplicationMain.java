@@ -13,8 +13,8 @@ public class ApplicationMain {
 
 	}
 
-public static void main(String args[]) {
-		 ApplicationMain game = new ApplicationMain();
-}
+	public static void main(String args[]) {
+		ApplicationMain game = new ApplicationMain();
+	}
 
 }

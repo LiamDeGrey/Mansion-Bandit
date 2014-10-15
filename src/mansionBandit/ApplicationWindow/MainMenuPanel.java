@@ -119,7 +119,7 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		gameFrame.pack();
 		gameFrame.repaint();
 
-	 }
+	}
 
 
 
@@ -617,12 +617,12 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 			setMenu(multiplayerMenuPanel);
 		}
 		else if(e.getActionCommand().equals("makeHelpMessage")){
-			 JOptionPane.showMessageDialog(
+			JOptionPane.showMessageDialog(
 					this,
 					"Steal as much as you can before the time runs out. Take stolen items to the van"
-					+ " to cash them in.\n Drag items to the inventory bar to store them. "
-					+ "Drag items to other items to use them.\n Hold Right click on an item to get its description.",
-					"Help ", JOptionPane.INFORMATION_MESSAGE);
+							+ " to cash them in.\n Drag items to the inventory bar to store them. "
+							+ "Drag items to other items to use them.\n Hold Right click on an item to get its description.",
+							"Help ", JOptionPane.INFORMATION_MESSAGE);
 
 		}
 		else if(e.getActionCommand().equals("setMenuRoomChoice")){
@@ -689,7 +689,6 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 
 		try {
 			gameFrame.runClient(address,32768, userName);
-			//id++;
 		} catch (IOException e) {
 
 			e.printStackTrace();

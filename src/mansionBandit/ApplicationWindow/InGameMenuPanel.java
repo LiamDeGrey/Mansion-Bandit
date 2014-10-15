@@ -85,6 +85,6 @@ public class InGameMenuPanel extends JPanel{
 		this.setOpaque(true);
 
 	}
-	}
+}
 
 

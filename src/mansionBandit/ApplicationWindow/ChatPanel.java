@@ -81,7 +81,7 @@ public class ChatPanel extends JPanel{
 	 */
 	public void updateChat(String chatMessage){
 
-	messageArea.append(chatMessage);
+		messageArea.append(chatMessage);
 
 	}
 
