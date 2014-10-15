@@ -221,12 +221,30 @@ public class Bandit extends Character{
 				start.addItem(this);
 			}else{
 				//TODO - add in check for locked door
+				if(checkForLockedDoor())
+					return false;
 				visited[newi][newj] = true;
 				getArea().removeItem(this);
 				setArea(newi, newj);
 				getArea().addItem(this);
 			}
 			return true;
+		}
+		return false;
+	}
+
+	private boolean checkForLockedDoor(){
+		for(GameMatter itm : getArea().getItems()){
+			if(itm.getFace()==getFace()
+					&&itm instanceof Door){
+				if(((Door)itm).isLocked()){
+					System.out.println("Door is locked");
+					JOptionPane.showMessageDialog(
+							null,
+							"This door is locked, try find the right key", "Locked Door", JOptionPane.INFORMATION_MESSAGE);
+					return true;
+				}
+			}
 		}
 		return false;
 	}

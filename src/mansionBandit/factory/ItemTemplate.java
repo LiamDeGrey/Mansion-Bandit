@@ -27,7 +27,7 @@ public class ItemTemplate {
 	private String name, description, image, type;
 	private Random random;
 	private boolean corruptedTemplate = false;
-	
+
 	public ItemTemplate(String input){
 		//read the string into a template
 		try {
@@ -35,7 +35,7 @@ public class ItemTemplate {
 			image = scan.next();
 			name = scan.next().replace('_', ' ');
 			description = scan.next().replace('_', ' ');
-			type = scan.next(); 
+			type = scan.next();
 			sizeMin = scan.nextInt();
 			sizeRange = scan.nextInt();
 			valueMin = scan.nextInt();
@@ -58,7 +58,7 @@ public class ItemTemplate {
 		}
 		random = new Random();
 	}
-	
+
 	/**
 	 * generates and returns a new randomised item
 	 * @param face the face to set the item to
@@ -69,12 +69,12 @@ public class ItemTemplate {
 			//template is bad, return null.
 			return null;
 		}
-		
+
 		int value, scale, x, y = 0;
 		double r = random.nextDouble();
 		value = (int) (valueMin + (valueRange * r));
 		scale = (int) (sizeMin + (sizeRange * r));
-		
+
 		//get x and y
 		if (face == Face.CEILING || face == Face.FLOOR){
 			x = random.nextInt(100 - scale + 1) + (scale / 2) - 1;
@@ -83,35 +83,35 @@ public class ItemTemplate {
 			x = random.nextInt(100 - scale + 1) + (scale / 2) - 1;
 			y = random.nextInt(yRange + 1) + yMin - 1;
 		}
-		
+
 		Dimensions position = new Dimensions(x, y, scale);
-		
+
 		if (type.equals("sell")){
 			return new Sellable(name, description, image, face, position, value);
 		} else if (type.equals("static")){
 			//return new furniture
 			return new FurnitureStatic(name, description, image, face, position);
 		} else if (type.equals("key")){
-			return new Key(name, face, position);
+			return new Key(name, description, image, face, position);
 		} else if (type.equals("knife")){
 			return new Knife(name, description, image, face, position);
 		} else {
 			return null;
 		}
 	}
-	
-	
+
+
 	public GameMatter getItem(Face face, Door door){
 		if (corruptedTemplate){
 			//template is bad, return null.
 			return null;
 		}
-		
+
 		int value, scale, x, y = 0;
 		double r = random.nextDouble();
 		value = (int) (valueMin + (valueRange * r));
 		scale = (int) (sizeMin + (sizeRange * r));
-		
+
 		//get x and y
 		if (face == Face.CEILING || face == Face.FLOOR){
 			x = random.nextInt(100 - scale + 1) + (scale / 2) - 1;
@@ -120,7 +120,7 @@ public class ItemTemplate {
 			x = random.nextInt(100 - scale + 1) + (scale / 2) - 1;
 			y = random.nextInt(yRange + 1) + yMin - 1;
 		}
-		
+
 		if (x > door.getDimensions().getX() - (door.getDimensions().getScale() / 2)
 				&& x < door.getDimensions().getX() + (door.getDimensions().getScale() / 2)){
 			//x position is overlapping door so shift to the edge
@@ -130,7 +130,7 @@ public class ItemTemplate {
 				x = 100 - (scale / 2);
 			}
 		}
-		
+
 		Dimensions position = new Dimensions(x, y, scale);
 
 		if (type.equals("sell")){
@@ -139,7 +139,7 @@ public class ItemTemplate {
 			//return new furniture
 			return new FurnitureStatic(name, description, image, face, position);
 		} else if (type.equals("key")){
-			return new Key(name, face, position);
+			return new Key(name, description, image,  face, position);
 		} else if (type.equals("knife")){
 			return new Knife(name, description, image, face, position);
 		} else {

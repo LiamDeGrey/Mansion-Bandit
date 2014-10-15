@@ -17,7 +17,7 @@ import mansionBandit.gameWorld.matter.GameMatter;
  *
  */
 public class RoomFactory {
-	private final int roomFloorObjects = 2, chanceToLock = 7, chanceToHallwayItem = 5, chanceToHallWallItem = 4;
+	private final int roomFloorObjects = 2, chanceToLock = 6, chanceToHallwayItem = 5, chanceToHallWallItem = 4;
 	private ItemFactory floorItems, ceilingItems, hallWallItems, wallItems;
 	private RoomPainter roomPainter;
 	private Random random;
@@ -44,7 +44,7 @@ public class RoomFactory {
 		//TODO random placed doors? (x axis)
 		if (room instanceof StartSpace){
 			roomPainter.paintRoom(room);
-			
+
 		}else {
 			if (room.getNorth() != null && (room instanceof Room || room.getNorth() instanceof Room)){
 				room.addItem(new Door("North Door", Face.NORTHERN, new Dimensions(50, 100, 70), random.nextInt(chanceToLock) == 1));
@@ -82,7 +82,7 @@ public class RoomFactory {
 	 * @param isRoom true if room is a Room object (as opposed to hallway)
 	 */
 	private void popCeiling(MansionArea room, boolean isRoom){
-		
+
 		if (isRoom){
 			GameMatter light = ceilingItems.getItem(Face.CEILING);
 			light.setDimensions(new Dimensions(50, 50, light.getDimensions().getScale()));
