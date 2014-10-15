@@ -227,7 +227,6 @@ public class Bandit extends Character{
 				getArea().removeItem(this);
 				setArea(newi, newj);
 				getArea().addItem(this);
-				System.out.println("======================MOVED=================");
 			}
 			return true;
 		}

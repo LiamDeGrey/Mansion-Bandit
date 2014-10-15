@@ -2,6 +2,7 @@ package mansionBandit.gameWorld.areas;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import mansionBandit.gameWorld.matter.Dimensions;
 import mansionBandit.gameWorld.matter.Door;
@@ -17,7 +18,7 @@ import mansionBandit.gameWorld.matter.Guard;
  */
 public class Room implements MansionArea{
 	private MansionArea north, east, south, west;
-	private List<GameMatter> items = new ArrayList<GameMatter>();
+	private List<GameMatter> items = new CopyOnWriteArrayList<GameMatter>();
 	private String wallTexture, ceilingTexture, floorTexture;
 	private String name;
 

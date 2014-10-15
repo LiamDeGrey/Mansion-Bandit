@@ -4,6 +4,7 @@ import mansionBandit.factory.*;
 import mansionBandit.gameWorld.areas.Hallway;
 import mansionBandit.gameWorld.areas.MansionArea;
 import mansionBandit.gameWorld.areas.Room;
+import mansionBandit.gameWorld.areas.StartSpace;
 import mansionBandit.gameWorld.matter.Door;
 import mansionBandit.gameWorld.matter.Face;
 import mansionBandit.gameWorld.matter.GameMatter;
