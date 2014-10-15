@@ -192,28 +192,28 @@ public class Bandit extends Character{
 		}
 		if(face==Face.NORTHERN) {
 			if(getArea().getNorth()==null){
-				System.out.println("YOU CAN'T GO THERE!");
+				//System.out.println("YOU CAN'T GO THERE!");
 				return false;
 			}
 			next = getArea().getNorth();
 		}
 		else if(face==Face.EASTERN) {
 			if(getArea().getEast()==null){
-				System.out.println("YOU CAN'T GO THERE!");
+				//System.out.println("YOU CAN'T GO THERE!");
 				return false;
 			}
 			next =getArea().getEast();
 		}
 		else if(face==Face.SOUTHERN) {
 			if(getArea().getSouth()==null){
-				System.out.println("YOU CAN'T GO THERE!");
+				//System.out.println("YOU CAN'T GO THERE!");
 				return false;
 			}
 			next =getArea().getSouth();
 		}
 		else if(face==Face.WESTERN) {
 			if(getArea().getWest()==null){
-				System.out.println("YOU CAN'T GO THERE!");
+				//System.out.println("YOU CAN'T GO THERE!");
 				return false;
 			}
 			next =getArea().getWest();
@@ -293,7 +293,7 @@ public class Bandit extends Character{
 			if(itm.getFace()==getFace()
 					&&itm instanceof Door){
 				if(((Door)itm).isLocked()){
-					System.out.println("Door is locked");
+					//System.out.println("Door is locked");
 					JOptionPane.showMessageDialog(
 							null,
 							"This door is locked, try find the right key", "Locked Door", JOptionPane.INFORMATION_MESSAGE);
@@ -459,7 +459,7 @@ public class Bandit extends Character{
 				inventory[i]=null;
 			}
 		}
-		System.out.println("DEAD. Get out of here filthy Bandit!!");
+		//System.out.println("DEAD. Get out of here filthy Bandit!!");
 		start.addItem(this);
 		getArea().removeItem(this);
 		setArea(-1, -1);

@@ -52,7 +52,7 @@ public class Map extends JPanel{
 		setLayout(null);
 		setPointer();
 	}
-	
+
 	private void initialiseVisited() {
 		visited = new boolean[grid.length][grid[0].length];
 		for(int i=0; i<visited.length; i++) {
@@ -61,12 +61,12 @@ public class Map extends JPanel{
 			}
 		}
 	}
-	
+
 	public void updateVisited() {
 		visited = player.getBandit().getVisited();
 	}
-	
-	
+
+
 	@Override
 	public Dimension getPreferredSize() {
 	    return new Dimension(widthMap, heightMap);
@@ -83,7 +83,7 @@ public class Map extends JPanel{
 		//drawPlayers(g);
 		drawBanditInitial(g);
 	}
-	
+
 	public void drawBanditInitial(Graphics g) {
 		if(player.getBandit().getRoomCoords(player.getBandit().getArea())[0]==-1
 				||player.getBandit().getRoomCoords(player.getBandit().getArea())[1]==-1) {
@@ -102,11 +102,11 @@ public class Map extends JPanel{
 				j = j*widthBlock+padding+2-widthBlock;
 				i = i*heightBlock+padding+2;
 			}
-			transformPointer(player.getBandit().getFace());	
+			transformPointer(player.getBandit().getFace());
 			g.drawImage(op.filter(pointer, null), j, i, bandit, bandit, null);
 		}
 	}
-	
+
 	/**
 	 * Draws the grid
 	 * @param graphics
@@ -145,13 +145,13 @@ public class Map extends JPanel{
 				}
 				if(player.getBandit().getRoomCoords(player.getBandit().getArea())[0]==i
 						&&player.getBandit().getRoomCoords(player.getBandit().getArea())[1]==j){
-					transformPointer(player.getBandit().getFace());					
+					transformPointer(player.getBandit().getFace());
 					g.drawImage(op.filter(pointer, null), j*widthBlock+padding+2, i*heightBlock+padding+2, bandit, bandit, null);
 						}
 			}
 		}
 	}
-	
+
 	public void transformPointer(Face face) {
 		if(face==Face.SOUTHERN){
 			rotationRequired = Math.toRadians(90);
@@ -165,7 +165,7 @@ public class Map extends JPanel{
 		tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
 		op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
 	}
-	
+
 	/**
 	 * Draws on lines to show a door or show a wall
 	 */
@@ -203,7 +203,7 @@ public class Map extends JPanel{
 			}
 		}
 	}
-	
+
 	public void setPointer() {
 		try {
 			pointer = ImageIO.read(this.getClass().getResource("/GUIgraphics/pointer.png"));
@@ -256,30 +256,6 @@ public class Map extends JPanel{
 		System.out.println("rows = "+grid.length+" cols = "+grid[0].length);
 		System.out.println("I = Room has Item, R = Room has no Item, '=' = Is a Hallway");
 
-
-		/*if(room.getNorth()!=null&&!drawn.contains(room.getNorth())){
-			drawMap(room.getNorth());
-		}
-		if(room.getWest()!=null&&!drawn.contains(room.getWest())){
-			drawMap(room.getWest());
-		}
-
-		if(!drawn.contains(room)){
-			if(drawn.size()%2==0)
-				System.out.println();
-			if(room.getItems().size()>0)
-				System.out.print("  I  ");//Show if the room has an Item
-			else
-				System.out.print("  R  ");
-			drawn.add(room);
-		}
-
-		if(room.getEast()!=null&&!drawn.contains(room.getEast())){
-			drawMap(room.getEast());
-		}
-		if(room.getSouth()!=null&&!drawn.contains(room.getSouth())){
-			drawMap(room.getSouth());
-		}*/
 	}
 
 }
