@@ -16,9 +16,17 @@ public class Key extends Grabable{
 	@Override
 	public boolean useItemOn(GameMatter itm){
 		if(itm instanceof Door){
-			((Door) itm).unlock();
-			return true;
+			if(((Door)itm).isLocked()){
+				if(((Door)itm).getKeyNeeded().equals(getName())){
+					((Door) itm).unlock();
+					System.out.println("Door unlocked");
+					return true;
+				}
+				System.out.println("Wrong Key");
+			}
+			System.out.println("This door isn't locked");
 		}
+		System.out.println("You can only use keys on doors");
 		return false;
 	}
 

@@ -220,6 +220,7 @@ public class Bandit extends Character{
 				setArea(-1,-1);
 				start.addItem(this);
 			}else{
+				//TODO - add in check for locked door
 				visited[newi][newj] = true;
 				getArea().removeItem(this);
 				setArea(newi, newj);
@@ -234,6 +235,11 @@ public class Bandit extends Character{
 		return visited;
 	}
 
+	/**
+	 * Takes a mansionArea and returns its coordinates in an array
+	 * @param room
+	 * @return
+	 */
 	public int[] getRoomCoords(MansionArea room) {
 		int[] coords = {-2, -2};
 		if(room.equals(start)) {
