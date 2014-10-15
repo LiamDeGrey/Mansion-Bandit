@@ -171,6 +171,10 @@ public final class Server {
 
 				//Broadcasting username list to clients that connect
 				output.writeObject(usernameList);
+				for(int i = clientList.size(); --i >= 0;) {
+					ClientThread ct = clientList.get(i);
+					ct.output.writeObject(usernameList);
+				}
 			}
 			catch (IOException e) {
 				System.out.println(username + ": Exception creating IO Object Streams: " + e);
