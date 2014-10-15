@@ -42,6 +42,7 @@ public class RoomFactoryTests {
 	@Test
 	public void testEachWallForItem(){
 		//make sure each wall is given only one item (including the ceiling)
+		//in a room, a floor must contain AT LEAST one item
 		RoomFactory factory = new RoomFactory();
 		for (int i = 0; i < 100; i++){
 			Room room = new Room("");
@@ -50,6 +51,7 @@ public class RoomFactoryTests {
 			int east = 0;
 			int west = 0;
 			int ceiling = 0;
+			int floor = 0;
 			factory.populateRoom(room);
 			for (GameMatter item : room.getItems()){
 				if (item.getFace() == Face.NORTHERN){
@@ -67,12 +69,16 @@ public class RoomFactoryTests {
 				if (item.getFace() == Face.CEILING){
 					ceiling++;
 				}
+				if (item.getFace() == Face.FLOOR){
+					floor++;
+				}
 			}
 			assertTrue("north wall should have exactly one item", north == 1);
 			assertTrue("west wall should have exactly one item", west == 1);
 			assertTrue("south wall should have exactly one item", south == 1);
 			assertTrue("east wall should have exactly one item", east == 1);
 			assertTrue("the ceiling should have exactly one item", ceiling == 1);
+			assertTrue("the floor should have at least one item", ceiling > 0);
 		}
 	}
 	
@@ -196,8 +202,6 @@ public class RoomFactoryTests {
 			}
 		}
 	}
-	
-	//TODO test the floors
 	
 	private MansionArea[][] getRoomAndHallTestGrid(){
 		MansionArea[][] grid = new MansionArea[2][2];

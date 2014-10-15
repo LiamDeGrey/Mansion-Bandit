@@ -18,6 +18,7 @@ import mansionBandit.gameWorld.main.Slave;
  *
  */
 public final class Client {
+	private int uid;
 	private final Socket socket;
 	private ObjectOutputStream output;
 	private ObjectInputStream input;
@@ -124,6 +125,10 @@ public final class Client {
 					if (o instanceof MansionArea[][]) {
 						System.out.println("Received grid object");
 						player.setGrid((MansionArea[][]) o);
+					}
+					if (o instanceof Integer) {
+						System.out.println("RECEIVED UID: " + o);
+						player.giveId((Integer) o);
 					}
 					if (o instanceof ArrayList) {
 						System.out.println("Received username list");

@@ -92,7 +92,7 @@ WindowListener, KeyListener {
 	private JLabel timeLabel;//the label used to display how much time is left
 	private JLabel moneyLabel;//the label used to display how much money the player has
 
-	//private int money =10;//money that the player has stolen
+
 
 	//Server
 	private Server server;
@@ -197,7 +197,7 @@ WindowListener, KeyListener {
 
 		//adds description LABEL
 		descriptionLabel = new JLabel("<html><p><center></center></p></html>");
-		descriptionLabel.setBounds(10000,inventoryBarPos.y,137,95);
+		descriptionLabel.setBounds(10000,inventoryBarPos.y,137,110);
 		descriptionLabel.setBackground(Color.DARK_GRAY);
 		descriptionLabel.setOpaque(true);
 		descriptionLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -226,7 +226,7 @@ WindowListener, KeyListener {
 		moneyLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		moneyLabel.setVerticalAlignment(SwingConstants.CENTER);
 		moneyLabel.setForeground(Color.yellow);
-		moneyLabel.setFont(new Font("Courier New", Font.BOLD, 30));
+		moneyLabel.setFont(new Font("Courier New", Font.BOLD, 25));
 		layeredPane.add(moneyLabel, new Integer(1),0);
 
 		this.requestFocusInWindow(true);//sets focus to this window
@@ -530,7 +530,7 @@ WindowListener, KeyListener {
 	 */
 	public void setDescriptionText(String text,int x,int y){
 		descriptionLabel.setText(text);
-		descriptionLabel.setBounds(x, y, 140,90);
+		descriptionLabel.setBounds(x, y, 140,100);
 	}
 
 	public void setMoneyText(int money){
