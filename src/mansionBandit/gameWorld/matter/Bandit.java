@@ -91,6 +91,11 @@ public class Bandit extends Character{
 		Door exit = new Door(getId()+"startDoor", getFace(), false);
 		Door entry = new Door(getId()+"toStart", Face.opposite(getFace()), false);
 		start.addItem(exit);
+		for(GameMatter itm : grid[adjacentGrid[0]][adjacentGrid[1]].getItems()){
+			if(itm.getFace()==Face.opposite(getFace())){
+				grid[adjacentGrid[0]][adjacentGrid[1]].removeItem(itm);
+			}
+		}
 		grid[adjacentGrid[0]][adjacentGrid[1]].addItem(entry);
 	}
 
@@ -233,11 +238,20 @@ public class Bandit extends Character{
 				visited[newi][newj] = true;
 				getArea().removeItem(this);
 				setArea(newi, newj);
+				checkForGuard();
 				getArea().addItem(this);
 			}
 			return true;
 		}
 		return false;
+	}
+
+	private void checkForGuard(){
+		for(GameMatter itm : getArea().getItems()){
+			if(itm instanceof Guard){
+				((Guard)itm).wakeUp((Guard)itm);
+			}
+		}
 	}
 
 

@@ -73,7 +73,7 @@ public class GamePanel extends JPanel{
 						@Override
 						public void run(){
 							try {
-								this.sleep(5000);
+								this.sleep(2700);
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							}
