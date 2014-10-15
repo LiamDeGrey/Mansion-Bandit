@@ -148,7 +148,7 @@ public final class Client {
 						gameFrame.updateClientPlayerList(usernameList);
 					}
 					if (o instanceof StringMessage) {
-						System.out.println("SERVER: got string message" + ((StringMessage) o).getString());
+						//System.out.println("SERVER: got string message" + ((StringMessage) o).getString());
 						if (((StringMessage) o).getString().equals("START")) {
 							System.out.println("Starting game");
 							gameFrame.startClientMultiplayerGame();
@@ -158,7 +158,7 @@ public final class Client {
 						}
 					}
 					if (o instanceof ItemUpdateMessage) {
-						System.out.println("Received item update message");
+						//System.out.println("Received item update message");
 						ItemUpdateMessage ium = (ItemUpdateMessage) o;
 						Bandit movingBandit = ium.getMovingBandit();
 						int i = ium.getI();

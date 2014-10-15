@@ -106,7 +106,7 @@ public final class Server {
 	 */
 	public void serverSendItems() {
 		int[] coords = player.getBandit().getRoomCoords(player.getBandit().getArea());
-		System.out.println("SERVER TX - SENDING ITEMS: " + player.getBandit().getArea().getItems());
+		//System.out.println("SERVER TX - SENDING ITEMS: " + player.getBandit().getArea().getItems());
 		broadcast(new ItemUpdateMessage(player.getBandit().getArea().getItems(), player.getBandit(), coords[0], coords[1]));
 	}
 
@@ -232,7 +232,7 @@ public final class Server {
 					//Read input and act accordingly
 					Object obj = input.readObject();
 					if (obj instanceof ClientDisconnectMessage) {
-						System.out.println("got clientdisconnect message");
+						//System.out.println("got clientdisconnect message");
 						ClientThread toDisconnect = getClient(((ClientDisconnectMessage) obj).getUsername());
 						usernameList.set(usernameList.indexOf(username), "Empty slot");
 						System.out.println(usernameList);
@@ -247,12 +247,12 @@ public final class Server {
 						gameFrame.updatePlayerList(usernameList);
 					}
 					if (obj instanceof StringMessage) {
-						System.out.println("SERVER: got string message" + ((StringMessage) obj).getString());
+						//System.out.println("SERVER: got string message" + ((StringMessage) obj).getString());
 						gameFrame.updateChatPanel(((StringMessage) obj).getString());
 						broadcast((StringMessage) obj);
 					}
 					if (obj instanceof ItemUpdateMessage) {
-						System.out.println("Received item update message");
+						//System.out.println("Received item update message");
 						ItemUpdateMessage ium = (ItemUpdateMessage) obj;
 						Bandit movingBandit = ium.getMovingBandit();
 						int i = ium.getI();
@@ -286,7 +286,7 @@ public final class Server {
 
 						if (!(i == -2 || j == -2)) {
 							//System.out.println("SERVER RX - RECEIVED COORDS: i: " + i + " j: " + j);
-							System.out.println("SERVER RX - RECEIVED ITEMS:       " + ium.getItems());
+							//System.out.println("SERVER RX - RECEIVED ITEMS:       " + ium.getItems());
 							//System.out.println("SERVER RX - ROOM USED TO CONTAIN: " + player.getBandit().grid[i][j].getItems());
 							player.getBandit().grid[i][j].setItems(ium.getItems());
 							//System.out.println("SERVER RX - ROOM NOW CONTAINS:    " + player.getBandit().grid[i][j].getItems());
