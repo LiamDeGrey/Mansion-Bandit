@@ -7,12 +7,12 @@ import mansionBandit.gameWorld.matter.Face;
 import mansionBandit.gameWorld.matter.GameMatter;
 
 /**
- * a wall (or surface in a room)
- * can represent either a ceiling, floor, or wall
+ * a surface in a room (wall, floor, ceiling)
  * different strategies can be passed in to the surface to determine how it is drawn
  * (eg left wall or back wall)
  * 
- * NOTE: Due to the way the game areas are being implemented, the strategy pattern has become somewhat redundant and unnecessary
+ * NOTE: Strategy pattern has become somewhat redundant due to strategies no longer being swapped around,
+ * which was the initial reason for using the design pattern
  * 
  * @author Andy
  *
@@ -25,6 +25,7 @@ public class Surface {
 	
 	/**
 	 * create surface object and configure strategy
+	 * 
 	 * @param room
 	 * @param strategy
 	 */

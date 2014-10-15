@@ -9,7 +9,8 @@ import mansionBandit.gameWorld.matter.GameMatter;
 
 /**
  * RoomView contains all objects and information required to draw a view of a single room on the screen
- * By default the room will be rendered as if it is directly in front of the viewer,
+ * By default the room will be rendered as if it is directly in front of the viewer, with the viewer standing
+ * flat against the back wall.
  * A second constructor exists that creates a special version the renders a room as a side passage
  *
  * @author Andy
@@ -61,11 +62,7 @@ public class RoomView {
 	}
 	
 	/**
-	 * special constructor is only used in situations where it is drawing a room immediately to the side of the one the player is in
-	 */
-	
-	/**
-	 * special constructor is the same as above except it creates a modified RoomView designed to handle hallways that branch off of 
+	 * special constructor is the same as the standard one, except it creates a modified RoomView designed to handle hallways that branch off of 
 	 * a straight hallway (a side passage)
 	 * 
 	 * @param room
@@ -172,11 +169,8 @@ public class RoomView {
 	 * @return the object that was clicked (or null if not object found)
 	 */
 	public GameMatter findObject(int x, int y){
-
-		//only basic implementation needed for walls and ceiling now
-		//that they should only hold one item each at the beginning
-		GameMatter found = floor.findObject(x,y);
 		//search floor Surface for object
+		GameMatter found = floor.findObject(x,y);
 		if (found == null){
 			found = ceiling.findObject(x,y);
 			if (found == null){

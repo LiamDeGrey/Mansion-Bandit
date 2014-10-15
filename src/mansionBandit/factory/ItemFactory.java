@@ -16,6 +16,9 @@ import mansionBandit.gameWorld.matter.GameMatter;
 /**
  * will create randomised objects on demand for placement in rooms
  * 
+ * reads a file of item definitions, and chooses one at random each time
+ * getItem is called
+ * 
  * @author Andy
  *
  */

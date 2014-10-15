@@ -45,10 +45,12 @@ public class SideWallStrategy implements SurfaceStrategy {
 	@Override
 	public void paintSurface(Graphics g) {
 
+		//paint side room if any
 		if (sideRoom != null){
 			sideRoom.paintRoom(g);
 		}
 
+		//paint the wall texture
 		g.drawImage(surfaceTexture, surfaceX, surfaceY, surfaceWidth, surfaceHeight, null);
 
 		//draw objects on the wall
@@ -71,7 +73,8 @@ public class SideWallStrategy implements SurfaceStrategy {
 	@Override
 	public void setupSurface(Surface surface, Face direction) {
 		this.surface = surface;
-		//get the warped image
+		
+		//get the warped texture image
 		surfaceTexture = warpImage("/texture/" + surface.roomView.room.getWallTexture() + ".png");
 
 		//set bounds for the surface
@@ -117,6 +120,7 @@ public class SideWallStrategy implements SurfaceStrategy {
 		createGameObjects(surface.roomView.room, direction);
 		
 		//setup polygon
+		//polygon is the same shape, size, and position as the rendered wall
 		int[] xs = new int[4];
 		int[] ys = new int[4];
 		
@@ -124,26 +128,20 @@ public class SideWallStrategy implements SurfaceStrategy {
 			//left polygon
 			xs[0] = surfaceX;
 			ys[0] = surfaceY;
-			
 			xs[1] = surfaceX + surfaceWidth;
 			ys[1] = surfaceY + (surfaceHeight / 4);
-			
 			xs[2] = xs[1];
 			ys[2] = ys[1] + (surfaceHeight / 2);
-			
 			xs[3] = xs[0];
 			ys[3] = ys[0] + surfaceHeight;
 		} else {
-			//right poly
+			//right polygon
 			xs[0] = surfaceX;
 			ys[0] = surfaceY + (surfaceHeight / 4);
-			
 			xs[1] = surfaceX + surfaceWidth;
 			ys[1] = surfaceY;
-			
 			xs[2] = xs[1];
 			ys[2] = ys[1] + surfaceHeight;
-			
 			xs[3] = xs[0];
 			ys[3] = ys[0] + (surfaceHeight / 2);
 		}
@@ -167,20 +165,15 @@ public class SideWallStrategy implements SurfaceStrategy {
 				//bandits dont get drawn on walls
 				continue;
 			}
-			
 			if (item.getFace() != direction){
 				//item does not belong to this surface
 				continue;
-			}
-			
-			
-			
+			}			
 			//create the wrapped object and add to list (with warped image)
 			DrawnObject dob = new DrawnObject(item, warpImage("/object/" + item.getImage() + ".png"), surfaceX, surfaceY, surfaceWidth, surfaceHeight);
-			
-			//dob = computeCorners(item);
 			obs.add(dob);
 		}
+		
 		surface.objects = obs;
 	}
 	
@@ -209,7 +202,6 @@ public class SideWallStrategy implements SurfaceStrategy {
 		int height = warped.getHeight();
 
 		//apply the transform
-		//TODO drag far side towards vertical center for better perspective
 		if (this.left){
 			warped.setCorners(0, 0, //UL
 					width, height / 4, //UR
@@ -226,7 +218,7 @@ public class SideWallStrategy implements SurfaceStrategy {
 	}
 	
 	
-	//=========================The following methods are functional, but were ditched in favour of a speedier/less awesome rendering method.=================================
+//=========================The following methods are functional, but were ditched in favour of a speedier/less awesome rendering method.=================================
 
 //	private DrawnObject computeCorners(GameMatter item){
 //		int LLx ,LLy, LRx, LRy, ULx, ULy, URx, URy;

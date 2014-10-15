@@ -18,6 +18,7 @@ import mansionBandit.gameWorld.matter.GameMatter;
 
 /**
  * strategy for drawing the back wall and its items
+ * handles getting objects based on mouse coordinates
  * 
  * @author Andy
  *

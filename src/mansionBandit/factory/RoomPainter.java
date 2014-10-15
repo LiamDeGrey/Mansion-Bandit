@@ -13,6 +13,8 @@ import mansionBandit.gameWorld.areas.StartSpace;
 /**
  * The RoomPainter will apply wall, floor, and ceiling textures to a room
  * 
+ * reads a list of defined paint templates, and chooses one at random for each room
+ * 
  * @author Andy
  *
  */

@@ -18,6 +18,13 @@ import mansionBandit.gameWorld.matter.Face;
 import mansionBandit.gameWorld.matter.GameMatter;
 import mansionBandit.gameWorld.matter.Guard;
 
+/**
+ * Strategy for drawing the ceiling, and the floor, and all the objects the surface contains.
+ * Also handles finding objects by coordinates
+ * 
+ * @author Andy
+ *
+ */
 public class TopBottomStrategy implements SurfaceStrategy {
 	private boolean ceiling;
 	private Surface surface;
