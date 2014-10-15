@@ -39,6 +39,11 @@ public class Van extends GameMatter{
 		}
 	}
 
+	/**
+	 * adds item to van
+	 * @param itm
+	 * @return
+	 */
 	public boolean addItem(Sellable itm) {
 		total += itm.getValue();
 		return items.add(itm);

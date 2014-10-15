@@ -92,7 +92,7 @@ public class ItemTemplate {
 			//return new furniture
 			return new FurnitureStatic(name, description, image, face, position);
 		} else if (type.equals("key")){
-			return new Key(name, description, image, face, position);
+			return new Key(name, description, image, position);
 		} else if (type.equals("knife")){
 			return new Knife(name, description, image, face, position);
 		} else {
@@ -139,7 +139,7 @@ public class ItemTemplate {
 			//return new furniture
 			return new FurnitureStatic(name, description, image, face, position);
 		} else if (type.equals("key")){
-			return new Key(name, description, image,  face, position);
+			return new Key(name, description, image, position);
 		} else if (type.equals("knife")){
 			return new Knife(name, description, image, face, position);
 		} else {

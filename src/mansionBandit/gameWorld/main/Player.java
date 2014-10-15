@@ -18,11 +18,21 @@ public abstract class Player {
 	private MansionArea[][] grid;
 	private Bandit bandit;
 
+	/**
+	 * constructor used for creating a host
+	 * @param name
+	 * @param id
+	 * @param rooms
+	 */
 	public Player(String name, int id, int rooms){
 		this.grid = new Grid(rooms).getGrid();
 		this.bandit = new Bandit(name, id, grid, this);
 	}
 
+	/**
+	 * constructor used for creating a slave
+	 * @param name
+	 */
 	public Player(String name){
 		this.bandit = new Bandit(name, this);
 	}
@@ -31,13 +41,22 @@ public abstract class Player {
 		return bandit;
 	}
 
+	/**
+	 * needed when creating a slave, as each player needs a unique id
+	 * @param id
+	 */
 	public void giveId(int id){
 		getBandit().giveId(id);
 	}
 
+	/**
+	 * returns entire grid
+	 * @return
+	 */
 	public MansionArea[][] getGrid(){
 		return bandit.getGrid();
 	}
+
 
 	public void setGridStart(MansionArea[][] grid){
 		this.grid = grid;
@@ -48,10 +67,16 @@ public abstract class Player {
 		bandit.setGrid(grid);
 	}
 
+	/**
+	 * makes the bandit turn left
+	 */
 	public void turnLeft(){
 		bandit.turnLeft();
 	}
 
+	/**
+	 * makes the bandit turn right
+	 */
 	public void turnRight(){
 		bandit.turnRight();
 	}
@@ -89,6 +114,12 @@ public abstract class Player {
 		return bandit.removeItem(itm);
 	}
 
+
+	/**
+	 * removes the given item from the current room
+	 * @param itm
+	 * @return
+	 */
 	public boolean removeItemFromRoom(Grabable itm) {
 
 		if(bandit.getArea().getItems().remove(itm)){
