@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import mansionBandit.ApplicationWindow.GameFrame;
 import mansionBandit.gameWorld.areas.MansionArea;
 import mansionBandit.gameWorld.main.Slave;
+import mansionBandit.gameWorld.matter.Bandit;
 
 /**
  * A client receives information about the current game world and uses it
@@ -76,7 +77,7 @@ public final class Client {
 			System.out.println("Creating item update message to write");
 			int[] coords = player.getBandit().getRoomCoords(player.getBandit().getArea());
 			System.out.println("CLIENT SENDING ITEMS: " + player.getBandit().getArea().getItems());
-			output.writeObject(new ItemUpdateMessage(player.getBandit().getArea().getItems(), coords[0], coords[1]));
+			output.writeObject(new ItemUpdateMessage(player.getBandit().getArea().getItems(), player.getBandit(), coords[0], coords[1]));
 			//output.flush();
 			//output.reset();
 		} catch (IOException e) {
@@ -146,8 +147,26 @@ public final class Client {
 					if (o instanceof ItemUpdateMessage) {
 						System.out.println("Received item update message");
 						ItemUpdateMessage ium = (ItemUpdateMessage) o;
+						Bandit movingBandit = ium.getMovingBandit();
 						int i = ium.getI();
 						int j = ium.getJ();
+
+						if (i-1 >= 0) {
+							player.getBandit().grid[i-1][j].removeItem(movingBandit);
+						}
+
+						if (i+1 <= player.getBandit().grid.length) {
+							player.getBandit().grid[i+1][j].removeItem(movingBandit);
+						}
+
+						if (j-1 >= 0) {
+							player.getBandit().grid[i][j-1].removeItem(movingBandit);
+						}
+
+						if (j+1 <= player.getBandit().grid.length) {
+							player.getBandit().grid[i][j+1].removeItem(movingBandit);
+						}
+
 						if (!(i == -2 || j == -2)) {
 							//System.out.println("CLIENT RX - RECEIVED COORDS: i: " + i + " j: " + j);
 							//System.out.println("CLIENT RX - RECEIVED ITEMS:       " + ium.getItems());
