@@ -146,5 +146,7 @@ public abstract class Player {
 	}
 
 	public abstract void updateItems();
+
+	public abstract void sendChatMessage(String msg);
 }
 

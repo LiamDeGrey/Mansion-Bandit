@@ -269,6 +269,12 @@ public class Bandit extends Character{
 		else if(getFace()==Face.SOUTHERN)i++;
 		else if(getFace()==Face.WESTERN)j--;
 
+		if(i==-1||j==-1){
+			i = adjacentGrid[0];
+			j = adjacentGrid[1];
+		}
+
+
 		for(GameMatter itm : grid[i][j].getItems()){
 			if(itm.getFace()==Face.opposite(getFace())
 					&&itm instanceof Door){

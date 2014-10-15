@@ -110,6 +110,12 @@ public final class Server {
 		broadcast(new ItemUpdateMessage(player.getBandit().getArea().getItems(), player.getBandit(), coords[0], coords[1]));
 	}
 
+	public void sendChatMessage(String message) {
+		message = username + ": " + message + "\n";
+		gameFrame.updateChatPanel(message);
+		broadcast(new StringMessage(message));
+	}
+
 	/**
 	 * Used for iterating the list of clients and sending them each a message.
 	 * @param msg The message to be sent to all clients.
@@ -240,14 +246,10 @@ public final class Server {
 						System.out.println("updating server client list view");
 						gameFrame.updatePlayerList(usernameList);
 					}
-					if (obj instanceof RoomUpdateMessage) {
-						System.out.println("got room update message");
-						int[] coords = player.getBandit().getRoomCoords(((RoomUpdateMessage) obj).getRoom());
-						if (!(coords[0] == -2 || coords[1] == -2)) {
-							//System.out.println("SERVER RECEIVED COORDS: i: " + coords[0] + " j: " + coords[1]);
-							player.getBandit().setAreaInGrid(((RoomUpdateMessage) obj).getRoom(), coords[0], coords[1]); //update locally
-							broadcast(new RoomUpdateMessage((MansionArea) obj));
-						}
+					if (obj instanceof StringMessage) {
+						System.out.println("SERVER: got string message" + ((StringMessage) obj).getString());
+						gameFrame.updateChatPanel(((StringMessage) obj).getString());
+						broadcast((StringMessage) obj);
 					}
 					if (obj instanceof ItemUpdateMessage) {
 						System.out.println("Received item update message");
