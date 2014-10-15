@@ -61,7 +61,7 @@ public final class Server {
 	}
 
 	/**
-	 * The start method sets up the ServerSocket and enters a loop where it awaits connections. Upon a
+	 * Sets up the ServerSocket and enters a loop where it awaits connections. Upon a
 	 * successful connection, the Client is added to a list.
 	 *
 	 */
@@ -75,6 +75,7 @@ public final class Server {
 				System.out.println("Mansion Bandit Server listening on port: " + port);
 				System.out.println("Waiting for players to join...");
 
+				//Accept socket and create a new ClientThread
 				Socket s = ss.accept();
 				ClientThread ct = new ClientThread(s);
 				clientList.add(ct);
@@ -102,6 +103,14 @@ public final class Server {
 	}
 
 	/**
+	 * Sets the boolean end to true which will exit the main while loop and close all the
+	 * sockets.
+	 */
+	public void stop() {
+		end = true;
+	}
+
+	/**
 	 * Locally updates the server's Item lists and then broadcasts the changes out to all the clients.
 	 */
 	public void serverSendItems() {
@@ -110,6 +119,10 @@ public final class Server {
 		broadcast(new ItemUpdateMessage(player.getBandit().getArea().getItems(), player.getBandit(), coords[0], coords[1]));
 	}
 
+	/**
+	 * Updates the Server's chat panel then broadcasts the message to the clients.
+	 * @param message The string to be sent.
+	 */
 	public void sendChatMessage(String message) {
 		message = username + ": " + message + "\n";
 		gameFrame.updateChatPanel(message);
@@ -140,7 +153,7 @@ public final class Server {
 	}
 
 	/**
-	 * This class represents a Thread that will run for each of the clients connected to the server.
+	 * Represents a Thread that will run for each of the clients connected to the server.
 	 *
 	 */
 	public class ClientThread extends Thread {
@@ -150,7 +163,6 @@ public final class Server {
 		Integer uid;
 		int testid;
 		String username;
-		//types of messages
 
 		ClientThread(Socket socket) {
 			uid = uniqueID++;
@@ -158,7 +170,7 @@ public final class Server {
 			System.out.println("New client thread created");
 
 			try {
-				//Creating I/O streams for a client
+				//Creating I/O streams for a Client
 				output = new ObjectOutputStream(socket.getOutputStream());
 				input  = new ObjectInputStream(socket.getInputStream());
 
@@ -177,11 +189,11 @@ public final class Server {
 				//Give Client a unique ID
 				output.writeObject(uid);
 
-				//Broadcasting grid to clients that connect
+				//Broadcasting grid to Clients that connect
 				MansionArea[][] grid = player.getBandit().getGrid();
 				output.writeObject(grid);
 
-				//Broadcasting username list to clients that connect
+				//Broadcasting username list to Clients that connect
 				output.writeObject(usernameList);
 				for(int i = clientList.size(); --i >= 0;) {
 					ClientThread ct = clientList.get(i);
