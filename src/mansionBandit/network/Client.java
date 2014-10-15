@@ -40,13 +40,11 @@ public final class Client {
 	}
 
 	/**
-	 * This method sets up the Client by creating a ServerListener thread and sending
-	 * the Client's username.
+	 * Sets up the Client by creating a ServerListener thread and sending the Client's username.
 	 *
 	 */
 	public void start() {
 		try {
-			System.out.println("Client creating new streams");
 			output = new ObjectOutputStream(socket.getOutputStream());
 			input = new ObjectInputStream(socket.getInputStream());
 
@@ -70,22 +68,23 @@ public final class Client {
 	}
 
 	/**
-	 * This method sends out an ItemUpdateMessage out on the stream to the server.
+	 * Sends out an ItemUpdateMessage out on the stream to the server.
+	 *
 	 */
 	public void clientSendItems() {
 		try {
-			System.out.println("Creating item update message to write");
 			int[] coords = player.getBandit().getRoomCoords(player.getBandit().getArea());
-			System.out.println("CLIENT SENDING ITEMS: " + player.getBandit().getArea().getItems());
 			output.writeObject(new ItemUpdateMessage(player.getBandit().getArea().getItems(), player.getBandit(), coords[0], coords[1]));
-			System.out.println("====================SENT=================");
-			//output.flush();
 			output.reset();
 		} catch (IOException e) {
 			System.out.println("Exception sending item update " + e);
 		}
 	}
 
+	/**
+	 * Sends a StringMessage out on the stream to the server.
+	 * @param message The string to be sent.
+	 */
 	public void sendChatMessage(String message) {
 		try {
 			message = username + ": " + message + "\n";
@@ -96,7 +95,7 @@ public final class Client {
 	}
 
 	/**
-	 * The disconnect method closes all I/O streams and closes the socket.
+	 * Closes all I/O streams and closes the socket.
 	 *
 	 */
 	public void disconnect() {
@@ -127,30 +126,23 @@ public final class Client {
 	 * @author Shreyas
 	 */
 	class ServerListener extends Thread {
-
 		public void run() {
 			while(keepGoing) {
 				try {
 					//Read server updates here
 					Object o = input.readObject();
 					if (o instanceof MansionArea[][]) {
-						System.out.println("Received grid object");
 						player.setGrid((MansionArea[][]) o);
 					}
 					if (o instanceof Integer) {
-						System.out.println("RECEIVED UID: " + o);
 						player.giveId((Integer) o);
 					}
 					if (o instanceof ArrayList) {
-						System.out.println("Received username list");
 						usernameList = (ArrayList<String>) o;
-						System.out.println("list " + usernameList);
 						gameFrame.updateClientPlayerList(usernameList);
 					}
 					if (o instanceof StringMessage) {
-						//System.out.println("SERVER: got string message" + ((StringMessage) o).getString());
 						if (((StringMessage) o).getString().equals("START")) {
-							System.out.println("Starting game");
 							gameFrame.startClientMultiplayerGame();
 						}
 						else {
@@ -158,7 +150,6 @@ public final class Client {
 						}
 					}
 					if (o instanceof ItemUpdateMessage) {
-						//System.out.println("Received item update message");
 						ItemUpdateMessage ium = (ItemUpdateMessage) o;
 						Bandit movingBandit = ium.getMovingBandit();
 						int i = ium.getI();
@@ -166,12 +157,14 @@ public final class Client {
 
 						if (player.getBandit().grid[i][j].getItems().contains(player.getBandit())){
 							if (!ium.getItems().contains(player.getBandit())){
-								//player has been removed from the current room
-								//set their location to start area
+								//Player has been removed from the current room
+								//Set their location to start area
 								player.getBandit().setArea(-1, -1);
+								player.getBandit().initialiseInventory();
 							}
 						}
 
+						//Remove any references of Bandit that may be in adjacent rooms
 						if (!(movingBandit.equals(player.getBandit()))) {
 							if (i-1 >= 0) {
 								player.getBandit().grid[i-1][j].removeItem(movingBandit);
@@ -191,11 +184,7 @@ public final class Client {
 						}
 
 						if (!(i == -2 || j == -2)) {
-							//System.out.println("CLIENT RX - RECEIVED COORDS: i: " + i + " j: " + j);
-							//System.out.println("CLIENT RX - RECEIVED ITEMS:       " + ium.getItems());
-							//System.out.println("CLIENT RX - ROOM USED TO CONTAIN: " + player.getBandit().grid[i][j].getItems());
 							player.getBandit().grid[i][j].setItems(ium.getItems());
-							//System.out.println("CLIENT RX - ROOM NOW CONTAINS:    " + player.getBandit().grid[i][j].getItems());
 							gameFrame.getGamePanel().update();
 						}
 					}

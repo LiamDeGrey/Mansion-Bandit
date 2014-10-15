@@ -6,7 +6,7 @@ import mansionBandit.gameWorld.matter.Bandit;
 import mansionBandit.gameWorld.matter.GameMatter;
 
 /**
- * An UpdateGridMessage represents the main form of serializable data transfer
+ * Represents the main form of serializable data transfer
  * over the I/O streams for Mansion Bandit game status.
  * @author Shreyas
  *

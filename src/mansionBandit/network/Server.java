@@ -63,7 +63,6 @@ public final class Server {
 	/**
 	 * Sets up the ServerSocket and enters a loop where it awaits connections. Upon a
 	 * successful connection, the Client is added to a list.
-	 *
 	 */
 	public void start() {
 		end = false;
@@ -72,9 +71,6 @@ public final class Server {
 			ServerSocket ss = new ServerSocket(port);
 
 			while (!end) {
-				System.out.println("Mansion Bandit Server listening on port: " + port);
-				System.out.println("Waiting for players to join...");
-
 				//Accept socket and create a new ClientThread
 				Socket s = ss.accept();
 				ClientThread ct = new ClientThread(s);
@@ -115,7 +111,6 @@ public final class Server {
 	 */
 	public void serverSendItems() {
 		int[] coords = player.getBandit().getRoomCoords(player.getBandit().getArea());
-		//System.out.println("SERVER TX - SENDING ITEMS: " + player.getBandit().getArea().getItems());
 		broadcast(new ItemUpdateMessage(player.getBandit().getArea().getItems(), player.getBandit(), coords[0], coords[1]));
 	}
 
@@ -138,7 +133,6 @@ public final class Server {
 		for(int i = clientList.size(); --i >= 0;) {
 			ClientThread ct = clientList.get(i);
 			if (msg instanceof ItemUpdateMessage) {
-				//System.out.println("BROADCAST METHOD ITEMS : " + ((ItemUpdateMessage) msg).getItems());
 			}
 			ct.sendMessage(msg);
 		}
@@ -223,9 +217,6 @@ public final class Server {
 
 			//Send the message out on its stream
 			try {
-				if (msg instanceof ItemUpdateMessage) {
-					//System.out.println("SENDMESSAGE METHOD ITEMS : " + ((ItemUpdateMessage) msg).getItems());
-				}
 				output.writeObject(msg);
 				//output.flush();
 				output.reset();
@@ -241,10 +232,9 @@ public final class Server {
 			boolean end = false;
 			while(!end) {
 				try {
-					//Read input and act accordingly
+					//Read input here
 					Object obj = input.readObject();
 					if (obj instanceof ClientDisconnectMessage) {
-						//System.out.println("got clientdisconnect message");
 						ClientThread toDisconnect = getClient(((ClientDisconnectMessage) obj).getUsername());
 						usernameList.set(usernameList.indexOf(username), "Empty slot");
 						System.out.println(usernameList);
@@ -259,12 +249,10 @@ public final class Server {
 						gameFrame.updatePlayerList(usernameList);
 					}
 					if (obj instanceof StringMessage) {
-						//System.out.println("SERVER: got string message" + ((StringMessage) obj).getString());
 						gameFrame.updateChatPanel(((StringMessage) obj).getString());
 						broadcast((StringMessage) obj);
 					}
 					if (obj instanceof ItemUpdateMessage) {
-						//System.out.println("Received item update message");
 						ItemUpdateMessage ium = (ItemUpdateMessage) obj;
 						Bandit movingBandit = ium.getMovingBandit();
 						int i = ium.getI();
@@ -272,9 +260,10 @@ public final class Server {
 
 						if (player.getBandit().grid[i][j].getItems().contains(player.getBandit())){
 							if (!ium.getItems().contains(player.getBandit())){
-								//player has been removed from the current room
-								//set their location to start area
+								//Player has been removed from the current room
+								//Set their location to start area
 								player.getBandit().setArea(-1, -1);
+								player.getBandit().initialiseInventory();
 							}
 						}
 
@@ -297,11 +286,7 @@ public final class Server {
 						}
 
 						if (!(i == -2 || j == -2)) {
-							//System.out.println("SERVER RX - RECEIVED COORDS: i: " + i + " j: " + j);
-							//System.out.println("SERVER RX - RECEIVED ITEMS:       " + ium.getItems());
-							//System.out.println("SERVER RX - ROOM USED TO CONTAIN: " + player.getBandit().grid[i][j].getItems());
 							player.getBandit().grid[i][j].setItems(ium.getItems());
-							//System.out.println("SERVER RX - ROOM NOW CONTAINS:    " + player.getBandit().grid[i][j].getItems());
 							gameFrame.getGamePanel().update();
 							broadcast(ium);
 						}

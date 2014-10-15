@@ -1,7 +1,7 @@
 package mansionBandit.network;
 
 /**
- * A StringMessage represents a network sendable String.
+ * Represents a network sendable String.
  * @author Shreyas
  *
  */
