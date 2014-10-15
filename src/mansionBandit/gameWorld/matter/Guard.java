@@ -33,8 +33,11 @@ public class Guard extends Character {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				if(area.getItems().contains(prey)
-						&&area.getItems().contains(guard)){
+//				if(area.getItems().contains(prey)
+//						&&area.getItems().contains(guard)){
+//					prey.kill();
+//				}
+				if (prey.getArea().equals(guard.area)){
 					prey.kill();
 				}
 			}
