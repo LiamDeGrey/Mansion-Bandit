@@ -20,6 +20,12 @@ import mansionBandit.gameWorld.matter.Bandit;
 import mansionBandit.gameWorld.matter.Face;
 import mansionBandit.gameWorld.matter.GameMatter;
 
+/**
+ * Strategy for drawing the left and right wall, and all the objects the surface contains.
+ * 
+ * @author Andy
+ *
+ */
 public class SideWallStrategy implements SurfaceStrategy {
 	/*
 	 * NOTE: Side wall initially handled items on the walls in a similar manner to TopBottom. It would resize, and 

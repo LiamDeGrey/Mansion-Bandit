@@ -1,5 +1,11 @@
 package mansionBandit.gameWorld.matter;
 
+/**
+ * Kinfe can be used to attack other bandits, or Guards
+ * 
+ * @author Liam De Grey
+ *
+ */
 public class Knife extends Grabable{
 
 	public Knife(String name, String description, String image, Face face, Dimensions position) {
