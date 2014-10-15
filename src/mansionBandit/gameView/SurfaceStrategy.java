@@ -26,7 +26,7 @@ public interface SurfaceStrategy {
 	 * @param y y position to check
 	 * @return the object if found or null otherwise
 	 */
-	public GameMatter click(int x, int y);
+	public GameMatter findObject(int x, int y);
 	
 	/**
 	 * sets up the strategy with all the objects, images, and coordinates it needs to 

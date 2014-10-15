@@ -58,7 +58,7 @@ public class SideWallStrategy implements SurfaceStrategy {
 	}
 
 	@Override
-	public GameMatter click(int x, int y) {
+	public GameMatter findObject(int x, int y) {
 		if (clickableArea.contains( new Point(x, y))){
 			//if click was within the polygon, return the topmost item on the surface
 			if (!surface.objects.isEmpty()){

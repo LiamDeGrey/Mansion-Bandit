@@ -124,6 +124,8 @@ public class RoomView {
 			break;
 		case EASTERN:
 			leftAmount = 3;
+		default:
+			break;
 		}
 		
 		switch (leftAmount){
@@ -169,7 +171,7 @@ public class RoomView {
 	 * @param y the y location of the mouse click
 	 * @return the object that was clicked (or null if not object found)
 	 */
-	public GameMatter findObjectByMouse(int x, int y){
+	public GameMatter findObject(int x, int y){
 
 		//only basic implementation needed for walls and ceiling now
 		//that they should only hold one item each at the beginning

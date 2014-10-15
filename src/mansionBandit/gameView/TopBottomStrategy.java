@@ -51,13 +51,13 @@ public class TopBottomStrategy implements SurfaceStrategy {
 	}
 
 	@Override
-	public GameMatter click(int x, int y) {
+	public GameMatter findObject(int x, int y) {
 		//safe to use on ceiling too, as there should only ever be on object on it
 		List<DrawnObject> objects = new ArrayList<DrawnObject>();
 		objects.addAll(surface.objects);
 		Collections.reverse(objects);
 		for (DrawnObject ob : objects){
-			GameMatter foundObject = ob.click(x, y);
+			GameMatter foundObject = ob.isOn(x, y);
 			if (foundObject != null){
 				return foundObject;
 			}

@@ -30,7 +30,7 @@ public class GamePanel extends JPanel{
 	private int width = 800;
 	private Player player;
 
-	public RoomView room;
+	public RoomView roomView;
 
 	/**
 	 * returns the object the user clicked on
@@ -43,7 +43,7 @@ public class GamePanel extends JPanel{
 	 * @return the GameMatter object, whatever that may be, or null if non found
 	 */
 	public GameMatter getObject(int x, int y){
-		return room.findObjectByMouse(x, y);
+		return roomView.findObject(x, y);
 	}
 
 	/**
@@ -53,7 +53,7 @@ public class GamePanel extends JPanel{
 	public GamePanel(Player p){
 		player = p;
 		//create the initial RoomView
-		room = new RoomView(p.getBandit().getName(), player.getBandit().getArea(), player.getBandit().getFace(), 0, 0, width, height, 0);
+		roomView = new RoomView(p.getBandit().getName(), player.getBandit().getArea(), player.getBandit().getFace(), 0, 0, width, height, 0);
 	}
 
 	/**
@@ -62,11 +62,11 @@ public class GamePanel extends JPanel{
 	 * NOTE: currently is unoptimised. This will redraw the entire scene from scratch
 	 */
 	public void update(){
-		MansionArea previousRoom = room.room;
-		room = new RoomView(player.getBandit().getName(), player.getBandit().getArea(), player.getBandit().getFace(), 0, 0, width, height, 0);
+		MansionArea previousRoom = roomView.room;
+		roomView = new RoomView(player.getBandit().getName(), player.getBandit().getArea(), player.getBandit().getFace(), 0, 0, width, height, 0);
 		if (!previousRoom.equals(player.getBandit().getArea())){
 			//in a new room, check for a Guard
-			for (GameMatter item : room.room.getItems()){
+			for (GameMatter item : roomView.room.getItems()){
 				if (item instanceof Guard){
 					//found a guard in the room, set timer
 					Thread check = new Thread(){
@@ -93,6 +93,6 @@ public class GamePanel extends JPanel{
 	public void paintComponent(Graphics g) {
 		g.setClip(0, 0, width, height);
 		super.paintComponent(g);
-		room.paintRoom(g);
+		roomView.paintRoom(g);
 	}
 }

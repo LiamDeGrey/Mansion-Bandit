@@ -191,9 +191,9 @@ public class BackWallStrategy implements SurfaceStrategy {
 	}
 
 	@Override
-	public GameMatter click(int x, int y) {
+	public GameMatter findObject(int x, int y) {
 		for (DrawnObject ob : surface.objects){
-			GameMatter foundObject = ob.click(x, y);
+			GameMatter foundObject = ob.isOn(x, y);
 			if (foundObject != null){
 				return foundObject;
 			}

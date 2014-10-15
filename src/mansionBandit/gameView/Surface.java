@@ -47,6 +47,6 @@ public class Surface {
 	 * @return the object if found or null otherwise
 	 */
 	public GameMatter findObject(int x, int y){
-		return strategy.click(x, y);
+		return strategy.findObject(x, y);
 	}
 }

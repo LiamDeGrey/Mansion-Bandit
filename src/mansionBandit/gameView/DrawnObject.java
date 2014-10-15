@@ -75,7 +75,7 @@ public class DrawnObject implements Comparable<DrawnObject>{
 	 * @param y the y coordinate to check
 	 * @return the object if found, or null if point is not on object
 	 */
-	public GameMatter click(int x, int y){
+	public GameMatter isOn(int x, int y){
 		//TODO make better?
 		if (x < boundX || x > boundX + width || y < boundY || y > boundY + height){
 			return null;
