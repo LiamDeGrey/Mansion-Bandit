@@ -114,6 +114,6 @@ public abstract class Player {
 		return 7;
 	}
 
-	protected abstract void updateItems();
+	public abstract void updateItems();
 }
 

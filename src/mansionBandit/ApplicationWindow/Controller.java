@@ -185,6 +185,7 @@ public class Controller implements MouseListener, KeyListener{
 					// check if the item being dragged can be used on the
 					// targeted item
 					if (draggingItem.useItemOn(gamePanel.getObject(mouseX,mouseY))) {
+						player.updateItems();
 
 						// if it was used successfully, the item will have been
 						// used and is deleted and the item is removed from

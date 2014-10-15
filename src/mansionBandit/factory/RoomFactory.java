@@ -17,7 +17,7 @@ import mansionBandit.gameWorld.matter.GameMatter;
  *
  */
 public class RoomFactory {
-	private final int roomFloorObjects = 2, chanceToLock = 6, chanceToHallwayItem = 5, chanceToHallWallItem = 4;
+	private final int roomFloorObjects = 4, chanceToLock = 6, chanceToHallwayItem = 5, chanceToHallWallItem = 4;
 	private ItemFactory floorItems, ceilingItems, hallWallItems, wallItems;
 	private RoomPainter roomPainter;
 	private Random random;

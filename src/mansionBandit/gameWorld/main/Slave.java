@@ -23,7 +23,7 @@ public class Slave extends Player{
 		this.client = c;
 	}
 
-	protected void updateItems() {
+	public void updateItems() {
 		client.clientSendItems();
 	}
 }
