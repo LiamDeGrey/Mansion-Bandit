@@ -16,6 +16,7 @@ import mansionBandit.gameWorld.main.Player;
  *
  */
 public class Bandit extends Character{
+	private static final long serialVersionUID = 6391083299379880540L;
 	private Grabable[] inventory = new Grabable[7];
 	private StartSpace start;
 	public MansionArea[][] grid;

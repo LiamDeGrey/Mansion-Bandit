@@ -54,7 +54,7 @@ public abstract class  GameMatter implements Serializable {
 	public void setDimensions(Dimensions d){
 		this.dimens = d;
 	}
-	
+
 	public boolean useItemOn(GameMatter itm) {
 		return false;
 	}
@@ -86,7 +86,7 @@ public abstract class  GameMatter implements Serializable {
 	public static int getItemCounter(){
 		return itemCounter++;
 	}
-	
+
 	public int getID(){
 		return itemID;
 	}
