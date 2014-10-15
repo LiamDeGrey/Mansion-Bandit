@@ -12,6 +12,7 @@ import mansionBandit.gameWorld.areas.StartSpace;
 
 /**
  * The RoomPainter will apply wall, floor, and ceiling textures to a room
+ * 
  * @author Andy
  *
  */
@@ -21,6 +22,7 @@ public class RoomPainter {
 
 	public RoomPainter(String paintDefinitions){
 		paints = new ArrayList<RoomPaint>();
+		//load paint definition file, and pass each line to a new RoomPaint
 		InputStream in = this.getClass().getResourceAsStream(paintDefinitions);
 		Scanner scan = new Scanner(in);
 		while (scan.hasNextLine()){

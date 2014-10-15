@@ -12,7 +12,10 @@ import mansionBandit.gameWorld.matter.FurnitureStatic;
 import mansionBandit.gameWorld.matter.GameMatter;
 
 /**
- * the RoomFactory will fill a room with randomly generated content
+ * the RoomFactory will fill a room with randomly generated content,
+ * It has a basic intelligence, and will put appropriate items on
+ * appropriate surfaces in appropriate rooms 
+ * 
  * @author Andy
  *
  */
@@ -35,17 +38,16 @@ public class RoomFactory {
 	}
 
 	/**
-	 * will texture, and fill a room based on what type of room it is
+	 * textures, and fills a room based on the type of room it is
 	 *
 	 * @param room the room to texture
 	 */
 	public void populateRoom(MansionArea room){
-		//populate doors
-		//TODO random placed doors? (x axis)
 		if (room instanceof StartSpace){
+			//only apply paint to the start space
 			roomPainter.paintRoom(room);
-
 		}else {
+			//populate doors
 			if (room.getNorth() != null && (room instanceof Room || room.getNorth() instanceof Room)){
 				room.addItem(new Door("North Door", Face.NORTHERN, random.nextInt(chanceToLock) == 1));
 			}
@@ -59,8 +61,9 @@ public class RoomFactory {
 				room.addItem(new Door("West Door", Face.WESTERN, random.nextInt(chanceToLock) == 1));
 			}
 
-			//place objects
+			//place the objects
 			if (room instanceof Hallway){
+				//halls have paints coded in
 				popWall(room, false);
 				popFloor(room, false);
 				popCeiling(room, false);
@@ -88,6 +91,7 @@ public class RoomFactory {
 			light.setDimensions(new Dimensions(50, 50, light.getDimensions().getScale()));
 			room.addItem(light);
 		} else {
+			//same light for all hallways
 			room.addItem(new FurnitureStatic("Hall Light", "What a sweet light bro", "light2", Face.CEILING, new Dimensions(50,50,30)));
 		}
 	}
@@ -102,16 +106,18 @@ public class RoomFactory {
 		int numbObjects = 0;
 		//determine number of objects to create
 		if (isRoom){
+			//rooms should always have one object on the floor, up to (roomFloorObjects)
 			numbObjects = random.nextInt(roomFloorObjects) + 1;
 		} else {
-			// much lower chance of random
+			//halls have a low chance of spawning a lone item
 			numbObjects = random.nextInt(chanceToHallwayItem);
 			if (numbObjects != 1){
 				numbObjects = 0;
 			}
 		}
+		
+		//add the objects to the room
 		for (int i = 0; i < numbObjects; i++){
-			//add random object to room
 			room.addItem(floorItems.getItem(Face.FLOOR));
 		}
 	}
@@ -123,6 +129,7 @@ public class RoomFactory {
 	 * @param isRoom true if room is a Room object (as opposed to hallway)
 	 */
 	private void popWall(MansionArea room, boolean isRoom){
+		//each wall can contain only one item, and must contain one item
 		if (isRoom){
 			if (room.getNorth() == null){
 				room.addItem(wallItems.getItem(Face.NORTHERN));
@@ -137,7 +144,7 @@ public class RoomFactory {
 				room.addItem(wallItems.getItem(Face.WESTERN));
 			}
 		} else {
-			//check hall way for valid walls
+			//halls use a different item list
 			if (room.getNorth() == null){
 				room.addItem(hallWallItems.getItem(Face.NORTHERN));
 			}

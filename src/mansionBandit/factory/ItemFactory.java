@@ -15,6 +15,7 @@ import mansionBandit.gameWorld.matter.GameMatter;
 
 /**
  * will create randomised objects on demand for placement in rooms
+ * 
  * @author Andy
  *
  */
@@ -25,6 +26,7 @@ public class ItemFactory {
 	public ItemFactory(String itemDefinitions){
 		//create the ItemTemplate list, and populate it
 		List<ItemTemplate> readTemplates = new ArrayList<ItemTemplate>();
+		//load the object definition file, and pass each line to a new ItemTemplate
 		InputStream in = this.getClass().getResourceAsStream(itemDefinitions);
 		Scanner scan = new Scanner(in);
 		while (scan.hasNextLine()){
@@ -33,9 +35,8 @@ public class ItemFactory {
 		scan.close();
 		random = new Random();
 		
-		items = new ArrayList<ItemTemplate>();
-		
 		//check items for validity
+		items = new ArrayList<ItemTemplate>();
 		for (ItemTemplate template : readTemplates){
 			if (template.getItem(Face.NORTHERN) != null){
 				//item isnt null, so it is valid

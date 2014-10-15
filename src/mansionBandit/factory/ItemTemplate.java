@@ -17,7 +17,9 @@ import mansionBandit.gameWorld.matter.Knife;
 import mansionBandit.gameWorld.matter.Sellable;
 
 /**
- * item template contains a set of specifications that it uses to create objects in the game
+ * item template contains a set of specifications that it uses 
+ * to create randomised objects in the game
+ * 
  * @author Andy
  *
  */
@@ -42,11 +44,11 @@ public class ItemTemplate {
 			valueRange = scan.nextInt();
 			scan.close();
 		} catch (NoSuchElementException e){
-			//bad scan
+			//bad scan, reached end of line before all parameters parsed
 			corruptedTemplate = true;
 			return;
 		}
-		//run checks on inputs
+		//===run checks on inputs===
 		//check for negatives
 		if (valueMin < 0 || valueRange < 0 || sizeMin < 0 || sizeRange < 0){
 			corruptedTemplate = true; return;
@@ -61,15 +63,17 @@ public class ItemTemplate {
 
 	/**
 	 * generates and returns a new randomised item
+	 * 
 	 * @param face the face to set the item to
 	 * @return the new item (GameMatter)
 	 */
 	public GameMatter getItem(Face face){
 		if (corruptedTemplate){
-			//template is bad, return null.
+			//template is bad/incomplete, return null.
 			return null;
 		}
 
+		//===start generating dimensions & value===
 		int value, scale, x, y = 0;
 		double r = random.nextDouble();
 		value = (int) (valueMin + (valueRange * r));
@@ -86,10 +90,10 @@ public class ItemTemplate {
 
 		Dimensions position = new Dimensions(x, y, scale);
 
+		//return the appropriate GameMatter depending on the object type
 		if (type.equals("sell")){
 			return new Sellable(name, description, image, face, position, value);
 		} else if (type.equals("static")){
-			//return new furniture
 			return new FurnitureStatic(name, description, image, face, position);
 		} else if (type.equals("key")){
 			return new Key(name, description, image, position);
