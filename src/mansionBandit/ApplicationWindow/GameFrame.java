@@ -143,6 +143,8 @@ WindowListener, KeyListener {
 
 		//sets up main menu interface
 		enterMainMenu();
+
+		this.setFocusTraversalKeysEnabled(false);
 	}
 
 	public Dimension getPreferredSize() {
@@ -245,7 +247,7 @@ WindowListener, KeyListener {
 		chatPanel.setVisible(false);
 
 		//adds multiplayer chat label
-		scoreScreenPanel.setBounds(200,440,210,150);
+		scoreScreenPanel.setBounds(270,240,210,150);
 		layeredPane.add(scoreScreenPanel, new Integer(2),0);
 		scoreScreenPanel.setVisible(false);
 
