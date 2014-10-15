@@ -36,11 +36,7 @@ public class Room implements MansionArea{
 	}
 
 	public boolean removeItem(GameMatter itm){
-		if(itm!=null&&items.contains(itm)){
-			items.remove(itm);
-			return true;
-		}
-		return false;
+		return items.remove(itm);
 	}
 
 	public void setTextures(String wall, String ceiling, String floor){
@@ -75,7 +71,7 @@ public class Room implements MansionArea{
 	public List<GameMatter> getItems(){
 		return items;
 	}
-	
+
 	public void setItems(List<GameMatter> newItems) {
 		items = newItems;
 	}

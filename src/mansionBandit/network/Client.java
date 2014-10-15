@@ -78,8 +78,9 @@ public final class Client {
 			int[] coords = player.getBandit().getRoomCoords(player.getBandit().getArea());
 			System.out.println("CLIENT SENDING ITEMS: " + player.getBandit().getArea().getItems());
 			output.writeObject(new ItemUpdateMessage(player.getBandit().getArea().getItems(), player.getBandit(), coords[0], coords[1]));
+			System.out.println("====================SENT=================");
 			//output.flush();
-			//output.reset();
+			output.reset();
 		} catch (IOException e) {
 			System.out.println("Exception sending item update " + e);
 		}
@@ -151,20 +152,22 @@ public final class Client {
 						int i = ium.getI();
 						int j = ium.getJ();
 
-						if (i-1 >= 0) {
-							player.getBandit().grid[i-1][j].removeItem(movingBandit);
-						}
+						if (!(movingBandit.equals(player.getBandit()))) {
+							if (i-1 >= 0) {
+								player.getBandit().grid[i-1][j].removeItem(movingBandit);
+							}
 
-						if (i+1 < player.getBandit().grid.length) {
-							player.getBandit().grid[i+1][j].removeItem(movingBandit);
-						}
+							if (i+1 < player.getBandit().grid.length) {
+								player.getBandit().grid[i+1][j].removeItem(movingBandit);
+							}
 
-						if (j-1 >= 0) {
-							player.getBandit().grid[i][j-1].removeItem(movingBandit);
-						}
+							if (j-1 >= 0) {
+								player.getBandit().grid[i][j-1].removeItem(movingBandit);
+							}
 
-						if (j+1 < player.getBandit().grid.length) {
-							player.getBandit().grid[i][j+1].removeItem(movingBandit);
+							if (j+1 < player.getBandit().grid.length) {
+								player.getBandit().grid[i][j+1].removeItem(movingBandit);
+							}
 						}
 
 						if (!(i == -2 || j == -2)) {
