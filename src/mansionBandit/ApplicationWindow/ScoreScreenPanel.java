@@ -16,11 +16,11 @@ import javax.swing.JScrollPane;
  */
 public class ScoreScreenPanel extends JPanel {
 
-
-	JLabel player1Label = new JLabel();
-	JLabel player2Label = new JLabel();
-	JLabel player3Label = new JLabel();
-	JLabel player4Label = new JLabel();
+	JLabel titleLabel = new JLabel("Score");
+	JLabel player1Label = new JLabel("Player 1:");
+	JLabel player2Label = new JLabel("Player 2:");
+	JLabel player3Label = new JLabel("Player 3:");
+	JLabel player4Label = new JLabel("Player 4:");
 
 	GameFrame gameframe;
 
@@ -33,10 +33,22 @@ public class ScoreScreenPanel extends JPanel {
 
 		this.setLayout(null);
 
+
+
 		this.add(player1Label);
 		this.add(player2Label);
 		this.add(player3Label);
 		this.add(player4Label);
+
+		player1Label.setVisible(true);
+		player2Label.setVisible(true);
+		player3Label.setVisible(true);
+		player4Label.setVisible(true);
+
+		player1Label.setBounds(0,0,200,200);
+		//player2Label.setBounds();
+	//	player3Label.setBounds();
+		//player4Label.setBounds();
 
 
 	}
