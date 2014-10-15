@@ -33,10 +33,6 @@ public class Guard extends Character {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-//				if(area.getItems().contains(prey)
-//						&&area.getItems().contains(guard)){
-//					prey.kill();
-//				}
 				if (prey.getArea().equals(guard.area)){
 					prey.kill();
 				}
@@ -47,7 +43,6 @@ public class Guard extends Character {
 
 	@Override
 	public void kill(){
-		//area.addItem(new Knife("dropped Knife" + GameMatter.getItemCounter(), "The Guard dropped this", "knife", Face.FLOOR, new Dimensions(50, 50, 10)));
 		area.addItem(new FurnitureStatic("Guards Tombstone", "A nice momento to leave the houseowners", "tomb", Face.FLOOR, new Dimensions(45, 45, 30)));
 		area.addItem(new Sellable("Guards Wallet", "Woah that guard was loaded!", "wallet", Face.FLOOR, new Dimensions(55, 55, 20), 500));
 		area.getItems().remove(this);
