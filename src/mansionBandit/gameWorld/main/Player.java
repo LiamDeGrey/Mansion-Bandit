@@ -23,12 +23,16 @@ public abstract class Player {
 		this.bandit = new Bandit(name, id, grid, this);
 	}
 
-	public Player(String name, int id){
-		this.bandit = new Bandit(name, id, this);
+	public Player(String name){
+		this.bandit = new Bandit(name, this);
 	}
 
 	public Bandit getBandit(){
 		return bandit;
+	}
+
+	public void giveId(int id){
+		getBandit().giveId(id);
 	}
 
 	public MansionArea[][] getGrid(){
