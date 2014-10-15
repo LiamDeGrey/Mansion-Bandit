@@ -16,7 +16,9 @@ import mansionBandit.gameWorld.main.Player;
  *
  */
 public class Bandit extends Character{
+
 	private static final long serialVersionUID = 6391083299379880540L;
+
 	private Grabable[] inventory = new Grabable[7];
 	private StartSpace start;
 	public MansionArea[][] grid;
@@ -86,8 +88,8 @@ public class Bandit extends Character{
 
 		van = new Van(getId()+"van", Face.opposite(getFace()), this);
 		start.addItem(van);
-		Door exit = new Door(getId()+"startDoor", getFace(), new Dimensions(50, 100, 70), false);
-		Door entry = new Door(getId()+"toStart", Face.opposite(getFace()), new Dimensions(50, 100, 70), false);
+		Door exit = new Door(getId()+"startDoor", getFace(), false);
+		Door entry = new Door(getId()+"toStart", Face.opposite(getFace()), false);
 		start.addItem(exit);
 		grid[adjacentGrid[0]][adjacentGrid[1]].addItem(entry);
 	}
@@ -148,6 +150,11 @@ public class Bandit extends Character{
 		return grid[i][j];
 	}
 
+	/**
+	 * returns the direction the bandit must be facing in
+	 * order to move into the start room
+	 * @return
+	 */
 	public Face getDirectionToStart(){
 		if(start.getNorth()!=null){
 			return Face.SOUTHERN;
@@ -233,6 +240,11 @@ public class Bandit extends Character{
 		return false;
 	}
 
+
+	/**
+	 * Checks if the door the bandit is trying to go through is locked
+	 * @return
+	 */
 	private boolean checkForLockedDoor(){
 		for(GameMatter itm : getArea().getItems()){
 			if(itm.getFace()==getFace()
@@ -249,6 +261,11 @@ public class Bandit extends Character{
 		return false;
 	}
 
+	/**
+	 * gets the grid containing boolean values regarding whether
+	 * the bandit has been to these coordinates or not
+	 * @return
+	 */
 	public boolean[][] getVisited(){
 		return visited;
 	}
@@ -445,6 +462,10 @@ public class Bandit extends Character{
 		return false;
 	}
 
+	/**
+	 * Returns dimensions of the bandit depending on which player
+	 * it is
+	 */
 	@Override
 	public Dimensions getDimensions(){
 		if(getId()==1){

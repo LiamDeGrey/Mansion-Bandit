@@ -6,6 +6,10 @@ public class Knife extends Grabable{
 		super(name, description, image, face, position);
 	}
 
+	/**
+	 * Checks to see if the knife is being used on a
+	 * guard or bandit and then kills them
+	 */
 	@Override
 	public boolean useItemOn(GameMatter itm){
 		if(itm instanceof Character){

@@ -11,10 +11,15 @@ import javax.swing.JOptionPane;
  */
 public class Key extends Grabable{
 
-	public Key(String name, String description, String image, Face face, Dimensions position){
-		super(name, description, image, face, position);
+	public Key(String name, String description, String image, Dimensions position){
+		super(name, description, image, null, position);
 	}
 
+	/**
+	 * Checks to see if the item the key is being used on is a door
+	 * , if yes then checks to see if its the right key thats being
+	 * used
+	 */
 	@Override
 	public boolean useItemOn(GameMatter itm){
 		if(itm instanceof Door){
@@ -38,6 +43,11 @@ public class Key extends Grabable{
 		}
 		System.out.println("You can only use keys on doors");
 		return false;
+	}
+
+	@Override
+	public Face getFace(){
+		return Face.FLOOR;
 	}
 
 

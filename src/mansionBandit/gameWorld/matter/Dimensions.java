@@ -13,11 +13,13 @@ public class Dimensions implements Serializable {
 	private int y;
 	private int scale;
 
-	public Dimensions(int x, int y){
-		this.x = x;
-		this.y = y;
-	}
-
+	/**
+	 * constructor that takes the x position, y position of the object
+	 * and then also the size/height/width in scale
+	 * @param x
+	 * @param y
+	 * @param scale
+	 */
 	public Dimensions(int x, int y, int scale){
 		this.x = x;
 		this.y = y;

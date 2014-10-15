@@ -47,16 +47,16 @@ public class RoomFactory {
 
 		}else {
 			if (room.getNorth() != null && (room instanceof Room || room.getNorth() instanceof Room)){
-				room.addItem(new Door("North Door", Face.NORTHERN, new Dimensions(50, 100, 70), random.nextInt(chanceToLock) == 1));
+				room.addItem(new Door("North Door", Face.NORTHERN, random.nextInt(chanceToLock) == 1));
 			}
 			if (room.getEast() != null && (room instanceof Room || room.getEast() instanceof Room)){
-				room.addItem(new Door("East Door", Face.EASTERN, new Dimensions(50, 100, 70), random.nextInt(chanceToLock) == 1));
+				room.addItem(new Door("East Door", Face.EASTERN, random.nextInt(chanceToLock) == 1));
 			}
 			if (room.getSouth() != null && (room instanceof Room || room.getSouth() instanceof Room)){
-				room.addItem(new Door("South Door", Face.SOUTHERN, new Dimensions(50, 100, 70), random.nextInt(chanceToLock) == 1));
+				room.addItem(new Door("South Door", Face.SOUTHERN, random.nextInt(chanceToLock) == 1));
 			}
 			if (room.getWest() != null && (room instanceof Room || room.getWest() instanceof Room)){
-				room.addItem(new Door("West Door", Face.WESTERN, new Dimensions(50, 100, 70), random.nextInt(chanceToLock) == 1));
+				room.addItem(new Door("West Door", Face.WESTERN, random.nextInt(chanceToLock) == 1));
 			}
 
 			//place objects

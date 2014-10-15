@@ -40,6 +40,11 @@ public enum Face {
 		return -1;
 	}
 
+	/**
+	 * returns the face to the left of the onr given
+	 * @param face
+	 * @return
+	 */
 	public static Face getLeft(Face face){
 		switch (face){
 		case NORTHERN:
@@ -53,7 +58,12 @@ public enum Face {
 		}
 		return null;
 	}
-	
+
+	/**
+	 * returns the opposite direction of the face given
+	 * @param face
+	 * @return
+	 */
 	public static Face opposite(Face face) {
 		switch(face) {
 		case NORTHERN:
