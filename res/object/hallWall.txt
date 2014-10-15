@@ -3,4 +3,4 @@ bookshelf Bookshelf Reading_is_for_squares. static 100 0 0 0
 picture2 Portrait Liam_likes_this_bike. sell 100 0 200 200
 picture3 Painting_of_a_Cool_Dude Maybe_he_responds_well_to_compliments? sell 100 0 500 100
 picture4 Painting_of_Batman Na_na_na_na_na_na_na_na_na_na_na_na_na_na_na_na_PAIN-TING! sell 100 0 400 100
-fireplace Fireplace Flames_aren't_moving..._must_be_a_fake. static 100 0 0 0
+fireplace Fireplace Flames_aren't_moving..._must_be_a_fake. sell 100 0 0 0

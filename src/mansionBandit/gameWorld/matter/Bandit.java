@@ -278,6 +278,8 @@ public class Bandit extends Character{
 	 * @return
 	 */
 	public boolean addItem(Grabable itm, int slot){
+		if(checkForFirePlace(itm))
+			return false;
 		if(slot>=0&&slot<=6){
 				inventory[slot] = itm;
 				return true;
@@ -302,11 +304,30 @@ public class Bandit extends Character{
 	}
 
 	/**
+	 * Checks if the user has tried to pick up a fireplace,
+	 * if yes then will burn all current items in inventory
+	 */
+	public boolean checkForFirePlace(Grabable itm){
+		if(itm.getName().equals("Fireplace")){
+			for(int i=0; i<inventory.length; i++){
+				inventory[i] = null;
+			}
+			JOptionPane.showMessageDialog(
+					null,
+					"Why would you try pick up a firePlace?! You just burnt all your inventory items!", "Idiot", JOptionPane.INFORMATION_MESSAGE);
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * Adds an item to players inventory
 	 * @param the item to add
 	 * @return whether the item was added succesfully
 	 */
 	public boolean addItem(Grabable item){
+		if(checkForFirePlace(item))
+			return false;
 		for(int i=0; i<inventory.length; i++){
 			if(inventory[i]==null){
 				inventory[i] = item;
