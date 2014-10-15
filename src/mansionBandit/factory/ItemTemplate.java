@@ -1,5 +1,6 @@
 package mansionBandit.factory;
 
+import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -25,19 +26,36 @@ public class ItemTemplate {
 	private int valueMin, valueRange, sizeMin, sizeRange, yMin, yRange;
 	private String name, description, image, type;
 	private Random random;
+	private boolean corruptedTemplate = false;
 	
 	public ItemTemplate(String input){
 		//read the string into a template
-		Scanner scan = new Scanner(input);
-		image = scan.next();
-		name = scan.next().replace('_', ' ');
-		description = scan.next().replace('_', ' ');
-		type = scan.next(); 
-		sizeMin = scan.nextInt();
-		sizeRange = scan.nextInt();
-		valueMin = scan.nextInt();
-		valueRange = scan.nextInt();
-		scan.close();
+		try {
+			Scanner scan = new Scanner(input);
+			image = scan.next();
+			name = scan.next().replace('_', ' ');
+			description = scan.next().replace('_', ' ');
+			type = scan.next(); 
+			sizeMin = scan.nextInt();
+			sizeRange = scan.nextInt();
+			valueMin = scan.nextInt();
+			valueRange = scan.nextInt();
+			scan.close();
+		} catch (NoSuchElementException e){
+			//bad scan
+			corruptedTemplate = true;
+			return;
+		}
+		//run checks on inputs
+		//check for negatives
+		if (valueMin < 0 || valueRange < 0 || sizeMin < 0 || sizeRange < 0){
+			corruptedTemplate = true; return;
+		}
+		//check to make sure within 100x100 bounds
+		if (sizeMin + sizeRange > 100){
+			corruptedTemplate = true;
+			return;
+		}
 		random = new Random();
 	}
 	
@@ -47,6 +65,11 @@ public class ItemTemplate {
 	 * @return the new item (GameMatter)
 	 */
 	public GameMatter getItem(Face face){
+		if (corruptedTemplate){
+			//template is bad, return null.
+			return null;
+		}
+		
 		int value, scale, x, y = 0;
 		double r = random.nextDouble();
 		value = (int) (valueMin + (valueRange * r));
@@ -79,6 +102,11 @@ public class ItemTemplate {
 	
 	
 	public GameMatter getItem(Face face, Door door){
+		if (corruptedTemplate){
+			//template is bad, return null.
+			return null;
+		}
+		
 		int value, scale, x, y = 0;
 		double r = random.nextDouble();
 		value = (int) (valueMin + (valueRange * r));
