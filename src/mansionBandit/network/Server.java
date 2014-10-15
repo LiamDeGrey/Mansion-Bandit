@@ -79,6 +79,7 @@ public final class Server {
 			}
 
 			try { //Attempt to close sockets/clients
+
 				ss.close();
 				for (ClientThread c : clientList) {
 					try {
@@ -92,7 +93,6 @@ public final class Server {
 			} catch (Exception e) {
 				System.out.println("Exception closing socket: " + e);
 			}
-
 		} catch (IOException e) {
 			System.out.println("Exception with socket: " + e);
 		}
@@ -104,6 +104,15 @@ public final class Server {
 	 */
 	public void stop() {
 		end = true;
+		broadcast(new StringMessage("END"));
+	}
+
+	/**
+	 * Similar to stop(), but works in a game lobby
+	 */
+	public void stopLobby() {
+		end = true;
+		broadcast(new StringMessage("ENDLOBBY"));
 	}
 
 	/**

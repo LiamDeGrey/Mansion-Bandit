@@ -5,7 +5,6 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,24 +25,14 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import mansionBandit.factory.RoomFactory;
 import mansionBandit.gameView.GamePanel;
-import mansionBandit.gameWorld.areas.Hallway;
-import mansionBandit.gameWorld.areas.MansionArea;
 import mansionBandit.gameWorld.areas.Map;
-import mansionBandit.gameWorld.areas.Room;
 import mansionBandit.gameWorld.main.Host;
 import mansionBandit.gameWorld.main.Player;
 import mansionBandit.gameWorld.main.Slave;
-import mansionBandit.gameWorld.matter.Dimensions;
-import mansionBandit.gameWorld.matter.Face;
 import mansionBandit.gameWorld.matter.Grabable;
-import mansionBandit.gameWorld.matter.Key;
 import mansionBandit.network.Client;
 import mansionBandit.network.Server;
 import mansionBandit.network.StringMessage;
@@ -99,10 +88,6 @@ WindowListener, KeyListener {
 	//multiplayer messaging
 	private ChatPanel chatPanel = new ChatPanel(this);
 	private boolean chatActive = false;
-
-	//multiplayer scoreboard
-	private ScoreScreenPanel scoreScreenPanel = new ScoreScreenPanel(this);
-	private boolean scoreScreenActive = false;
 
 	//Server
 	private Server server;
@@ -246,11 +231,6 @@ WindowListener, KeyListener {
 		layeredPane.add(chatPanel, new Integer(2),0);
 		chatPanel.setVisible(false);
 
-		//adds multiplayer chat label
-		scoreScreenPanel.setBounds(270,240,210,150);
-		layeredPane.add(scoreScreenPanel, new Integer(2),0);
-		scoreScreenPanel.setVisible(false);
-
 
 		this.requestFocusInWindow(true);//sets focus to this window
 
@@ -267,6 +247,11 @@ WindowListener, KeyListener {
 	 * ends the current game by resetting values, disconnecting and removing GUI components
 	 */
 	private void endGame(){
+
+		//disconnects all clients if this is a server
+		if(server!=null){
+			server.stop();
+		}
 
 		//removes old listeners from frame
 		removeMouseListener(controller);
@@ -308,16 +293,6 @@ WindowListener, KeyListener {
 	private void closeChat(){
 		chatPanel.setVisible(false);
 		chatActive = false;
-	}
-
-	private void showScoreboard(){
-		scoreScreenPanel.setVisible(true);
-		scoreScreenActive = true;
-	}
-
-	private void closeScoreboard(){
-		scoreScreenPanel.setVisible(false);
-		scoreScreenActive = false;
 	}
 
 
@@ -431,8 +406,15 @@ WindowListener, KeyListener {
 				"Are you sure you want to exit the game?"), "Confirm Exit",
 				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 		if (r == JOptionPane.YES_OPTION) {
+
+			//disconnects all connected clients if this is the host
+			if(server!=null){
+				server.stop();
+			}
 			System.exit(0);
 		}
+
+
 
 	}
 
@@ -524,15 +506,6 @@ WindowListener, KeyListener {
 				}
 			}
 
-			if (KeyEvent.getKeyText(e.getKeyCode()).equals("Tab")) {
-				// if the in game menu is up, close it
-				if (scoreScreenActive) {
-					closeScoreboard();
-				} else {
-					// otherwise bring up the ingame menu
-					showScoreboard();
-				}
-			}
 			//resets descriptiontext
 			descriptionLabel.setText("");
 
@@ -584,7 +557,7 @@ WindowListener, KeyListener {
 	 * @param time
 	 */
 	public void updateTimeLeft(int time){
-		//map.repaint();
+
 		if(time==0){
 			JOptionPane.showMessageDialog(
 					this,
@@ -619,8 +592,8 @@ WindowListener, KeyListener {
 	 * @throws IOException
 	 */
 	public void runClient(String address, int port, String username) throws IOException {
+
 		Socket s = new Socket(address, port);
-		System.out.println("Client connecting to: " + address + " on port: " + port);
 
 		player = new Slave(username);
 		playerName++;
@@ -631,17 +604,47 @@ WindowListener, KeyListener {
 		client.start();
 	}
 
-	//TODO: need to create a ServerRunning thread which will call this method. (last line must be in a thread)
+	/**
+	 * This method allows a server to start running using the address
+	 * and port number.
+	 * @param address Address of the server.
+	 * @param port Port specified by server for communication.
+	 * @param username Identifier for the client attempting to connect
+	 * @throws IOException
+	 */
 	public void runServer(int port, int nclients, String userName, int numRooms) {
-		System.out.println("Creating server on port " + port + " with " + nclients + " limit");
+
 
 		//creates a game object that the server hosts
-		player = new Host(userName, 1, 20);
+		player = new Host(userName, 1, numRooms);
 
 		//creates a new server
 		this.server = new Server(port, nclients, userName,(Host)player,this);
 		((Host) player).setServer(server);
 		new ServerRunning().start();
+	}
+
+
+	/**
+	 * Exits the player to the menu and informs them that host has disconnected
+	 */
+	public void hostDisconnected(){
+		JOptionPane.showMessageDialog(
+				this,
+				"Host has disconnected","Disconnected" , JOptionPane.INFORMATION_MESSAGE);
+		endGame();
+		mainMenu = new MainMenuPanel(this);
+		enterMainMenu();
+	}
+
+	/**
+	 * Exits the player to the menu and informs them when they have been disconnected while in lobby.
+	 */
+	public void hostLobbyDisconnected() {
+		JOptionPane.showMessageDialog(
+				this,
+				"Host has disconnected","Disconnected" , JOptionPane.INFORMATION_MESSAGE);
+		mainMenu = new MainMenuPanel(this);
 	}
 
 
@@ -787,6 +790,8 @@ WindowListener, KeyListener {
 	public Dimension getWindowDimension(){
 		return new Dimension(windowDimensionX, windowDimensionY) ;
 	}
+
+
 
 
 }

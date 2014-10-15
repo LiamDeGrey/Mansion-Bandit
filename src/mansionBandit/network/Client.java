@@ -145,6 +145,14 @@ public final class Client {
 						if (((StringMessage) o).getString().equals("START")) {
 							gameFrame.startClientMultiplayerGame();
 						}
+						if (((StringMessage) o).getString().equals("END")) {
+							//show dialog and put to main menu
+							gameFrame.hostDisconnected();
+						}
+						if (((StringMessage) o).getString().equals("ENDLOBBY")) {
+							//show dialog and put to main menu
+							gameFrame.hostLobbyDisconnected();
+						}
 						else {
 							gameFrame.updateChatPanel(((StringMessage) o).getString());
 						}

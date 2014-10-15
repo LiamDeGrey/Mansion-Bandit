@@ -1,18 +1,9 @@
 package mansionBandit.ApplicationWindow;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -52,9 +43,7 @@ public class ChatPanel extends JPanel{
 		messageArea.setForeground(Color.white);
 		messageArea.setEditable(false);
 		JScrollPane scrollPane = new JScrollPane(messageArea);
-		//scrollPane.setLayout(null);
 
-		//scrollPane.add(messageArea);
 		scrollPane.setVisible(true);
 
 		scrollPane.setOpaque(false);
@@ -74,16 +63,22 @@ public class ChatPanel extends JPanel{
 		this.add(sendMessageButton);
 		messageArea.setVisible(true);
 
-		//messageArea.setBounds(-100,-100,10000,10000);
-
 	}
 
+	/**
+	 * returns text written by player and resets text
+	 * @return
+	 */
 	public String getText(){
 		String text =  chatTextBox.getText();
 		chatTextBox.setText("");
 		return text;
 	}
 
+	/**
+	 * adds the message to view of player messages
+	 * @param chatMessage
+	 */
 	public void updateChat(String chatMessage){
 
 	messageArea.append(chatMessage);

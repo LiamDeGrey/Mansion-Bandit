@@ -1,10 +1,8 @@
 package mansionBandit.ApplicationWindow;
 
-import java.awt.Canvas;
+
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -25,10 +23,10 @@ public class GUICanvas extends JPanel{
 
 	//the image of the inventory bar
 	BufferedImage inventoryBarImage;
-	
+
 	//the image right of the inventory bar
 	BufferedImage inventorySideImage;
-	
+
 	//the image left of the inventory bar
 	BufferedImage inventorySideImage2;
 
@@ -43,29 +41,29 @@ public class GUICanvas extends JPanel{
 
 		e.printStackTrace();
 	}
-	
+
 	try {
 		inventorySideImage = ImageIO.read(this.getClass().getResource("/GUIgraphics/barSideBox.png"));
 	} catch (IOException e) {
-	
+
 		e.printStackTrace();
 	}
-	
+
 	try {
 		inventorySideImage2 = ImageIO.read(this.getClass().getResource("/GUIgraphics/barSideBox2.png"));
 	} catch (IOException e) {
-	
+
 		e.printStackTrace();
 	}
 	}
 
 
 	 public void paintComponent(Graphics g){
-	        
+
 		 	int invImageOffSetX =111;
 		 	int invImageOffSetY =20;
-			 
-		 
+
+
 		 	super.paintComponent(g);
 
 	        //draws the inventory slot bar
@@ -88,13 +86,10 @@ public class GUICanvas extends JPanel{
 	        		int itemImageX = frame.getInventoryBarPos().x + (i*frame.getInventorySlotSize())+ invImageOffSetX;
 	        		int itemImageY = frame.getInventoryBarPos().y+invImageOffSetY;
 
-	        		System.out.println(player.getItem(i).getName());
 
 	        		//set up the image at slot i in player inventory
 	        		BufferedImage img;
 					try {
-
-						System.out.printf("ITEM IMAGE " + i + " " +player.getItem(i).getImage() );
 
 						img = ImageIO.read(this.getClass().getResource("/object/" + player.getItem(i).getImage()+".png"));
 

@@ -73,8 +73,6 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 	private final int menuH = 250;
 	private final int menuW = 250;
 
-	//the number of rooms to start the game with
-	private int numRooms = 0;
 
 	public MainMenuPanel(GameFrame frame){
 		this.setLayout(null);
@@ -609,12 +607,12 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 			setMenu(startMenuPanel);
 		}
 		else if(e.getActionCommand().equals("disconnectButtonHost")){
-			//TODO gameFrame.getClient.disconnect()
-			//gameFrame.getServer().;
-			//go back to the main menu
+			//disconnects all connected players
+			gameFrame.getServer().stopLobby();
 			setMenu(multiplayerMenuPanel);
 		}
 		else if(e.getActionCommand().equals("disconnectButtonClient")){
+			//disconnects client
 			gameFrame.getClient().disconnect();
 			setMenu(multiplayerMenuPanel);
 		}
@@ -628,7 +626,6 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 
 		}
 		else if(e.getActionCommand().equals("setMenuRoomChoice")){
-			System.out.println("room choice");
 			setMenu(roomChoicePanel);
 		}
 

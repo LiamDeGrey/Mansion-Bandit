@@ -42,8 +42,6 @@ public class Controller implements MouseListener, KeyListener{
 
 		if(gameFrame.gameStarted()){
 
-		System.out.println("key released: "
-				+ KeyEvent.getKeyText(e.getKeyCode()));
 
 		// if the user presses W
 		if (KeyEvent.getKeyText(e.getKeyCode()).equals("W")) {
