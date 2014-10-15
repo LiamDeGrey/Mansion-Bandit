@@ -26,4 +26,8 @@ public class Slave extends Player{
 	public void updateItems() {
 		client.clientSendItems();
 	}
+
+	public void sendChatMessage(String msg) {
+		client.sendChatMessage(msg);
+	}
 }

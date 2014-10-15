@@ -27,4 +27,10 @@ public class Host extends Player{
 		}
 	}
 
+	public void sendChatMessage(String msg) {
+		if (server != null) {
+			server.sendChatMessage(msg);
+		}
+	}
+
 }

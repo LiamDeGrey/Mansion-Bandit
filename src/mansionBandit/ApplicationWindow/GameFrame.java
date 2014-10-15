@@ -466,7 +466,7 @@ WindowListener, KeyListener {
 		if (act.getActionCommand().equals("sendMessage")) {
 
 			closeChat();
-			chatPanel.getText();
+			player.sendChatMessage(chatPanel.getText());
 			this.requestFocus();
 		}
 	}

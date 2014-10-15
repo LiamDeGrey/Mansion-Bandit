@@ -86,6 +86,15 @@ public final class Client {
 		}
 	}
 
+	public void sendChatMessage(String message) {
+		try {
+			message = username + ": " + message + "\n";
+			output.writeObject(new StringMessage(message));
+		} catch (IOException e) {
+			System.out.println("Exception sending chat message");
+		}
+	}
+
 	/**
 	 * The disconnect method closes all I/O streams and closes the socket.
 	 *
@@ -139,10 +148,13 @@ public final class Client {
 						gameFrame.updateClientPlayerList(usernameList);
 					}
 					if (o instanceof StringMessage) {
-						System.out.println("Received string message");
+						System.out.println("SERVER: got string message" + ((StringMessage) o).getString());
 						if (((StringMessage) o).getString().equals("START")) {
 							System.out.println("Starting game");
 							gameFrame.startClientMultiplayerGame();
+						}
+						else {
+							gameFrame.updateChatPanel(((StringMessage) o).getString());
 						}
 					}
 					if (o instanceof ItemUpdateMessage) {
