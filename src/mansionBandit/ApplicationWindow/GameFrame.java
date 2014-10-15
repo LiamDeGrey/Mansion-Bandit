@@ -100,7 +100,9 @@ WindowListener, KeyListener {
 	private ChatPanel chatPanel = new ChatPanel(this);
 	private boolean chatActive = false;
 
-
+	//multiplayer scoreboard
+	private ScoreScreenPanel scoreScreenPanel = new ScoreScreenPanel(this);
+	private boolean scoreScreenActive = false;
 
 	//Server
 	private Server server;
@@ -242,6 +244,11 @@ WindowListener, KeyListener {
 		layeredPane.add(chatPanel, new Integer(2),0);
 		chatPanel.setVisible(false);
 
+		//adds multiplayer chat label
+		scoreScreenPanel.setBounds(200,440,210,150);
+		layeredPane.add(scoreScreenPanel, new Integer(2),0);
+		scoreScreenPanel.setVisible(false);
+
 
 		this.requestFocusInWindow(true);//sets focus to this window
 
@@ -300,6 +307,17 @@ WindowListener, KeyListener {
 		chatPanel.setVisible(false);
 		chatActive = false;
 	}
+
+	private void showScoreboard(){
+		scoreScreenPanel.setVisible(true);
+		scoreScreenActive = true;
+	}
+
+	private void closeScoreboard(){
+		scoreScreenPanel.setVisible(false);
+		scoreScreenActive = false;
+	}
+
 
 
 	/**
@@ -501,6 +519,16 @@ WindowListener, KeyListener {
 				} else {
 					// otherwise bring up the ingame menu
 					showChat();
+				}
+			}
+
+			if (KeyEvent.getKeyText(e.getKeyCode()).equals("Tab")) {
+				// if the in game menu is up, close it
+				if (scoreScreenActive) {
+					closeScoreboard();
+				} else {
+					// otherwise bring up the ingame menu
+					showScoreboard();
 				}
 			}
 			//resets descriptiontext

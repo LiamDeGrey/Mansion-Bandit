@@ -28,10 +28,7 @@ public class ChatPanel extends JPanel{
 	private JTextField chatTextBox = new JTextField();
 	JTextArea messageArea = new JTextArea();
 
-	JLabel player1Label = new JLabel("h");
-	JLabel player2Label = new JLabel("2");
-	JLabel player3Label = new JLabel("3");
-	JLabel player4Label = new JLabel("4");
+
 
 	GameFrame gameframe;
 
@@ -54,21 +51,17 @@ public class ChatPanel extends JPanel{
 		messageArea.setBackground(Color.black);
 		messageArea.setForeground(Color.white);
 		messageArea.setEditable(false);
-		JScrollPane scrollPane = new JScrollPane();
+		JScrollPane scrollPane = new JScrollPane(messageArea);
+		//scrollPane.setLayout(null);
 
-
-		scrollPane.add(messageArea);
+		//scrollPane.add(messageArea);
 		scrollPane.setVisible(true);
 
 		scrollPane.setOpaque(false);
-		scrollPane.setBackground(Color.black);
 		this.add(scrollPane);
 
 		scrollPane.setBounds(0,0,210,120);
 
-		messageArea.setVisible(true);
-		messageArea.setOpaque(true);
-		this.add(messageArea);
 		this.add(chatTextBox);
 
 		chatTextBox.setBounds(0,120,120,30);
@@ -79,7 +72,9 @@ public class ChatPanel extends JPanel{
 		sendMessageButton.addActionListener(gameframe);
 		sendMessageButton.setBounds(120,120,90,30);
 		this.add(sendMessageButton);
+		messageArea.setVisible(true);
 
+		//messageArea.setBounds(-100,-100,10000,10000);
 
 	}
 
