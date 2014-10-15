@@ -26,22 +26,22 @@ public class Key extends Grabable{
 			if(((Door)itm).isLocked()){
 				if(((Door)itm).getKeyNeeded().equals(getName())){
 					((Door) itm).unlock();
-					System.out.println("Door unlocked");
+					//System.out.println("Door unlocked");
 					return true;
 				}
 				JOptionPane.showMessageDialog(
 						null,
 						"This is the wrong key", "Wrong key", JOptionPane.INFORMATION_MESSAGE);
-				System.out.println("Wrong Key");
+				//System.out.println("Wrong Key");
 				return false;
 			}
 			JOptionPane.showMessageDialog(
 					null,
 					"This door is UNLOCKED", "Duhhh", JOptionPane.INFORMATION_MESSAGE);
-			System.out.println("This door isn't locked");
+			//System.out.println("This door isn't locked");
 			return false;
 		}
-		System.out.println("You can only use keys on doors");
+		//System.out.println("You can only use keys on doors");
 		return false;
 	}
 

@@ -24,14 +24,24 @@ public class ItemFactory {
 
 	public ItemFactory(String itemDefinitions){
 		//create the ItemTemplate list, and populate it
-		items = new ArrayList<ItemTemplate>();
+		List<ItemTemplate> readTemplates = new ArrayList<ItemTemplate>();
 		InputStream in = this.getClass().getResourceAsStream(itemDefinitions);
 		Scanner scan = new Scanner(in);
 		while (scan.hasNextLine()){
-			items.add(new ItemTemplate(scan.nextLine()));
+			readTemplates.add(new ItemTemplate(scan.nextLine()));
 		}
 		scan.close();
 		random = new Random();
+		
+		items = new ArrayList<ItemTemplate>();
+		
+		//check items for validity
+		for (ItemTemplate template : readTemplates){
+			if (template.getItem(Face.NORTHERN) != null){
+				//item isnt null, so it is valid
+				items.add(template);
+			}
+		}
 	}
 
 	/**
@@ -41,10 +51,9 @@ public class ItemFactory {
 	 * @return the new item
 	 */
 	public GameMatter getItem(Face face){
-		GameMatter item = null;
-		while (item == null){
-			item = items.get(random.nextInt(items.size())).getItem(face);
+		if (!items.isEmpty()){
+			return items.get(random.nextInt(items.size())).getItem(face);
 		}
-		return item;
+		return null;
 	}
 }
