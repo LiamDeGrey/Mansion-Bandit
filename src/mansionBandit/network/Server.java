@@ -273,25 +273,27 @@ public final class Server {
 						int i = ium.getI();
 						int j = ium.getJ();
 
-						if (i-1 >= 0) {
-							player.getBandit().grid[i-1][j].removeItem(movingBandit);
-						}
+						if (!(movingBandit.equals(player.getBandit()))) {
+							if (i-1 >= 0) {
+								player.getBandit().grid[i-1][j].removeItem(movingBandit);
+							}
 
-						if (i+1 < player.getBandit().grid.length) {
-							player.getBandit().grid[i+1][j].removeItem(movingBandit);
-						}
+							if (i+1 < player.getBandit().grid.length) {
+								player.getBandit().grid[i+1][j].removeItem(movingBandit);
+							}
 
-						if (j-1 >= 0) {
-							player.getBandit().grid[i][j-1].removeItem(movingBandit);
-						}
+							if (j-1 >= 0) {
+								player.getBandit().grid[i][j-1].removeItem(movingBandit);
+							}
 
-						if (j+1 < player.getBandit().grid.length) {
-							player.getBandit().grid[i][j+1].removeItem(movingBandit);
+							if (j+1 < player.getBandit().grid.length) {
+								player.getBandit().grid[i][j+1].removeItem(movingBandit);
+							}
 						}
 
 						if (!(i == -2 || j == -2)) {
 							//System.out.println("SERVER RX - RECEIVED COORDS: i: " + i + " j: " + j);
-							//System.out.println("SERVER RX - RECEIVED ITEMS:       " + ium.getItems());
+							System.out.println("SERVER RX - RECEIVED ITEMS:       " + ium.getItems());
 							//System.out.println("SERVER RX - ROOM USED TO CONTAIN: " + player.getBandit().grid[i][j].getItems());
 							player.getBandit().grid[i][j].setItems(ium.getItems());
 							//System.out.println("SERVER RX - ROOM NOW CONTAINS:    " + player.getBandit().grid[i][j].getItems());
