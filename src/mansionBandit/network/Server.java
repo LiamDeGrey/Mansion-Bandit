@@ -277,7 +277,7 @@ public final class Server {
 							player.getBandit().grid[i-1][j].removeItem(movingBandit);
 						}
 
-						if (i+1 <= player.getBandit().grid.length) {
+						if (i+1 < player.getBandit().grid.length) {
 							player.getBandit().grid[i+1][j].removeItem(movingBandit);
 						}
 
@@ -285,7 +285,7 @@ public final class Server {
 							player.getBandit().grid[i][j-1].removeItem(movingBandit);
 						}
 
-						if (j+1 <= player.getBandit().grid.length) {
+						if (j+1 < player.getBandit().grid.length) {
 							player.getBandit().grid[i][j+1].removeItem(movingBandit);
 						}
 
