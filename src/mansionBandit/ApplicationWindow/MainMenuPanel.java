@@ -268,7 +268,8 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		connectToGamePanel.add(connectButton);
 
 		JLabel addressLabel = new JLabel("Address");
-
+		addressLabel.setForeground(Color.gray);
+		addressLabel.setFont(new Font("Courier New", 20, 14));
 		connectToGamePanel.add(addressLabel);
 
 		//sets up text box for user to input host address
@@ -280,7 +281,8 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		addressTextField.setPreferredSize(textBoxDimension);
 
 		JLabel userNameLabel = new JLabel("Name");
-
+		userNameLabel.setForeground(Color.gray);
+		userNameLabel.setFont(new Font("Courier New", 20, 14));
 		connectToGamePanel.add(userNameLabel);
 
 		//sets up a textbox for the player to input their name
@@ -332,6 +334,8 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 
 		//sets up addressLabel
 		JLabel addressLabel = new JLabel("Address");
+		addressLabel.setForeground(Color.gray);
+		addressLabel.setFont(new Font("Courier New", 20, 14));
 
 		hostGamePanel.add(addressLabel);
 
@@ -345,6 +349,8 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 
 		//sets up addressLabel
 		JLabel nameLabel = new JLabel("Name");
+		nameLabel.setForeground(Color.gray);
+		nameLabel.setFont(new Font("Courier New", 20, 14));
 
 		hostGamePanel.add(nameLabel);
 
@@ -360,7 +366,8 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 
 		//sets up addressLabel
 		JLabel numRoomsLabel = new JLabel("Number of rooms in the mansion: ");
-
+		numRoomsLabel.setForeground(Color.gray);
+		numRoomsLabel.setFont(new Font("Courier New", 20, 12));
 		hostGamePanel.add(numRoomsLabel);
 
 		//sets up text box for user to input host address
@@ -471,9 +478,10 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 
 
 		//sets up addressLabel
-		JLabel addressLabel = new JLabel("Number of rooms in the mansion: ");
-
-		roomChoicePanel.add(addressLabel);
+		JLabel numRoomsLabel = new JLabel("Number of rooms in the mansion: ");
+		numRoomsLabel.setForeground(Color.gray);
+		numRoomsLabel.setFont(new Font("Courier New", 20, 12));
+		roomChoicePanel.add(numRoomsLabel);
 
 		//add the name textbox to the panel
 		roomChoicePanel.add(numRoomsTextField);
