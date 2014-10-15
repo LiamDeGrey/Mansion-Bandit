@@ -546,11 +546,11 @@ WindowListener, KeyListener {
 	 * @param username Identifier for the client attempting to connect
 	 * @throws IOException
 	 */
-	public void runClient(String address, int port, String username, int id) throws IOException {
+	public void runClient(String address, int port, String username) throws IOException {
 		Socket s = new Socket(address, port);
 		System.out.println("Client connecting to: " + address + " on port: " + port);
 
-		player = new Slave(username, id);
+		player = new Slave(username);
 		playerName++;
 
 		client = new Client(s, username,(Slave)player,this);

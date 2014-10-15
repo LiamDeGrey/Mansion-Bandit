@@ -683,8 +683,8 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		String address = addressTextField.getText();
 
 		try {
-			gameFrame.runClient(address,32768, userName, id);
-			id++;
+			gameFrame.runClient(address,32768, userName);
+			//id++;
 		} catch (IOException e) {
 
 			e.printStackTrace();

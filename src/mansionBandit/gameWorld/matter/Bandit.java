@@ -35,9 +35,8 @@ public class Bandit extends Character{
 		initialiseInventory();
 	}
 
-	public Bandit(String name, int id, Player player){
+	public Bandit(String name, Player player){
 		super(name, null, null, null, null);
-		this.id = id;
 		initialiseInventory();
 	}
 
@@ -109,6 +108,10 @@ public class Bandit extends Character{
 		return null;
 	}
 
+	public void giveId(int id){
+		this.id = id;
+	}
+
 	public MansionArea[][] getGrid(){
 		return grid;
 	}
@@ -174,7 +177,6 @@ public class Bandit extends Character{
 				start.addItem(this);
 			}
 		}
-
 		if(face==Face.NORTHERN) {
 			if(getArea().getNorth()==null){
 				System.out.println("YOU CAN'T GO THERE!");
@@ -203,6 +205,8 @@ public class Bandit extends Character{
 			}
 			next =getArea().getWest();
 		}
+
+
 
 		newi = getRoomCoords(next)[0];
 		newj = getRoomCoords(next)[1];
