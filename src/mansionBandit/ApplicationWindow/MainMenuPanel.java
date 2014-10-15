@@ -610,7 +610,7 @@ public class MainMenuPanel extends JPanel implements ActionListener{
 		}
 		else if(e.getActionCommand().equals("disconnectButtonHost")){
 			//TODO gameFrame.getClient.disconnect()
-			//gameFrame.getServer().close();
+			//gameFrame.getServer().;
 			//go back to the main menu
 			setMenu(multiplayerMenuPanel);
 		}

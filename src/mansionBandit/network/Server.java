@@ -180,6 +180,7 @@ public final class Server {
 				for(int i = clientList.size(); --i >= 0;) {
 					ClientThread ct = clientList.get(i);
 					ct.output.writeObject(usernameList);
+					System.out.println("Broadcasting username list: " + usernameList);
 				}
 			}
 			catch (IOException e) {
@@ -210,24 +211,6 @@ public final class Server {
 				output.writeObject(msg);
 				//output.flush();
 				output.reset();
-			}
-			//Inform that an error occurred with sending the message, do not close anything
-			catch(IOException e) {
-				System.out.println("Error sending message to " + username);
-				System.out.println(e.toString());
-			}
-		}
-
-		public synchronized void sendGridObject(MansionArea[][] grid) {
-			//Check if Client is still connected
-			if(!socket.isConnected()) {
-				System.out.println(username + " is not connected, closing socket.");
-				close();
-			}
-
-			//Send the message out on its stream
-			try {
-				output.writeObject(grid);
 			}
 			//Inform that an error occurred with sending the message, do not close anything
 			catch(IOException e) {
@@ -272,6 +255,14 @@ public final class Server {
 						Bandit movingBandit = ium.getMovingBandit();
 						int i = ium.getI();
 						int j = ium.getJ();
+
+						if (player.getBandit().grid[i][j].getItems().contains(player.getBandit())){
+							if (!ium.getItems().contains(player.getBandit())){
+								//player has been removed from the current room
+								//set their location to start area
+								player.getBandit().setArea(-1, -1);
+							}
+						}
 
 						if (!(movingBandit.equals(player.getBandit()))) {
 							if (i-1 >= 0) {

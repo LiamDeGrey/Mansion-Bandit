@@ -17,7 +17,7 @@ import mansionBandit.gameWorld.matter.GameMatter;
  *
  */
 public class RoomFactory {
-	private final int roomFloorObjects = 2, chanceToLock = 6, chanceToHallwayItem = 5, chanceToHallWallItem = 4;
+	private final int roomFloorObjects = 4, chanceToLock = 6, chanceToHallwayItem = 5, chanceToHallWallItem = 4;
 	private ItemFactory floorItems, ceilingItems, hallWallItems, wallItems;
 	private RoomPainter roomPainter;
 	private Random random;
@@ -125,30 +125,30 @@ public class RoomFactory {
 	private void popWall(MansionArea room, boolean isRoom){
 		if (isRoom){
 			if (room.getNorth() == null){
-				room.addItem(wallItems.getItem(room, Face.NORTHERN));
+				room.addItem(wallItems.getItem(Face.NORTHERN));
 			}
 			if (room.getEast() == null){
-				room.addItem(wallItems.getItem(room, Face.EASTERN));
+				room.addItem(wallItems.getItem(Face.EASTERN));
 			}
 			if (room.getSouth() == null){
-				room.addItem(wallItems.getItem(room, Face.SOUTHERN));
+				room.addItem(wallItems.getItem(Face.SOUTHERN));
 			}
 			if (room.getWest() == null){
-				room.addItem(wallItems.getItem(room, Face.WESTERN));
+				room.addItem(wallItems.getItem(Face.WESTERN));
 			}
 		} else {
 			//check hall way for valid walls
 			if (room.getNorth() == null){
-				room.addItem(hallWallItems.getItem(room, Face.NORTHERN));
+				room.addItem(hallWallItems.getItem(Face.NORTHERN));
 			}
 			if (room.getEast() == null){
-				room.addItem(hallWallItems.getItem(room, Face.EASTERN));
+				room.addItem(hallWallItems.getItem(Face.EASTERN));
 			}
 			if (room.getSouth() == null){
-				room.addItem(hallWallItems.getItem(room, Face.SOUTHERN));
+				room.addItem(hallWallItems.getItem(Face.SOUTHERN));
 			}
 			if (room.getWest() == null){
-				room.addItem(hallWallItems.getItem(room, Face.WESTERN));
+				room.addItem(hallWallItems.getItem(Face.WESTERN));
 			}
 		}
 	}

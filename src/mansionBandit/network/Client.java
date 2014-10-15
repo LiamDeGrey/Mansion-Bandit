@@ -152,6 +152,14 @@ public final class Client {
 						int i = ium.getI();
 						int j = ium.getJ();
 
+						if (player.getBandit().grid[i][j].getItems().contains(player.getBandit())){
+							if (!ium.getItems().contains(player.getBandit())){
+								//player has been removed from the current room
+								//set their location to start area
+								player.getBandit().setArea(-1, -1);
+							}
+						}
+
 						if (!(movingBandit.equals(player.getBandit()))) {
 							if (i-1 >= 0) {
 								player.getBandit().grid[i-1][j].removeItem(movingBandit);

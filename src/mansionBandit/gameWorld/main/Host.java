@@ -21,7 +21,7 @@ public class Host extends Player{
 		this.server = s;
 	}
 
-	protected void updateItems() {
+	public void updateItems() {
 		if (server != null) {
 			server.serverSendItems();
 		}
