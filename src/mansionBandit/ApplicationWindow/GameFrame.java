@@ -5,6 +5,7 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,6 +26,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import mansionBandit.factory.RoomFactory;
@@ -91,6 +95,10 @@ WindowListener, KeyListener {
 	private JLayeredPane layeredPane;//the pane that all components are added to so that they can stack properly
 	private JLabel timeLabel;//the label used to display how much time is left
 	private JLabel moneyLabel;//the label used to display how much money the player has
+
+	//multiplayer messaging
+	private ChatPanel chatPanel = new ChatPanel(this);
+	private boolean chatActive = false;
 
 
 
@@ -229,6 +237,12 @@ WindowListener, KeyListener {
 		moneyLabel.setFont(new Font("Courier New", Font.BOLD, 25));
 		layeredPane.add(moneyLabel, new Integer(1),0);
 
+		//adds multiplayer chat label
+		chatPanel.setBounds(0,440,210,150);
+		layeredPane.add(chatPanel, new Integer(2),0);
+		chatPanel.setVisible(false);
+
+
 		this.requestFocusInWindow(true);//sets focus to this window
 
 		//redisplay the screen
@@ -274,6 +288,17 @@ WindowListener, KeyListener {
 		mainMenu.repaint();
 		this.revalidate();
 		this.repaint();
+	}
+
+
+	private void showChat(){
+		chatPanel.setVisible(true);
+		chatActive = true;
+	}
+
+	private void closeChat(){
+		chatPanel.setVisible(false);
+		chatActive = false;
 	}
 
 
@@ -419,6 +444,13 @@ WindowListener, KeyListener {
 			endGame();
 			enterMainMenu();
 		}
+		// if the user presses exit to menu it ends the current game and returns to the main menu
+		if (act.getActionCommand().equals("sendMessage")) {
+
+			closeChat();
+			chatPanel.getText();
+			this.requestFocus();
+		}
 	}
 
 	// WINDOW INTERACTION//
@@ -459,6 +491,16 @@ WindowListener, KeyListener {
 				} else {
 					// otherwise bring up the ingame menu
 					showIngameMenu();
+				}
+			}
+
+			if (KeyEvent.getKeyText(e.getKeyCode()).equals("Enter")) {
+				// if the in game menu is up, close it
+				if (chatActive) {
+					closeChat();
+				} else {
+					// otherwise bring up the ingame menu
+					showChat();
 				}
 			}
 			//resets descriptiontext
@@ -557,7 +599,6 @@ WindowListener, KeyListener {
 		((Slave) player).setClient(client);
 
 		client.start();
-
 	}
 
 	//TODO: need to create a ServerRunning thread which will call this method. (last line must be in a thread)
@@ -573,6 +614,14 @@ WindowListener, KeyListener {
 		new ServerRunning().start();
 	}
 
+
+	/**
+	 * updates the messages shown in the chat panel
+	 * @param chatMessage
+	 */
+	public void updateChatPanel(String chatMessage){
+		chatPanel.updateChat(chatMessage);
+	}
 
 	class ServerRunning extends Thread {
 		public void run() {
