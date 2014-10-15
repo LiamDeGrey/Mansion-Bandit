@@ -1,4 +1,4 @@
-package tests;
+package mansionBandit.gameView.test;
 
 import static org.junit.Assert.*;
 import mansionBandit.factory.ItemTemplate;

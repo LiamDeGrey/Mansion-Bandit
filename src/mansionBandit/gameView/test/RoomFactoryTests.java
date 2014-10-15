@@ -1,4 +1,4 @@
-package tests;
+package mansionBandit.gameView.test;
 
 import mansionBandit.factory.*;
 import mansionBandit.gameWorld.areas.Hallway;

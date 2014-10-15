@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import mansionBandit.gameWorld.main.Player;
 
@@ -17,7 +18,7 @@ import mansionBandit.gameWorld.main.Player;
  */
 public class Van extends GameMatter{
 	private Bandit player;
-	private List<Sellable> items = new ArrayList<Sellable>();
+	private List<Sellable> items = new CopyOnWriteArrayList<Sellable>();
 	private int total = 0;
 
 	public Van(String name, Face face, Bandit player) {
